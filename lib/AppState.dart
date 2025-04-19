@@ -1,12 +1,12 @@
 import 'dart:io' as io;
 
 import 'package:flutter/material.dart';
-import 'package:jopping_list/product.dart';
+import 'package:jhopping_list/common/Product.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-class AppPersistence extends ChangeNotifier {
+class AppState extends ChangeNotifier {
   static bool inited = false;
 
   Future<Database> getDb() async {
@@ -20,7 +20,7 @@ class AppPersistence extends ChangeNotifier {
         await getApplicationDocumentsDirectory();
     String dbPath = path.join(
       appDocumentsDir.path,
-      "databases",
+      "JhoppingList",
       "persistence.db",
     );
 
@@ -30,26 +30,29 @@ class AppPersistence extends ChangeNotifier {
         version: 1,
         onCreate: (Database db, int _) async {
           await db.execute(
-            'CREATE TABLE Product (id INTEGER PRIMARY KEY, name TEXT, needed BOOLEAN)',
+            'CREATE TABLE Product (id INTEGER PRIMARY KEY, name TEXT UNIQUE, needed BOOLEAN)',
           );
         },
       ),
     );
   }
 
-  
-  Future  cacheInvalidation() async {
+  Future cacheInvalidation() async {
     await updateProductListCache();
     notifyListeners();
   }
 
-  Future addProduct(name, needed) async {
+  Future addProduct(String name, bool needed) async {
     // Init ffi loader if needed.
     var db = await getDb();
-    await db.insert('Product', <String, Object?>{
-      'name': name,
-      'needed': needed ? "true" : "false",
-    });
+    try {
+      await db.insert('Product', <String, Object?>{
+        'name': name,
+        'needed': needed ? "true" : "false",
+      });
+    } catch (err) {
+      print(err);
+    }
     await db.close();
 
     cacheInvalidation();
@@ -68,7 +71,7 @@ class AppPersistence extends ChangeNotifier {
     cacheInvalidation();
   }
 
-  List<Product>? productListPreview;
+  List<Product>? _productListPreview;
 
   Future updateProductListCache() async {
     var db = await getDb();
@@ -82,10 +85,21 @@ class AppPersistence extends ChangeNotifier {
           return Product(row["id"], row["name"], row["needed"] == "true");
         }).toList();
 
-    productListPreview = ret;
+    _productListPreview = ret;
   }
 
   List<Product>? getProductList() {
-    return productListPreview;
+    return _productListPreview;
+  }
+
+  String _productFilter = "";
+
+  void setProductFilter(String filter) {
+    _productFilter = filter;
+    notifyListeners();
+  }
+
+  String getProductFilter() {
+    return _productFilter;
   }
 }

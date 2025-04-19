@@ -1,4 +1,4 @@
-package com.example.jopping_list
+package com.example.jhopping_list
 
 import io.flutter.embedding.android.FlutterActivity
 

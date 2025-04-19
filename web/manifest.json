@@ -1,6 +1,6 @@
 {
-    "name": "jopping_list",
-    "short_name": "jopping_list",
+    "name": "jhopping_list",
+    "short_name": "jhopping_list",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
