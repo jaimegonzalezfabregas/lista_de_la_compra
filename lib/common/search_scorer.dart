@@ -32,7 +32,7 @@ class SearchScorer {
     return score;
   }
 
-  RichText getMatching(String data) {
+  RichText getMatching(String data, BuildContext context) {
     List<TextSpan> children = [];
 
     _engine(
@@ -53,7 +53,7 @@ class SearchScorer {
 
     return RichText(
       text: TextSpan(
-        style: const TextStyle(fontSize: 14.0, color: Colors.black),
+        style: Theme.of(context).textTheme.bodyLarge,
         children: children,
       ),
     );
