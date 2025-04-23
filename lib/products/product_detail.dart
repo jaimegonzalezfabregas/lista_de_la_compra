@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:jhopping_list/common/searchable_list_view.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
 import 'package:provider/provider.dart';
 
-// delete
-// change name
+// todo
 // see history
 // see locations in diferent markets
-// see recepies where it can be used
 
 class ProductDetail extends StatelessWidget {
   final int productId;

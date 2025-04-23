@@ -43,6 +43,7 @@ dependencies:
   modals: ^1.0.0+1
   sqlite3: ^2.7.5
   sqlite3_flutter_libs: ^0.5.32
+  infinite_scroll_pagination: ^5.0.0
 
 dev_dependencies:
   flutter_test:

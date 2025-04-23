@@ -44,6 +44,16 @@ CREATE TABLE RecipeProduct (
   FOREIGN KEY (product_id) REFERENCES Products(id), 
   FOREIGN KEY (recipe_id) REFERENCES Recipes(id)
 )""");
+
+          await db.execute("""
+CREATE TABLE Schedule (
+  id INTEGER PRIMARY KEY, 
+  week INTEGER, 
+  day INTEGER, 
+  recipe_id INTEGER, 
+  FOREIGN KEY (recipe_id) REFERENCES Recipes(id)
+)
+""");
         },
       ),
     );

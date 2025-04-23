@@ -24,7 +24,7 @@ class Ingredients extends StatelessWidget {
             ),
           },
       title: Text(ingredient.name),
-      subtitle: Text(ingredient.amount),
+      subtitle: ingredient.amount != "" ? Text(ingredient.amount) : null,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -162,7 +162,6 @@ class RecipeDetail extends StatelessWidget {
       appBar: AppBar(title: Text(recipe.name)),
       body: Column(
         children: [
-          Divider(),
           Text(
             "Ingredientes",
             style: Theme.of(context).textTheme.headlineMedium,
