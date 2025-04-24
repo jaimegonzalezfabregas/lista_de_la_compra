@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_detail.dart';
 import 'package:jhopping_list/recipies/add_ingredient.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
@@ -9,7 +10,8 @@ class Ingredients extends StatelessWidget {
   const Ingredients(this.recipeId, {super.key});
 
   ListTile ingredientEntry(
-    Ingredient ingredient,
+    RecipeProduct ingredient,
+    Product product,
     RecipeProvider recipeProvider,
     BuildContext context,
   ) {
@@ -19,11 +21,11 @@ class Ingredients extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProductDetail(ingredient.id),
+                builder: (context) => ProductDetail(ingredient.productId),
               ),
             ),
           },
-      title: Text(ingredient.name),
+      title: Text(product.name),
       subtitle: ingredient.amount != "" ? Text(ingredient.amount) : null,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -45,9 +47,9 @@ class Ingredients extends StatelessWidget {
                   Widget continueButton = ElevatedButton(
                     child: Text("Guardar"),
                     onPressed: () {
-                      recipeProvider.setIngrecientAmountOfRecipeById(
+                      recipeProvider.setIngredientAmountOfRecipeById(
                         recipeId,
-                        ingredient.id,
+                        ingredient.productId,
                         textEditingController.text,
                       );
                       Navigator.of(context).pop();
@@ -66,9 +68,9 @@ class Ingredients extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              recipeProvider.setIngrecientsOfRecipeById(
+              recipeProvider.setIngredientOfRecipeById(
                 recipeId,
-                ingredient.id,
+                ingredient.productId,
                 false,
               );
             },
@@ -83,11 +85,14 @@ class Ingredients extends StatelessWidget {
   Widget build(BuildContext context) {
     RecipeProvider recipeProvider = context.watch();
 
-    var ingredients = recipeProvider.getIngredientsOfRecipeById(recipeId);
+    var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
 
     return FutureBuilder(
       future: ingredients,
-      builder: (context, AsyncSnapshot<List<Ingredient>> snapshot) {
+      builder: (
+        context,
+        AsyncSnapshot<List<(RecipeProduct, Product)>> snapshot,
+      ) {
         if (!snapshot.hasData) {
           return Text("Cargando... $snapshot");
         }
@@ -103,7 +108,8 @@ class Ingredients extends StatelessWidget {
                       snapshot.data!
                           .map(
                             (ingredient) => ingredientEntry(
-                              ingredient,
+                              ingredient.$1,
+                              ingredient.$2,
                               recipeProvider,
                               context,
                             ),
@@ -147,19 +153,24 @@ class RecipeDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     RecipeProvider appState = context.watch();
 
-    Recipe? recipe = appState.getRecipeById(recipeId);
-
-    if (recipe == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text("Receta no encontrada")),
-        body: Center(
-          child: Text("Es probable que la receta haya sido eliminada."),
-        ),
-      );
-    }
+    Future<Recipe?> recipeFuture = appState.getRecipeById(recipeId);
 
     return Scaffold(
-      appBar: AppBar(title: Text(recipe.name)),
+      appBar: AppBar(title: FutureBuilder(
+        future: recipeFuture,
+        builder: (context,snapshot) {
+          if(!snapshot.hasData){
+            return Text("Cargando...");
+          }
+          if(snapshot.data == null){
+            return Text("Error");
+          }
+
+          var recipe = snapshot.data!;
+
+          return Text(recipe.name);
+        }
+      )),
       body: Column(
         children: [
           Text(
@@ -173,7 +184,7 @@ class RecipeDetail extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
-              appState.deleteRecipeById(recipe.id);
+              appState.deleteRecipeById(recipeId);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red, // Danger color

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/common/searchable_list_view.dart';
+import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +15,7 @@ class AddIngredient extends StatelessWidget {
     ProductProvider productProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
-    print("rebuilding add ingredient");
-    var ingredients = recipeProvider.getIngredientsOfRecipeById(recipeId);
+    var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
 
     return Scaffold(
       appBar: AppBar(title: Text("Selecionar ingredientes")),
@@ -25,35 +25,44 @@ class AddIngredient extends StatelessWidget {
         },
         child: Text("Hecho"),
       ),
-      body: Searchablelistview(
-        elements: productProvider.getProductList(),
-        elementToTag: (p) => p.name,
-        elementToListTile: (product, tag) {
-          return ListTile(
-            title: tag,
-            trailing: FutureBuilder(
-              future: ingredients,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Checkbox(
-                    value: snapshot.data!.any(
-                      (ingredient) => ingredient.id == product.id,
-                    ),
-                    onChanged: (value) {
-                      recipeProvider.setIngrecientsOfRecipeById(
-                        recipeId,
-                        product.id,
-                        value == true,
+      body: FutureBuilder(
+        future: productProvider.getProductList(),
+        builder: (context, snapshot) {
+          if(!snapshot.hasData){
+            return Text("TODO"); // TODO
+          }
+
+          return Searchablelistview<Product>(
+            elements: snapshot.data!,
+            elementToTag: (Product p) => p.name,
+            elementToListTile: (Product product, tag) {
+              return ListTile(
+                title: tag,
+                trailing: FutureBuilder(
+                  future: ingredients,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Checkbox(
+                        value: snapshot.data!.any(
+                          (ingredient) => ingredient.$2.id == product.id,
+                        ),
+                        onChanged: (value) {
+                          recipeProvider.setIngredientOfRecipeById(
+                            recipeId,
+                            product.id,
+                            value == true,
+                          );
+                        },
                       );
-                    },
-                  );
-                } else {
-                  return Text("Cargando...");
-                }
-              },
-            ),
+                    } else {
+                      return Text("Cargando...");
+                    }
+                  },
+                ),
+              );
+            },
           );
-        },
+        }
       ),
     );
   }

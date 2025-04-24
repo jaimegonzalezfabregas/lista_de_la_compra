@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:jhopping_list/schedule/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
-const int MILLIS_CORECTION_TO_EPOC = 342000000;
-const int MILLIS_IN_A_WEEK = 1000 * 60 * 60 * 24 * 7;
-const List<String> WEEK_DAYS = [
+const int millisCorrectionToEpoc = 342000000;
+const int millisInAWeek = 1000 * 60 * 60 * 24 * 7;
+const List<String> weekDays = [
   "Lunes",
   "Martes",
   "Miercoles",
@@ -15,7 +14,7 @@ const List<String> WEEK_DAYS = [
   "Sábado",
   "Domingo",
 ];
-const List<String> MONTHS = [
+const List<String> months = [
   "",
   "Enero",
   "Febrero",
@@ -33,8 +32,8 @@ const List<String> MONTHS = [
 
 class _ScheduleView extends State {
   int currentWeek =
-      ((DateTime.now().millisecondsSinceEpoch - MILLIS_CORECTION_TO_EPOC) /
-              MILLIS_IN_A_WEEK)
+      ((DateTime.now().millisecondsSinceEpoch - millisCorrectionToEpoc) /
+              millisInAWeek)
           .floor();
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class _ScheduleView extends State {
     RecipeProvider recipeProvider = context.watch();
 
     DateTime time = DateTime.fromMillisecondsSinceEpoch(
-      currentWeek * MILLIS_IN_A_WEEK + MILLIS_CORECTION_TO_EPOC,
+      currentWeek * millisInAWeek + millisCorrectionToEpoc,
     );
 
     List<Widget> days = [];
@@ -58,21 +57,30 @@ class _ScheduleView extends State {
           tileColor:
               isToday ? Colors.blue.withValues(alpha: 0.3) : Colors.transparent,
           title: Text(
-            "${WEEK_DAYS[dayI]} ${dayTime.day} ${MONTHS[dayTime.month]}",
+            "${weekDays[dayI]} ${dayTime.day} ${months[dayTime.month]}",
           ),
           subtitle: FutureBuilder(
             future: (() => scheduleProvider.getEntries(currentWeek, dayI))(),
             builder: (context, snapshot) {
-              
               if (!snapshot.hasData) {
                 return Text("Loading... $snapshot");
               }
               return Column(
                 children:
-                    snapshot.data!.map((ScheduleEntry entry) {
-                      Recipe recipe =
-                          recipeProvider.getRecipeById(entry.recipeId)!;
-                      return Text(recipe.name);
+                    snapshot.data!.map((entry) {
+                      return FutureBuilder(
+                        future: recipeProvider.getRecipeById(entry.recipeId),
+
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Text("Loading...");
+                          }
+                          if (snapshot.data == null) {
+                            return Text("Error");
+                          }
+                          return Text(snapshot.data!.name);
+                        },
+                      );
                     }).toList(),
               );
             },
@@ -96,7 +104,7 @@ class _ScheduleView extends State {
               child: Text("Semana anterior"),
             ),
             Text(
-              "Semana del ${time.day} de ${MONTHS[time.month]} de ${time.year}",
+              "Semana del ${time.day} de ${months[time.month]} de ${time.year}",
             ),
             OutlinedButton(
               onPressed: () {

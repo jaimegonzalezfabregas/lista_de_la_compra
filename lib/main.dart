@@ -6,40 +6,23 @@ import 'package:jhopping_list/schedule/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // needed for db access
-
-  var recipeProvider = RecipeProvider();
-  var productProvider = ProductProvider();
-  var scheduleProvider = ScheduleProvider();
-
-  await recipeProvider.cacheInvalidation();
-  await productProvider.cacheInvalidation();
-  await scheduleProvider.cacheInvalidation();
-
-  runApp(MyApp(recipeProvider, productProvider, scheduleProvider));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final RecipeProvider recipeProvider;
-  final ProductProvider productProvider;
-  final ScheduleProvider scheduleProvider;
-
-  const MyApp(
-    this.recipeProvider,
-    this.productProvider,
-    this.scheduleProvider, {
-    super.key,
-  });
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<RecipeProvider>(create: (_) => recipeProvider),
-        ChangeNotifierProvider<ProductProvider>(create: (_) => productProvider),
+        ChangeNotifierProvider<RecipeProvider>(create: (_) => RecipeProvider()),
+        ChangeNotifierProvider<ProductProvider>(
+          create: (_) => ProductProvider(),
+        ),
         ChangeNotifierProvider<ScheduleProvider>(
-          create: (_) => scheduleProvider,
+          create: (_) => ScheduleProvider(),
         ),
       ],
       child: MaterialApp(

@@ -1,134 +1,66 @@
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/db_singleton.dart';
-
-class Product {
-  final bool needed;
-  final int id;
-  final String name;
-
-  Product({required this.id, required this.name, required this.needed});
-}
-
-class RecipesOfProduct {
-  final int id;
-  final String name;
-
-  RecipesOfProduct({required this.id, required this.name});
-}
+import 'package:jhopping_list/db/database.dart';
 
 class ProductProvider extends ChangeNotifier {
-  List<Product> _productListPreview = [];
+  Future addProduct(String name, bool needed) async {
+    final database = AppDatabase();
 
-  Future cacheInvalidation() async {
-    var db = await DbStatic.getDb();
+    database
+        .into(database.products)
+        .insert(ProductsCompanion(name: Value(name), needed: Value(needed)));
+    notifyListeners();
+  }
 
-    List<Map> results = await db.query('Products');
+  Future deleteProductById(int id) async {
+    final database = AppDatabase();
 
-    await db.close();
+    await (database.delete(database.products)
+      ..where((table) => table.id.equals(id))).go();
+  }
 
-    var ret =
-        results.map((row) {
-          return Product(
-            id: row["id"],
-            name: row["name"],
-            needed: row["needed"] == "true",
-          );
-        }).toList();
-
-    _productListPreview = ret;
+  Future setProductNeededness(int id, bool needed) async {
+    final database = AppDatabase();
+    await (database.update(database.products)..where(
+      (table) => table.id.equals(id),
+    )).write(ProductsCompanion(needed: Value(needed)));
 
     notifyListeners();
   }
 
-  Future addProduct(String name, bool needed) async {
-    var db = await DbStatic.getDb();
-
-    await db.insert('Products', <String, Object?>{
-      'name': name,
-      'needed': needed ? "true" : "false",
-    });
-
-    await db.close();
-
-    cacheInvalidation();
-  }
-
-  Future deleteProductById(int id) async {
-    var db = await DbStatic.getDb();
-    await db.delete('Products', where: "id = ?", whereArgs: [id]);
-
-    await db.close();
-
-    cacheInvalidation();
-  }
-
-  Future setProductNeededness(int id, bool needed) async {
-    var db = await DbStatic.getDb();
-    await db.update(
-      "Products",
-      {"needed": needed ? "true" : "false"},
-      where: "id = ?",
-      whereArgs: [id],
-    );
-    await db.close();
-
-    cacheInvalidation();
-  }
-
   Future setProductName(int id, String name) async {
-    var db = await DbStatic.getDb();
-    await db.update(
-      "Products",
-      {"name": name},
-      where: "id = ?",
-      whereArgs: [id],
-    );
-    await db.close();
+    final database = AppDatabase();
+    await (database.update(database.products)..where(
+      (table) => table.id.equals(id),
+    )).write(ProductsCompanion(name: Value(name)));
 
-    cacheInvalidation();
+    notifyListeners();
   }
 
-  Product? getProductById(int id) {
-    if (_productListPreview.any((p) => p.id == id)) {
-      return _productListPreview.firstWhere((p) => p.id == id);
-    }
+  Future<Product?> getProductById(int id) async {
+    final database = AppDatabase();
 
-    return null;
+    return await (database.select(database.products)
+      ..where((table) => table.id.equals(id))).getSingleOrNull();
   }
 
-  List<Product> getProductList() {
-    return _productListPreview;
+  Future<List<Product>> getProductList() async {
+    final database = AppDatabase();
+
+    return await database.select(database.products).get();
   }
 
-  Future<List<RecipesOfProduct>> getRecepiesOfProductById(int productId) async {
-    // Get the database instance.
-    final db = await DbStatic.getDb();
-
-    try {
-      // Query to select recipes related to the given productId using a JOIN.
-      final results = await db.rawQuery(
-        '''
-      SELECT r.id, r.name
-      FROM RecipeProduct rp
-      JOIN Recipes r ON rp.recipe_id = r.id
-      WHERE rp.product_id = ?
-      ''',
-        [productId],
-      );
-
-      // Map the query results to a list of RecipesOfProduct.
-      return results.map((row) {
-        return RecipesOfProduct(
-          id: row['id'] as int,
-          name: row['name'] as String,
-        );
-      }).toList();
-    } catch (e) {
-      // Handle errors or rethrow.
-      rethrow;
-    } finally {
-      // Adjust database closure according to your app's connection management.
-      await db.close();
-    }
+  Future<List<Recipe>> getRecepiesOfProductById(int productId) async {
+    final database = AppDatabase();
+    return await (database.select(database.recipeProducts)
+          ..where((table) => table.productId.equals(productId)))
+        .join([
+          innerJoin(
+            database.products,
+            database.products.id.equalsExp(database.recipeProducts.productId),
+          ),
+        ])
+        .map((row) => row.readTable(database.recipes))
+        .get();
   }
 }

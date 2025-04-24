@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/common/searchable_list_view.dart';
+import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
 import 'package:provider/provider.dart';
@@ -17,22 +18,29 @@ class ProductDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductProvider productProvider = context.watch();
 
-    var product = productProvider.getProductById(productId);
-
-    if (product == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text("Producto no encontrado")),
-        body: Center(
-          child: Text("Es probable que el producto haya sido eliminado."),
-        ),
-      );
-    }
+    var productFuture = productProvider.getProductById(productId);
 
     TextEditingController textEditingController = TextEditingController();
-    textEditingController.text = product.name;
+    (() async {
+      var product = await productFuture;
+      if (product != null) {
+        textEditingController.text = product.name;
+      }
+    })();
 
     return Scaffold(
-      appBar: AppBar(title: Text(product.name)),
+      appBar: AppBar(
+        title: FutureBuilder(
+          future: productFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              return Text(snapshot.data!.name);
+            } else {
+              return Text("Error"); // TODO
+            }
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -52,11 +60,17 @@ class ProductDetail extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    productProvider.setProductName(
-                      product.id,
-                      textEditingController.text,
-                    );
+                  onPressed: () async {
+                    var product = (await productFuture);
+
+                    if (product != null) {
+                      productProvider.setProductName(
+                        productId,
+                        textEditingController.text,
+                      );
+                    } else {
+                      // TODO
+                    }
                   },
                   child: Text("Guardar"),
                 ),
@@ -69,22 +83,36 @@ class ProductDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   OutlinedButton(
-                    onPressed: () {
-                      productProvider.setProductNeededness(
-                        product.id,
-                        !product.needed,
-                      );
+                    onPressed: () async {
+                      var product = (await productFuture);
+                      if (product != null) {
+                        productProvider.setProductNeededness(
+                          productId,
+                          !product.needed,
+                        );
+                      } else {
+                        // TODO
+                      }
                     },
-                    child: Text(
-                      product.needed
-                          ? "Marcar como comprado"
-                          : "Marcar como por comprar",
+                    child: FutureBuilder(
+                      future: productFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data != null) {
+                          return Text(
+                            snapshot.data!.needed
+                                ? "Marcar como comprado"
+                                : "Marcar como por comprar",
+                          );
+                        } else {
+                          return Text("Error"); // TODO
+                        }
+                      },
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      productProvider.deleteProductById(product.id);
+                      productProvider.deleteProductById(productId);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Danger color
@@ -106,10 +134,10 @@ class ProductDetail extends StatelessWidget {
             Text("Recetas", style: Theme.of(context).textTheme.headlineMedium),
             Expanded(
               child: FutureBuilder(
-                future: productProvider.getRecepiesOfProductById(product.id),
+                future: productProvider.getRecepiesOfProductById(productId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Searchablelistview(
+                    return Searchablelistview<Recipe>(
                       elements: snapshot.data!,
                       elementToListTile:
                           (recipe, tag) => ListTile(
@@ -118,8 +146,9 @@ class ProductDetail extends StatelessWidget {
                                 () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder:
-                                        (context) => RecipeDetail(recipe.id),
+                                    builder: (context) {
+                                      return RecipeDetail(recipe.id);
+                                    },
                                   ),
                                 ),
                           ),

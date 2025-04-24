@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/common/searchable_list_view.dart';
+import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
 import 'package:provider/provider.dart';
@@ -13,21 +14,35 @@ class RecipeManager extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text("Lista de Recetas")),
-      body: Searchablelistview<Recipe>(
-        elements: state.getRecipeList(),
-        elementToTag: (Recipe r) => r.name,
-        elementToListTile:
-            (Recipe r, RichText tag) => ListTile(
-              title: tag,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RecipeDetail(r.id)),
-                );
-              },
-            ),
-        newElement: (String name) {
-          state.addRecipe(name);
+      body: FutureBuilder(
+        future: state.getRecipeList(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Text("TODO"); // TODO
+          }
+          if (snapshot.data!.isEmpty) {
+            return Center(child: Text("No hay recetas"));
+          }
+
+          return Searchablelistview<Recipe>(
+            elements: snapshot.data!,
+            elementToTag: (Recipe r) => r.name,
+            elementToListTile:
+                (Recipe r, RichText tag) => ListTile(
+                  title: tag,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RecipeDetail(r.id),
+                      ),
+                    );
+                  },
+                ),
+            newElement: (String name) {
+              state.addRecipe(name);
+            },
+          );
         },
       ),
     );
