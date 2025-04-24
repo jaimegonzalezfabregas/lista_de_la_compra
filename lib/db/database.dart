@@ -60,3 +60,11 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 }
+
+class AppDatabaseSingleton {
+  static final AppDatabase _instance = AppDatabase();
+
+  static AppDatabase get instance => _instance;
+
+  AppDatabaseSingleton._();
+}

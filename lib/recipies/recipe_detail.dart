@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_detail.dart';
+import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/add_ingredient.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:provider/provider.dart';
@@ -84,6 +85,7 @@ class Ingredients extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RecipeProvider recipeProvider = context.watch();
+    ProductProvider productProvider = context.watch();
 
     var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
 

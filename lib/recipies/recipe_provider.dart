@@ -4,14 +4,14 @@ import 'package:jhopping_list/db/database.dart';
 
 class RecipeProvider extends ChangeNotifier {
   Future<Recipe?> getRecipeById(int id) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.recipes)
       ..where((table) => table.id.equals(id))).getSingleOrNull();
   }
 
   Future deleteRecipeById(int id) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.recipes)
       ..where((table) => table.id.equals(id))).go();
@@ -20,12 +20,12 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<List<Recipe>> getRecipeList() async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
     return await database.select(database.recipes).get();
   }
 
   Future addRecipe(String name) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     database.into(database.recipes).insert(RecipesCompanion(name: Value(name)));
     notifyListeners();
@@ -34,7 +34,7 @@ class RecipeProvider extends ChangeNotifier {
   Future<List<(RecipeProduct, Product)>> getProductsOfRecipeById(
     int recipeId,
   ) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.recipeProducts)
           ..where((table) => table.recipeId.equals(recipeId)))
@@ -58,7 +58,7 @@ class RecipeProvider extends ChangeNotifier {
     int productId,
     bool value,
   ) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     if (value) {
       await database
@@ -67,6 +67,7 @@ class RecipeProvider extends ChangeNotifier {
             RecipeProductsCompanion(
               recipeId: Value(recipeId),
               productId: Value(productId),
+              amount: Value("sin definir"),
             ),
           );
     } else {
@@ -84,12 +85,13 @@ class RecipeProvider extends ChangeNotifier {
     int productId,
     String amount,
   ) async {
-    // TODO
 
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
     await (database.update(database.recipeProducts)..where(
       (table) =>
           table.recipeId.equals(recipeId) & table.productId.equals(productId),
     )).write(RecipeProductsCompanion(amount: Value(amount)));
+
+    notifyListeners();
   }
 }

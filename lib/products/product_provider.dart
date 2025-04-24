@@ -4,7 +4,7 @@ import 'package:jhopping_list/db/database.dart';
 
 class ProductProvider extends ChangeNotifier {
   Future addProduct(String name, bool needed) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     database
         .into(database.products)
@@ -13,14 +13,14 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future deleteProductById(int id) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.products)
       ..where((table) => table.id.equals(id))).go();
   }
 
   Future setProductNeededness(int id, bool needed) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
     await (database.update(database.products)..where(
       (table) => table.id.equals(id),
     )).write(ProductsCompanion(needed: Value(needed)));
@@ -29,7 +29,7 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future setProductName(int id, String name) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
     await (database.update(database.products)..where(
       (table) => table.id.equals(id),
     )).write(ProductsCompanion(name: Value(name)));
@@ -38,20 +38,20 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future<Product?> getProductById(int id) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.products)
       ..where((table) => table.id.equals(id))).getSingleOrNull();
   }
 
   Future<List<Product>> getProductList() async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     return await database.select(database.products).get();
   }
 
   Future<List<Recipe>> getRecepiesOfProductById(int productId) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
     return await (database.select(database.recipeProducts)
           ..where((table) => table.productId.equals(productId)))
         .join([

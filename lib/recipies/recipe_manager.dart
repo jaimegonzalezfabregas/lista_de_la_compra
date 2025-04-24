@@ -20,9 +20,6 @@ class RecipeManager extends StatelessWidget {
           if (!snapshot.hasData) {
             return Text("TODO"); // TODO
           }
-          if (snapshot.data!.isEmpty) {
-            return Center(child: Text("No hay recetas"));
-          }
 
           return Searchablelistview<Recipe>(
             elements: snapshot.data!,

@@ -5,7 +5,7 @@ import 'package:jhopping_list/db/database.dart';
 class ScheduleProvider extends ChangeNotifier {
   // Adds a new schedule entry.
   Future<void> addEntry(int week, int day, int recipeId) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     database
         .into(database.schedule)
@@ -21,7 +21,7 @@ class ScheduleProvider extends ChangeNotifier {
   }
 
   Future<List<ScheduleData>> getEntries(int week, int day) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.schedule)
           ..where((table) => table.week.equals(week))
@@ -30,7 +30,7 @@ class ScheduleProvider extends ChangeNotifier {
   }
 
   Future<void> changeEntryRecipeById(int entryId, int newRecipeId) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     await (database.update(database.schedule)..where(
       (table) => table.id.equals(entryId),
@@ -41,7 +41,7 @@ class ScheduleProvider extends ChangeNotifier {
 
   // Removes an entry from the schedule by its id.
   Future<void> removeEntryById(int entryId) async {
-    final database = AppDatabase();
+    final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.schedule)
       ..where((table) => table.id.equals(entryId))).go();

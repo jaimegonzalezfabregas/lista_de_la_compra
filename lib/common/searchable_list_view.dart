@@ -63,7 +63,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
           child: TextField(
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              hintText: 'Find',
+              labelText: 'Buscar',
             ),
             controller: _textEditingController,
             onChanged:
