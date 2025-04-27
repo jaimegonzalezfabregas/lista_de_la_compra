@@ -29,7 +29,10 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 25, 0, 255),
+            brightness: MediaQuery.platformBrightnessOf(context),
+          ),
         ),
         home: Home(),
       ),

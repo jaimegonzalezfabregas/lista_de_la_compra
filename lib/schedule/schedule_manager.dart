@@ -1,120 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
+import 'package:jhopping_list/schedule/day_view.dart';
 import 'package:jhopping_list/schedule/schedule_provider.dart';
+import 'package:jhopping_list/schedule/utils.dart';
 import 'package:provider/provider.dart';
 
-const int millisCorrectionToEpoc = 342000000;
-const int millisInAWeek = 1000 * 60 * 60 * 24 * 7;
-const List<String> weekDays = [
-  "Lunes",
-  "Martes",
-  "Miercoles",
-  "Jueves",
-  "Viernes",
-  "Sábado",
-  "Domingo",
-];
-const List<String> months = [
-  "",
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Juilo",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
-
 class _ScheduleView extends State {
-  int currentWeek =
-      ((DateTime.now().millisecondsSinceEpoch - millisCorrectionToEpoc) /
-              millisInAWeek)
-          .floor();
+  int currentWeek;
+
+  _ScheduleView(this.currentWeek);
+
   @override
   Widget build(BuildContext context) {
-    ScheduleProvider scheduleProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
-
-    DateTime time = DateTime.fromMillisecondsSinceEpoch(
-      currentWeek * millisInAWeek + millisCorrectionToEpoc,
-    );
+    DateTime startOfWeekTime = getStartOfWeek(currentWeek);
 
     List<Widget> days = [];
     for (var dayI = 0; dayI < 7; dayI++) {
-      var dayTime = time.add(Duration(hours: 24 * dayI));
-      var currentDatetime = DateTime.now();
-      var isToday =
-          dayTime.day == currentDatetime.day &&
-          dayTime.year == currentDatetime.year &&
-          dayTime.month == currentDatetime.month;
-      days.add(
-        ListTile(
-          tileColor:
-              isToday ? Colors.blue.withValues(alpha: 0.3) : Colors.transparent,
-          title: Text(
-            "${weekDays[dayI]} ${dayTime.day} ${months[dayTime.month]}",
-          ),
-          subtitle: FutureBuilder(
-            future: (() => scheduleProvider.getEntries(currentWeek, dayI))(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Text("Loading... $snapshot");
-              }
-              return Column(
-                children:
-                    snapshot.data!.map((entry) {
-                      return FutureBuilder(
-                        future: recipeProvider.getRecipeById(entry.recipeId),
+      days.add(DayView(currentWeek, dayI, startOfWeekTime));
+    }
 
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Text("Loading...");
-                          }
-                          if (snapshot.data == null) {
-                            return Text("Error");
-                          }
-                          return Text(snapshot.data!.name);
-                        },
-                      );
-                    }).toList(),
-              );
-            },
-          ),
+    List<Widget> head = [
+      Center(
+        child: Text(
+          "${startOfWeekTime.day} de ${months[startOfWeekTime.month]} de ${startOfWeekTime.year}",
+        ),
+      ),
+    ];
+
+    if (currentWeek != getCurrentWeek()) {
+      head.add(
+        IconButton(
+          icon: Icon(Icons.date_range),
+          onPressed: () {
+            setState(() {
+              currentWeek = getCurrentWeek();
+            });
+          },
         ),
       );
     }
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 30,
-          children: [
-            OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  currentWeek--;
-                });
-              },
-              child: Text("Semana anterior"),
-            ),
-            Text(
-              "Semana del ${time.day} de ${months[time.month]} de ${time.year}",
-            ),
-            OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  currentWeek++;
-                });
-              },
-              child: Text("Semana siguiente"),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 30,
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    currentWeek--;
+                  });
+                },
+                child: Icon(Icons.arrow_back),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: head,
+                ),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    currentWeek++;
+                  });
+                },
+                child: Icon(Icons.arrow_forward),
+              ),
+            ],
+          ),
         ),
         Expanded(child: ListView(children: days)),
       ],
@@ -123,20 +80,31 @@ class _ScheduleView extends State {
 }
 
 class ScheduleView extends StatefulWidget {
-  const ScheduleView({super.key});
+  final int initial_week;
+  const ScheduleView(this.initial_week, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _ScheduleView();
+  State<StatefulWidget> createState() => _ScheduleView(initial_week);
 }
 
 class ScheduleManager extends StatelessWidget {
-  const ScheduleManager({super.key});
+  final initial_week;
+
+  const ScheduleManager(this.initial_week, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Agenda")),
-      body: ScheduleView(),
+      appBar: AppBar(
+        title: Text(
+          "Agenda",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
+      body: ScheduleView(initial_week),
     );
   }
 }

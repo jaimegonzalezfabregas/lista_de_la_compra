@@ -3,6 +3,7 @@ import 'package:jhopping_list/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
+import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class AddIngredient extends StatelessWidget {
@@ -18,7 +19,10 @@ class AddIngredient extends StatelessWidget {
     var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Selecionar ingredientes")),
+      appBar: AppBar(
+        title: Text("Selecionar ingredientes"),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
           Navigator.pop(context);
@@ -28,8 +32,8 @@ class AddIngredient extends StatelessWidget {
       body: FutureBuilder(
         future: productProvider.getProductList(),
         builder: (context, snapshot) {
-          if(!snapshot.hasData){
-            return Text("TODO"); // TODO
+          if (!snapshot.hasData) {
+            return LoadingBox();
           }
 
           return Searchablelistview<Product>(
@@ -55,14 +59,18 @@ class AddIngredient extends StatelessWidget {
                         },
                       );
                     } else {
-                      return Text("Cargando...");
+                      return Checkbox(
+                        value: false,
+                        onChanged: (_) {},
+                        tristate: true,
+                      );
                     }
                   },
                 ),
               );
             },
           );
-        }
+        },
       ),
     );
   }

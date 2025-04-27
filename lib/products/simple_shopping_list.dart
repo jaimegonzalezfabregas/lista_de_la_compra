@@ -3,6 +3,7 @@ import 'package:jhopping_list/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/products/product_detail.dart';
+import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class ProductListDisplay extends StatelessWidget {
@@ -18,9 +19,8 @@ class ProductListDisplay extends StatelessWidget {
     return FutureBuilder(
       future: state.getProductList(),
       builder: (context, snapshot) {
-
         if (!snapshot.hasData) {
-          return Text("TODO"); // TODO
+          return LoadingBox();
         }
         var products = snapshot.data!.where(filter).toList();
 
@@ -74,6 +74,8 @@ class SimpleShoppinglist extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+
           bottom: const TabBar(
             tabs: [
               Tab(icon: Icon(Icons.check_box_outline_blank)),

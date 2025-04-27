@@ -59,8 +59,13 @@ class ProductProvider extends ChangeNotifier {
             database.products,
             database.products.id.equalsExp(database.recipeProducts.productId),
           ),
+           innerJoin(
+            database.recipes,
+            database.recipes.id.equalsExp(database.recipeProducts.recipeId),
+          ),
         ])
         .map((row) => row.readTable(database.recipes))
         .get();
   }
+
 }

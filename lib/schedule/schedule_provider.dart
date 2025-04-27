@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
+import 'package:jhopping_list/schedule/utils.dart';
 
 class ScheduleProvider extends ChangeNotifier {
   // Adds a new schedule entry.
@@ -20,6 +21,32 @@ class ScheduleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<ScheduleData>> getEntriesForRecipe(
+    int recipeId,
+    bool showPast,
+  ) async {
+    final database = AppDatabaseSingleton.instance;
+
+    final query = database.select(database.schedule)
+      ..where((table) => table.recipeId.equals(recipeId));
+
+    if (!showPast) {
+      query.where(
+        (table) =>
+            (table.week.equals(getCurrentWeek()) &
+                table.day.isBiggerOrEqualValue(DateTime.now().weekday-1)) | // TODO why -1?
+            table.week.isBiggerThanValue(getCurrentWeek()),
+      );
+    }
+
+    query.orderBy([
+      (row) => OrderingTerm(expression: row.week, mode: OrderingMode.asc),
+      (row) => OrderingTerm(expression: row.day, mode: OrderingMode.asc),
+    ]);
+
+    return await query.get();
+  }
+
   Future<List<ScheduleData>> getEntries(int week, int day) async {
     final database = AppDatabaseSingleton.instance;
 
@@ -29,22 +56,24 @@ class ScheduleProvider extends ChangeNotifier {
         .get();
   }
 
-  Future<void> changeEntryRecipeById(int entryId, int newRecipeId) async {
-    final database = AppDatabaseSingleton.instance;
-
-    await (database.update(database.schedule)..where(
-      (table) => table.id.equals(entryId),
-    )).write(ScheduleCompanion(recipeId: Value(newRecipeId)));
-
-    notifyListeners();
-  }
-
   // Removes an entry from the schedule by its id.
   Future<void> removeEntryById(int entryId) async {
     final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.schedule)
       ..where((table) => table.id.equals(entryId))).go();
+
+    notifyListeners();
+  }
+
+  Future<void> removeEntry(int week, int day, int recipeId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.delete(database.schedule)
+          ..where((table) => table.week.equals(week))
+          ..where((table) => table.day.equals(day))
+          ..where((table) => table.recipeId.equals(recipeId)))
+        .go();
 
     notifyListeners();
   }

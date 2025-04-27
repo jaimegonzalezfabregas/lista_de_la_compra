@@ -3,6 +3,7 @@ import 'package:jhopping_list/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
+import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class RecipeManager extends StatelessWidget {
@@ -13,12 +14,20 @@ class RecipeManager extends StatelessWidget {
     RecipeProvider state = context.watch();
 
     return Scaffold(
-      appBar: AppBar(title: Text("Lista de Recetas")),
+      appBar: AppBar(
+        title: Text(
+          "Lista de Recetas",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
       body: FutureBuilder(
         future: state.getRecipeList(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Text("TODO"); // TODO
+            return LoadingBox();
           }
 
           return Searchablelistview<Recipe>(
