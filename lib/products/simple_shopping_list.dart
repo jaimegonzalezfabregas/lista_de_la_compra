@@ -26,32 +26,29 @@ class ProductListDisplay extends StatelessWidget {
 
         return Searchablelistview<Product>(
           elements: products,
-          elementToListTile:
-              (Product p, RichText tag) => ListTile(
-                title: tag,
-                onTap: () => state.setProductNeededness(p.id, !p.needed),
-                onLongPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetail(p.id),
-                    ),
-                  );
-                },
-                trailing: Checkbox(
-                  value: p.needed,
-                  onChanged: (bool? x) => state.setProductNeededness(p.id, x!),
-                ),
+          elementToListTile: (Product p, RichText tag) {
+            return ListTile(
+              title: tag,
+              onTap: () => state.setProductNeededness(p.id, !p.needed),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_outward),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail(p.id)));
+                    },
+                  ),
+                  Checkbox(value: p.needed, onChanged: (bool? x) => state.setProductNeededness(p.id, x!)),
+                ],
               ),
+            );
+          },
           elementToTag: (Product p) => p.name,
           newElement: (String name) async {
             var allProducts = await state.getProductList();
-            if (allProducts.any(
-              (e) => e.name.toLowerCase() == name.toLowerCase(),
-            )) {
-              var referenced = allProducts.firstWhere(
-                (e) => e.name.toLowerCase() == name.toLowerCase(),
-              );
+            if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
+              var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
 
               state.setProductNeededness(referenced.id, defaultNeeded);
             } else {
@@ -77,20 +74,12 @@ class SimpleShoppinglist extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
 
           bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.check_box_outline_blank)),
-              Tab(icon: Icon(Icons.check_box)),
-              Tab(icon: Icon(Icons.indeterminate_check_box)),
-            ],
+            tabs: [Tab(icon: Icon(Icons.check_box_outline_blank)), Tab(icon: Icon(Icons.check_box)), Tab(icon: Icon(Icons.indeterminate_check_box))],
           ),
           title: Text("Lista de la compra"),
         ),
         body: TabBarView(
-          children: [
-            ProductListDisplay(false, (p) => !p.needed),
-            ProductListDisplay(true, (p) => p.needed),
-            ProductListDisplay(true, (_) => true),
-          ],
+          children: [ProductListDisplay(false, (p) => !p.needed), ProductListDisplay(true, (p) => p.needed), ProductListDisplay(true, (_) => true)],
         ),
       ),
     );

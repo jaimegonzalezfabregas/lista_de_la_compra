@@ -60,6 +60,10 @@ class RecipeProvider extends ChangeNotifier {
   ) async {
     final database = AppDatabaseSingleton.instance;
 
+    Recipe recipe = await (database.select(database.recipes)
+          ..where((table) => table.id.equals(recipeId)))
+        .getSingle();
+
     if (value) {
       await database
           .into(database.recipeProducts)
@@ -67,7 +71,7 @@ class RecipeProvider extends ChangeNotifier {
             RecipeProductsCompanion(
               recipeId: Value(recipeId),
               productId: Value(productId),
-              amount: Value("sin definir"),
+              amount: Value("como para un(a) ${recipe.name}"),
             ),
           );
     } else {
@@ -78,6 +82,17 @@ class RecipeProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future<List<(RecipeProduct, Recipe)>> getRecepiesOfProductById(int productId) async {
+    final database = AppDatabaseSingleton.instance;
+    return await (database.select(database.recipeProducts)..where((table) => table.productId.equals(productId)))
+        .join([
+          innerJoin(database.products, database.products.id.equalsExp(database.recipeProducts.productId)),
+          innerJoin(database.recipes, database.recipes.id.equalsExp(database.recipeProducts.recipeId)),
+        ])
+        .map((row) => (row.readTable(database.recipeProducts), row.readTable(database.recipes)))
+        .get();
   }
 
   Future<void> setIngredientAmountOfRecipeById(

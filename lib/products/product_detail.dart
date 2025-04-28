@@ -3,6 +3,7 @@ import 'package:jhopping_list/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
+import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +30,49 @@ class ProductDetail extends StatelessWidget {
       }
     })();
 
+    RecipeProvider recipeProvider = context.watch();
+
+    var recepiesFuture = recipeProvider.getRecepiesOfProductById(productId);
+
+    var recipeList = FutureBuilder(
+      future: recepiesFuture,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          // return LoadingBox();
+          return Text("$snapshot"); // TODO
+        }
+
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(8)),
+            child: Searchablelistview<(RecipeProduct, Recipe)>(
+              elements: snapshot.data!,
+              elementToListTile:
+                  (recipe, tag) => ListTile(
+                    title: tag,
+                    subtitle: Text(recipe.$1.amount),
+                    trailing: IconButton(
+                      icon: Icon(Icons.arrow_outward),
+                      onPressed:
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return RecipeDetail(recipe.$2.id);
+                              },
+                            ),
+                          ),
+                    ),
+                  ),
+              elementToTag: (recipe) => recipe.$2.name,
+              elementToSubtitle: (recipe) => recipe.$1.amount,
+            ),
+          ),
+        );
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -38,13 +82,7 @@ class ProductDetail extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: Row(
-                    children: [
-                      Text("Eliminar"),
-                      SizedBox(width: 8),
-                      Icon(Icons.delete),
-                    ],
-                  ),
+                  child: Row(children: [Text("Eliminar"), SizedBox(width: 8), Icon(Icons.delete)]),
                   onTap: () {
                     Navigator.pop(context);
                     productProvider.deleteProductById(productId);
@@ -57,64 +95,54 @@ class ProductDetail extends StatelessWidget {
         title: FutureBuilder(
           future: productFuture,
           builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
+            if (snapshot.hasData) {
               return Text(snapshot.data!.name);
-            } else {
-              return Text("Error"); // TODO
             }
+            if (snapshot.hasError) {
+              return Text("Error! :(");
+            }
+            return Text("Cargando...");
           },
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(15.0),
+        child: ListView(
+          shrinkWrap: true,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Nombre del producto',
-                      ),
-                      controller: textEditingController,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    var product = (await productFuture);
-
-                    if (product != null) {
-                      productProvider.setProductName(
-                        productId,
-                        textEditingController.text,
-                      );
-                    } else {
-                      // TODO
-                    }
-                  },
-                  child: Text("Guardar"),
-                ),
-              ],
-            ),
-
+            Text("Producto", style: Theme.of(context).textTheme.titleSmall),
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
-                  OutlinedButton(
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Nombre del producto'),
+                          controller: textEditingController,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          var product = (await productFuture);
+              
+                          if (product != null) {
+                            productProvider.setProductName(productId, textEditingController.text);
+                          } else {
+                            // TODO
+                          }
+                        },
+                        child: Text("Guardar"),
+                      ),
+                    ],
+                  ),
+              
+                  TextButton(
                     onPressed: () async {
                       var product = (await productFuture);
                       if (product != null) {
-                        productProvider.setProductNeededness(
-                          productId,
-                          !product.needed,
-                        );
+                        productProvider.setProductNeededness(productId, !product.needed);
                       } else {
                         // TODO
                       }
@@ -123,11 +151,7 @@ class ProductDetail extends StatelessWidget {
                       future: productFuture,
                       builder: (context, snapshot) {
                         if (snapshot.hasData && snapshot.data != null) {
-                          return Text(
-                            snapshot.data!.needed
-                                ? "Marcar como comprado"
-                                : "Marcar como por comprar",
-                          );
+                          return Text(snapshot.data!.needed ? "Marcar como comprado" : "Marcar como por comprar");
                         } else {
                           return Text("Error"); // TODO
                         }
@@ -138,60 +162,10 @@ class ProductDetail extends StatelessWidget {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                "Recetas",
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
+            Text("Recetas", style: Theme.of(context).textTheme.titleSmall),
 
-            Expanded(
-              child: FutureBuilder(
-                future: productProvider.getRecepiesOfProductById(productId),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    // return LoadingBox();
-                    return Text("$snapshot");
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerHigh,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Searchablelistview<Recipe>(
-                        elements: snapshot.data!,
-                        elementToListTile:
-                            (recipe, tag) => ListTile(
-                              title: tag,
-                              onLongPress:
-                                  () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return RecipeDetail(recipe.id);
-                                      },
-                                    ),
-                                  ),
-                            ),
-                        elementToTag: (recipe) => recipe.name,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                "Mapas",
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
-
-            Expanded(child: LoadingBox()),
+            SizedBox(child: recipeList, height: 200),
+            Text("Mapas", style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
       ),

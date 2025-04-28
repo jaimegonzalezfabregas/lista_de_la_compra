@@ -8,30 +8,8 @@ import 'package:jhopping_list/schedule/schedule_provider.dart';
 import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
-const List<String> weekDays = [
-  "Lunes",
-  "Martes",
-  "Miercoles",
-  "Jueves",
-  "Viernes",
-  "Sábado",
-  "Domingo",
-];
-const List<String> months = [
-  "",
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Juilo",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
+const List<String> weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+const List<String> months = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Juilo", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
 class DayView extends StatelessWidget {
   final int week;
@@ -46,35 +24,17 @@ class DayView extends StatelessWidget {
 
     var dayTime = startOfWeekTime.add(Duration(hours: 24 * day));
     var currentDatetime = DateTime.now();
-    var isToday =
-        dayTime.day == currentDatetime.day &&
-        dayTime.year == currentDatetime.year &&
-        dayTime.month == currentDatetime.month;
+    var isToday = dayTime.day == currentDatetime.day && dayTime.year == currentDatetime.year && dayTime.month == currentDatetime.month;
 
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color:
-            isToday
-                ? Theme.of(context).colorScheme.surfaceContainer
-                : Theme.of(context).colorScheme.surface,
-      ),
+      decoration: BoxDecoration(color: isToday ? Theme.of(context).colorScheme.surfaceContainer : Theme.of(context).colorScheme.surface),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Expanded(
-                child: Text(
-                  "${weekDays[day]} ${dayTime.day}",
-                  style: TextStyle(
-                    color:
-                        isToday
-                            ? Theme.of(context).colorScheme.onSurface
-                            : Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-              ),
+              Expanded(child: Text("${weekDays[day]} ${dayTime.day}", style: TextStyle(color: isToday ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface))),
               IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -91,10 +51,7 @@ class DayView extends StatelessWidget {
             ],
           ),
           Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(8),
-            ),
+            decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(8)),
             child: Column(
               children: [
                 FutureBuilder(
@@ -107,9 +64,7 @@ class DayView extends StatelessWidget {
                       children:
                           entrySnapshot.data!.map((ScheduleData entry) {
                             return FutureBuilder(
-                              future: recipeProvider.getRecipeById(
-                                entry.recipeId,
-                              ),
+                              future: recipeProvider.getRecipeById(entry.recipeId),
 
                               builder: (context, recipeSnapshot) {
                                 if (!recipeSnapshot.hasData) {
@@ -122,15 +77,11 @@ class DayView extends StatelessWidget {
                                 return ExpansionTile(
                                   title: Row(
                                     children: [
-                                      Expanded(
-                                        child: Text(recipeSnapshot.data!.name),
-                                      ),
+                                      Expanded(child: Text(recipeSnapshot.data!.name)),
                                       IconButton(
                                         icon: Icon(Icons.delete),
                                         onPressed: () {
-                                          scheduleProvider.removeEntryById(
-                                            entry.id,
-                                          );
+                                          scheduleProvider.removeEntryById(entry.id);
                                         },
                                       ),
                                       IconButton(
@@ -139,9 +90,7 @@ class DayView extends StatelessWidget {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) {
-                                                return RecipeDetail(
-                                                  recipeSnapshot.data!.id,
-                                                );
+                                                return RecipeDetail(recipeSnapshot.data!.id);
                                               },
                                             ),
                                           );
@@ -155,30 +104,38 @@ class DayView extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Builder(
                                         builder: (context) {
-                                          var ingredients = recipeProvider
-                                              .getProductsOfRecipeById(
-                                                entry.recipeId,
+                                          var ingredients = recipeProvider.getProductsOfRecipeById(entry.recipeId);
+
+                                          return FutureBuilder(
+                                            future: ingredients,
+                                            builder: (constext, ingredientSnapshot) {
+                                              var productProvider = context.watch<ProductProvider>();
+                                              if (!ingredientSnapshot.hasData) {
+                                                return LoadingBox();
+                                              }
+                                              return Column(
+                                                children:
+                                                    ingredientSnapshot.data!.map((ingredient) {
+                                                      var product = ingredient.$2;
+                                                      var recipeProduct = ingredient.$1;
+
+                                                      return ListTile(
+                                                        title: Text(product.name),
+                                                        subtitle: Text(recipeProduct.amount),
+                                                        trailing: Checkbox(
+                                                          value: product.needed,
+                                                          onChanged: (value) {
+                                                            productProvider.setProductNeededness(product.id, value!);
+                                                          },
+                                                        ),
+                                                      );
+                                                    }).toList(),
                                               );
-                                      
-                                          return FutureBuilder(future: ingredients, builder: (constext, ingredientSnapshot) {
-                                            if (!ingredientSnapshot.hasData) {
-                                              return LoadingBox();
-                                            }
-                                            return Column(
-                                              children: ingredientSnapshot.data!
-                                                  .map((product) {
-                                                return ListTile(
-                                                  title: Text(product.$2.name),
-                                                  trailing: Text(
-                                                    product.$1.amount
-                                                  ),
-                                                );
-                                              }).toList(),
-                                            );
-                                        });
-                                        }
+                                            },
+                                          );
+                                        },
                                       ),
-                                    )
+                                    ),
                                   ],
                                 );
                               },

@@ -24,15 +24,6 @@ class Ingredients extends StatelessWidget {
     ProductProvider productProvider = context.watch();
 
     return ListTile(
-      onLongPress:
-          () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProductDetail(ingredient.productId),
-              ),
-            ),
-          },
       title: Text(product.name),
       subtitle: ingredient.amount != "" ? Text(ingredient.amount) : null,
       trailing: Row(
@@ -81,6 +72,18 @@ class Ingredients extends StatelessWidget {
             icon: Icon(Icons.edit),
           ),
           IconButton(
+            icon: Icon(Icons.arrow_outward),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ProductDetail(ingredient.productId);
+                  },
+                ),
+              );
+            },
+          ),
+          IconButton(
             onPressed: () {
               recipeProvider.setIngredientOfRecipeById(
                 recipeId,
@@ -98,7 +101,7 @@ class Ingredients extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RecipeProvider recipeProvider = context.watch();
-    ProductProvider productProvider = context.watch();
+    context.watch<ProductProvider>();
 
     var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
 
@@ -241,6 +244,7 @@ class _PlannedDatesState extends State<PlannedDates> {
 
                 return snapshot.data!.isNotEmpty
                     ? ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
 
                       separatorBuilder: (context, index) => Divider(),
@@ -254,24 +258,36 @@ class _PlannedDatesState extends State<PlannedDates> {
                         );
 
                         return ListTile(
-                          onLongPress: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ScheduleManager(entry.week);
-                                },
-                              ),
-                            );
-                          },
                           title: Text(
                             "${date.day} de ${months[date.month]} de ${date.year}",
                           ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              scheduleRecipeProvider.removeEntryById(entry.id);
-                            },
-                            icon: Icon(Icons.delete),
+
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return ScheduleManager(entry.week);
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.arrow_outward),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  scheduleRecipeProvider.removeEntryById(
+                                    entry.id,
+                                  );
+                                },
+                                icon: Icon(Icons.delete),
+                              ),
+                            ],
                           ),
                         );
                       },

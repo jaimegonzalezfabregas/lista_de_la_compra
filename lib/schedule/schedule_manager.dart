@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:jhopping_list/schedule/day_view.dart';
-import 'package:jhopping_list/schedule/schedule_provider.dart';
 import 'package:jhopping_list/schedule/utils.dart';
-import 'package:provider/provider.dart';
 
 class _ScheduleView extends State {
   int currentWeek;
@@ -80,17 +77,17 @@ class _ScheduleView extends State {
 }
 
 class ScheduleView extends StatefulWidget {
-  final int initial_week;
-  const ScheduleView(this.initial_week, {super.key});
+  final int initialWeek;
+  const ScheduleView(this.initialWeek, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _ScheduleView(initial_week);
+  State<StatefulWidget> createState() => _ScheduleView(initialWeek);
 }
 
 class ScheduleManager extends StatelessWidget {
-  final initial_week;
+  final int initialWeek;
 
-  const ScheduleManager(this.initial_week, {super.key});
+  const ScheduleManager(this.initialWeek, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +101,7 @@ class ScheduleManager extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
-      body: ScheduleView(initial_week),
+      body: ScheduleView(initialWeek),
     );
   }
 }

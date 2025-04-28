@@ -83,11 +83,13 @@ class Searchablelistview<T> extends StatefulWidget {
   final ListTile Function(T, RichText) elementToListTile;
   final String Function(T) elementToTag;
   final void Function(String)? newElement;
+  final void Function(T)? elementToSubtitle;
 
   const Searchablelistview({
     required this.elements,
     required this.elementToListTile,
     required this.elementToTag,
+    this.elementToSubtitle,
     this.newElement,
     super.key,
   });
