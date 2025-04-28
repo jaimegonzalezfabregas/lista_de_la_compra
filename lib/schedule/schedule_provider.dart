@@ -34,6 +34,21 @@ class ScheduleProvider extends ChangeNotifier {
     return await query.get();
   }
 
+  Future<List<RecipeProduct>> futureRecipesWithProduct(int productId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    var query = (database.select(database.recipeProducts)..where(
+      (table) => table.productId.equals(productId),
+    )).join([innerJoin(database.schedule, database.schedule.recipeId.equalsExp(database.recipeProducts.recipeId))]);
+
+    query.where(
+      (database.schedule.week.equals(getCurrentWeek()) & database.schedule.day.isBiggerOrEqualValue(DateTime.now().weekday - 1)) |
+          database.schedule.week.isBiggerThanValue(getCurrentWeek()),
+    );
+
+    return (await query.get()).map((row) => row.readTable(database.recipeProducts)).toList();
+  }
+
   Future<List<ScheduleData>> getEntries(int week, int day) async {
     final database = AppDatabaseSingleton.instance;
 

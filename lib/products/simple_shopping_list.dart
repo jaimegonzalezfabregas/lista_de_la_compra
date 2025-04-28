@@ -3,6 +3,7 @@ import 'package:jhopping_list/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/products/product_detail.dart';
+import 'package:jhopping_list/schedule/schedule_provider.dart';
 import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
@@ -14,10 +15,11 @@ class ProductListDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductProvider state = context.watch();
+    ProductProvider productProvider = context.watch();
+    ScheduleProvider scheduleProvider = context.watch();
 
     return FutureBuilder(
-      future: state.getProductList(),
+      future: productProvider.getProductList(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LoadingBox();
@@ -27,9 +29,29 @@ class ProductListDisplay extends StatelessWidget {
         return Searchablelistview<Product>(
           elements: products,
           elementToListTile: (Product p, RichText tag) {
+            var amount_promise = scheduleProvider.futureRecipesWithProduct(p.id);
+
             return ListTile(
               title: tag,
-              onTap: () => state.setProductNeededness(p.id, !p.needed),
+              onTap: () => productProvider.setProductNeededness(p.id, !p.needed),
+              subtitle: FutureBuilder(
+                future: amount_promise,
+                builder: (context, amount_snapshot) {
+                  if (!amount_snapshot.hasData) {
+                    return Text("Cargando...");
+                  }
+
+                  var recipes = amount_snapshot.data!;
+
+                  if (recipes.isEmpty) {
+                    return Text("Sin cantidad");
+                  }
+
+                  var amounts = recipes.map((recipe) => recipe.amount).join(" + r");
+
+                  return Text(amounts);
+                },
+              ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -39,20 +61,20 @@ class ProductListDisplay extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail(p.id)));
                     },
                   ),
-                  Checkbox(value: p.needed, onChanged: (bool? x) => state.setProductNeededness(p.id, x!)),
+                  Checkbox(value: p.needed, onChanged: (bool? x) => productProvider.setProductNeededness(p.id, x!)),
                 ],
               ),
             );
           },
           elementToTag: (Product p) => p.name,
           newElement: (String name) async {
-            var allProducts = await state.getProductList();
+            var allProducts = await productProvider.getProductList();
             if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
               var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
 
-              state.setProductNeededness(referenced.id, defaultNeeded);
+              productProvider.setProductNeededness(referenced.id, defaultNeeded);
             } else {
-              state.addProduct(name, defaultNeeded);
+              productProvider.addProduct(name, defaultNeeded);
             }
           },
         );
