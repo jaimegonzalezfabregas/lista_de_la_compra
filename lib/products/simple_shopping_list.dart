@@ -29,22 +29,22 @@ class ProductListDisplay extends StatelessWidget {
         return Searchablelistview<Product>(
           elements: products,
           elementToListTile: (Product p, RichText tag) {
-            var amount_promise = scheduleProvider.futureRecipesWithProduct(p.id);
+            var amountPromise = scheduleProvider.futureRecipesWithProduct(p.id);
 
             return ListTile(
               title: tag,
               onTap: () => productProvider.setProductNeededness(p.id, !p.needed),
               subtitle: FutureBuilder(
-                future: amount_promise,
-                builder: (context, amount_snapshot) {
-                  if (!amount_snapshot.hasData) {
+                future: amountPromise,
+                builder: (context, amountSnapshot) {
+                  if (!amountSnapshot.hasData) {
                     return Text("Cargando...");
                   }
 
-                  var recipes = amount_snapshot.data!;
+                  var recipes = amountSnapshot.data!;
 
                   if (recipes.isEmpty) {
-                    return Text("Sin cantidad");
+                    return SizedBox.shrink();
                   }
 
                   var amounts = recipes.map((recipe) => recipe.amount).join(" + r");

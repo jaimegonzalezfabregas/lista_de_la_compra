@@ -27,7 +27,7 @@ class _ScheduleView extends State {
     if (currentWeek != getCurrentWeek()) {
       head.add(
         IconButton(
-          icon: Icon(Icons.date_range),
+          icon: Icon(Icons.reply),
           onPressed: () {
             setState(() {
               currentWeek = getCurrentWeek();

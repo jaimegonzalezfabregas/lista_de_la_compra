@@ -164,7 +164,7 @@ class ProductDetail extends StatelessWidget {
 
             Text("Recetas", style: Theme.of(context).textTheme.titleSmall),
 
-            SizedBox(child: recipeList, height: 200),
+            SizedBox(height: 200, child: recipeList),
             Text("Mapas", style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
