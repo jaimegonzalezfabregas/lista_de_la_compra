@@ -10,16 +10,13 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   $RecipesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
     'id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    clientDefault: () => Uuid().v7(),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -67,7 +64,7 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
     return Recipe(
       id:
           attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
+            DriftSqlType.string,
             data['${effectivePrefix}id'],
           )!,
       name:
@@ -85,13 +82,13 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
 }
 
 class Recipe extends DataClass implements Insertable<Recipe> {
-  final int id;
+  final String id;
   final String name;
   const Recipe({required this.id, required this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     return map;
   }
@@ -106,7 +103,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Recipe(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -114,12 +111,12 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  Recipe copyWith({int? id, String? name}) =>
+  Recipe copyWith({String? id, String? name}) =>
       Recipe(id: id ?? this.id, name: name ?? this.name);
   Recipe copyWithCompanion(RecipesCompanion data) {
     return Recipe(
@@ -146,38 +143,54 @@ class Recipe extends DataClass implements Insertable<Recipe> {
 }
 
 class RecipesCompanion extends UpdateCompanion<Recipe> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> name;
+  final Value<int> rowid;
   const RecipesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   RecipesCompanion.insert({
     this.id = const Value.absent(),
     required String name,
+    this.rowid = const Value.absent(),
   }) : name = Value(name);
   static Insertable<Recipe> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? name,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
-  RecipesCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return RecipesCompanion(id: id ?? this.id, name: name ?? this.name);
+  RecipesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<int>? rowid,
+  }) {
+    return RecipesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      rowid: rowid ?? this.rowid,
+    );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -186,7 +199,8 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
   String toString() {
     return (StringBuffer('RecipesCompanion(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -200,16 +214,13 @@ class $ScheduleTable extends Schedule
   $ScheduleTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
     'id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    clientDefault: () => Uuid().v7(),
   );
   static const VerificationMeta _weekMeta = const VerificationMeta('week');
   @override
@@ -233,11 +244,11 @@ class $ScheduleTable extends Schedule
     'recipeId',
   );
   @override
-  late final GeneratedColumn<int> recipeId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> recipeId = GeneratedColumn<String>(
     'recipe_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES recipes (id)',
@@ -295,7 +306,7 @@ class $ScheduleTable extends Schedule
     return ScheduleData(
       id:
           attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
+            DriftSqlType.string,
             data['${effectivePrefix}id'],
           )!,
       week:
@@ -310,7 +321,7 @@ class $ScheduleTable extends Schedule
           )!,
       recipeId:
           attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
+            DriftSqlType.string,
             data['${effectivePrefix}recipe_id'],
           )!,
     );
@@ -323,10 +334,10 @@ class $ScheduleTable extends Schedule
 }
 
 class ScheduleData extends DataClass implements Insertable<ScheduleData> {
-  final int id;
+  final String id;
   final int week;
   final int day;
-  final int recipeId;
+  final String recipeId;
   const ScheduleData({
     required this.id,
     required this.week,
@@ -336,10 +347,10 @@ class ScheduleData extends DataClass implements Insertable<ScheduleData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['week'] = Variable<int>(week);
     map['day'] = Variable<int>(day);
-    map['recipe_id'] = Variable<int>(recipeId);
+    map['recipe_id'] = Variable<String>(recipeId);
     return map;
   }
 
@@ -358,24 +369,24 @@ class ScheduleData extends DataClass implements Insertable<ScheduleData> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ScheduleData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       week: serializer.fromJson<int>(json['week']),
       day: serializer.fromJson<int>(json['day']),
-      recipeId: serializer.fromJson<int>(json['recipeId']),
+      recipeId: serializer.fromJson<String>(json['recipeId']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'week': serializer.toJson<int>(week),
       'day': serializer.toJson<int>(day),
-      'recipeId': serializer.toJson<int>(recipeId),
+      'recipeId': serializer.toJson<String>(recipeId),
     };
   }
 
-  ScheduleData copyWith({int? id, int? week, int? day, int? recipeId}) =>
+  ScheduleData copyWith({String? id, int? week, int? day, String? recipeId}) =>
       ScheduleData(
         id: id ?? this.id,
         week: week ?? this.week,
@@ -415,49 +426,56 @@ class ScheduleData extends DataClass implements Insertable<ScheduleData> {
 }
 
 class ScheduleCompanion extends UpdateCompanion<ScheduleData> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<int> week;
   final Value<int> day;
-  final Value<int> recipeId;
+  final Value<String> recipeId;
+  final Value<int> rowid;
   const ScheduleCompanion({
     this.id = const Value.absent(),
     this.week = const Value.absent(),
     this.day = const Value.absent(),
     this.recipeId = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   ScheduleCompanion.insert({
     this.id = const Value.absent(),
     required int week,
     required int day,
-    required int recipeId,
+    required String recipeId,
+    this.rowid = const Value.absent(),
   }) : week = Value(week),
        day = Value(day),
        recipeId = Value(recipeId);
   static Insertable<ScheduleData> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<int>? week,
     Expression<int>? day,
-    Expression<int>? recipeId,
+    Expression<String>? recipeId,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (week != null) 'week': week,
       if (day != null) 'day': day,
       if (recipeId != null) 'recipe_id': recipeId,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   ScheduleCompanion copyWith({
-    Value<int>? id,
+    Value<String>? id,
     Value<int>? week,
     Value<int>? day,
-    Value<int>? recipeId,
+    Value<String>? recipeId,
+    Value<int>? rowid,
   }) {
     return ScheduleCompanion(
       id: id ?? this.id,
       week: week ?? this.week,
       day: day ?? this.day,
       recipeId: recipeId ?? this.recipeId,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -465,7 +483,7 @@ class ScheduleCompanion extends UpdateCompanion<ScheduleData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (week.present) {
       map['week'] = Variable<int>(week.value);
@@ -474,7 +492,10 @@ class ScheduleCompanion extends UpdateCompanion<ScheduleData> {
       map['day'] = Variable<int>(day.value);
     }
     if (recipeId.present) {
-      map['recipe_id'] = Variable<int>(recipeId.value);
+      map['recipe_id'] = Variable<String>(recipeId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -485,7 +506,8 @@ class ScheduleCompanion extends UpdateCompanion<ScheduleData> {
           ..write('id: $id, ')
           ..write('week: $week, ')
           ..write('day: $day, ')
-          ..write('recipeId: $recipeId')
+          ..write('recipeId: $recipeId, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -498,16 +520,13 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
   $ProductsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
     'id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    clientDefault: () => Uuid().v7(),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -575,7 +594,7 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     return Product(
       id:
           attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
+            DriftSqlType.string,
             data['${effectivePrefix}id'],
           )!,
       name:
@@ -598,14 +617,14 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
 }
 
 class Product extends DataClass implements Insertable<Product> {
-  final int id;
+  final String id;
   final String name;
   final bool needed;
   const Product({required this.id, required this.name, required this.needed});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     map['needed'] = Variable<bool>(needed);
     return map;
@@ -625,7 +644,7 @@ class Product extends DataClass implements Insertable<Product> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Product(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       needed: serializer.fromJson<bool>(json['needed']),
     );
@@ -634,13 +653,13 @@ class Product extends DataClass implements Insertable<Product> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'needed': serializer.toJson<bool>(needed),
     };
   }
 
-  Product copyWith({int? id, String? name, bool? needed}) => Product(
+  Product copyWith({String? id, String? name, bool? needed}) => Product(
     id: id ?? this.id,
     name: name ?? this.name,
     needed: needed ?? this.needed,
@@ -675,41 +694,48 @@ class Product extends DataClass implements Insertable<Product> {
 }
 
 class ProductsCompanion extends UpdateCompanion<Product> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> name;
   final Value<bool> needed;
+  final Value<int> rowid;
   const ProductsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.needed = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   ProductsCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required bool needed,
+    this.rowid = const Value.absent(),
   }) : name = Value(name),
        needed = Value(needed);
   static Insertable<Product> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? name,
     Expression<bool>? needed,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (needed != null) 'needed': needed,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   ProductsCompanion copyWith({
-    Value<int>? id,
+    Value<String>? id,
     Value<String>? name,
     Value<bool>? needed,
+    Value<int>? rowid,
   }) {
     return ProductsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       needed: needed ?? this.needed,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -717,13 +743,16 @@ class ProductsCompanion extends UpdateCompanion<Product> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
     if (needed.present) {
       map['needed'] = Variable<bool>(needed.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -733,7 +762,8 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     return (StringBuffer('ProductsCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('needed: $needed')
+          ..write('needed: $needed, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -749,11 +779,11 @@ class $RecipeProductsTable extends RecipeProducts
     'recipeId',
   );
   @override
-  late final GeneratedColumn<int> recipeId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> recipeId = GeneratedColumn<String>(
     'recipe_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES recipes (id)',
@@ -763,11 +793,11 @@ class $RecipeProductsTable extends RecipeProducts
     'productId',
   );
   @override
-  late final GeneratedColumn<int> productId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> productId = GeneratedColumn<String>(
     'product_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES products (id)',
@@ -824,19 +854,19 @@ class $RecipeProductsTable extends RecipeProducts
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {recipeId, productId};
   @override
   RecipeProduct map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RecipeProduct(
       recipeId:
           attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
+            DriftSqlType.string,
             data['${effectivePrefix}recipe_id'],
           )!,
       productId:
           attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
+            DriftSqlType.string,
             data['${effectivePrefix}product_id'],
           )!,
       amount:
@@ -854,8 +884,8 @@ class $RecipeProductsTable extends RecipeProducts
 }
 
 class RecipeProduct extends DataClass implements Insertable<RecipeProduct> {
-  final int recipeId;
-  final int productId;
+  final String recipeId;
+  final String productId;
   final String amount;
   const RecipeProduct({
     required this.recipeId,
@@ -865,8 +895,8 @@ class RecipeProduct extends DataClass implements Insertable<RecipeProduct> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['recipe_id'] = Variable<int>(recipeId);
-    map['product_id'] = Variable<int>(productId);
+    map['recipe_id'] = Variable<String>(recipeId);
+    map['product_id'] = Variable<String>(productId);
     map['amount'] = Variable<String>(amount);
     return map;
   }
@@ -885,8 +915,8 @@ class RecipeProduct extends DataClass implements Insertable<RecipeProduct> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RecipeProduct(
-      recipeId: serializer.fromJson<int>(json['recipeId']),
-      productId: serializer.fromJson<int>(json['productId']),
+      recipeId: serializer.fromJson<String>(json['recipeId']),
+      productId: serializer.fromJson<String>(json['productId']),
       amount: serializer.fromJson<String>(json['amount']),
     );
   }
@@ -894,18 +924,21 @@ class RecipeProduct extends DataClass implements Insertable<RecipeProduct> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'recipeId': serializer.toJson<int>(recipeId),
-      'productId': serializer.toJson<int>(productId),
+      'recipeId': serializer.toJson<String>(recipeId),
+      'productId': serializer.toJson<String>(productId),
       'amount': serializer.toJson<String>(amount),
     };
   }
 
-  RecipeProduct copyWith({int? recipeId, int? productId, String? amount}) =>
-      RecipeProduct(
-        recipeId: recipeId ?? this.recipeId,
-        productId: productId ?? this.productId,
-        amount: amount ?? this.amount,
-      );
+  RecipeProduct copyWith({
+    String? recipeId,
+    String? productId,
+    String? amount,
+  }) => RecipeProduct(
+    recipeId: recipeId ?? this.recipeId,
+    productId: productId ?? this.productId,
+    amount: amount ?? this.amount,
+  );
   RecipeProduct copyWithCompanion(RecipeProductsCompanion data) {
     return RecipeProduct(
       recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
@@ -936,8 +969,8 @@ class RecipeProduct extends DataClass implements Insertable<RecipeProduct> {
 }
 
 class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
-  final Value<int> recipeId;
-  final Value<int> productId;
+  final Value<String> recipeId;
+  final Value<String> productId;
   final Value<String> amount;
   final Value<int> rowid;
   const RecipeProductsCompanion({
@@ -947,16 +980,16 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
     this.rowid = const Value.absent(),
   });
   RecipeProductsCompanion.insert({
-    required int recipeId,
-    required int productId,
+    required String recipeId,
+    required String productId,
     required String amount,
     this.rowid = const Value.absent(),
   }) : recipeId = Value(recipeId),
        productId = Value(productId),
        amount = Value(amount);
   static Insertable<RecipeProduct> custom({
-    Expression<int>? recipeId,
-    Expression<int>? productId,
+    Expression<String>? recipeId,
+    Expression<String>? productId,
     Expression<String>? amount,
     Expression<int>? rowid,
   }) {
@@ -969,8 +1002,8 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
   }
 
   RecipeProductsCompanion copyWith({
-    Value<int>? recipeId,
-    Value<int>? productId,
+    Value<String>? recipeId,
+    Value<String>? productId,
     Value<String>? amount,
     Value<int>? rowid,
   }) {
@@ -986,10 +1019,10 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (recipeId.present) {
-      map['recipe_id'] = Variable<int>(recipeId.value);
+      map['recipe_id'] = Variable<String>(recipeId.value);
     }
     if (productId.present) {
-      map['product_id'] = Variable<int>(productId.value);
+      map['product_id'] = Variable<String>(productId.value);
     }
     if (amount.present) {
       map['amount'] = Variable<String>(amount.value);
@@ -1032,9 +1065,17 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 }
 
 typedef $$RecipesTableCreateCompanionBuilder =
-    RecipesCompanion Function({Value<int> id, required String name});
+    RecipesCompanion Function({
+      Value<String> id,
+      required String name,
+      Value<int> rowid,
+    });
 typedef $$RecipesTableUpdateCompanionBuilder =
-    RecipesCompanion Function({Value<int> id, Value<String> name});
+    RecipesCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<int> rowid,
+    });
 
 final class $$RecipesTableReferences
     extends BaseReferences<_$AppDatabase, $RecipesTable, Recipe> {
@@ -1050,7 +1091,7 @@ final class $$RecipesTableReferences
     final manager = $$ScheduleTableTableManager(
       $_db,
       $_db.schedule,
-    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_scheduleRefsTable($_db));
     return ProcessedTableManager(
@@ -1068,7 +1109,7 @@ final class $$RecipesTableReferences
     final manager = $$RecipeProductsTableTableManager(
       $_db,
       $_db.recipeProducts,
-    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.recipeId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_recipeProductsRefsTable($_db));
     return ProcessedTableManager(
@@ -1086,7 +1127,7 @@ class $$RecipesTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
@@ -1156,7 +1197,7 @@ class $$RecipesTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
@@ -1176,7 +1217,7 @@ class $$RecipesTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get name =>
@@ -1261,12 +1302,16 @@ class $$RecipesTableTableManager
               () => $$RecipesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-              }) => RecipesCompanion(id: id, name: name),
+                Value<int> rowid = const Value.absent(),
+              }) => RecipesCompanion(id: id, name: name, rowid: rowid),
           createCompanionCallback:
-              ({Value<int> id = const Value.absent(), required String name}) =>
-                  RecipesCompanion.insert(id: id, name: name),
+              ({
+                Value<String> id = const Value.absent(),
+                required String name,
+                Value<int> rowid = const Value.absent(),
+              }) => RecipesCompanion.insert(id: id, name: name, rowid: rowid),
           withReferenceMapper:
               (p0) =>
                   p0
@@ -1358,17 +1403,19 @@ typedef $$RecipesTableProcessedTableManager =
     >;
 typedef $$ScheduleTableCreateCompanionBuilder =
     ScheduleCompanion Function({
-      Value<int> id,
+      Value<String> id,
       required int week,
       required int day,
-      required int recipeId,
+      required String recipeId,
+      Value<int> rowid,
     });
 typedef $$ScheduleTableUpdateCompanionBuilder =
     ScheduleCompanion Function({
-      Value<int> id,
+      Value<String> id,
       Value<int> week,
       Value<int> day,
-      Value<int> recipeId,
+      Value<String> recipeId,
+      Value<int> rowid,
     });
 
 final class $$ScheduleTableReferences
@@ -1379,7 +1426,7 @@ final class $$ScheduleTableReferences
       .createAlias($_aliasNameGenerator(db.schedule.recipeId, db.recipes.id));
 
   $$RecipesTableProcessedTableManager get recipeId {
-    final $_column = $_itemColumn<int>('recipe_id')!;
+    final $_column = $_itemColumn<String>('recipe_id')!;
 
     final manager = $$RecipesTableTableManager(
       $_db,
@@ -1402,7 +1449,7 @@ class $$ScheduleTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
@@ -1450,7 +1497,7 @@ class $$ScheduleTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
@@ -1498,7 +1545,7 @@ class $$ScheduleTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<int> get week =>
@@ -1559,27 +1606,31 @@ class $$ScheduleTableTableManager
               () => $$ScheduleTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 Value<int> week = const Value.absent(),
                 Value<int> day = const Value.absent(),
-                Value<int> recipeId = const Value.absent(),
+                Value<String> recipeId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
               }) => ScheduleCompanion(
                 id: id,
                 week: week,
                 day: day,
                 recipeId: recipeId,
+                rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 required int week,
                 required int day,
-                required int recipeId,
+                required String recipeId,
+                Value<int> rowid = const Value.absent(),
               }) => ScheduleCompanion.insert(
                 id: id,
                 week: week,
                 day: day,
                 recipeId: recipeId,
+                rowid: rowid,
               ),
           withReferenceMapper:
               (p0) =>
@@ -1650,15 +1701,17 @@ typedef $$ScheduleTableProcessedTableManager =
     >;
 typedef $$ProductsTableCreateCompanionBuilder =
     ProductsCompanion Function({
-      Value<int> id,
+      Value<String> id,
       required String name,
       required bool needed,
+      Value<int> rowid,
     });
 typedef $$ProductsTableUpdateCompanionBuilder =
     ProductsCompanion Function({
-      Value<int> id,
+      Value<String> id,
       Value<String> name,
       Value<bool> needed,
+      Value<int> rowid,
     });
 
 final class $$ProductsTableReferences
@@ -1678,7 +1731,7 @@ final class $$ProductsTableReferences
     final manager = $$RecipeProductsTableTableManager(
       $_db,
       $_db.recipeProducts,
-    ).filter((f) => f.productId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.productId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_recipeProductsRefsTable($_db));
     return ProcessedTableManager(
@@ -1696,7 +1749,7 @@ class $$ProductsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
@@ -1746,7 +1799,7 @@ class $$ProductsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
@@ -1771,7 +1824,7 @@ class $$ProductsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get name =>
@@ -1834,17 +1887,28 @@ class $$ProductsTableTableManager
               () => $$ProductsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<bool> needed = const Value.absent(),
-              }) => ProductsCompanion(id: id, name: name, needed: needed),
+                Value<int> rowid = const Value.absent(),
+              }) => ProductsCompanion(
+                id: id,
+                name: name,
+                needed: needed,
+                rowid: rowid,
+              ),
           createCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 required String name,
                 required bool needed,
-              }) =>
-                  ProductsCompanion.insert(id: id, name: name, needed: needed),
+                Value<int> rowid = const Value.absent(),
+              }) => ProductsCompanion.insert(
+                id: id,
+                name: name,
+                needed: needed,
+                rowid: rowid,
+              ),
           withReferenceMapper:
               (p0) =>
                   p0
@@ -1910,15 +1974,15 @@ typedef $$ProductsTableProcessedTableManager =
     >;
 typedef $$RecipeProductsTableCreateCompanionBuilder =
     RecipeProductsCompanion Function({
-      required int recipeId,
-      required int productId,
+      required String recipeId,
+      required String productId,
       required String amount,
       Value<int> rowid,
     });
 typedef $$RecipeProductsTableUpdateCompanionBuilder =
     RecipeProductsCompanion Function({
-      Value<int> recipeId,
-      Value<int> productId,
+      Value<String> recipeId,
+      Value<String> productId,
       Value<String> amount,
       Value<int> rowid,
     });
@@ -1937,7 +2001,7 @@ final class $$RecipeProductsTableReferences
       );
 
   $$RecipesTableProcessedTableManager get recipeId {
-    final $_column = $_itemColumn<int>('recipe_id')!;
+    final $_column = $_itemColumn<String>('recipe_id')!;
 
     final manager = $$RecipesTableTableManager(
       $_db,
@@ -1956,7 +2020,7 @@ final class $$RecipeProductsTableReferences
       );
 
   $$ProductsTableProcessedTableManager get productId {
-    final $_column = $_itemColumn<int>('product_id')!;
+    final $_column = $_itemColumn<String>('product_id')!;
 
     final manager = $$ProductsTableTableManager(
       $_db,
@@ -2185,8 +2249,8 @@ class $$RecipeProductsTableTableManager
               ),
           updateCompanionCallback:
               ({
-                Value<int> recipeId = const Value.absent(),
-                Value<int> productId = const Value.absent(),
+                Value<String> recipeId = const Value.absent(),
+                Value<String> productId = const Value.absent(),
                 Value<String> amount = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RecipeProductsCompanion(
@@ -2197,8 +2261,8 @@ class $$RecipeProductsTableTableManager
               ),
           createCompanionCallback:
               ({
-                required int recipeId,
-                required int productId,
+                required String recipeId,
+                required String productId,
                 required String amount,
                 Value<int> rowid = const Value.absent(),
               }) => RecipeProductsCompanion.insert(

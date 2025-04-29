@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 
 class RecipeProvider extends ChangeNotifier {
-  Future<Recipe?> getRecipeById(int id) async {
+  Future<Recipe?> getRecipeById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.recipes)
       ..where((table) => table.id.equals(id))).getSingleOrNull();
   }
 
-  Future deleteRecipeById(int id) async {
+  Future deleteRecipeById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.recipes)
@@ -32,7 +32,7 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<List<(RecipeProduct, Product)>> getProductsOfRecipeById(
-    int recipeId,
+    String recipeId,
   ) async {
     final database = AppDatabaseSingleton.instance;
 
@@ -54,8 +54,8 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future setIngredientOfRecipeById(
-    int recipeId,
-    int productId,
+    String recipeId,
+    String productId,
     bool value,
   ) async {
     final database = AppDatabaseSingleton.instance;
@@ -84,7 +84,7 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<(RecipeProduct, Recipe)>> getRecepiesOfProductById(int productId) async {
+  Future<List<(RecipeProduct, Recipe)>> getRecepiesOfProductById(String productId) async {
     final database = AppDatabaseSingleton.instance;
     return await (database.select(database.recipeProducts)..where((table) => table.productId.equals(productId)))
         .join([
@@ -96,8 +96,8 @@ class RecipeProvider extends ChangeNotifier {
   }
 
   Future<void> setIngredientAmountOfRecipeById(
-    int recipeId,
-    int productId,
+    String recipeId,
+    String productId,
     String amount,
   ) async {
 

@@ -10,27 +10,27 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future deleteProductById(int id) async {
+  Future deleteProductById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.products)..where((table) => table.id.equals(id))).go();
   }
 
-  Future setProductNeededness(int id, bool needed) async {
+  Future setProductNeededness(String id, bool needed) async {
     final database = AppDatabaseSingleton.instance;
     await (database.update(database.products)..where((table) => table.id.equals(id))).write(ProductsCompanion(needed: Value(needed)));
 
     notifyListeners();
   }
 
-  Future setProductName(int id, String name) async {
+  Future setProductName(String id, String name) async {
     final database = AppDatabaseSingleton.instance;
     await (database.update(database.products)..where((table) => table.id.equals(id))).write(ProductsCompanion(name: Value(name)));
 
     notifyListeners();
   }
 
-  Future<Product?> getProductById(int id) async {
+  Future<Product?> getProductById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.products)..where((table) => table.id.equals(id))).getSingleOrNull();

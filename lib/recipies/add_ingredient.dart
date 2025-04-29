@@ -7,7 +7,7 @@ import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class AddIngredient extends StatelessWidget {
-  final int recipeId;
+  final String recipeId;
 
   const AddIngredient(this.recipeId, {super.key});
 

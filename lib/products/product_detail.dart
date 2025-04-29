@@ -4,7 +4,6 @@ import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
-import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
 // todo
@@ -12,7 +11,7 @@ import 'package:provider/provider.dart';
 // see locations in diferent markets
 
 class ProductDetail extends StatelessWidget {
-  final int productId;
+  final String productId;
 
   const ProductDetail(this.productId, {super.key});
 

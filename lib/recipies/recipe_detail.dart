@@ -12,7 +12,7 @@ import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class Ingredients extends StatelessWidget {
-  final int recipeId;
+  final String recipeId;
   const Ingredients(this.recipeId, {super.key});
 
   ListTile ingredientEntry(
@@ -189,7 +189,7 @@ class Ingredients extends StatelessWidget {
 }
 
 class PlannedDates extends StatefulWidget {
-  final int recipeId;
+  final String recipeId;
   const PlannedDates(this.recipeId, {super.key});
 
   @override
@@ -310,7 +310,7 @@ class _PlannedDatesState extends State<PlannedDates> {
 }
 
 class RecipeDetail extends StatelessWidget {
-  final int recipeId;
+  final String recipeId;
 
   const RecipeDetail(this.recipeId, {super.key});
 

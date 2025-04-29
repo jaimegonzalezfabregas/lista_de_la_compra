@@ -5,7 +5,7 @@ import 'package:jhopping_list/schedule/utils.dart';
 
 class ScheduleProvider extends ChangeNotifier {
   // Adds a new schedule entry.
-  Future<void> addEntry(int week, int day, int recipeId) async {
+  Future<void> addEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
     database.into(database.schedule).insert(ScheduleCompanion(week: Value(week), day: Value(day), recipeId: Value(recipeId)));
@@ -13,7 +13,7 @@ class ScheduleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<ScheduleData>> getEntriesForRecipe(int recipeId, bool showPast) async {
+  Future<List<ScheduleData>> getEntriesForRecipe(String recipeId, bool showPast) async {
     final database = AppDatabaseSingleton.instance;
 
     final query = database.select(database.schedule)..where((table) => table.recipeId.equals(recipeId));
@@ -34,7 +34,7 @@ class ScheduleProvider extends ChangeNotifier {
     return await query.get();
   }
 
-  Future<List<RecipeProduct>> futureRecipesWithProduct(int productId) async {
+  Future<List<RecipeProduct>> futureRecipesWithProduct(String productId) async {
     final database = AppDatabaseSingleton.instance;
 
     var query = (database.select(database.recipeProducts)..where(
@@ -59,7 +59,7 @@ class ScheduleProvider extends ChangeNotifier {
   }
 
   // Removes an entry from the schedule by its id.
-  Future<void> removeEntryById(int entryId) async {
+  Future<void> removeEntryById(String entryId) async {
     final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.schedule)..where((table) => table.id.equals(entryId))).go();
@@ -67,7 +67,7 @@ class ScheduleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> removeEntry(int week, int day, int recipeId) async {
+  Future<void> removeEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
     await (database.delete(database.schedule)
