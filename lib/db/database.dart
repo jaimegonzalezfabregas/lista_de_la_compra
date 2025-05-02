@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:jhopping_list/db/pairing_model.dart';
 import 'package:jhopping_list/db/product_model.dart';
 import 'package:jhopping_list/db/recipe_model.dart';
 import 'package:jhopping_list/db/schedule.dart';
@@ -40,7 +41,7 @@ LazyDatabase _openConnection() {
 }
 
 
-@DriftDatabase(tables: [Schedule, Products, Recipes, RecipeProducts])
+@DriftDatabase(tables: [Schedule, Products, Recipes, RecipeProducts, Pairing])
 class AppDatabase extends _$AppDatabase {
   // After generating code, this class needs to define a `schemaVersion` getter
   // and a constructor telling drift where the database should be stored.

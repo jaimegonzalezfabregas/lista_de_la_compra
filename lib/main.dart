@@ -3,6 +3,7 @@ import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
 import 'package:jhopping_list/home.dart';
 import 'package:jhopping_list/schedule/schedule_provider.dart';
+import 'package:jhopping_list/sync/pairing_provider.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ScheduleProvider>(
           create: (_) => ScheduleProvider(),
+        ),
+        ChangeNotifierProvider<PairingProvider>(
+          create: (_) => PairingProvider(),
         ),
       ],
       child: MaterialApp(

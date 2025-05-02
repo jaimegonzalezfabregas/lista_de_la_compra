@@ -52,6 +52,10 @@ dependencies:
   sqlite3: any
   sqlite3_flutter_libs: any
   uuid: ^4.5.1
+  shelf: ^1.4.2
+  focus_detector: ^2.0.1
+  shared_preferences: ^2.5.3
+  contentsize_tabbarview: ^0.0.2
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15

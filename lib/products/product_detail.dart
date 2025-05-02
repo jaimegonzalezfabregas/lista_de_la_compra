@@ -4,6 +4,7 @@ import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/products/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
 import 'package:jhopping_list/recipies/recipe_provider.dart';
+import 'package:jhopping_list/utils/loading_box.dart';
 import 'package:provider/provider.dart';
 
 // todo
@@ -37,8 +38,8 @@ class ProductDetail extends StatelessWidget {
       future: recepiesFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          // return LoadingBox();
-          return Text("$snapshot"); // TODO
+          return LoadingBox();
+          // return Text("$snapshot"); // TODO
         }
 
         return Padding(

@@ -8,7 +8,7 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> addEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
-    database.into(database.schedule).insert(ScheduleCompanion(week: Value(week), day: Value(day), recipeId: Value(recipeId)));
+    database.into(database.schedule).insert(ScheduleCompanion(week: Value(week), day: Value(day), recipeId: Value(recipeId))); // TODO: crash
 
     notifyListeners();
   }
