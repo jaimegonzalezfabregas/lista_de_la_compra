@@ -8,15 +8,15 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> addEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
-    database.into(database.schedule).insert(ScheduleCompanion(week: Value(week), day: Value(day), recipeId: Value(recipeId))); // TODO: crash
+    database.into(database.scheduleEntries).insert(ScheduleEntriesCompanion(week: Value(week), day: Value(day), recipeId: Value(recipeId))); // TODO: crash
 
     notifyListeners();
   }
 
-  Future<List<ScheduleData>> getEntriesForRecipe(String recipeId, bool showPast) async {
+  Future<List<ScheduleEntry>> getEntriesForRecipe(String recipeId, bool showPast) async {
     final database = AppDatabaseSingleton.instance;
 
-    final query = database.select(database.schedule)..where((table) => table.recipeId.equals(recipeId));
+    final query = database.select(database.scheduleEntries)..where((table) => table.recipeId.equals(recipeId));
 
     if (!showPast) {
       query.where(
@@ -39,20 +39,20 @@ class ScheduleProvider extends ChangeNotifier {
 
     var query = (database.select(database.recipeProducts)..where(
       (table) => table.productId.equals(productId),
-    )).join([innerJoin(database.schedule, database.schedule.recipeId.equalsExp(database.recipeProducts.recipeId))]);
+    )).join([innerJoin(database.scheduleEntries, database.scheduleEntries.recipeId.equalsExp(database.recipeProducts.recipeId))]);
 
     query.where(
-      (database.schedule.week.equals(getCurrentWeek()) & database.schedule.day.isBiggerOrEqualValue(DateTime.now().weekday - 1)) |
-          database.schedule.week.isBiggerThanValue(getCurrentWeek()),
+      (database.scheduleEntries.week.equals(getCurrentWeek()) & database.scheduleEntries.day.isBiggerOrEqualValue(DateTime.now().weekday - 1)) |
+          database.scheduleEntries.week.isBiggerThanValue(getCurrentWeek()),
     );
 
     return (await query.get()).map((row) => row.readTable(database.recipeProducts)).toList();
   }
 
-  Future<List<ScheduleData>> getEntries(int week, int day) async {
+  Future<List<ScheduleEntry>> getEntries(int week, int day) async {
     final database = AppDatabaseSingleton.instance;
 
-    return await (database.select(database.schedule)
+    return await (database.select(database.scheduleEntries)
           ..where((table) => table.week.equals(week))
           ..where((table) => table.day.equals(day)))
         .get();
@@ -62,7 +62,7 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> removeEntryById(String entryId) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.delete(database.schedule)..where((table) => table.id.equals(entryId))).go();
+    await (database.delete(database.scheduleEntries)..where((table) => table.id.equals(entryId))).go();
 
     notifyListeners();
   }
@@ -70,7 +70,7 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> removeEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.delete(database.schedule)
+    await (database.delete(database.scheduleEntries)
           ..where((table) => table.week.equals(week))
           ..where((table) => table.day.equals(day))
           ..where((table) => table.recipeId.equals(recipeId)))

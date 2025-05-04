@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 
-class HTTPServerPairings extends Table {
+class HttpServerPairings extends Table {
   TextColumn get id => text().clientDefault(() => Uuid().v7())();
   TextColumn get nick => text()();
   TextColumn get host => text()();
@@ -14,7 +14,7 @@ class HTTPServerPairings extends Table {
 }
 
 
-class HTTPClientPairings extends Table {
+class HttpClientPairings extends Table {
   TextColumn get id => text().clientDefault(() => Uuid().v7())();
   TextColumn get nick => text()();
   TextColumn get lastSync => text()();

@@ -17,7 +17,7 @@ class ChooseRecipe extends StatelessWidget {
     ScheduleProvider scheduleProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
-    Future<List<ScheduleData>> scheduleList = scheduleProvider.getEntries(
+    Future<List<ScheduleEntry>> scheduleList = scheduleProvider.getEntries(
       week,
       day,
     );

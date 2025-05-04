@@ -62,7 +62,7 @@ class DayView extends StatelessWidget {
                     }
                     return Column(
                       children:
-                          entrySnapshot.data!.map((ScheduleData entry) {
+                          entrySnapshot.data!.map((ScheduleEntry entry) {
                             return FutureBuilder(
                               future: recipeProvider.getRecipeById(entry.recipeId),
 

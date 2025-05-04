@@ -203,7 +203,7 @@ class _PlannedDatesState extends State<PlannedDates> {
   Widget build(BuildContext context) {
     ScheduleProvider scheduleRecipeProvider = context.watch();
 
-    Future<List<ScheduleData>> dates = scheduleRecipeProvider
+    Future<List<ScheduleEntry>> dates = scheduleRecipeProvider
         .getEntriesForRecipe(widget.recipeId, showPast);
 
     return Padding(

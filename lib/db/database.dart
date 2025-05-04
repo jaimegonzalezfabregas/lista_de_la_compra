@@ -41,7 +41,7 @@ LazyDatabase _openConnection() {
 }
 
 
-@DriftDatabase(tables: [Schedule, Products, Recipes, RecipeProducts, Pairing])
+@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, HttpServerPairings, HttpClientPairings])
 class AppDatabase extends _$AppDatabase {
   // After generating code, this class needs to define a `schemaVersion` getter
   // and a constructor telling drift where the database should be stored.

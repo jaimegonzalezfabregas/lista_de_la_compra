@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/sync/http_widget.dart';
 import 'package:jhopping_list/sync/pairing_provider.dart';
+import 'package:jhopping_list/sync/past_pairings_widget.dart';
 import 'package:provider/provider.dart';
 
 class SyncManager extends StatefulWidget {
@@ -97,56 +98,8 @@ class _SyncManagerState extends State<SyncManager> {
             ),
 
             Text("Emparejamientos pasados", style: Theme.of(context).textTheme.titleSmall),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Builder(
-                    builder: (context) {
-                      var pairingListFuture = pairingProvider.getPairings();
-
-                      return FutureBuilder(
-                        future: pairingListFuture,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            List<PairingData> pairings = snapshot.data!;
-
-                            if (pairings.isEmpty) {
-                              return Center(child: Text("No hay emparejamientos pasados"));
-                            }
-
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: pairings.length,
-                              itemBuilder: (context, index) {
-                                var pairing = pairings[index];
-                                return ListTile(
-                                  title: Text(pairing.nick),
-                                  subtitle: Text(pairing.host),
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () {
-                                      pairingProvider.deletePairingById(pairing.id);
-                                    },
-                                  ),
-                                );
-                              },
-                            );
-                          }
-                          if (snapshot.hasError) {
-                            return Text("Error! :( ${snapshot.error}");
-                          }
-                          return Text("Cargando...");
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
-
+            PastPairingsWidget(),
+          
             ExpansionTile(title: Text("Sincronización HTTP"), children: [HTTPManageWidget()]),
             ExpansionTile(title: Text("Sincronización MQTT"), children: []),
           ],

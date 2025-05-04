@@ -1,84 +1,16 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
+import 'package:jhopping_list/sync/server_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
+import 'package:uuid/uuid.dart';
 
 enum ServerStatus { running, stopped, turningOn, turningOff, error }
-
-class ServerManager {
-  HttpServer? _server;
-  String? _localNick;
-  String? _roomKey;
-  final PairingProvider pairingProvider;
-
-  ServerManager(this.pairingProvider);
-
-  Future<Response> serverHandler(Request request) async {
-    switch (request.requestedUri.path) {
-      case "/get_room_key":
-        return Response.ok(_roomKey, headers: {"Content-Type": "text/plain"});
-      case "/get_nick":
-        return Response.ok(_localNick, headers: {"Content-Type": "text/plain"});
-      case "/add_pairing":
-        var body = await request.readAsString();
-        var parts = body.split(",");
-        if (parts.length != 3) {
-          return Response.badRequest(body: "Invalid request");
-        }
-        String nick = parts[0];
-        String host = parts[1];
-        int port = int.parse(parts[2]);
-        await pairingProvider.addEntry(nick, host, port);
-        return Response.ok("Pairing added");
-
-      default:
-        return Response.notFound("Not found");
-    }
-  }
-
-  Future<void> startServer(String localNick, String roomKey) async {
-    if (_server != null) {
-      return;
-    }
-
-    if (localNick.length < 4) {
-      pairingProvider.setServerStatus(ServerStatus.error, error: "Introduzca un nick de más de 4 caracteres (nick actual: $localNick)");
-      return;
-    }
-
-    if (roomKey.length < 10) {
-      pairingProvider.setServerStatus(ServerStatus.error, error: "Introduzca una clave de sala de más de 10 caracteres (clave de sala actual: $roomKey)");
-      return;
-    }
-
-    _localNick = localNick;
-    _roomKey = roomKey;
-
-    var handler = const Pipeline().addMiddleware(logRequests()).addHandler((r) => serverHandler(r));
-
-    pairingProvider.setServerStatus(ServerStatus.turningOn);
-
-    _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 4545);
-
-    pairingProvider.setServerStatus(ServerStatus.running);
-  }
-
-  Future<void> stopServer() async {
-    pairingProvider.setServerStatus(ServerStatus.turningOff);
-
-    await _server?.close();
-    _server = null;
-    pairingProvider.setServerStatus(ServerStatus.stopped);
-  }
-
-  bool isServerRunning() {
-    return _server != null;
-  }
-}
 
 class PairingProvider extends ChangeNotifier {
   static ServerManager? _serverManager;
@@ -90,10 +22,18 @@ class PairingProvider extends ChangeNotifier {
     tryStartServer();
   }
 
-  Future<void> addEntry(String nick, String host, int port) async {
+  Future<void> addHttpServerEntry(String host, int port, String tocken) async {
     final database = AppDatabaseSingleton.instance;
 
-    database.into(database.pairing).insert(PairingCompanion(nick: Value(nick), host: Value(host), port: Value(port)));
+    database.into(database.httpServerPairings).insert(HttpServerPairingsCompanion(host: Value(host), port: Value(port)));
+
+    notifyListeners();
+  }
+
+  Future<void> addHttpClientEntry(String nick, String token) async {
+    final database = AppDatabaseSingleton.instance;
+
+    database.into(database.httpClientPairings).insert(HttpClientPairingsCompanion(nick: Value(nick), token: Value(token)));
 
     notifyListeners();
   }
@@ -182,16 +122,27 @@ class PairingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<PairingData>> getPairings() async {
+  Future<List<HttpServerPairing>> getHttpServerPairings() async {
     final database = AppDatabaseSingleton.instance;
 
-    return await database.select(database.pairing).get();
+    return await database.select(database.httpServerPairings).get();
   }
 
-  Future<void> deletePairingById(String id) async {
+  Future<List<HttpClientPairing>> getHttpClientPairings() async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.delete(database.pairing)..where((table) => table.id.equals(id))).go();
+    return await database.select(database.httpClientPairings).get();
+  }
+
+  Future<void> deleteHttpServerPairingsById(String id) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.delete(database.httpServerPairings)..where((table) => table.id.equals(id))).go();
+  }
+
+  Future<void> deleteHttpClientPairingsById(String id) async {
+    final database = AppDatabaseSingleton.instance;
+    await (database.delete(database.httpClientPairings)..where((table) => table.id.equals(id))).go();
   }
 
   ServerStatus getServerStatus() {
