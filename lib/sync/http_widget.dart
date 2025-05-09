@@ -93,8 +93,15 @@ class HTTPManageWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          TextField(controller: hostTextController, decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder())),
-          TextField(controller: portTextController, decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder())),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(controller: hostTextController, decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder())),
+          ),
+        
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(controller: portTextController, decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder())),
+          ),
           TextButton(
             onPressed: () async {
               var host = hostTextController.text;
@@ -136,7 +143,6 @@ class HTTPManageWidget extends StatelessWidget {
                   return;
                 }
 
-                print("Response: ${response.body}");
 
                 var responseContents = jsonDecode((response).body);
                 print("Response: ${responseContents}");

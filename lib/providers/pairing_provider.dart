@@ -15,6 +15,7 @@ class PairingProvider extends ChangeNotifier {
             http_host: Value(host),
             http_port: Value(port.toString()),
             http_cookie: Value(token),
+            isHttpServer: const Value(true),
           ),
         );
 
@@ -26,7 +27,9 @@ class PairingProvider extends ChangeNotifier {
 
     await database
         .into(database.remoteTerminals)
-        .insertOnConflictUpdate(RemoteTerminalsCompanion(id: Value(id), nick: Value(nick), http_cookie: Value(token)));
+        .insertOnConflictUpdate(
+          RemoteTerminalsCompanion(id: Value(id), nick: Value(nick), http_cookie: Value(token), isHttpClient: const Value(true)),
+        );
 
     notifyListeners();
   }
@@ -41,5 +44,10 @@ class PairingProvider extends ChangeNotifier {
     final database = AppDatabaseSingleton.instance;
     await (database.delete(database.remoteTerminals)..where((table) => table.id.equals(id))).go();
     notifyListeners();
+  }
+
+  Future<RemoteTerminal> getRemoteTerminalById(String id) async {
+    final database = AppDatabaseSingleton.instance;
+    return await (database.select(database.remoteTerminals)..where((table) => table.id.equals(id))).getSingle();
   }
 }

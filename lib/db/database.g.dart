@@ -1128,6 +1128,36 @@ class $RemoteTerminalsTable extends RemoteTerminals
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _isHttpServerMeta = const VerificationMeta(
+    'isHttpServer',
+  );
+  @override
+  late final GeneratedColumn<bool> isHttpServer = GeneratedColumn<bool>(
+    'is_http_server',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_http_server" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _isHttpClientMeta = const VerificationMeta(
+    'isHttpClient',
+  );
+  @override
+  late final GeneratedColumn<bool> isHttpClient = GeneratedColumn<bool>(
+    'is_http_client',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_http_client" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1137,6 +1167,8 @@ class $RemoteTerminalsTable extends RemoteTerminals
     http_cookie,
     lastSync,
     accepted,
+    isHttpServer,
+    isHttpClient,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1198,6 +1230,24 @@ class $RemoteTerminalsTable extends RemoteTerminals
         accepted.isAcceptableOrUnknown(data['accepted']!, _acceptedMeta),
       );
     }
+    if (data.containsKey('is_http_server')) {
+      context.handle(
+        _isHttpServerMeta,
+        isHttpServer.isAcceptableOrUnknown(
+          data['is_http_server']!,
+          _isHttpServerMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_http_client')) {
+      context.handle(
+        _isHttpClientMeta,
+        isHttpClient.isAcceptableOrUnknown(
+          data['is_http_client']!,
+          _isHttpClientMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1239,6 +1289,16 @@ class $RemoteTerminalsTable extends RemoteTerminals
             DriftSqlType.bool,
             data['${effectivePrefix}accepted'],
           )!,
+      isHttpServer:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.bool,
+            data['${effectivePrefix}is_http_server'],
+          )!,
+      isHttpClient:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.bool,
+            data['${effectivePrefix}is_http_client'],
+          )!,
     );
   }
 
@@ -1256,6 +1316,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   final String http_cookie;
   final String? lastSync;
   final bool accepted;
+  final bool isHttpServer;
+  final bool isHttpClient;
   const RemoteTerminal({
     required this.id,
     required this.nick,
@@ -1264,6 +1326,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     required this.http_cookie,
     this.lastSync,
     required this.accepted,
+    required this.isHttpServer,
+    required this.isHttpClient,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1281,6 +1345,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
       map['last_sync'] = Variable<String>(lastSync);
     }
     map['accepted'] = Variable<bool>(accepted);
+    map['is_http_server'] = Variable<bool>(isHttpServer);
+    map['is_http_client'] = Variable<bool>(isHttpClient);
     return map;
   }
 
@@ -1302,6 +1368,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
               ? const Value.absent()
               : Value(lastSync),
       accepted: Value(accepted),
+      isHttpServer: Value(isHttpServer),
+      isHttpClient: Value(isHttpClient),
     );
   }
 
@@ -1318,6 +1386,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
       http_cookie: serializer.fromJson<String>(json['http_cookie']),
       lastSync: serializer.fromJson<String?>(json['lastSync']),
       accepted: serializer.fromJson<bool>(json['accepted']),
+      isHttpServer: serializer.fromJson<bool>(json['isHttpServer']),
+      isHttpClient: serializer.fromJson<bool>(json['isHttpClient']),
     );
   }
   @override
@@ -1331,6 +1401,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
       'http_cookie': serializer.toJson<String>(http_cookie),
       'lastSync': serializer.toJson<String?>(lastSync),
       'accepted': serializer.toJson<bool>(accepted),
+      'isHttpServer': serializer.toJson<bool>(isHttpServer),
+      'isHttpClient': serializer.toJson<bool>(isHttpClient),
     };
   }
 
@@ -1342,6 +1414,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     String? http_cookie,
     Value<String?> lastSync = const Value.absent(),
     bool? accepted,
+    bool? isHttpServer,
+    bool? isHttpClient,
   }) => RemoteTerminal(
     id: id ?? this.id,
     nick: nick ?? this.nick,
@@ -1350,6 +1424,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     http_cookie: http_cookie ?? this.http_cookie,
     lastSync: lastSync.present ? lastSync.value : this.lastSync,
     accepted: accepted ?? this.accepted,
+    isHttpServer: isHttpServer ?? this.isHttpServer,
+    isHttpClient: isHttpClient ?? this.isHttpClient,
   );
   RemoteTerminal copyWithCompanion(RemoteTerminalsCompanion data) {
     return RemoteTerminal(
@@ -1361,6 +1437,14 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
           data.http_cookie.present ? data.http_cookie.value : this.http_cookie,
       lastSync: data.lastSync.present ? data.lastSync.value : this.lastSync,
       accepted: data.accepted.present ? data.accepted.value : this.accepted,
+      isHttpServer:
+          data.isHttpServer.present
+              ? data.isHttpServer.value
+              : this.isHttpServer,
+      isHttpClient:
+          data.isHttpClient.present
+              ? data.isHttpClient.value
+              : this.isHttpClient,
     );
   }
 
@@ -1373,7 +1457,9 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
           ..write('http_port: $http_port, ')
           ..write('http_cookie: $http_cookie, ')
           ..write('lastSync: $lastSync, ')
-          ..write('accepted: $accepted')
+          ..write('accepted: $accepted, ')
+          ..write('isHttpServer: $isHttpServer, ')
+          ..write('isHttpClient: $isHttpClient')
           ..write(')'))
         .toString();
   }
@@ -1387,6 +1473,8 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     http_cookie,
     lastSync,
     accepted,
+    isHttpServer,
+    isHttpClient,
   );
   @override
   bool operator ==(Object other) =>
@@ -1398,7 +1486,9 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
           other.http_port == this.http_port &&
           other.http_cookie == this.http_cookie &&
           other.lastSync == this.lastSync &&
-          other.accepted == this.accepted);
+          other.accepted == this.accepted &&
+          other.isHttpServer == this.isHttpServer &&
+          other.isHttpClient == this.isHttpClient);
 }
 
 class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
@@ -1409,6 +1499,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   final Value<String> http_cookie;
   final Value<String?> lastSync;
   final Value<bool> accepted;
+  final Value<bool> isHttpServer;
+  final Value<bool> isHttpClient;
   final Value<int> rowid;
   const RemoteTerminalsCompanion({
     this.id = const Value.absent(),
@@ -1418,6 +1510,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     this.http_cookie = const Value.absent(),
     this.lastSync = const Value.absent(),
     this.accepted = const Value.absent(),
+    this.isHttpServer = const Value.absent(),
+    this.isHttpClient = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RemoteTerminalsCompanion.insert({
@@ -1428,6 +1522,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     required String http_cookie,
     this.lastSync = const Value.absent(),
     this.accepted = const Value.absent(),
+    this.isHttpServer = const Value.absent(),
+    this.isHttpClient = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        nick = Value(nick),
@@ -1440,6 +1536,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     Expression<String>? http_cookie,
     Expression<String>? lastSync,
     Expression<bool>? accepted,
+    Expression<bool>? isHttpServer,
+    Expression<bool>? isHttpClient,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1450,6 +1548,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
       if (http_cookie != null) 'http_cookie': http_cookie,
       if (lastSync != null) 'last_sync': lastSync,
       if (accepted != null) 'accepted': accepted,
+      if (isHttpServer != null) 'is_http_server': isHttpServer,
+      if (isHttpClient != null) 'is_http_client': isHttpClient,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1462,6 +1562,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     Value<String>? http_cookie,
     Value<String?>? lastSync,
     Value<bool>? accepted,
+    Value<bool>? isHttpServer,
+    Value<bool>? isHttpClient,
     Value<int>? rowid,
   }) {
     return RemoteTerminalsCompanion(
@@ -1472,6 +1574,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
       http_cookie: http_cookie ?? this.http_cookie,
       lastSync: lastSync ?? this.lastSync,
       accepted: accepted ?? this.accepted,
+      isHttpServer: isHttpServer ?? this.isHttpServer,
+      isHttpClient: isHttpClient ?? this.isHttpClient,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1500,6 +1604,12 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     if (accepted.present) {
       map['accepted'] = Variable<bool>(accepted.value);
     }
+    if (isHttpServer.present) {
+      map['is_http_server'] = Variable<bool>(isHttpServer.value);
+    }
+    if (isHttpClient.present) {
+      map['is_http_client'] = Variable<bool>(isHttpClient.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1516,6 +1626,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
           ..write('http_cookie: $http_cookie, ')
           ..write('lastSync: $lastSync, ')
           ..write('accepted: $accepted, ')
+          ..write('isHttpServer: $isHttpServer, ')
+          ..write('isHttpClient: $isHttpClient, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2872,6 +2984,8 @@ typedef $$RemoteTerminalsTableCreateCompanionBuilder =
       required String http_cookie,
       Value<String?> lastSync,
       Value<bool> accepted,
+      Value<bool> isHttpServer,
+      Value<bool> isHttpClient,
       Value<int> rowid,
     });
 typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
@@ -2883,6 +2997,8 @@ typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
       Value<String> http_cookie,
       Value<String?> lastSync,
       Value<bool> accepted,
+      Value<bool> isHttpServer,
+      Value<bool> isHttpClient,
       Value<int> rowid,
     });
 
@@ -2927,6 +3043,16 @@ class $$RemoteTerminalsTableFilterComposer
 
   ColumnFilters<bool> get accepted => $composableBuilder(
     column: $table.accepted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isHttpServer => $composableBuilder(
+    column: $table.isHttpServer,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isHttpClient => $composableBuilder(
+    column: $table.isHttpClient,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -2974,6 +3100,16 @@ class $$RemoteTerminalsTableOrderingComposer
     column: $table.accepted,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isHttpServer => $composableBuilder(
+    column: $table.isHttpServer,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isHttpClient => $composableBuilder(
+    column: $table.isHttpClient,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$RemoteTerminalsTableAnnotationComposer
@@ -3007,6 +3143,16 @@ class $$RemoteTerminalsTableAnnotationComposer
 
   GeneratedColumn<bool> get accepted =>
       $composableBuilder(column: $table.accepted, builder: (column) => column);
+
+  GeneratedColumn<bool> get isHttpServer => $composableBuilder(
+    column: $table.isHttpServer,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isHttpClient => $composableBuilder(
+    column: $table.isHttpClient,
+    builder: (column) => column,
+  );
 }
 
 class $$RemoteTerminalsTableTableManager
@@ -3060,6 +3206,8 @@ class $$RemoteTerminalsTableTableManager
                 Value<String> http_cookie = const Value.absent(),
                 Value<String?> lastSync = const Value.absent(),
                 Value<bool> accepted = const Value.absent(),
+                Value<bool> isHttpServer = const Value.absent(),
+                Value<bool> isHttpClient = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RemoteTerminalsCompanion(
                 id: id,
@@ -3069,6 +3217,8 @@ class $$RemoteTerminalsTableTableManager
                 http_cookie: http_cookie,
                 lastSync: lastSync,
                 accepted: accepted,
+                isHttpServer: isHttpServer,
+                isHttpClient: isHttpClient,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3080,6 +3230,8 @@ class $$RemoteTerminalsTableTableManager
                 required String http_cookie,
                 Value<String?> lastSync = const Value.absent(),
                 Value<bool> accepted = const Value.absent(),
+                Value<bool> isHttpServer = const Value.absent(),
+                Value<bool> isHttpClient = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RemoteTerminalsCompanion.insert(
                 id: id,
@@ -3089,6 +3241,8 @@ class $$RemoteTerminalsTableTableManager
                 http_cookie: http_cookie,
                 lastSync: lastSync,
                 accepted: accepted,
+                isHttpServer: isHttpServer,
+                isHttpClient: isHttpClient,
                 rowid: rowid,
               ),
           withReferenceMapper:

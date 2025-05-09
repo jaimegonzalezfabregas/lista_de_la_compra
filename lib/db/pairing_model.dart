@@ -8,6 +8,8 @@ class RemoteTerminals extends Table {
   TextColumn get http_cookie => text()();
   TextColumn get lastSync => text().nullable()();
   BoolColumn get accepted => boolean().withDefault(const Constant(false))();
+  BoolColumn get isHttpServer => boolean().withDefault(const Constant(false))();
+  BoolColumn get isHttpClient => boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column<Object>> get primaryKey => {id};

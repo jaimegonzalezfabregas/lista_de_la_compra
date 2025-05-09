@@ -39,11 +39,24 @@ class RemoteTerminalList extends StatelessWidget {
                             RemoteTerminal pairing = pairings[index];
                             return ListTile(
                               title: Text(pairing.nick),
-                              trailing: IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  pairingProvider.deleteRemoteTerminalById(pairing.id);
-                                },
+                              trailing: Row(
+                                children: [
+                                  IconButton(icon: Icon(Icons.arrow_outward), onPressed: () {
+                                    Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return RemoteTerminalDetail(pairing.id);
+                  },
+                ),
+              );
+                                  },)
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      pairingProvider.deleteRemoteTerminalById(pairing.id);
+                                    },
+                                  ),
+                                ],
                               ),
                             );
                           },
