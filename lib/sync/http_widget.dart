@@ -1,21 +1,23 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:jhopping_list/providers/http_server_state_provider.dart';
+import 'package:jhopping_list/providers/shared_preferences_provider.dart';
 import 'package:jhopping_list/sync/ip_list.dart';
-import 'package:jhopping_list/sync/pairing_provider.dart';
+import 'package:jhopping_list/providers/pairing_provider.dart';
 import 'package:provider/provider.dart';
 
 class HTTPManageWidget extends StatelessWidget {
   const HTTPManageWidget({super.key});
 
   Widget serveControlls(BuildContext context) {
-    PairingProvider pairingProvider = context.watch();
+    HttpServerStateProvider serverStateProvider = context.watch();
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
+
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -23,14 +25,15 @@ class HTTPManageWidget extends StatelessWidget {
             builder: (context) {
               Widget child;
 
-              switch (pairingProvider.getServerStatus()) {
+              switch (serverStateProvider.getServerStatus()) {
                 case ServerStatus.running:
                   child = Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       IpList(),
                       TextButton(
                         onPressed: () async {
-                          await pairingProvider.stopServer();
+                          await serverStateProvider.stopServer();
                         },
                         child: Text("Detener servidor"),
                       ),
@@ -40,7 +43,7 @@ class HTTPManageWidget extends StatelessWidget {
                 case ServerStatus.stopped:
                   child = TextButton(
                     onPressed: () async {
-                      await pairingProvider.tryStartServer();
+                      await serverStateProvider.tryStartServer();
                     },
                     child: Text("Iniciar servidor"),
                   );
@@ -54,10 +57,10 @@ class HTTPManageWidget extends StatelessWidget {
                 case ServerStatus.error:
                   child = Column(
                     children: [
-                      Text("Error iniciando servidor: ${pairingProvider.getServerError()}"),
+                      Text("Error iniciando servidor: ${serverStateProvider.getServerError()}"),
                       TextButton(
                         onPressed: () async {
-                          await pairingProvider.tryStartServer();
+                          await serverStateProvider.tryStartServer();
                         },
                         child: Text("Iniciar servidor"),
                       ),
@@ -79,59 +82,82 @@ class HTTPManageWidget extends StatelessWidget {
   }
 
   Widget clientControlls(BuildContext context) {
+    SharedPreferencesProvider sharedPreferencesProvider = context.watch();
     PairingProvider pairingProvider = context.watch();
     TextEditingController hostTextController = TextEditingController();
+    TextEditingController portTextController = TextEditingController();
 
     var toast = ScaffoldMessenger.of(context);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            child: TextField(
-              controller: hostTextController,
-              decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder()),
-            ),
-          ),
+          TextField(controller: hostTextController, decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder())),
+          TextField(controller: portTextController, decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder())),
           TextButton(
             onPressed: () async {
               var host = hostTextController.text;
-              var textUrl = "http://$host:4545/";
+              if (host.isEmpty) {
+                toast.showSnackBar(SnackBar(content: Text("Error: la dirección remota no puede estar vacía")));
+                return;
+              }
+
+              var port = int.tryParse(portTextController.text) ?? 4545;
+
+              portTextController.text = port.toString();
+
+              var textUrl = "http://$host:$port/add_pairing";
 
               Uri? uri;
               try {
                 uri = Uri.parse(textUrl);
+                http.Response response = await http.post(
+                  uri,
+                  body: jsonEncode({
+                    "nick": await sharedPreferencesProvider.getLocalNick(),
+                    "terminalId": await sharedPreferencesProvider.getTerminalId(),
+                  }),
+                  headers: {"Content-Type": "application/json"},
+                );
+
+                if (response.statusCode != 200) {
+                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, código de estado ${response.statusCode}")));
+                  return;
+                }
+
+                if (response.body.isEmpty) {
+                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto contenido")));
+                  return;
+                }
+
+                if (response.headers["content-type"] != "application/json") {
+                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto un json")));
+                  return;
+                }
+
+                print("Response: ${response.body}");
+
+                var responseContents = jsonDecode((response).body);
+                print("Response: ${responseContents}");
+
+                if (responseContents["token"] == null) {
+                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto un token")));
+                  return;
+                }
+
+                pairingProvider.addHttpServerToRemoteTerminal(
+                  responseContents["terminalId"],
+                  host,
+                  port,
+                  responseContents["token"],
+                  responseContents["nick"],
+                );
               } on FormatException catch (_, e) {
                 toast.showSnackBar(SnackBar(content: Text("Error de formato en el host $host, la url construida es \"$textUrl\". Error. $e")));
               } catch (e) {
                 toast.showSnackBar(SnackBar(content: Text("Error: $e")));
               }
-              http.Response response = await http.post(uri!, body: jsonEncode({"nick": context.read<PairingProvider>().getLocalNick()}));
-
-              if (response.statusCode != 200) {
-                toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, código de estado ${response.statusCode}")));
-                return;
-              }
-
-              if (response.body.isEmpty) {
-                toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto contenido")));
-                return;
-              }
-
-              if (response.headers["content-type"] != "application/json") {
-                toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto un json")));
-                return;
-              }
-
-              var responseContents = jsonDecode((response).body);
-
-              if (responseContents["tocken"] == null) {
-                toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto un token")));
-                return;
-              }
-
-              pairingProvider.addHttpServerEntry(host, 4545, responseContents["token"]);
             },
             child: Text("Conectar"),
           ),
@@ -147,7 +173,7 @@ class HTTPManageWidget extends StatelessWidget {
       child: Column(
         children: [
           const TabBar(tabs: [Tab(text: "Servidor"), Tab(text: "Cliente")]),
-          Container(child: ContentSizeTabBarView(children: [serveControlls(context), clientControlls(context)])),
+          ContentSizeTabBarView(children: [serveControlls(context), clientControlls(context)]),
         ],
       ),
     );

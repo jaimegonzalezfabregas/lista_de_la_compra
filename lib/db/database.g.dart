@@ -1045,12 +1045,12 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
   }
 }
 
-class $HttpServerPairingsTable extends HttpServerPairings
-    with TableInfo<$HttpServerPairingsTable, HttpServerPairing> {
+class $RemoteTerminalsTable extends RemoteTerminals
+    with TableInfo<$RemoteTerminalsTable, RemoteTerminal> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $HttpServerPairingsTable(this.attachedDatabase, [this._alias]);
+  $RemoteTerminalsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
@@ -1058,8 +1058,7 @@ class $HttpServerPairingsTable extends HttpServerPairings
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    clientDefault: () => Uuid().v7(),
+    requiredDuringInsert: true,
   );
   static const VerificationMeta _nickMeta = const VerificationMeta('nick');
   @override
@@ -1070,398 +1069,34 @@ class $HttpServerPairingsTable extends HttpServerPairings
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _hostMeta = const VerificationMeta('host');
+  static const VerificationMeta _http_hostMeta = const VerificationMeta(
+    'http_host',
+  );
   @override
-  late final GeneratedColumn<String> host = GeneratedColumn<String>(
-    'host',
+  late final GeneratedColumn<String> http_host = GeneratedColumn<String>(
+    'http_host',
     aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _portMeta = const VerificationMeta('port');
-  @override
-  late final GeneratedColumn<int> port = GeneratedColumn<int>(
-    'port',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    clientDefault: () => 4545,
-  );
-  static const VerificationMeta _lastSyncMeta = const VerificationMeta(
-    'lastSync',
-  );
-  @override
-  late final GeneratedColumn<String> lastSync = GeneratedColumn<String>(
-    'last_sync',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _tokenMeta = const VerificationMeta('token');
-  @override
-  late final GeneratedColumn<String> token = GeneratedColumn<String>(
-    'token',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, nick, host, port, lastSync, token];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'http_server_pairings';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<HttpServerPairing> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('nick')) {
-      context.handle(
-        _nickMeta,
-        nick.isAcceptableOrUnknown(data['nick']!, _nickMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nickMeta);
-    }
-    if (data.containsKey('host')) {
-      context.handle(
-        _hostMeta,
-        host.isAcceptableOrUnknown(data['host']!, _hostMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_hostMeta);
-    }
-    if (data.containsKey('port')) {
-      context.handle(
-        _portMeta,
-        port.isAcceptableOrUnknown(data['port']!, _portMeta),
-      );
-    }
-    if (data.containsKey('last_sync')) {
-      context.handle(
-        _lastSyncMeta,
-        lastSync.isAcceptableOrUnknown(data['last_sync']!, _lastSyncMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_lastSyncMeta);
-    }
-    if (data.containsKey('token')) {
-      context.handle(
-        _tokenMeta,
-        token.isAcceptableOrUnknown(data['token']!, _tokenMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_tokenMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  HttpServerPairing map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return HttpServerPairing(
-      id:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}id'],
-          )!,
-      nick:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}nick'],
-          )!,
-      host:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}host'],
-          )!,
-      port:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
-            data['${effectivePrefix}port'],
-          )!,
-      lastSync:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}last_sync'],
-          )!,
-      token:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}token'],
-          )!,
-    );
-  }
-
-  @override
-  $HttpServerPairingsTable createAlias(String alias) {
-    return $HttpServerPairingsTable(attachedDatabase, alias);
-  }
-}
-
-class HttpServerPairing extends DataClass
-    implements Insertable<HttpServerPairing> {
-  final String id;
-  final String nick;
-  final String host;
-  final int port;
-  final String lastSync;
-  final String token;
-  const HttpServerPairing({
-    required this.id,
-    required this.nick,
-    required this.host,
-    required this.port,
-    required this.lastSync,
-    required this.token,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    map['nick'] = Variable<String>(nick);
-    map['host'] = Variable<String>(host);
-    map['port'] = Variable<int>(port);
-    map['last_sync'] = Variable<String>(lastSync);
-    map['token'] = Variable<String>(token);
-    return map;
-  }
-
-  HttpServerPairingsCompanion toCompanion(bool nullToAbsent) {
-    return HttpServerPairingsCompanion(
-      id: Value(id),
-      nick: Value(nick),
-      host: Value(host),
-      port: Value(port),
-      lastSync: Value(lastSync),
-      token: Value(token),
-    );
-  }
-
-  factory HttpServerPairing.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return HttpServerPairing(
-      id: serializer.fromJson<String>(json['id']),
-      nick: serializer.fromJson<String>(json['nick']),
-      host: serializer.fromJson<String>(json['host']),
-      port: serializer.fromJson<int>(json['port']),
-      lastSync: serializer.fromJson<String>(json['lastSync']),
-      token: serializer.fromJson<String>(json['token']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'nick': serializer.toJson<String>(nick),
-      'host': serializer.toJson<String>(host),
-      'port': serializer.toJson<int>(port),
-      'lastSync': serializer.toJson<String>(lastSync),
-      'token': serializer.toJson<String>(token),
-    };
-  }
-
-  HttpServerPairing copyWith({
-    String? id,
-    String? nick,
-    String? host,
-    int? port,
-    String? lastSync,
-    String? token,
-  }) => HttpServerPairing(
-    id: id ?? this.id,
-    nick: nick ?? this.nick,
-    host: host ?? this.host,
-    port: port ?? this.port,
-    lastSync: lastSync ?? this.lastSync,
-    token: token ?? this.token,
-  );
-  HttpServerPairing copyWithCompanion(HttpServerPairingsCompanion data) {
-    return HttpServerPairing(
-      id: data.id.present ? data.id.value : this.id,
-      nick: data.nick.present ? data.nick.value : this.nick,
-      host: data.host.present ? data.host.value : this.host,
-      port: data.port.present ? data.port.value : this.port,
-      lastSync: data.lastSync.present ? data.lastSync.value : this.lastSync,
-      token: data.token.present ? data.token.value : this.token,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('HttpServerPairing(')
-          ..write('id: $id, ')
-          ..write('nick: $nick, ')
-          ..write('host: $host, ')
-          ..write('port: $port, ')
-          ..write('lastSync: $lastSync, ')
-          ..write('token: $token')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, nick, host, port, lastSync, token);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is HttpServerPairing &&
-          other.id == this.id &&
-          other.nick == this.nick &&
-          other.host == this.host &&
-          other.port == this.port &&
-          other.lastSync == this.lastSync &&
-          other.token == this.token);
-}
-
-class HttpServerPairingsCompanion extends UpdateCompanion<HttpServerPairing> {
-  final Value<String> id;
-  final Value<String> nick;
-  final Value<String> host;
-  final Value<int> port;
-  final Value<String> lastSync;
-  final Value<String> token;
-  final Value<int> rowid;
-  const HttpServerPairingsCompanion({
-    this.id = const Value.absent(),
-    this.nick = const Value.absent(),
-    this.host = const Value.absent(),
-    this.port = const Value.absent(),
-    this.lastSync = const Value.absent(),
-    this.token = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  HttpServerPairingsCompanion.insert({
-    this.id = const Value.absent(),
-    required String nick,
-    required String host,
-    this.port = const Value.absent(),
-    required String lastSync,
-    required String token,
-    this.rowid = const Value.absent(),
-  }) : nick = Value(nick),
-       host = Value(host),
-       lastSync = Value(lastSync),
-       token = Value(token);
-  static Insertable<HttpServerPairing> custom({
-    Expression<String>? id,
-    Expression<String>? nick,
-    Expression<String>? host,
-    Expression<int>? port,
-    Expression<String>? lastSync,
-    Expression<String>? token,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (nick != null) 'nick': nick,
-      if (host != null) 'host': host,
-      if (port != null) 'port': port,
-      if (lastSync != null) 'last_sync': lastSync,
-      if (token != null) 'token': token,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  HttpServerPairingsCompanion copyWith({
-    Value<String>? id,
-    Value<String>? nick,
-    Value<String>? host,
-    Value<int>? port,
-    Value<String>? lastSync,
-    Value<String>? token,
-    Value<int>? rowid,
-  }) {
-    return HttpServerPairingsCompanion(
-      id: id ?? this.id,
-      nick: nick ?? this.nick,
-      host: host ?? this.host,
-      port: port ?? this.port,
-      lastSync: lastSync ?? this.lastSync,
-      token: token ?? this.token,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (nick.present) {
-      map['nick'] = Variable<String>(nick.value);
-    }
-    if (host.present) {
-      map['host'] = Variable<String>(host.value);
-    }
-    if (port.present) {
-      map['port'] = Variable<int>(port.value);
-    }
-    if (lastSync.present) {
-      map['last_sync'] = Variable<String>(lastSync.value);
-    }
-    if (token.present) {
-      map['token'] = Variable<String>(token.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('HttpServerPairingsCompanion(')
-          ..write('id: $id, ')
-          ..write('nick: $nick, ')
-          ..write('host: $host, ')
-          ..write('port: $port, ')
-          ..write('lastSync: $lastSync, ')
-          ..write('token: $token, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $HttpClientPairingsTable extends HttpClientPairings
-    with TableInfo<$HttpClientPairingsTable, HttpClientPairing> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $HttpClientPairingsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
+    true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
-    clientDefault: () => Uuid().v7(),
   );
-  static const VerificationMeta _nickMeta = const VerificationMeta('nick');
+  static const VerificationMeta _http_portMeta = const VerificationMeta(
+    'http_port',
+  );
   @override
-  late final GeneratedColumn<String> nick = GeneratedColumn<String>(
-    'nick',
+  late final GeneratedColumn<String> http_port = GeneratedColumn<String>(
+    'http_port',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _http_cookieMeta = const VerificationMeta(
+    'http_cookie',
+  );
+  @override
+  late final GeneratedColumn<String> http_cookie = GeneratedColumn<String>(
+    'http_cookie',
     aliasedName,
     false,
     type: DriftSqlType.string,
@@ -1474,9 +1109,9 @@ class $HttpClientPairingsTable extends HttpClientPairings
   late final GeneratedColumn<String> lastSync = GeneratedColumn<String>(
     'last_sync',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _acceptedMeta = const VerificationMeta(
     'accepted',
@@ -1493,31 +1128,32 @@ class $HttpClientPairingsTable extends HttpClientPairings
     ),
     defaultValue: const Constant(false),
   );
-  static const VerificationMeta _tokenMeta = const VerificationMeta('token');
   @override
-  late final GeneratedColumn<String> token = GeneratedColumn<String>(
-    'token',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, nick, lastSync, accepted, token];
+  List<GeneratedColumn> get $columns => [
+    id,
+    nick,
+    http_host,
+    http_port,
+    http_cookie,
+    lastSync,
+    accepted,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'http_client_pairings';
+  static const String $name = 'remote_terminals';
   @override
   VerificationContext validateIntegrity(
-    Insertable<HttpClientPairing> instance, {
+    Insertable<RemoteTerminal> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('nick')) {
       context.handle(
@@ -1527,13 +1163,34 @@ class $HttpClientPairingsTable extends HttpClientPairings
     } else if (isInserting) {
       context.missing(_nickMeta);
     }
+    if (data.containsKey('http_host')) {
+      context.handle(
+        _http_hostMeta,
+        http_host.isAcceptableOrUnknown(data['http_host']!, _http_hostMeta),
+      );
+    }
+    if (data.containsKey('http_port')) {
+      context.handle(
+        _http_portMeta,
+        http_port.isAcceptableOrUnknown(data['http_port']!, _http_portMeta),
+      );
+    }
+    if (data.containsKey('http_cookie')) {
+      context.handle(
+        _http_cookieMeta,
+        http_cookie.isAcceptableOrUnknown(
+          data['http_cookie']!,
+          _http_cookieMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_http_cookieMeta);
+    }
     if (data.containsKey('last_sync')) {
       context.handle(
         _lastSyncMeta,
         lastSync.isAcceptableOrUnknown(data['last_sync']!, _lastSyncMeta),
       );
-    } else if (isInserting) {
-      context.missing(_lastSyncMeta);
     }
     if (data.containsKey('accepted')) {
       context.handle(
@@ -1541,23 +1198,15 @@ class $HttpClientPairingsTable extends HttpClientPairings
         accepted.isAcceptableOrUnknown(data['accepted']!, _acceptedMeta),
       );
     }
-    if (data.containsKey('token')) {
-      context.handle(
-        _tokenMeta,
-        token.isAcceptableOrUnknown(data['token']!, _tokenMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_tokenMeta);
-    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  HttpClientPairing map(Map<String, dynamic> data, {String? tablePrefix}) {
+  RemoteTerminal map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return HttpClientPairing(
+    return RemoteTerminal(
       id:
           attachedDatabase.typeMapping.read(
             DriftSqlType.string,
@@ -1568,76 +1217,107 @@ class $HttpClientPairingsTable extends HttpClientPairings
             DriftSqlType.string,
             data['${effectivePrefix}nick'],
           )!,
-      lastSync:
+      http_host: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}http_host'],
+      ),
+      http_port: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}http_port'],
+      ),
+      http_cookie:
           attachedDatabase.typeMapping.read(
             DriftSqlType.string,
-            data['${effectivePrefix}last_sync'],
+            data['${effectivePrefix}http_cookie'],
           )!,
+      lastSync: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_sync'],
+      ),
       accepted:
           attachedDatabase.typeMapping.read(
             DriftSqlType.bool,
             data['${effectivePrefix}accepted'],
           )!,
-      token:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}token'],
-          )!,
     );
   }
 
   @override
-  $HttpClientPairingsTable createAlias(String alias) {
-    return $HttpClientPairingsTable(attachedDatabase, alias);
+  $RemoteTerminalsTable createAlias(String alias) {
+    return $RemoteTerminalsTable(attachedDatabase, alias);
   }
 }
 
-class HttpClientPairing extends DataClass
-    implements Insertable<HttpClientPairing> {
+class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   final String id;
   final String nick;
-  final String lastSync;
+  final String? http_host;
+  final String? http_port;
+  final String http_cookie;
+  final String? lastSync;
   final bool accepted;
-  final String token;
-  const HttpClientPairing({
+  const RemoteTerminal({
     required this.id,
     required this.nick,
-    required this.lastSync,
+    this.http_host,
+    this.http_port,
+    required this.http_cookie,
+    this.lastSync,
     required this.accepted,
-    required this.token,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['nick'] = Variable<String>(nick);
-    map['last_sync'] = Variable<String>(lastSync);
+    if (!nullToAbsent || http_host != null) {
+      map['http_host'] = Variable<String>(http_host);
+    }
+    if (!nullToAbsent || http_port != null) {
+      map['http_port'] = Variable<String>(http_port);
+    }
+    map['http_cookie'] = Variable<String>(http_cookie);
+    if (!nullToAbsent || lastSync != null) {
+      map['last_sync'] = Variable<String>(lastSync);
+    }
     map['accepted'] = Variable<bool>(accepted);
-    map['token'] = Variable<String>(token);
     return map;
   }
 
-  HttpClientPairingsCompanion toCompanion(bool nullToAbsent) {
-    return HttpClientPairingsCompanion(
+  RemoteTerminalsCompanion toCompanion(bool nullToAbsent) {
+    return RemoteTerminalsCompanion(
       id: Value(id),
       nick: Value(nick),
-      lastSync: Value(lastSync),
+      http_host:
+          http_host == null && nullToAbsent
+              ? const Value.absent()
+              : Value(http_host),
+      http_port:
+          http_port == null && nullToAbsent
+              ? const Value.absent()
+              : Value(http_port),
+      http_cookie: Value(http_cookie),
+      lastSync:
+          lastSync == null && nullToAbsent
+              ? const Value.absent()
+              : Value(lastSync),
       accepted: Value(accepted),
-      token: Value(token),
     );
   }
 
-  factory HttpClientPairing.fromJson(
+  factory RemoteTerminal.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return HttpClientPairing(
+    return RemoteTerminal(
       id: serializer.fromJson<String>(json['id']),
       nick: serializer.fromJson<String>(json['nick']),
-      lastSync: serializer.fromJson<String>(json['lastSync']),
+      http_host: serializer.fromJson<String?>(json['http_host']),
+      http_port: serializer.fromJson<String?>(json['http_port']),
+      http_cookie: serializer.fromJson<String>(json['http_cookie']),
+      lastSync: serializer.fromJson<String?>(json['lastSync']),
       accepted: serializer.fromJson<bool>(json['accepted']),
-      token: serializer.fromJson<String>(json['token']),
     );
   }
   @override
@@ -1646,117 +1326,152 @@ class HttpClientPairing extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'nick': serializer.toJson<String>(nick),
-      'lastSync': serializer.toJson<String>(lastSync),
+      'http_host': serializer.toJson<String?>(http_host),
+      'http_port': serializer.toJson<String?>(http_port),
+      'http_cookie': serializer.toJson<String>(http_cookie),
+      'lastSync': serializer.toJson<String?>(lastSync),
       'accepted': serializer.toJson<bool>(accepted),
-      'token': serializer.toJson<String>(token),
     };
   }
 
-  HttpClientPairing copyWith({
+  RemoteTerminal copyWith({
     String? id,
     String? nick,
-    String? lastSync,
+    Value<String?> http_host = const Value.absent(),
+    Value<String?> http_port = const Value.absent(),
+    String? http_cookie,
+    Value<String?> lastSync = const Value.absent(),
     bool? accepted,
-    String? token,
-  }) => HttpClientPairing(
+  }) => RemoteTerminal(
     id: id ?? this.id,
     nick: nick ?? this.nick,
-    lastSync: lastSync ?? this.lastSync,
+    http_host: http_host.present ? http_host.value : this.http_host,
+    http_port: http_port.present ? http_port.value : this.http_port,
+    http_cookie: http_cookie ?? this.http_cookie,
+    lastSync: lastSync.present ? lastSync.value : this.lastSync,
     accepted: accepted ?? this.accepted,
-    token: token ?? this.token,
   );
-  HttpClientPairing copyWithCompanion(HttpClientPairingsCompanion data) {
-    return HttpClientPairing(
+  RemoteTerminal copyWithCompanion(RemoteTerminalsCompanion data) {
+    return RemoteTerminal(
       id: data.id.present ? data.id.value : this.id,
       nick: data.nick.present ? data.nick.value : this.nick,
+      http_host: data.http_host.present ? data.http_host.value : this.http_host,
+      http_port: data.http_port.present ? data.http_port.value : this.http_port,
+      http_cookie:
+          data.http_cookie.present ? data.http_cookie.value : this.http_cookie,
       lastSync: data.lastSync.present ? data.lastSync.value : this.lastSync,
       accepted: data.accepted.present ? data.accepted.value : this.accepted,
-      token: data.token.present ? data.token.value : this.token,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('HttpClientPairing(')
+    return (StringBuffer('RemoteTerminal(')
           ..write('id: $id, ')
           ..write('nick: $nick, ')
+          ..write('http_host: $http_host, ')
+          ..write('http_port: $http_port, ')
+          ..write('http_cookie: $http_cookie, ')
           ..write('lastSync: $lastSync, ')
-          ..write('accepted: $accepted, ')
-          ..write('token: $token')
+          ..write('accepted: $accepted')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, nick, lastSync, accepted, token);
+  int get hashCode => Object.hash(
+    id,
+    nick,
+    http_host,
+    http_port,
+    http_cookie,
+    lastSync,
+    accepted,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is HttpClientPairing &&
+      (other is RemoteTerminal &&
           other.id == this.id &&
           other.nick == this.nick &&
+          other.http_host == this.http_host &&
+          other.http_port == this.http_port &&
+          other.http_cookie == this.http_cookie &&
           other.lastSync == this.lastSync &&
-          other.accepted == this.accepted &&
-          other.token == this.token);
+          other.accepted == this.accepted);
 }
 
-class HttpClientPairingsCompanion extends UpdateCompanion<HttpClientPairing> {
+class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   final Value<String> id;
   final Value<String> nick;
-  final Value<String> lastSync;
+  final Value<String?> http_host;
+  final Value<String?> http_port;
+  final Value<String> http_cookie;
+  final Value<String?> lastSync;
   final Value<bool> accepted;
-  final Value<String> token;
   final Value<int> rowid;
-  const HttpClientPairingsCompanion({
+  const RemoteTerminalsCompanion({
     this.id = const Value.absent(),
     this.nick = const Value.absent(),
+    this.http_host = const Value.absent(),
+    this.http_port = const Value.absent(),
+    this.http_cookie = const Value.absent(),
     this.lastSync = const Value.absent(),
     this.accepted = const Value.absent(),
-    this.token = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  HttpClientPairingsCompanion.insert({
-    this.id = const Value.absent(),
+  RemoteTerminalsCompanion.insert({
+    required String id,
     required String nick,
-    required String lastSync,
+    this.http_host = const Value.absent(),
+    this.http_port = const Value.absent(),
+    required String http_cookie,
+    this.lastSync = const Value.absent(),
     this.accepted = const Value.absent(),
-    required String token,
     this.rowid = const Value.absent(),
-  }) : nick = Value(nick),
-       lastSync = Value(lastSync),
-       token = Value(token);
-  static Insertable<HttpClientPairing> custom({
+  }) : id = Value(id),
+       nick = Value(nick),
+       http_cookie = Value(http_cookie);
+  static Insertable<RemoteTerminal> custom({
     Expression<String>? id,
     Expression<String>? nick,
+    Expression<String>? http_host,
+    Expression<String>? http_port,
+    Expression<String>? http_cookie,
     Expression<String>? lastSync,
     Expression<bool>? accepted,
-    Expression<String>? token,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (nick != null) 'nick': nick,
+      if (http_host != null) 'http_host': http_host,
+      if (http_port != null) 'http_port': http_port,
+      if (http_cookie != null) 'http_cookie': http_cookie,
       if (lastSync != null) 'last_sync': lastSync,
       if (accepted != null) 'accepted': accepted,
-      if (token != null) 'token': token,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  HttpClientPairingsCompanion copyWith({
+  RemoteTerminalsCompanion copyWith({
     Value<String>? id,
     Value<String>? nick,
-    Value<String>? lastSync,
+    Value<String?>? http_host,
+    Value<String?>? http_port,
+    Value<String>? http_cookie,
+    Value<String?>? lastSync,
     Value<bool>? accepted,
-    Value<String>? token,
     Value<int>? rowid,
   }) {
-    return HttpClientPairingsCompanion(
+    return RemoteTerminalsCompanion(
       id: id ?? this.id,
       nick: nick ?? this.nick,
+      http_host: http_host ?? this.http_host,
+      http_port: http_port ?? this.http_port,
+      http_cookie: http_cookie ?? this.http_cookie,
       lastSync: lastSync ?? this.lastSync,
       accepted: accepted ?? this.accepted,
-      token: token ?? this.token,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1770,14 +1485,20 @@ class HttpClientPairingsCompanion extends UpdateCompanion<HttpClientPairing> {
     if (nick.present) {
       map['nick'] = Variable<String>(nick.value);
     }
+    if (http_host.present) {
+      map['http_host'] = Variable<String>(http_host.value);
+    }
+    if (http_port.present) {
+      map['http_port'] = Variable<String>(http_port.value);
+    }
+    if (http_cookie.present) {
+      map['http_cookie'] = Variable<String>(http_cookie.value);
+    }
     if (lastSync.present) {
       map['last_sync'] = Variable<String>(lastSync.value);
     }
     if (accepted.present) {
       map['accepted'] = Variable<bool>(accepted.value);
-    }
-    if (token.present) {
-      map['token'] = Variable<String>(token.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1787,12 +1508,14 @@ class HttpClientPairingsCompanion extends UpdateCompanion<HttpClientPairing> {
 
   @override
   String toString() {
-    return (StringBuffer('HttpClientPairingsCompanion(')
+    return (StringBuffer('RemoteTerminalsCompanion(')
           ..write('id: $id, ')
           ..write('nick: $nick, ')
+          ..write('http_host: $http_host, ')
+          ..write('http_port: $http_port, ')
+          ..write('http_cookie: $http_cookie, ')
           ..write('lastSync: $lastSync, ')
           ..write('accepted: $accepted, ')
-          ..write('token: $token, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1808,10 +1531,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $ProductsTable products = $ProductsTable(this);
   late final $RecipeProductsTable recipeProducts = $RecipeProductsTable(this);
-  late final $HttpServerPairingsTable httpServerPairings =
-      $HttpServerPairingsTable(this);
-  late final $HttpClientPairingsTable httpClientPairings =
-      $HttpClientPairingsTable(this);
+  late final $RemoteTerminalsTable remoteTerminals = $RemoteTerminalsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1821,8 +1543,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     scheduleEntries,
     products,
     recipeProducts,
-    httpServerPairings,
-    httpClientPairings,
+    remoteTerminals,
   ];
 }
 
@@ -3142,30 +2863,32 @@ typedef $$RecipeProductsTableProcessedTableManager =
       RecipeProduct,
       PrefetchHooks Function({bool recipeId, bool productId})
     >;
-typedef $$HttpServerPairingsTableCreateCompanionBuilder =
-    HttpServerPairingsCompanion Function({
-      Value<String> id,
+typedef $$RemoteTerminalsTableCreateCompanionBuilder =
+    RemoteTerminalsCompanion Function({
+      required String id,
       required String nick,
-      required String host,
-      Value<int> port,
-      required String lastSync,
-      required String token,
+      Value<String?> http_host,
+      Value<String?> http_port,
+      required String http_cookie,
+      Value<String?> lastSync,
+      Value<bool> accepted,
       Value<int> rowid,
     });
-typedef $$HttpServerPairingsTableUpdateCompanionBuilder =
-    HttpServerPairingsCompanion Function({
+typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
+    RemoteTerminalsCompanion Function({
       Value<String> id,
       Value<String> nick,
-      Value<String> host,
-      Value<int> port,
-      Value<String> lastSync,
-      Value<String> token,
+      Value<String?> http_host,
+      Value<String?> http_port,
+      Value<String> http_cookie,
+      Value<String?> lastSync,
+      Value<bool> accepted,
       Value<int> rowid,
     });
 
-class $$HttpServerPairingsTableFilterComposer
-    extends Composer<_$AppDatabase, $HttpServerPairingsTable> {
-  $$HttpServerPairingsTableFilterComposer({
+class $$RemoteTerminalsTableFilterComposer
+    extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
+  $$RemoteTerminalsTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -3182,246 +2905,18 @@ class $$HttpServerPairingsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get host => $composableBuilder(
-    column: $table.host,
+  ColumnFilters<String> get http_host => $composableBuilder(
+    column: $table.http_host,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get port => $composableBuilder(
-    column: $table.port,
+  ColumnFilters<String> get http_port => $composableBuilder(
+    column: $table.http_port,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get lastSync => $composableBuilder(
-    column: $table.lastSync,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get token => $composableBuilder(
-    column: $table.token,
-    builder: (column) => ColumnFilters(column),
-  );
-}
-
-class $$HttpServerPairingsTableOrderingComposer
-    extends Composer<_$AppDatabase, $HttpServerPairingsTable> {
-  $$HttpServerPairingsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get nick => $composableBuilder(
-    column: $table.nick,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get host => $composableBuilder(
-    column: $table.host,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get port => $composableBuilder(
-    column: $table.port,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get lastSync => $composableBuilder(
-    column: $table.lastSync,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get token => $composableBuilder(
-    column: $table.token,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$HttpServerPairingsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $HttpServerPairingsTable> {
-  $$HttpServerPairingsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<String> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get nick =>
-      $composableBuilder(column: $table.nick, builder: (column) => column);
-
-  GeneratedColumn<String> get host =>
-      $composableBuilder(column: $table.host, builder: (column) => column);
-
-  GeneratedColumn<int> get port =>
-      $composableBuilder(column: $table.port, builder: (column) => column);
-
-  GeneratedColumn<String> get lastSync =>
-      $composableBuilder(column: $table.lastSync, builder: (column) => column);
-
-  GeneratedColumn<String> get token =>
-      $composableBuilder(column: $table.token, builder: (column) => column);
-}
-
-class $$HttpServerPairingsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $HttpServerPairingsTable,
-          HttpServerPairing,
-          $$HttpServerPairingsTableFilterComposer,
-          $$HttpServerPairingsTableOrderingComposer,
-          $$HttpServerPairingsTableAnnotationComposer,
-          $$HttpServerPairingsTableCreateCompanionBuilder,
-          $$HttpServerPairingsTableUpdateCompanionBuilder,
-          (
-            HttpServerPairing,
-            BaseReferences<
-              _$AppDatabase,
-              $HttpServerPairingsTable,
-              HttpServerPairing
-            >,
-          ),
-          HttpServerPairing,
-          PrefetchHooks Function()
-        > {
-  $$HttpServerPairingsTableTableManager(
-    _$AppDatabase db,
-    $HttpServerPairingsTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer:
-              () => $$HttpServerPairingsTableFilterComposer(
-                $db: db,
-                $table: table,
-              ),
-          createOrderingComposer:
-              () => $$HttpServerPairingsTableOrderingComposer(
-                $db: db,
-                $table: table,
-              ),
-          createComputedFieldComposer:
-              () => $$HttpServerPairingsTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> nick = const Value.absent(),
-                Value<String> host = const Value.absent(),
-                Value<int> port = const Value.absent(),
-                Value<String> lastSync = const Value.absent(),
-                Value<String> token = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => HttpServerPairingsCompanion(
-                id: id,
-                nick: nick,
-                host: host,
-                port: port,
-                lastSync: lastSync,
-                token: token,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                required String nick,
-                required String host,
-                Value<int> port = const Value.absent(),
-                required String lastSync,
-                required String token,
-                Value<int> rowid = const Value.absent(),
-              }) => HttpServerPairingsCompanion.insert(
-                id: id,
-                nick: nick,
-                host: host,
-                port: port,
-                lastSync: lastSync,
-                token: token,
-                rowid: rowid,
-              ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable(table),
-                          BaseReferences(db, table, e),
-                        ),
-                      )
-                      .toList(),
-          prefetchHooksCallback: null,
-        ),
-      );
-}
-
-typedef $$HttpServerPairingsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $HttpServerPairingsTable,
-      HttpServerPairing,
-      $$HttpServerPairingsTableFilterComposer,
-      $$HttpServerPairingsTableOrderingComposer,
-      $$HttpServerPairingsTableAnnotationComposer,
-      $$HttpServerPairingsTableCreateCompanionBuilder,
-      $$HttpServerPairingsTableUpdateCompanionBuilder,
-      (
-        HttpServerPairing,
-        BaseReferences<
-          _$AppDatabase,
-          $HttpServerPairingsTable,
-          HttpServerPairing
-        >,
-      ),
-      HttpServerPairing,
-      PrefetchHooks Function()
-    >;
-typedef $$HttpClientPairingsTableCreateCompanionBuilder =
-    HttpClientPairingsCompanion Function({
-      Value<String> id,
-      required String nick,
-      required String lastSync,
-      Value<bool> accepted,
-      required String token,
-      Value<int> rowid,
-    });
-typedef $$HttpClientPairingsTableUpdateCompanionBuilder =
-    HttpClientPairingsCompanion Function({
-      Value<String> id,
-      Value<String> nick,
-      Value<String> lastSync,
-      Value<bool> accepted,
-      Value<String> token,
-      Value<int> rowid,
-    });
-
-class $$HttpClientPairingsTableFilterComposer
-    extends Composer<_$AppDatabase, $HttpClientPairingsTable> {
-  $$HttpClientPairingsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get nick => $composableBuilder(
-    column: $table.nick,
+  ColumnFilters<String> get http_cookie => $composableBuilder(
+    column: $table.http_cookie,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3434,16 +2929,11 @@ class $$HttpClientPairingsTableFilterComposer
     column: $table.accepted,
     builder: (column) => ColumnFilters(column),
   );
-
-  ColumnFilters<String> get token => $composableBuilder(
-    column: $table.token,
-    builder: (column) => ColumnFilters(column),
-  );
 }
 
-class $$HttpClientPairingsTableOrderingComposer
-    extends Composer<_$AppDatabase, $HttpClientPairingsTable> {
-  $$HttpClientPairingsTableOrderingComposer({
+class $$RemoteTerminalsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
+  $$RemoteTerminalsTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -3460,6 +2950,21 @@ class $$HttpClientPairingsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get http_host => $composableBuilder(
+    column: $table.http_host,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get http_port => $composableBuilder(
+    column: $table.http_port,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get http_cookie => $composableBuilder(
+    column: $table.http_cookie,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get lastSync => $composableBuilder(
     column: $table.lastSync,
     builder: (column) => ColumnOrderings(column),
@@ -3469,16 +2974,11 @@ class $$HttpClientPairingsTableOrderingComposer
     column: $table.accepted,
     builder: (column) => ColumnOrderings(column),
   );
-
-  ColumnOrderings<String> get token => $composableBuilder(
-    column: $table.token,
-    builder: (column) => ColumnOrderings(column),
-  );
 }
 
-class $$HttpClientPairingsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $HttpClientPairingsTable> {
-  $$HttpClientPairingsTableAnnotationComposer({
+class $$RemoteTerminalsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
+  $$RemoteTerminalsTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -3491,57 +2991,63 @@ class $$HttpClientPairingsTableAnnotationComposer
   GeneratedColumn<String> get nick =>
       $composableBuilder(column: $table.nick, builder: (column) => column);
 
+  GeneratedColumn<String> get http_host =>
+      $composableBuilder(column: $table.http_host, builder: (column) => column);
+
+  GeneratedColumn<String> get http_port =>
+      $composableBuilder(column: $table.http_port, builder: (column) => column);
+
+  GeneratedColumn<String> get http_cookie => $composableBuilder(
+    column: $table.http_cookie,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<String> get lastSync =>
       $composableBuilder(column: $table.lastSync, builder: (column) => column);
 
   GeneratedColumn<bool> get accepted =>
       $composableBuilder(column: $table.accepted, builder: (column) => column);
-
-  GeneratedColumn<String> get token =>
-      $composableBuilder(column: $table.token, builder: (column) => column);
 }
 
-class $$HttpClientPairingsTableTableManager
+class $$RemoteTerminalsTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $HttpClientPairingsTable,
-          HttpClientPairing,
-          $$HttpClientPairingsTableFilterComposer,
-          $$HttpClientPairingsTableOrderingComposer,
-          $$HttpClientPairingsTableAnnotationComposer,
-          $$HttpClientPairingsTableCreateCompanionBuilder,
-          $$HttpClientPairingsTableUpdateCompanionBuilder,
+          $RemoteTerminalsTable,
+          RemoteTerminal,
+          $$RemoteTerminalsTableFilterComposer,
+          $$RemoteTerminalsTableOrderingComposer,
+          $$RemoteTerminalsTableAnnotationComposer,
+          $$RemoteTerminalsTableCreateCompanionBuilder,
+          $$RemoteTerminalsTableUpdateCompanionBuilder,
           (
-            HttpClientPairing,
+            RemoteTerminal,
             BaseReferences<
               _$AppDatabase,
-              $HttpClientPairingsTable,
-              HttpClientPairing
+              $RemoteTerminalsTable,
+              RemoteTerminal
             >,
           ),
-          HttpClientPairing,
+          RemoteTerminal,
           PrefetchHooks Function()
         > {
-  $$HttpClientPairingsTableTableManager(
+  $$RemoteTerminalsTableTableManager(
     _$AppDatabase db,
-    $HttpClientPairingsTable table,
+    $RemoteTerminalsTable table,
   ) : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer:
-              () => $$HttpClientPairingsTableFilterComposer(
-                $db: db,
-                $table: table,
-              ),
+              () =>
+                  $$RemoteTerminalsTableFilterComposer($db: db, $table: table),
           createOrderingComposer:
-              () => $$HttpClientPairingsTableOrderingComposer(
+              () => $$RemoteTerminalsTableOrderingComposer(
                 $db: db,
                 $table: table,
               ),
           createComputedFieldComposer:
-              () => $$HttpClientPairingsTableAnnotationComposer(
+              () => $$RemoteTerminalsTableAnnotationComposer(
                 $db: db,
                 $table: table,
               ),
@@ -3549,32 +3055,40 @@ class $$HttpClientPairingsTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> nick = const Value.absent(),
-                Value<String> lastSync = const Value.absent(),
+                Value<String?> http_host = const Value.absent(),
+                Value<String?> http_port = const Value.absent(),
+                Value<String> http_cookie = const Value.absent(),
+                Value<String?> lastSync = const Value.absent(),
                 Value<bool> accepted = const Value.absent(),
-                Value<String> token = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => HttpClientPairingsCompanion(
+              }) => RemoteTerminalsCompanion(
                 id: id,
                 nick: nick,
+                http_host: http_host,
+                http_port: http_port,
+                http_cookie: http_cookie,
                 lastSync: lastSync,
                 accepted: accepted,
-                token: token,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                Value<String> id = const Value.absent(),
+                required String id,
                 required String nick,
-                required String lastSync,
+                Value<String?> http_host = const Value.absent(),
+                Value<String?> http_port = const Value.absent(),
+                required String http_cookie,
+                Value<String?> lastSync = const Value.absent(),
                 Value<bool> accepted = const Value.absent(),
-                required String token,
                 Value<int> rowid = const Value.absent(),
-              }) => HttpClientPairingsCompanion.insert(
+              }) => RemoteTerminalsCompanion.insert(
                 id: id,
                 nick: nick,
+                http_host: http_host,
+                http_port: http_port,
+                http_cookie: http_cookie,
                 lastSync: lastSync,
                 accepted: accepted,
-                token: token,
                 rowid: rowid,
               ),
           withReferenceMapper:
@@ -3592,25 +3106,21 @@ class $$HttpClientPairingsTableTableManager
       );
 }
 
-typedef $$HttpClientPairingsTableProcessedTableManager =
+typedef $$RemoteTerminalsTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $HttpClientPairingsTable,
-      HttpClientPairing,
-      $$HttpClientPairingsTableFilterComposer,
-      $$HttpClientPairingsTableOrderingComposer,
-      $$HttpClientPairingsTableAnnotationComposer,
-      $$HttpClientPairingsTableCreateCompanionBuilder,
-      $$HttpClientPairingsTableUpdateCompanionBuilder,
+      $RemoteTerminalsTable,
+      RemoteTerminal,
+      $$RemoteTerminalsTableFilterComposer,
+      $$RemoteTerminalsTableOrderingComposer,
+      $$RemoteTerminalsTableAnnotationComposer,
+      $$RemoteTerminalsTableCreateCompanionBuilder,
+      $$RemoteTerminalsTableUpdateCompanionBuilder,
       (
-        HttpClientPairing,
-        BaseReferences<
-          _$AppDatabase,
-          $HttpClientPairingsTable,
-          HttpClientPairing
-        >,
+        RemoteTerminal,
+        BaseReferences<_$AppDatabase, $RemoteTerminalsTable, RemoteTerminal>,
       ),
-      HttpClientPairing,
+      RemoteTerminal,
       PrefetchHooks Function()
     >;
 
@@ -3625,8 +3135,6 @@ class $AppDatabaseManager {
       $$ProductsTableTableManager(_db, _db.products);
   $$RecipeProductsTableTableManager get recipeProducts =>
       $$RecipeProductsTableTableManager(_db, _db.recipeProducts);
-  $$HttpServerPairingsTableTableManager get httpServerPairings =>
-      $$HttpServerPairingsTableTableManager(_db, _db.httpServerPairings);
-  $$HttpClientPairingsTableTableManager get httpClientPairings =>
-      $$HttpClientPairingsTableTableManager(_db, _db.httpClientPairings);
+  $$RemoteTerminalsTableTableManager get remoteTerminals =>
+      $$RemoteTerminalsTableTableManager(_db, _db.remoteTerminals);
 }

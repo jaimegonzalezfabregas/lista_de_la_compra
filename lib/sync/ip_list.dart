@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jhopping_list/utils/loading_box.dart';
 
 class IpList extends StatefulWidget {
   const IpList({super.key});
@@ -21,6 +20,7 @@ class _IpListState extends State<IpList> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               for (var interface in snapshot.data!)
                 for (var address in interface.addresses)
@@ -41,7 +41,7 @@ class _IpListState extends State<IpList> {
             ],
           );
         }
-        return const LoadingBox();
+        return Text("Cargando direcciones IP...");
       },
     );
   }

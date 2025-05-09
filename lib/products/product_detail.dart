@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/products/product_provider.dart';
+import 'package:jhopping_list/providers/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
-import 'package:jhopping_list/recipies/recipe_provider.dart';
-import 'package:jhopping_list/utils/loading_box.dart';
+import 'package:jhopping_list/providers/recipe_provider.dart';
+import 'package:jhopping_list/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 // todo

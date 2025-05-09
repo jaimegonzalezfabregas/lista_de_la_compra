@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/products/product_provider.dart';
+import 'package:jhopping_list/providers/product_provider.dart';
 import 'package:jhopping_list/recipies/recipe_detail.dart';
-import 'package:jhopping_list/recipies/recipe_provider.dart';
+import 'package:jhopping_list/providers/recipe_provider.dart';
 import 'package:jhopping_list/schedule/choose_recipe.dart';
-import 'package:jhopping_list/schedule/schedule_provider.dart';
-import 'package:jhopping_list/utils/loading_box.dart';
+import 'package:jhopping_list/providers/schedule_provider.dart';
+import 'package:jhopping_list/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 const List<String> weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];

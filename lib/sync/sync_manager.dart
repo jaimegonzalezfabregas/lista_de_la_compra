@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/db/database.dart';
+import 'package:jhopping_list/providers/shared_preferences_provider.dart';
 import 'package:jhopping_list/sync/http_widget.dart';
-import 'package:jhopping_list/sync/pairing_provider.dart';
 import 'package:jhopping_list/sync/past_pairings_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +18,6 @@ class _SyncManagerState extends State<SyncManager> {
 
   @override
   Widget build(BuildContext context) {
-    PairingProvider pairingProvider = context.watch();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Sincronización", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer)),
@@ -36,8 +33,9 @@ class _SyncManagerState extends State<SyncManager> {
               padding: const EdgeInsets.all(8.0),
               child: Builder(
                 builder: (context) {
+                  SharedPreferencesProvider sharedPreferencesProvider = context.watch();
                   var nickTextController = TextEditingController();
-                  pairingProvider.getLocalNick().then((value) {
+                  sharedPreferencesProvider.getLocalNick().then((value) {
                     nickTextController.text = value ?? "";
                   });
 
@@ -54,7 +52,7 @@ class _SyncManagerState extends State<SyncManager> {
                         icon: Icon(Icons.save),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Nick guardado")));
-                          pairingProvider.setLocalNick(nickTextController.text);
+                          sharedPreferencesProvider.setLocalNick(nickTextController.text);
                         },
                       ),
                     ],
@@ -67,9 +65,11 @@ class _SyncManagerState extends State<SyncManager> {
               padding: const EdgeInsets.all(8.0),
               child: Builder(
                 builder: (context) {
+                  SharedPreferencesProvider sharedPreferencesProvider = context.watch();
+
                   var roomKeyTextController = TextEditingController();
 
-                  pairingProvider.getRoomKey().then((value) {
+                  sharedPreferencesProvider.getRoomKey().then((value) {
                     roomKeyTextController.text = value ?? "";
                   });
                   return Row(
@@ -83,7 +83,7 @@ class _SyncManagerState extends State<SyncManager> {
                       IconButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Clave de sala guardada")));
-                          pairingProvider.setRoomKey(roomKeyTextController.text);
+                          sharedPreferencesProvider.setRoomKey(roomKeyTextController.text);
                         },
                         icon: Icon(Icons.save),
                       ),
@@ -98,8 +98,8 @@ class _SyncManagerState extends State<SyncManager> {
             ),
 
             Text("Emparejamientos pasados", style: Theme.of(context).textTheme.titleSmall),
-            PastPairingsWidget(),
-          
+            RemoteTerminalList(),
+
             ExpansionTile(title: Text("Sincronización HTTP"), children: [HTTPManageWidget()]),
             ExpansionTile(title: Text("Sincronización MQTT"), children: []),
           ],
