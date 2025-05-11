@@ -6,8 +6,8 @@ import 'package:jhopping_list/recipies/recipe_detail.dart';
 import 'package:jhopping_list/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
-class RecipeManager extends StatelessWidget {
-  const RecipeManager({super.key});
+class RecipeView extends StatelessWidget {
+  const RecipeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class RecipeManager extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: FutureBuilder(
-        future: state.getRecipeList(),
+        future: state.getDisplayRecipeList(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return LoadingBox();

@@ -35,7 +35,7 @@ class ChooseRecipe extends StatelessWidget {
         ],
       ),
       body: FutureBuilder(
-        future: recipeProvider.getRecipeList(),
+        future: recipeProvider.getDisplayRecipeList(),
 
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

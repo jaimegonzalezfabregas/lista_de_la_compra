@@ -28,8 +28,31 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    clientDefault: () => DateTime.now().millisecondsSinceEpoch,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<int> deletedAt = GeneratedColumn<int>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, updatedAt, deletedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -53,6 +76,18 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
     return context;
   }
 
@@ -72,6 +107,15 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
             DriftSqlType.string,
             data['${effectivePrefix}name'],
           )!,
+      updatedAt:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}updated_at'],
+          )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deleted_at'],
+      ),
     );
   }
 
@@ -84,17 +128,36 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
 class Recipe extends DataClass implements Insertable<Recipe> {
   final String id;
   final String name;
-  const Recipe({required this.id, required this.name});
+  final int updatedAt;
+  final int? deletedAt;
+  const Recipe({
+    required this.id,
+    required this.name,
+    required this.updatedAt,
+    this.deletedAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
+    map['updated_at'] = Variable<int>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<int>(deletedAt);
+    }
     return map;
   }
 
   RecipesCompanion toCompanion(bool nullToAbsent) {
-    return RecipesCompanion(id: Value(id), name: Value(name));
+    return RecipesCompanion(
+      id: Value(id),
+      name: Value(name),
+      updatedAt: Value(updatedAt),
+      deletedAt:
+          deletedAt == null && nullToAbsent
+              ? const Value.absent()
+              : Value(deletedAt),
+    );
   }
 
   factory Recipe.fromJson(
@@ -105,6 +168,8 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     return Recipe(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      deletedAt: serializer.fromJson<int?>(json['deletedAt']),
     );
   }
   @override
@@ -113,15 +178,28 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'deletedAt': serializer.toJson<int?>(deletedAt),
     };
   }
 
-  Recipe copyWith({String? id, String? name}) =>
-      Recipe(id: id ?? this.id, name: name ?? this.name);
+  Recipe copyWith({
+    String? id,
+    String? name,
+    int? updatedAt,
+    Value<int?> deletedAt = const Value.absent(),
+  }) => Recipe(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+  );
   Recipe copyWithCompanion(RecipesCompanion data) {
     return Recipe(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
     );
   }
 
@@ -129,41 +207,57 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   String toString() {
     return (StringBuffer('Recipe(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(id, name, updatedAt, deletedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Recipe && other.id == this.id && other.name == this.name);
+      (other is Recipe &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt);
 }
 
 class RecipesCompanion extends UpdateCompanion<Recipe> {
   final Value<String> id;
   final Value<String> name;
+  final Value<int> updatedAt;
+  final Value<int?> deletedAt;
   final Value<int> rowid;
   const RecipesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RecipesCompanion.insert({
     this.id = const Value.absent(),
     required String name,
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : name = Value(name);
   static Insertable<Recipe> custom({
     Expression<String>? id,
     Expression<String>? name,
+    Expression<int>? updatedAt,
+    Expression<int>? deletedAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -171,11 +265,15 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
   RecipesCompanion copyWith({
     Value<String>? id,
     Value<String>? name,
+    Value<int>? updatedAt,
+    Value<int?>? deletedAt,
     Value<int>? rowid,
   }) {
     return RecipesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -189,6 +287,12 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<int>(deletedAt.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -200,6 +304,8 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     return (StringBuffer('RecipesCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -254,8 +360,38 @@ class $ScheduleEntriesTable extends ScheduleEntries
       'REFERENCES recipes (id)',
     ),
   );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, week, day, recipeId];
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    clientDefault: () => DateTime.now().millisecondsSinceEpoch,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<int> deletedAt = GeneratedColumn<int>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    week,
+    day,
+    recipeId,
+    updatedAt,
+    deletedAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -295,6 +431,18 @@ class $ScheduleEntriesTable extends ScheduleEntries
     } else if (isInserting) {
       context.missing(_recipeIdMeta);
     }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
     return context;
   }
 
@@ -324,6 +472,15 @@ class $ScheduleEntriesTable extends ScheduleEntries
             DriftSqlType.string,
             data['${effectivePrefix}recipe_id'],
           )!,
+      updatedAt:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}updated_at'],
+          )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deleted_at'],
+      ),
     );
   }
 
@@ -338,11 +495,15 @@ class ScheduleEntry extends DataClass implements Insertable<ScheduleEntry> {
   final int week;
   final int day;
   final String recipeId;
+  final int updatedAt;
+  final int? deletedAt;
   const ScheduleEntry({
     required this.id,
     required this.week,
     required this.day,
     required this.recipeId,
+    required this.updatedAt,
+    this.deletedAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -351,6 +512,10 @@ class ScheduleEntry extends DataClass implements Insertable<ScheduleEntry> {
     map['week'] = Variable<int>(week);
     map['day'] = Variable<int>(day);
     map['recipe_id'] = Variable<String>(recipeId);
+    map['updated_at'] = Variable<int>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<int>(deletedAt);
+    }
     return map;
   }
 
@@ -360,6 +525,11 @@ class ScheduleEntry extends DataClass implements Insertable<ScheduleEntry> {
       week: Value(week),
       day: Value(day),
       recipeId: Value(recipeId),
+      updatedAt: Value(updatedAt),
+      deletedAt:
+          deletedAt == null && nullToAbsent
+              ? const Value.absent()
+              : Value(deletedAt),
     );
   }
 
@@ -373,6 +543,8 @@ class ScheduleEntry extends DataClass implements Insertable<ScheduleEntry> {
       week: serializer.fromJson<int>(json['week']),
       day: serializer.fromJson<int>(json['day']),
       recipeId: serializer.fromJson<String>(json['recipeId']),
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      deletedAt: serializer.fromJson<int?>(json['deletedAt']),
     );
   }
   @override
@@ -383,22 +555,34 @@ class ScheduleEntry extends DataClass implements Insertable<ScheduleEntry> {
       'week': serializer.toJson<int>(week),
       'day': serializer.toJson<int>(day),
       'recipeId': serializer.toJson<String>(recipeId),
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'deletedAt': serializer.toJson<int?>(deletedAt),
     };
   }
 
-  ScheduleEntry copyWith({String? id, int? week, int? day, String? recipeId}) =>
-      ScheduleEntry(
-        id: id ?? this.id,
-        week: week ?? this.week,
-        day: day ?? this.day,
-        recipeId: recipeId ?? this.recipeId,
-      );
+  ScheduleEntry copyWith({
+    String? id,
+    int? week,
+    int? day,
+    String? recipeId,
+    int? updatedAt,
+    Value<int?> deletedAt = const Value.absent(),
+  }) => ScheduleEntry(
+    id: id ?? this.id,
+    week: week ?? this.week,
+    day: day ?? this.day,
+    recipeId: recipeId ?? this.recipeId,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+  );
   ScheduleEntry copyWithCompanion(ScheduleEntriesCompanion data) {
     return ScheduleEntry(
       id: data.id.present ? data.id.value : this.id,
       week: data.week.present ? data.week.value : this.week,
       day: data.day.present ? data.day.value : this.day,
       recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
     );
   }
 
@@ -408,13 +592,16 @@ class ScheduleEntry extends DataClass implements Insertable<ScheduleEntry> {
           ..write('id: $id, ')
           ..write('week: $week, ')
           ..write('day: $day, ')
-          ..write('recipeId: $recipeId')
+          ..write('recipeId: $recipeId, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, week, day, recipeId);
+  int get hashCode =>
+      Object.hash(id, week, day, recipeId, updatedAt, deletedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -422,7 +609,9 @@ class ScheduleEntry extends DataClass implements Insertable<ScheduleEntry> {
           other.id == this.id &&
           other.week == this.week &&
           other.day == this.day &&
-          other.recipeId == this.recipeId);
+          other.recipeId == this.recipeId &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt);
 }
 
 class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
@@ -430,12 +619,16 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
   final Value<int> week;
   final Value<int> day;
   final Value<String> recipeId;
+  final Value<int> updatedAt;
+  final Value<int?> deletedAt;
   final Value<int> rowid;
   const ScheduleEntriesCompanion({
     this.id = const Value.absent(),
     this.week = const Value.absent(),
     this.day = const Value.absent(),
     this.recipeId = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ScheduleEntriesCompanion.insert({
@@ -443,6 +636,8 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
     required int week,
     required int day,
     required String recipeId,
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : week = Value(week),
        day = Value(day),
@@ -452,6 +647,8 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
     Expression<int>? week,
     Expression<int>? day,
     Expression<String>? recipeId,
+    Expression<int>? updatedAt,
+    Expression<int>? deletedAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -459,6 +656,8 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
       if (week != null) 'week': week,
       if (day != null) 'day': day,
       if (recipeId != null) 'recipe_id': recipeId,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -468,6 +667,8 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
     Value<int>? week,
     Value<int>? day,
     Value<String>? recipeId,
+    Value<int>? updatedAt,
+    Value<int?>? deletedAt,
     Value<int>? rowid,
   }) {
     return ScheduleEntriesCompanion(
@@ -475,6 +676,8 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
       week: week ?? this.week,
       day: day ?? this.day,
       recipeId: recipeId ?? this.recipeId,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -494,6 +697,12 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
     if (recipeId.present) {
       map['recipe_id'] = Variable<String>(recipeId.value);
     }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<int>(deletedAt.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -507,6 +716,8 @@ class ScheduleEntriesCompanion extends UpdateCompanion<ScheduleEntry> {
           ..write('week: $week, ')
           ..write('day: $day, ')
           ..write('recipeId: $recipeId, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -550,8 +761,37 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
       'CHECK ("needed" IN (0, 1))',
     ),
   );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, needed];
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    clientDefault: () => DateTime.now().millisecondsSinceEpoch,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<int> deletedAt = GeneratedColumn<int>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    needed,
+    updatedAt,
+    deletedAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -583,6 +823,18 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     } else if (isInserting) {
       context.missing(_neededMeta);
     }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
     return context;
   }
 
@@ -607,6 +859,15 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
             DriftSqlType.bool,
             data['${effectivePrefix}needed'],
           )!,
+      updatedAt:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}updated_at'],
+          )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deleted_at'],
+      ),
     );
   }
 
@@ -620,13 +881,25 @@ class Product extends DataClass implements Insertable<Product> {
   final String id;
   final String name;
   final bool needed;
-  const Product({required this.id, required this.name, required this.needed});
+  final int updatedAt;
+  final int? deletedAt;
+  const Product({
+    required this.id,
+    required this.name,
+    required this.needed,
+    required this.updatedAt,
+    this.deletedAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     map['needed'] = Variable<bool>(needed);
+    map['updated_at'] = Variable<int>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<int>(deletedAt);
+    }
     return map;
   }
 
@@ -635,6 +908,11 @@ class Product extends DataClass implements Insertable<Product> {
       id: Value(id),
       name: Value(name),
       needed: Value(needed),
+      updatedAt: Value(updatedAt),
+      deletedAt:
+          deletedAt == null && nullToAbsent
+              ? const Value.absent()
+              : Value(deletedAt),
     );
   }
 
@@ -647,6 +925,8 @@ class Product extends DataClass implements Insertable<Product> {
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       needed: serializer.fromJson<bool>(json['needed']),
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      deletedAt: serializer.fromJson<int?>(json['deletedAt']),
     );
   }
   @override
@@ -656,19 +936,31 @@ class Product extends DataClass implements Insertable<Product> {
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'needed': serializer.toJson<bool>(needed),
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'deletedAt': serializer.toJson<int?>(deletedAt),
     };
   }
 
-  Product copyWith({String? id, String? name, bool? needed}) => Product(
+  Product copyWith({
+    String? id,
+    String? name,
+    bool? needed,
+    int? updatedAt,
+    Value<int?> deletedAt = const Value.absent(),
+  }) => Product(
     id: id ?? this.id,
     name: name ?? this.name,
     needed: needed ?? this.needed,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
   );
   Product copyWithCompanion(ProductsCompanion data) {
     return Product(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       needed: data.needed.present ? data.needed.value : this.needed,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
     );
   }
 
@@ -677,37 +969,47 @@ class Product extends DataClass implements Insertable<Product> {
     return (StringBuffer('Product(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('needed: $needed')
+          ..write('needed: $needed, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, needed);
+  int get hashCode => Object.hash(id, name, needed, updatedAt, deletedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Product &&
           other.id == this.id &&
           other.name == this.name &&
-          other.needed == this.needed);
+          other.needed == this.needed &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt);
 }
 
 class ProductsCompanion extends UpdateCompanion<Product> {
   final Value<String> id;
   final Value<String> name;
   final Value<bool> needed;
+  final Value<int> updatedAt;
+  final Value<int?> deletedAt;
   final Value<int> rowid;
   const ProductsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.needed = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ProductsCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required bool needed,
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : name = Value(name),
        needed = Value(needed);
@@ -715,12 +1017,16 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     Expression<String>? id,
     Expression<String>? name,
     Expression<bool>? needed,
+    Expression<int>? updatedAt,
+    Expression<int>? deletedAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (needed != null) 'needed': needed,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -729,12 +1035,16 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     Value<String>? id,
     Value<String>? name,
     Value<bool>? needed,
+    Value<int>? updatedAt,
+    Value<int?>? deletedAt,
     Value<int>? rowid,
   }) {
     return ProductsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       needed: needed ?? this.needed,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -751,6 +1061,12 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     if (needed.present) {
       map['needed'] = Variable<bool>(needed.value);
     }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<int>(deletedAt.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -763,6 +1079,8 @@ class ProductsCompanion extends UpdateCompanion<Product> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('needed: $needed, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -775,6 +1093,16 @@ class $RecipeProductsTable extends RecipeProducts
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $RecipeProductsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    clientDefault: () => Uuid().v7(),
+  );
   static const VerificationMeta _recipeIdMeta = const VerificationMeta(
     'recipeId',
   );
@@ -812,8 +1140,38 @@ class $RecipeProductsTable extends RecipeProducts
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
-  List<GeneratedColumn> get $columns => [recipeId, productId, amount];
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    clientDefault: () => DateTime.now().millisecondsSinceEpoch,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<int> deletedAt = GeneratedColumn<int>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    recipeId,
+    productId,
+    amount,
+    updatedAt,
+    deletedAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -826,6 +1184,9 @@ class $RecipeProductsTable extends RecipeProducts
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
     if (data.containsKey('recipe_id')) {
       context.handle(
         _recipeIdMeta,
@@ -850,15 +1211,32 @@ class $RecipeProductsTable extends RecipeProducts
     } else if (isInserting) {
       context.missing(_amountMeta);
     }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {recipeId, productId};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   RecipeProduct map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RecipeProduct(
+      id:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}id'],
+          )!,
       recipeId:
           attachedDatabase.typeMapping.read(
             DriftSqlType.string,
@@ -874,6 +1252,15 @@ class $RecipeProductsTable extends RecipeProducts
             DriftSqlType.string,
             data['${effectivePrefix}amount'],
           )!,
+      updatedAt:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}updated_at'],
+          )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deleted_at'],
+      ),
     );
   }
 
@@ -884,28 +1271,45 @@ class $RecipeProductsTable extends RecipeProducts
 }
 
 class RecipeProduct extends DataClass implements Insertable<RecipeProduct> {
+  final String id;
   final String recipeId;
   final String productId;
   final String amount;
+  final int updatedAt;
+  final int? deletedAt;
   const RecipeProduct({
+    required this.id,
     required this.recipeId,
     required this.productId,
     required this.amount,
+    required this.updatedAt,
+    this.deletedAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
     map['recipe_id'] = Variable<String>(recipeId);
     map['product_id'] = Variable<String>(productId);
     map['amount'] = Variable<String>(amount);
+    map['updated_at'] = Variable<int>(updatedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<int>(deletedAt);
+    }
     return map;
   }
 
   RecipeProductsCompanion toCompanion(bool nullToAbsent) {
     return RecipeProductsCompanion(
+      id: Value(id),
       recipeId: Value(recipeId),
       productId: Value(productId),
       amount: Value(amount),
+      updatedAt: Value(updatedAt),
+      deletedAt:
+          deletedAt == null && nullToAbsent
+              ? const Value.absent()
+              : Value(deletedAt),
     );
   }
 
@@ -915,102 +1319,145 @@ class RecipeProduct extends DataClass implements Insertable<RecipeProduct> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RecipeProduct(
+      id: serializer.fromJson<String>(json['id']),
       recipeId: serializer.fromJson<String>(json['recipeId']),
       productId: serializer.fromJson<String>(json['productId']),
       amount: serializer.fromJson<String>(json['amount']),
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      deletedAt: serializer.fromJson<int?>(json['deletedAt']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
       'recipeId': serializer.toJson<String>(recipeId),
       'productId': serializer.toJson<String>(productId),
       'amount': serializer.toJson<String>(amount),
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'deletedAt': serializer.toJson<int?>(deletedAt),
     };
   }
 
   RecipeProduct copyWith({
+    String? id,
     String? recipeId,
     String? productId,
     String? amount,
+    int? updatedAt,
+    Value<int?> deletedAt = const Value.absent(),
   }) => RecipeProduct(
+    id: id ?? this.id,
     recipeId: recipeId ?? this.recipeId,
     productId: productId ?? this.productId,
     amount: amount ?? this.amount,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
   );
   RecipeProduct copyWithCompanion(RecipeProductsCompanion data) {
     return RecipeProduct(
+      id: data.id.present ? data.id.value : this.id,
       recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
       productId: data.productId.present ? data.productId.value : this.productId,
       amount: data.amount.present ? data.amount.value : this.amount,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
     );
   }
 
   @override
   String toString() {
     return (StringBuffer('RecipeProduct(')
+          ..write('id: $id, ')
           ..write('recipeId: $recipeId, ')
           ..write('productId: $productId, ')
-          ..write('amount: $amount')
+          ..write('amount: $amount, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(recipeId, productId, amount);
+  int get hashCode =>
+      Object.hash(id, recipeId, productId, amount, updatedAt, deletedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is RecipeProduct &&
+          other.id == this.id &&
           other.recipeId == this.recipeId &&
           other.productId == this.productId &&
-          other.amount == this.amount);
+          other.amount == this.amount &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt);
 }
 
 class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
+  final Value<String> id;
   final Value<String> recipeId;
   final Value<String> productId;
   final Value<String> amount;
+  final Value<int> updatedAt;
+  final Value<int?> deletedAt;
   final Value<int> rowid;
   const RecipeProductsCompanion({
+    this.id = const Value.absent(),
     this.recipeId = const Value.absent(),
     this.productId = const Value.absent(),
     this.amount = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RecipeProductsCompanion.insert({
+    this.id = const Value.absent(),
     required String recipeId,
     required String productId,
     required String amount,
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : recipeId = Value(recipeId),
        productId = Value(productId),
        amount = Value(amount);
   static Insertable<RecipeProduct> custom({
+    Expression<String>? id,
     Expression<String>? recipeId,
     Expression<String>? productId,
     Expression<String>? amount,
+    Expression<int>? updatedAt,
+    Expression<int>? deletedAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
       if (recipeId != null) 'recipe_id': recipeId,
       if (productId != null) 'product_id': productId,
       if (amount != null) 'amount': amount,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
   RecipeProductsCompanion copyWith({
+    Value<String>? id,
     Value<String>? recipeId,
     Value<String>? productId,
     Value<String>? amount,
+    Value<int>? updatedAt,
+    Value<int?>? deletedAt,
     Value<int>? rowid,
   }) {
     return RecipeProductsCompanion(
+      id: id ?? this.id,
       recipeId: recipeId ?? this.recipeId,
       productId: productId ?? this.productId,
       amount: amount ?? this.amount,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1018,6 +1465,9 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
     if (recipeId.present) {
       map['recipe_id'] = Variable<String>(recipeId.value);
     }
@@ -1026,6 +1476,12 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
     }
     if (amount.present) {
       map['amount'] = Variable<String>(amount.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<int>(deletedAt.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1036,9 +1492,12 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
   @override
   String toString() {
     return (StringBuffer('RecipeProductsCompanion(')
+          ..write('id: $id, ')
           ..write('recipeId: $recipeId, ')
           ..write('productId: $productId, ')
           ..write('amount: $amount, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1051,10 +1510,12 @@ class $RemoteTerminalsTable extends RemoteTerminals
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $RemoteTerminalsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  static const VerificationMeta _terminalIdMeta = const VerificationMeta(
+    'terminalId',
+  );
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
+  late final GeneratedColumn<String> terminalId = GeneratedColumn<String>(
+    'terminal_id',
     aliasedName,
     false,
     type: DriftSqlType.string,
@@ -1069,38 +1530,27 @@ class $RemoteTerminalsTable extends RemoteTerminals
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _http_hostMeta = const VerificationMeta(
-    'http_host',
+  static const VerificationMeta _httpHostMeta = const VerificationMeta(
+    'httpHost',
   );
   @override
-  late final GeneratedColumn<String> http_host = GeneratedColumn<String>(
+  late final GeneratedColumn<String> httpHost = GeneratedColumn<String>(
     'http_host',
     aliasedName,
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _http_portMeta = const VerificationMeta(
-    'http_port',
+  static const VerificationMeta _httpPortMeta = const VerificationMeta(
+    'httpPort',
   );
   @override
-  late final GeneratedColumn<String> http_port = GeneratedColumn<String>(
+  late final GeneratedColumn<int> httpPort = GeneratedColumn<int>(
     'http_port',
     aliasedName,
     true,
-    type: DriftSqlType.string,
+    type: DriftSqlType.int,
     requiredDuringInsert: false,
-  );
-  static const VerificationMeta _http_cookieMeta = const VerificationMeta(
-    'http_cookie',
-  );
-  @override
-  late final GeneratedColumn<String> http_cookie = GeneratedColumn<String>(
-    'http_cookie',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
   );
   static const VerificationMeta _lastSyncMeta = const VerificationMeta(
     'lastSync',
@@ -1160,11 +1610,10 @@ class $RemoteTerminalsTable extends RemoteTerminals
   );
   @override
   List<GeneratedColumn> get $columns => [
-    id,
+    terminalId,
     nick,
-    http_host,
-    http_port,
-    http_cookie,
+    httpHost,
+    httpPort,
     lastSync,
     accepted,
     isHttpServer,
@@ -1182,10 +1631,13 @@ class $RemoteTerminalsTable extends RemoteTerminals
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    if (data.containsKey('terminal_id')) {
+      context.handle(
+        _terminalIdMeta,
+        terminalId.isAcceptableOrUnknown(data['terminal_id']!, _terminalIdMeta),
+      );
     } else if (isInserting) {
-      context.missing(_idMeta);
+      context.missing(_terminalIdMeta);
     }
     if (data.containsKey('nick')) {
       context.handle(
@@ -1197,26 +1649,15 @@ class $RemoteTerminalsTable extends RemoteTerminals
     }
     if (data.containsKey('http_host')) {
       context.handle(
-        _http_hostMeta,
-        http_host.isAcceptableOrUnknown(data['http_host']!, _http_hostMeta),
+        _httpHostMeta,
+        httpHost.isAcceptableOrUnknown(data['http_host']!, _httpHostMeta),
       );
     }
     if (data.containsKey('http_port')) {
       context.handle(
-        _http_portMeta,
-        http_port.isAcceptableOrUnknown(data['http_port']!, _http_portMeta),
+        _httpPortMeta,
+        httpPort.isAcceptableOrUnknown(data['http_port']!, _httpPortMeta),
       );
-    }
-    if (data.containsKey('http_cookie')) {
-      context.handle(
-        _http_cookieMeta,
-        http_cookie.isAcceptableOrUnknown(
-          data['http_cookie']!,
-          _http_cookieMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_http_cookieMeta);
     }
     if (data.containsKey('last_sync')) {
       context.handle(
@@ -1252,34 +1693,29 @@ class $RemoteTerminalsTable extends RemoteTerminals
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {terminalId};
   @override
   RemoteTerminal map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return RemoteTerminal(
-      id:
+      terminalId:
           attachedDatabase.typeMapping.read(
             DriftSqlType.string,
-            data['${effectivePrefix}id'],
+            data['${effectivePrefix}terminal_id'],
           )!,
       nick:
           attachedDatabase.typeMapping.read(
             DriftSqlType.string,
             data['${effectivePrefix}nick'],
           )!,
-      http_host: attachedDatabase.typeMapping.read(
+      httpHost: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}http_host'],
       ),
-      http_port: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+      httpPort: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
         data['${effectivePrefix}http_port'],
       ),
-      http_cookie:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}http_cookie'],
-          )!,
       lastSync: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}last_sync'],
@@ -1309,21 +1745,19 @@ class $RemoteTerminalsTable extends RemoteTerminals
 }
 
 class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
-  final String id;
+  final String terminalId;
   final String nick;
-  final String? http_host;
-  final String? http_port;
-  final String http_cookie;
+  final String? httpHost;
+  final int? httpPort;
   final String? lastSync;
   final bool accepted;
   final bool isHttpServer;
   final bool isHttpClient;
   const RemoteTerminal({
-    required this.id,
+    required this.terminalId,
     required this.nick,
-    this.http_host,
-    this.http_port,
-    required this.http_cookie,
+    this.httpHost,
+    this.httpPort,
     this.lastSync,
     required this.accepted,
     required this.isHttpServer,
@@ -1332,15 +1766,14 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
+    map['terminal_id'] = Variable<String>(terminalId);
     map['nick'] = Variable<String>(nick);
-    if (!nullToAbsent || http_host != null) {
-      map['http_host'] = Variable<String>(http_host);
+    if (!nullToAbsent || httpHost != null) {
+      map['http_host'] = Variable<String>(httpHost);
     }
-    if (!nullToAbsent || http_port != null) {
-      map['http_port'] = Variable<String>(http_port);
+    if (!nullToAbsent || httpPort != null) {
+      map['http_port'] = Variable<int>(httpPort);
     }
-    map['http_cookie'] = Variable<String>(http_cookie);
     if (!nullToAbsent || lastSync != null) {
       map['last_sync'] = Variable<String>(lastSync);
     }
@@ -1352,17 +1785,16 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
 
   RemoteTerminalsCompanion toCompanion(bool nullToAbsent) {
     return RemoteTerminalsCompanion(
-      id: Value(id),
+      terminalId: Value(terminalId),
       nick: Value(nick),
-      http_host:
-          http_host == null && nullToAbsent
+      httpHost:
+          httpHost == null && nullToAbsent
               ? const Value.absent()
-              : Value(http_host),
-      http_port:
-          http_port == null && nullToAbsent
+              : Value(httpHost),
+      httpPort:
+          httpPort == null && nullToAbsent
               ? const Value.absent()
-              : Value(http_port),
-      http_cookie: Value(http_cookie),
+              : Value(httpPort),
       lastSync:
           lastSync == null && nullToAbsent
               ? const Value.absent()
@@ -1379,11 +1811,10 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return RemoteTerminal(
-      id: serializer.fromJson<String>(json['id']),
+      terminalId: serializer.fromJson<String>(json['terminalId']),
       nick: serializer.fromJson<String>(json['nick']),
-      http_host: serializer.fromJson<String?>(json['http_host']),
-      http_port: serializer.fromJson<String?>(json['http_port']),
-      http_cookie: serializer.fromJson<String>(json['http_cookie']),
+      httpHost: serializer.fromJson<String?>(json['httpHost']),
+      httpPort: serializer.fromJson<int?>(json['httpPort']),
       lastSync: serializer.fromJson<String?>(json['lastSync']),
       accepted: serializer.fromJson<bool>(json['accepted']),
       isHttpServer: serializer.fromJson<bool>(json['isHttpServer']),
@@ -1394,11 +1825,10 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
+      'terminalId': serializer.toJson<String>(terminalId),
       'nick': serializer.toJson<String>(nick),
-      'http_host': serializer.toJson<String?>(http_host),
-      'http_port': serializer.toJson<String?>(http_port),
-      'http_cookie': serializer.toJson<String>(http_cookie),
+      'httpHost': serializer.toJson<String?>(httpHost),
+      'httpPort': serializer.toJson<int?>(httpPort),
       'lastSync': serializer.toJson<String?>(lastSync),
       'accepted': serializer.toJson<bool>(accepted),
       'isHttpServer': serializer.toJson<bool>(isHttpServer),
@@ -1407,21 +1837,19 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   }
 
   RemoteTerminal copyWith({
-    String? id,
+    String? terminalId,
     String? nick,
-    Value<String?> http_host = const Value.absent(),
-    Value<String?> http_port = const Value.absent(),
-    String? http_cookie,
+    Value<String?> httpHost = const Value.absent(),
+    Value<int?> httpPort = const Value.absent(),
     Value<String?> lastSync = const Value.absent(),
     bool? accepted,
     bool? isHttpServer,
     bool? isHttpClient,
   }) => RemoteTerminal(
-    id: id ?? this.id,
+    terminalId: terminalId ?? this.terminalId,
     nick: nick ?? this.nick,
-    http_host: http_host.present ? http_host.value : this.http_host,
-    http_port: http_port.present ? http_port.value : this.http_port,
-    http_cookie: http_cookie ?? this.http_cookie,
+    httpHost: httpHost.present ? httpHost.value : this.httpHost,
+    httpPort: httpPort.present ? httpPort.value : this.httpPort,
     lastSync: lastSync.present ? lastSync.value : this.lastSync,
     accepted: accepted ?? this.accepted,
     isHttpServer: isHttpServer ?? this.isHttpServer,
@@ -1429,12 +1857,11 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   );
   RemoteTerminal copyWithCompanion(RemoteTerminalsCompanion data) {
     return RemoteTerminal(
-      id: data.id.present ? data.id.value : this.id,
+      terminalId:
+          data.terminalId.present ? data.terminalId.value : this.terminalId,
       nick: data.nick.present ? data.nick.value : this.nick,
-      http_host: data.http_host.present ? data.http_host.value : this.http_host,
-      http_port: data.http_port.present ? data.http_port.value : this.http_port,
-      http_cookie:
-          data.http_cookie.present ? data.http_cookie.value : this.http_cookie,
+      httpHost: data.httpHost.present ? data.httpHost.value : this.httpHost,
+      httpPort: data.httpPort.present ? data.httpPort.value : this.httpPort,
       lastSync: data.lastSync.present ? data.lastSync.value : this.lastSync,
       accepted: data.accepted.present ? data.accepted.value : this.accepted,
       isHttpServer:
@@ -1451,11 +1878,10 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   @override
   String toString() {
     return (StringBuffer('RemoteTerminal(')
-          ..write('id: $id, ')
+          ..write('terminalId: $terminalId, ')
           ..write('nick: $nick, ')
-          ..write('http_host: $http_host, ')
-          ..write('http_port: $http_port, ')
-          ..write('http_cookie: $http_cookie, ')
+          ..write('httpHost: $httpHost, ')
+          ..write('httpPort: $httpPort, ')
           ..write('lastSync: $lastSync, ')
           ..write('accepted: $accepted, ')
           ..write('isHttpServer: $isHttpServer, ')
@@ -1466,11 +1892,10 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
 
   @override
   int get hashCode => Object.hash(
-    id,
+    terminalId,
     nick,
-    http_host,
-    http_port,
-    http_cookie,
+    httpHost,
+    httpPort,
     lastSync,
     accepted,
     isHttpServer,
@@ -1480,11 +1905,10 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is RemoteTerminal &&
-          other.id == this.id &&
+          other.terminalId == this.terminalId &&
           other.nick == this.nick &&
-          other.http_host == this.http_host &&
-          other.http_port == this.http_port &&
-          other.http_cookie == this.http_cookie &&
+          other.httpHost == this.httpHost &&
+          other.httpPort == this.httpPort &&
           other.lastSync == this.lastSync &&
           other.accepted == this.accepted &&
           other.isHttpServer == this.isHttpServer &&
@@ -1492,22 +1916,20 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
 }
 
 class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
-  final Value<String> id;
+  final Value<String> terminalId;
   final Value<String> nick;
-  final Value<String?> http_host;
-  final Value<String?> http_port;
-  final Value<String> http_cookie;
+  final Value<String?> httpHost;
+  final Value<int?> httpPort;
   final Value<String?> lastSync;
   final Value<bool> accepted;
   final Value<bool> isHttpServer;
   final Value<bool> isHttpClient;
   final Value<int> rowid;
   const RemoteTerminalsCompanion({
-    this.id = const Value.absent(),
+    this.terminalId = const Value.absent(),
     this.nick = const Value.absent(),
-    this.http_host = const Value.absent(),
-    this.http_port = const Value.absent(),
-    this.http_cookie = const Value.absent(),
+    this.httpHost = const Value.absent(),
+    this.httpPort = const Value.absent(),
     this.lastSync = const Value.absent(),
     this.accepted = const Value.absent(),
     this.isHttpServer = const Value.absent(),
@@ -1515,25 +1937,22 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     this.rowid = const Value.absent(),
   });
   RemoteTerminalsCompanion.insert({
-    required String id,
+    required String terminalId,
     required String nick,
-    this.http_host = const Value.absent(),
-    this.http_port = const Value.absent(),
-    required String http_cookie,
+    this.httpHost = const Value.absent(),
+    this.httpPort = const Value.absent(),
     this.lastSync = const Value.absent(),
     this.accepted = const Value.absent(),
     this.isHttpServer = const Value.absent(),
     this.isHttpClient = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       nick = Value(nick),
-       http_cookie = Value(http_cookie);
+  }) : terminalId = Value(terminalId),
+       nick = Value(nick);
   static Insertable<RemoteTerminal> custom({
-    Expression<String>? id,
+    Expression<String>? terminalId,
     Expression<String>? nick,
-    Expression<String>? http_host,
-    Expression<String>? http_port,
-    Expression<String>? http_cookie,
+    Expression<String>? httpHost,
+    Expression<int>? httpPort,
     Expression<String>? lastSync,
     Expression<bool>? accepted,
     Expression<bool>? isHttpServer,
@@ -1541,11 +1960,10 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
+      if (terminalId != null) 'terminal_id': terminalId,
       if (nick != null) 'nick': nick,
-      if (http_host != null) 'http_host': http_host,
-      if (http_port != null) 'http_port': http_port,
-      if (http_cookie != null) 'http_cookie': http_cookie,
+      if (httpHost != null) 'http_host': httpHost,
+      if (httpPort != null) 'http_port': httpPort,
       if (lastSync != null) 'last_sync': lastSync,
       if (accepted != null) 'accepted': accepted,
       if (isHttpServer != null) 'is_http_server': isHttpServer,
@@ -1555,11 +1973,10 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   }
 
   RemoteTerminalsCompanion copyWith({
-    Value<String>? id,
+    Value<String>? terminalId,
     Value<String>? nick,
-    Value<String?>? http_host,
-    Value<String?>? http_port,
-    Value<String>? http_cookie,
+    Value<String?>? httpHost,
+    Value<int?>? httpPort,
     Value<String?>? lastSync,
     Value<bool>? accepted,
     Value<bool>? isHttpServer,
@@ -1567,11 +1984,10 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     Value<int>? rowid,
   }) {
     return RemoteTerminalsCompanion(
-      id: id ?? this.id,
+      terminalId: terminalId ?? this.terminalId,
       nick: nick ?? this.nick,
-      http_host: http_host ?? this.http_host,
-      http_port: http_port ?? this.http_port,
-      http_cookie: http_cookie ?? this.http_cookie,
+      httpHost: httpHost ?? this.httpHost,
+      httpPort: httpPort ?? this.httpPort,
       lastSync: lastSync ?? this.lastSync,
       accepted: accepted ?? this.accepted,
       isHttpServer: isHttpServer ?? this.isHttpServer,
@@ -1583,20 +1999,17 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
+    if (terminalId.present) {
+      map['terminal_id'] = Variable<String>(terminalId.value);
     }
     if (nick.present) {
       map['nick'] = Variable<String>(nick.value);
     }
-    if (http_host.present) {
-      map['http_host'] = Variable<String>(http_host.value);
+    if (httpHost.present) {
+      map['http_host'] = Variable<String>(httpHost.value);
     }
-    if (http_port.present) {
-      map['http_port'] = Variable<String>(http_port.value);
-    }
-    if (http_cookie.present) {
-      map['http_cookie'] = Variable<String>(http_cookie.value);
+    if (httpPort.present) {
+      map['http_port'] = Variable<int>(httpPort.value);
     }
     if (lastSync.present) {
       map['last_sync'] = Variable<String>(lastSync.value);
@@ -1619,11 +2032,10 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   @override
   String toString() {
     return (StringBuffer('RemoteTerminalsCompanion(')
-          ..write('id: $id, ')
+          ..write('terminalId: $terminalId, ')
           ..write('nick: $nick, ')
-          ..write('http_host: $http_host, ')
-          ..write('http_port: $http_port, ')
-          ..write('http_cookie: $http_cookie, ')
+          ..write('httpHost: $httpHost, ')
+          ..write('httpPort: $httpPort, ')
           ..write('lastSync: $lastSync, ')
           ..write('accepted: $accepted, ')
           ..write('isHttpServer: $isHttpServer, ')
@@ -1663,12 +2075,16 @@ typedef $$RecipesTableCreateCompanionBuilder =
     RecipesCompanion Function({
       Value<String> id,
       required String name,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 typedef $$RecipesTableUpdateCompanionBuilder =
     RecipesCompanion Function({
       Value<String> id,
       Value<String> name,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 
@@ -1731,6 +2147,16 @@ class $$RecipesTableFilterComposer
 
   ColumnFilters<String> get name => $composableBuilder(
     column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1803,6 +2229,16 @@ class $$RecipesTableOrderingComposer
     column: $table.name,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$RecipesTableAnnotationComposer
@@ -1819,6 +2255,12 @@ class $$RecipesTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   Expression<T> scheduleEntriesRefs<T extends Object>(
     Expression<T> Function($$ScheduleEntriesTableAnnotationComposer a) f,
@@ -1904,14 +2346,30 @@ class $$RecipesTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => RecipesCompanion(id: id, name: name, rowid: rowid),
+              }) => RecipesCompanion(
+                id: id,
+                name: name,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowid: rowid,
+              ),
           createCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
                 required String name,
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => RecipesCompanion.insert(id: id, name: name, rowid: rowid),
+              }) => RecipesCompanion.insert(
+                id: id,
+                name: name,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                rowid: rowid,
+              ),
           withReferenceMapper:
               (p0) =>
                   p0
@@ -2010,6 +2468,8 @@ typedef $$ScheduleEntriesTableCreateCompanionBuilder =
       required int week,
       required int day,
       required String recipeId,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 typedef $$ScheduleEntriesTableUpdateCompanionBuilder =
@@ -2018,6 +2478,8 @@ typedef $$ScheduleEntriesTableUpdateCompanionBuilder =
       Value<int> week,
       Value<int> day,
       Value<String> recipeId,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 
@@ -2074,6 +2536,16 @@ class $$ScheduleEntriesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$RecipesTableFilterComposer get recipeId {
     final $$RecipesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -2122,6 +2594,16 @@ class $$ScheduleEntriesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$RecipesTableOrderingComposer get recipeId {
     final $$RecipesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -2163,6 +2645,12 @@ class $$ScheduleEntriesTableAnnotationComposer
 
   GeneratedColumn<int> get day =>
       $composableBuilder(column: $table.day, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   $$RecipesTableAnnotationComposer get recipeId {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
@@ -2229,12 +2717,16 @@ class $$ScheduleEntriesTableTableManager
                 Value<int> week = const Value.absent(),
                 Value<int> day = const Value.absent(),
                 Value<String> recipeId = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ScheduleEntriesCompanion(
                 id: id,
                 week: week,
                 day: day,
                 recipeId: recipeId,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -2243,12 +2735,16 @@ class $$ScheduleEntriesTableTableManager
                 required int week,
                 required int day,
                 required String recipeId,
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ScheduleEntriesCompanion.insert(
                 id: id,
                 week: week,
                 day: day,
                 recipeId: recipeId,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 rowid: rowid,
               ),
           withReferenceMapper:
@@ -2325,6 +2821,8 @@ typedef $$ProductsTableCreateCompanionBuilder =
       Value<String> id,
       required String name,
       required bool needed,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 typedef $$ProductsTableUpdateCompanionBuilder =
@@ -2332,6 +2830,8 @@ typedef $$ProductsTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> name,
       Value<bool> needed,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 
@@ -2385,6 +2885,16 @@ class $$ProductsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> recipeProductsRefs(
     Expression<bool> Function($$RecipeProductsTableFilterComposer f) f,
   ) {
@@ -2434,6 +2944,16 @@ class $$ProductsTableOrderingComposer
     column: $table.needed,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ProductsTableAnnotationComposer
@@ -2453,6 +2973,12 @@ class $$ProductsTableAnnotationComposer
 
   GeneratedColumn<bool> get needed =>
       $composableBuilder(column: $table.needed, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   Expression<T> recipeProductsRefs<T extends Object>(
     Expression<T> Function($$RecipeProductsTableAnnotationComposer a) f,
@@ -2511,11 +3037,15 @@ class $$ProductsTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<bool> needed = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion(
                 id: id,
                 name: name,
                 needed: needed,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -2523,11 +3053,15 @@ class $$ProductsTableTableManager
                 Value<String> id = const Value.absent(),
                 required String name,
                 required bool needed,
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion.insert(
                 id: id,
                 name: name,
                 needed: needed,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 rowid: rowid,
               ),
           withReferenceMapper:
@@ -2595,16 +3129,22 @@ typedef $$ProductsTableProcessedTableManager =
     >;
 typedef $$RecipeProductsTableCreateCompanionBuilder =
     RecipeProductsCompanion Function({
+      Value<String> id,
       required String recipeId,
       required String productId,
       required String amount,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 typedef $$RecipeProductsTableUpdateCompanionBuilder =
     RecipeProductsCompanion Function({
+      Value<String> id,
       Value<String> recipeId,
       Value<String> productId,
       Value<String> amount,
+      Value<int> updatedAt,
+      Value<int?> deletedAt,
       Value<int> rowid,
     });
 
@@ -2664,8 +3204,23 @@ class $$RecipeProductsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get amount => $composableBuilder(
     column: $table.amount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2725,8 +3280,23 @@ class $$RecipeProductsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get amount => $composableBuilder(
     column: $table.amount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -2786,8 +3356,17 @@ class $$RecipeProductsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
   GeneratedColumn<String> get amount =>
       $composableBuilder(column: $table.amount, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   $$RecipesTableAnnotationComposer get recipeId {
     final $$RecipesTableAnnotationComposer composer = $composerBuilder(
@@ -2870,26 +3449,38 @@ class $$RecipeProductsTableTableManager
               ),
           updateCompanionCallback:
               ({
+                Value<String> id = const Value.absent(),
                 Value<String> recipeId = const Value.absent(),
                 Value<String> productId = const Value.absent(),
                 Value<String> amount = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RecipeProductsCompanion(
+                id: id,
                 recipeId: recipeId,
                 productId: productId,
                 amount: amount,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
+                Value<String> id = const Value.absent(),
                 required String recipeId,
                 required String productId,
                 required String amount,
+                Value<int> updatedAt = const Value.absent(),
+                Value<int?> deletedAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RecipeProductsCompanion.insert(
+                id: id,
                 recipeId: recipeId,
                 productId: productId,
                 amount: amount,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 rowid: rowid,
               ),
           withReferenceMapper:
@@ -2977,11 +3568,10 @@ typedef $$RecipeProductsTableProcessedTableManager =
     >;
 typedef $$RemoteTerminalsTableCreateCompanionBuilder =
     RemoteTerminalsCompanion Function({
-      required String id,
+      required String terminalId,
       required String nick,
-      Value<String?> http_host,
-      Value<String?> http_port,
-      required String http_cookie,
+      Value<String?> httpHost,
+      Value<int?> httpPort,
       Value<String?> lastSync,
       Value<bool> accepted,
       Value<bool> isHttpServer,
@@ -2990,11 +3580,10 @@ typedef $$RemoteTerminalsTableCreateCompanionBuilder =
     });
 typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
     RemoteTerminalsCompanion Function({
-      Value<String> id,
+      Value<String> terminalId,
       Value<String> nick,
-      Value<String?> http_host,
-      Value<String?> http_port,
-      Value<String> http_cookie,
+      Value<String?> httpHost,
+      Value<int?> httpPort,
       Value<String?> lastSync,
       Value<bool> accepted,
       Value<bool> isHttpServer,
@@ -3011,8 +3600,8 @@ class $$RemoteTerminalsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
+  ColumnFilters<String> get terminalId => $composableBuilder(
+    column: $table.terminalId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3021,18 +3610,13 @@ class $$RemoteTerminalsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get http_host => $composableBuilder(
-    column: $table.http_host,
+  ColumnFilters<String> get httpHost => $composableBuilder(
+    column: $table.httpHost,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get http_port => $composableBuilder(
-    column: $table.http_port,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get http_cookie => $composableBuilder(
-    column: $table.http_cookie,
+  ColumnFilters<int> get httpPort => $composableBuilder(
+    column: $table.httpPort,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3066,8 +3650,8 @@ class $$RemoteTerminalsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
+  ColumnOrderings<String> get terminalId => $composableBuilder(
+    column: $table.terminalId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -3076,18 +3660,13 @@ class $$RemoteTerminalsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get http_host => $composableBuilder(
-    column: $table.http_host,
+  ColumnOrderings<String> get httpHost => $composableBuilder(
+    column: $table.httpHost,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get http_port => $composableBuilder(
-    column: $table.http_port,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get http_cookie => $composableBuilder(
-    column: $table.http_cookie,
+  ColumnOrderings<int> get httpPort => $composableBuilder(
+    column: $table.httpPort,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -3121,22 +3700,19 @@ class $$RemoteTerminalsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<String> get terminalId => $composableBuilder(
+    column: $table.terminalId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get nick =>
       $composableBuilder(column: $table.nick, builder: (column) => column);
 
-  GeneratedColumn<String> get http_host =>
-      $composableBuilder(column: $table.http_host, builder: (column) => column);
+  GeneratedColumn<String> get httpHost =>
+      $composableBuilder(column: $table.httpHost, builder: (column) => column);
 
-  GeneratedColumn<String> get http_port =>
-      $composableBuilder(column: $table.http_port, builder: (column) => column);
-
-  GeneratedColumn<String> get http_cookie => $composableBuilder(
-    column: $table.http_cookie,
-    builder: (column) => column,
-  );
+  GeneratedColumn<int> get httpPort =>
+      $composableBuilder(column: $table.httpPort, builder: (column) => column);
 
   GeneratedColumn<String> get lastSync =>
       $composableBuilder(column: $table.lastSync, builder: (column) => column);
@@ -3199,22 +3775,20 @@ class $$RemoteTerminalsTableTableManager
               ),
           updateCompanionCallback:
               ({
-                Value<String> id = const Value.absent(),
+                Value<String> terminalId = const Value.absent(),
                 Value<String> nick = const Value.absent(),
-                Value<String?> http_host = const Value.absent(),
-                Value<String?> http_port = const Value.absent(),
-                Value<String> http_cookie = const Value.absent(),
+                Value<String?> httpHost = const Value.absent(),
+                Value<int?> httpPort = const Value.absent(),
                 Value<String?> lastSync = const Value.absent(),
                 Value<bool> accepted = const Value.absent(),
                 Value<bool> isHttpServer = const Value.absent(),
                 Value<bool> isHttpClient = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RemoteTerminalsCompanion(
-                id: id,
+                terminalId: terminalId,
                 nick: nick,
-                http_host: http_host,
-                http_port: http_port,
-                http_cookie: http_cookie,
+                httpHost: httpHost,
+                httpPort: httpPort,
                 lastSync: lastSync,
                 accepted: accepted,
                 isHttpServer: isHttpServer,
@@ -3223,22 +3797,20 @@ class $$RemoteTerminalsTableTableManager
               ),
           createCompanionCallback:
               ({
-                required String id,
+                required String terminalId,
                 required String nick,
-                Value<String?> http_host = const Value.absent(),
-                Value<String?> http_port = const Value.absent(),
-                required String http_cookie,
+                Value<String?> httpHost = const Value.absent(),
+                Value<int?> httpPort = const Value.absent(),
                 Value<String?> lastSync = const Value.absent(),
                 Value<bool> accepted = const Value.absent(),
                 Value<bool> isHttpServer = const Value.absent(),
                 Value<bool> isHttpClient = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RemoteTerminalsCompanion.insert(
-                id: id,
+                terminalId: terminalId,
                 nick: nick,
-                http_host: http_host,
-                http_port: http_port,
-                http_cookie: http_cookie,
+                httpHost: httpHost,
+                httpPort: httpPort,
                 lastSync: lastSync,
                 accepted: accepted,
                 isHttpServer: isHttpServer,

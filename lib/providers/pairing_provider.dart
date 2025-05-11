@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 
 class PairingProvider extends ChangeNotifier {
-  Future<void> addHttpServerToRemoteTerminal(String id, String host, int port, String token, String nick) async {
+  Future<void> addHttpServerToRemoteTerminal(String terminalId, String host, int port, String nick) async {
     final database = AppDatabaseSingleton.instance;
 
     await database
         .into(database.remoteTerminals)
         .insertOnConflictUpdate(
           RemoteTerminalsCompanion(
-            id: Value(id),
+            terminalId: Value(terminalId),
             nick: Value(nick),
-            http_host: Value(host),
-            http_port: Value(port.toString()),
-            http_cookie: Value(token),
+            httpHost: Value(host),
+            httpPort: Value(port),
             isHttpServer: const Value(true),
           ),
         );
@@ -22,14 +21,21 @@ class PairingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addHttpClientToRemoteTerminal(String id, String nick, String token) async {
+  Future<void> addHttpClientToRemoteTerminal(String terminalId, String nick) async {
     final database = AppDatabaseSingleton.instance;
 
     await database
         .into(database.remoteTerminals)
-        .insertOnConflictUpdate(
-          RemoteTerminalsCompanion(id: Value(id), nick: Value(nick), http_cookie: Value(token), isHttpClient: const Value(true)),
-        );
+        .insertOnConflictUpdate(RemoteTerminalsCompanion(terminalId: Value(terminalId), nick: Value(nick), isHttpClient: const Value(true)));
+
+    notifyListeners();
+  }
+
+  Future<void> updateNick(String terminalId, String nick) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.remoteTerminals)
+      ..where((table) => table.terminalId.equals(terminalId))).write(RemoteTerminalsCompanion(nick: Value(nick)));
 
     notifyListeners();
   }
@@ -40,14 +46,22 @@ class PairingProvider extends ChangeNotifier {
     return await database.select(database.remoteTerminals).get();
   }
 
-  Future<void> deleteRemoteTerminalById(String id) async {
+  Future<void> deleteRemoteTerminalById(String terminalId) async {
     final database = AppDatabaseSingleton.instance;
-    await (database.delete(database.remoteTerminals)..where((table) => table.id.equals(id))).go();
+    await (database.delete(database.remoteTerminals)..where((table) => table.terminalId.equals(terminalId))).go();
     notifyListeners();
   }
 
-  Future<RemoteTerminal> getRemoteTerminalById(String id) async {
+  Future<RemoteTerminal> getRemoteTerminalById(String terminalId) async {
     final database = AppDatabaseSingleton.instance;
-    return await (database.select(database.remoteTerminals)..where((table) => table.id.equals(id))).getSingle();
+    return await (database.select(database.remoteTerminals)..where((table) => table.terminalId.equals(terminalId))).getSingle();
+  }
+
+  Future<void> setAsSynced(String terminalId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.remoteTerminals)
+      ..where((table) => table.terminalId.equals(terminalId))).write(RemoteTerminalsCompanion(lastSync: Value(DateTime.now().toString())));
+    notifyListeners();
   }
 }

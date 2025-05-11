@@ -5,7 +5,7 @@ import 'package:jhopping_list/providers/product_provider.dart';
 import 'package:jhopping_list/recipies/add_ingredient.dart';
 import 'package:jhopping_list/providers/recipe_provider.dart';
 import 'package:jhopping_list/schedule/day_view.dart';
-import 'package:jhopping_list/schedule/schedule_manager.dart';
+import 'package:jhopping_list/schedule/schedule_view.dart';
 import 'package:jhopping_list/providers/schedule_provider.dart';
 import 'package:jhopping_list/schedule/utils.dart';
 import 'package:jhopping_list/common/loading_box.dart';
@@ -272,7 +272,7 @@ class _PlannedDatesState extends State<PlannedDates> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return ScheduleManager(entry.week);
+                                        return ScheduleView(entry.week);
                                       },
                                     ),
                                   );

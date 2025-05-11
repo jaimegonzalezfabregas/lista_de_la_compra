@@ -1,16 +1,14 @@
-import 'dart:convert';
-
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:jhopping_list/providers/http_server_state_provider.dart';
-import 'package:jhopping_list/providers/shared_preferences_provider.dart';
-import 'package:jhopping_list/sync/ip_list.dart';
-import 'package:jhopping_list/providers/pairing_provider.dart';
+import 'package:jhopping_list/sync/ip_list_view.dart';
+import 'package:jhopping_list/sync/http_client_manager.dart';
 import 'package:provider/provider.dart';
 
-class HTTPManageWidget extends StatelessWidget {
-  const HTTPManageWidget({super.key});
+class HTTPView extends StatelessWidget {
+  final HttpClientManager syncManager;
+
+  const HTTPView(this.syncManager, {super.key});
 
   Widget serveControlls(BuildContext context) {
     HttpServerStateProvider serverStateProvider = context.watch();
@@ -30,7 +28,7 @@ class HTTPManageWidget extends StatelessWidget {
                   child = Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IpList(),
+                      IpListView(),
                       TextButton(
                         onPressed: () async {
                           await serverStateProvider.stopServer();
@@ -82,8 +80,6 @@ class HTTPManageWidget extends StatelessWidget {
   }
 
   Widget clientControlls(BuildContext context) {
-    SharedPreferencesProvider sharedPreferencesProvider = context.watch();
-    PairingProvider pairingProvider = context.watch();
     TextEditingController hostTextController = TextEditingController();
     TextEditingController portTextController = TextEditingController();
 
@@ -95,12 +91,18 @@ class HTTPManageWidget extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(controller: hostTextController, decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder())),
+            child: TextField(
+              controller: hostTextController,
+              decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder()),
+            ),
           ),
-        
+
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(controller: portTextController, decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder())),
+            child: TextField(
+              controller: portTextController,
+              decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder()),
+            ),
           ),
           TextButton(
             onPressed: () async {
@@ -114,56 +116,7 @@ class HTTPManageWidget extends StatelessWidget {
 
               portTextController.text = port.toString();
 
-              var textUrl = "http://$host:$port/add_pairing";
-
-              Uri? uri;
-              try {
-                uri = Uri.parse(textUrl);
-                http.Response response = await http.post(
-                  uri,
-                  body: jsonEncode({
-                    "nick": await sharedPreferencesProvider.getLocalNick(),
-                    "terminalId": await sharedPreferencesProvider.getTerminalId(),
-                  }),
-                  headers: {"Content-Type": "application/json"},
-                );
-
-                if (response.statusCode != 200) {
-                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, código de estado ${response.statusCode}")));
-                  return;
-                }
-
-                if (response.body.isEmpty) {
-                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto contenido")));
-                  return;
-                }
-
-                if (response.headers["content-type"] != "application/json") {
-                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto un json")));
-                  return;
-                }
-
-
-                var responseContents = jsonDecode((response).body);
-                print("Response: ${responseContents}");
-
-                if (responseContents["token"] == null) {
-                  toast.showSnackBar(SnackBar(content: Text("Error al conectar con el servidor remoto, no ha devuelto un token")));
-                  return;
-                }
-
-                pairingProvider.addHttpServerToRemoteTerminal(
-                  responseContents["terminalId"],
-                  host,
-                  port,
-                  responseContents["token"],
-                  responseContents["nick"],
-                );
-              } on FormatException catch (_, e) {
-                toast.showSnackBar(SnackBar(content: Text("Error de formato en el host $host, la url construida es \"$textUrl\". Error. $e")));
-              } catch (e) {
-                toast.showSnackBar(SnackBar(content: Text("Error: $e")));
-              }
+              syncManager.tryConnectingToHttpServer(host, port);
             },
             child: Text("Conectar"),
           ),

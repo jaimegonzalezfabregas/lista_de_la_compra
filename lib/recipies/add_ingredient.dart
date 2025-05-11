@@ -30,7 +30,7 @@ class AddIngredient extends StatelessWidget {
         child: Text("Hecho"),
       ),
       body: FutureBuilder(
-        future: productProvider.getProductList(),
+        future: productProvider.getDisplayProductList(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return LoadingBox();

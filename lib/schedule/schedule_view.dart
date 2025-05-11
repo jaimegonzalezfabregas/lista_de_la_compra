@@ -76,18 +76,18 @@ class _ScheduleView extends State {
   }
 }
 
-class ScheduleView extends StatefulWidget {
+class ScheduleViewContents extends StatefulWidget {
   final int initialWeek;
-  const ScheduleView(this.initialWeek, {super.key});
+  const ScheduleViewContents(this.initialWeek, {super.key});
 
   @override
   State<StatefulWidget> createState() => _ScheduleView(initialWeek);
 }
 
-class ScheduleManager extends StatelessWidget {
+class ScheduleView extends StatelessWidget {
   final int initialWeek;
 
-  const ScheduleManager(this.initialWeek, {super.key});
+  const ScheduleView(this.initialWeek, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class ScheduleManager extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
-      body: ScheduleView(initialWeek),
+      body: ScheduleViewContents(initialWeek),
     );
   }
 }

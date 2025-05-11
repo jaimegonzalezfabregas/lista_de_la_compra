@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:jhopping_list/providers/open_conection_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
-import 'package:jhopping_list/providers/shared_preferences_provider.dart';
-import 'package:jhopping_list/sync/server_manager.dart';
+import 'package:jhopping_list/sync/http_server_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum ServerStatus { running, stopped, turningOn, turningOff, error }
 
 class HttpServerStateProvider extends ChangeNotifier {
-  HttpServerStateProvider(SharedPreferencesProvider sharedPreferencesProvider, PairingProvider pairingProvider) {
-    _serverManager ??= ServerManager(this, sharedPreferencesProvider, pairingProvider);
+  HttpServerStateProvider(
+    PairingProvider pairingProvider,
+    OpenConnectionProvider openConnectionProvider,
+  ) {
+    _serverManager ??= HttpServerManager(
+      this,
+      pairingProvider,
+      openConnectionProvider,
+    );
     tryStartServer();
   }
 
-  static ServerManager? _serverManager;
+  static HttpServerManager? _serverManager;
   static ServerStatus status = ServerStatus.stopped;
   static String statusError = "Error desconocido";
 

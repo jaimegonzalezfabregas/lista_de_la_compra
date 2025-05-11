@@ -1,0 +1,90 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:jhopping_list/providers/shared_preferences_provider.dart';
+import 'package:jhopping_list/sync/http_view.dart';
+import 'package:jhopping_list/sync/past_pairings_widget.dart';
+import 'package:jhopping_list/sync/http_client_manager.dart';
+import 'package:provider/provider.dart';
+
+class SyncView extends StatefulWidget {
+  final HttpClientManager syncManager;
+  const SyncView(this.syncManager, {super.key});
+
+  @override
+  State<SyncView> createState() => _SyncViewState();
+}
+
+class _SyncViewState extends State<SyncView> {
+  HttpServer? server;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sincronización", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer)),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: ListView(
+          children: [
+            Text("Configuración general", style: Theme.of(context).textTheme.titleSmall),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Builder(
+                builder: (context) {
+                  var sharedPreferencesProvider = context.watch<SharedPreferencesProvider>();
+                  var textControler = TextEditingController();
+
+                  sharedPreferencesProvider.getLocalNick().then((String? value) {
+                    if (value == null) {
+                      value = "Sin nick";
+                      sharedPreferencesProvider.setLocalNick(value);
+                    }
+                    textControler.text = value;
+                  });
+
+                  return Row(
+                    children: [
+                      Expanded(child: TextField(decoration: InputDecoration(labelText: "Nick"), enabled: false, controller: textControler)),
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Cambiar nick"),
+                                content: TextField(decoration: InputDecoration(labelText: "Nick"), controller: textControler),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      sharedPreferencesProvider.setLocalNick(textControler.text);
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Guardar"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            Text("Emparejamientos pasados", style: Theme.of(context).textTheme.titleSmall),
+            RemoteTerminalList(),
+
+            ExpansionTile(title: Text("Sincronización HTTP"), children: [HTTPView(widget.syncManager)]),
+            ExpansionTile(title: Text("Sincronización MQTT"), children: []),
+          ],
+        ),
+      ),
+    );
+  }
+}

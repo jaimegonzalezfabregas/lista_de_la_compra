@@ -8,8 +8,59 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> addEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
-    database.into(database.scheduleEntries).insert(ScheduleEntriesCompanion(week: Value(week), day: Value(day), recipeId: Value(recipeId))); // TODO: crash
+    database
+        .into(database.scheduleEntries)
+        .insert(
+          ScheduleEntriesCompanion(
+            week: Value(week),
+            day: Value(day),
+            recipeId: Value(recipeId),
+            updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+          ),
+        );
 
+    notifyListeners();
+  }
+
+  Future<void> syncAddEntry(Map<String, dynamic> serializedScheduleEntry) async {
+    final database = AppDatabaseSingleton.instance;
+
+    database
+        .into(database.scheduleEntries)
+        .insert(
+          ScheduleEntriesCompanion(
+            id: Value(serializedScheduleEntry["id"]),
+            week: Value(serializedScheduleEntry["week"]),
+            day: Value(serializedScheduleEntry["day"]),
+            recipeId: Value(serializedScheduleEntry["recipeId"]),
+            updatedAt: Value(serializedScheduleEntry["updatedAt"]),
+            deletedAt: Value(serializedScheduleEntry["deletedAt"]),
+          ),
+        );
+    notifyListeners();
+  }
+
+  Future<void> syncSetDeleted(String id, int? deletedAt) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.scheduleEntries)
+      ..where((table) => table.id.equals(id))).write(ScheduleEntriesCompanion(deletedAt: Value(deletedAt)));
+    notifyListeners();
+  }
+
+  Future<void> syncOveride(String id, Map<String, dynamic> serializedScheduleEntry) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.scheduleEntries)..where((table) => table.id.equals(id))).write(
+      ScheduleEntriesCompanion(
+        id: Value(serializedScheduleEntry["id"]),
+        week: Value(serializedScheduleEntry["week"]),
+        day: Value(serializedScheduleEntry["day"]),
+        recipeId: Value(serializedScheduleEntry["recipeId"]),
+        updatedAt: Value(serializedScheduleEntry["updatedAt"]),
+        deletedAt: Value(serializedScheduleEntry["deletedAt"]),
+      ),
+    );
     notifyListeners();
   }
 
@@ -26,6 +77,8 @@ class ScheduleProvider extends ChangeNotifier {
       );
     }
 
+    query.where((table) => table.deletedAt.isNull());
+
     query.orderBy([
       (row) => OrderingTerm(expression: row.week, mode: OrderingMode.asc),
       (row) => OrderingTerm(expression: row.day, mode: OrderingMode.asc),
@@ -34,12 +87,15 @@ class ScheduleProvider extends ChangeNotifier {
     return await query.get();
   }
 
-  Future<List<RecipeProduct>> futureRecipesWithProduct(String productId) async {
+  Future<List<RecipeProduct>> getFutureRecipesWithProduct(String productId) async {
     final database = AppDatabaseSingleton.instance;
 
     var query = (database.select(database.recipeProducts)..where(
       (table) => table.productId.equals(productId),
     )).join([innerJoin(database.scheduleEntries, database.scheduleEntries.recipeId.equalsExp(database.recipeProducts.recipeId))]);
+
+    query.where(database.scheduleEntries.deletedAt.isNull());
+    query.where(database.recipeProducts.deletedAt.isNull());
 
     query.where(
       (database.scheduleEntries.week.equals(getCurrentWeek()) & database.scheduleEntries.day.isBiggerOrEqualValue(DateTime.now().weekday - 1)) |
@@ -54,15 +110,22 @@ class ScheduleProvider extends ChangeNotifier {
 
     return await (database.select(database.scheduleEntries)
           ..where((table) => table.week.equals(week))
-          ..where((table) => table.day.equals(day)))
+          ..where((table) => table.day.equals(day))
+          ..where((table) => table.deletedAt.isNull()))
         .get();
   }
 
-  // Removes an entry from the schedule by its id.
+  Future<List<ScheduleEntry>> getSyncEntryList() async {
+    final database = AppDatabaseSingleton.instance;
+
+    return await database.select(database.scheduleEntries).get();
+  }
+
   Future<void> removeEntryById(String entryId) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.delete(database.scheduleEntries)..where((table) => table.id.equals(entryId))).go();
+    await (database.update(database.scheduleEntries)
+      ..where((table) => table.id.equals(entryId))).write(ScheduleEntriesCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
 
     notifyListeners();
   }
@@ -70,11 +133,11 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> removeEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.delete(database.scheduleEntries)
+    await (database.update(database.scheduleEntries)
           ..where((table) => table.week.equals(week))
           ..where((table) => table.day.equals(day))
           ..where((table) => table.recipeId.equals(recipeId)))
-        .go();
+        .write(ScheduleEntriesCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
 
     notifyListeners();
   }

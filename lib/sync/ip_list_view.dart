@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class IpList extends StatefulWidget {
-  const IpList({super.key});
+class IpListView extends StatefulWidget {
+  const IpListView({super.key});
 
   @override
-  State<IpList> createState() => _IpListState();
+  State<IpListView> createState() => _IpListViewState();
 }
 
-class _IpListState extends State<IpList> {
+class _IpListViewState extends State<IpListView> {
   @override
   Widget build(BuildContext context) {
     var ips = NetworkInterface.list();

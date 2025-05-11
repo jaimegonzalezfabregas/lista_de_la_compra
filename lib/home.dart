@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/maps/map_list.dart';
 import 'package:jhopping_list/recipies/recipe_manager.dart';
 import 'package:jhopping_list/products/simple_shopping_list.dart';
-import 'package:jhopping_list/schedule/schedule_manager.dart';
+import 'package:jhopping_list/schedule/schedule_view.dart';
 import 'package:jhopping_list/schedule/utils.dart';
-import 'package:jhopping_list/sync/sync_manager.dart';
+import 'package:jhopping_list/sync/http_client_manager.dart';
+import 'package:jhopping_list/sync/sync_view.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  final HttpClientManager syncManager;
+  const Home(this.syncManager, {super.key});
 
   Widget button(String lable, Widget page, BuildContext context, {bool disabled = false}) {
     return Padding(
@@ -31,9 +33,9 @@ class Home extends StatelessWidget {
         child: Column(
           children: [
             button("Lista de la Compra", SimpleShoppinglist(), context),
-            button("Lista de Recetas", RecipeManager(), context),
-            button("Agenda", ScheduleManager(getCurrentWeek()), context),
-            button("Sincronización", SyncManager(), context),
+            button("Lista de Recetas", RecipeView(), context),
+            button("Agenda", ScheduleView(getCurrentWeek()), context),
+            button("Sincronización", SyncView(syncManager), context),
             button("Lista de Mapas", MapList(), context, disabled: true),
           ],
         ),

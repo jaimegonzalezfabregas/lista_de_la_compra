@@ -19,7 +19,7 @@ class ProductListDisplay extends StatelessWidget {
     ScheduleProvider scheduleProvider = context.watch();
 
     return FutureBuilder(
-      future: productProvider.getProductList(),
+      future: productProvider.getDisplayProductList(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LoadingBox();
@@ -29,7 +29,7 @@ class ProductListDisplay extends StatelessWidget {
         return Searchablelistview<Product>(
           elements: products,
           elementToListTile: (Product p, RichText tag) {
-            var amountPromise = scheduleProvider.futureRecipesWithProduct(p.id);
+            var amountPromise = scheduleProvider.getFutureRecipesWithProduct(p.id);
 
             return ListTile(
               title: tag,
@@ -68,7 +68,7 @@ class ProductListDisplay extends StatelessWidget {
           },
           elementToTag: (Product p) => p.name,
           newElement: (String name) async {
-            var allProducts = await productProvider.getProductList();
+            var allProducts = await productProvider.getDisplayProductList();
             if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
               var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
 

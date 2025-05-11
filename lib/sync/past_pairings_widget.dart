@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
+import 'package:jhopping_list/sync/remote_terminal_view.dart';
 import 'package:provider/provider.dart';
 
 class RemoteTerminalList extends StatelessWidget {
@@ -40,20 +41,24 @@ class RemoteTerminalList extends StatelessWidget {
                             return ListTile(
                               title: Text(pairing.nick),
                               trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  IconButton(icon: Icon(Icons.arrow_outward), onPressed: () {
-                                    Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return RemoteTerminalDetail(pairing.id);
-                  },
-                ),
-              );
-                                  },)
+                                  IconButton(
+                                    icon: Icon(Icons.arrow_outward),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return RemoteTerminalView(pairing.terminalId);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   IconButton(
                                     icon: Icon(Icons.delete),
                                     onPressed: () {
-                                      pairingProvider.deleteRemoteTerminalById(pairing.id);
+                                      pairingProvider.deleteRemoteTerminalById(pairing.terminalId);
                                     },
                                   ),
                                 ],
