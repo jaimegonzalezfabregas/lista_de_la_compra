@@ -2,11 +2,11 @@ import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/providers/http_server_state_provider.dart';
 import 'package:jhopping_list/sync/ip_list_view.dart';
-import 'package:jhopping_list/sync/http_client_manager.dart';
+import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 class HTTPView extends StatelessWidget {
-  final HttpClientManager syncManager;
+  final OpenConnectionManager syncManager;
 
   const HTTPView(this.syncManager, {super.key});
 

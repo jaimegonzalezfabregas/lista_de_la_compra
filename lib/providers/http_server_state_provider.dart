@@ -7,21 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum ServerStatus { running, stopped, turningOn, turningOff, error }
 
 class HttpServerStateProvider extends ChangeNotifier {
-  HttpServerStateProvider(
-    PairingProvider pairingProvider,
-    OpenConnectionProvider openConnectionProvider,
-  ) {
-    _serverManager ??= HttpServerManager(
-      this,
-      pairingProvider,
-      openConnectionProvider,
-    );
+  HttpServerManager serverManager;
+
+  HttpServerStateProvider(this.serverManager) {
     tryStartServer();
   }
 
-  static HttpServerManager? _serverManager;
-  static ServerStatus status = ServerStatus.stopped;
-  static String statusError = "Error desconocido";
+  ServerStatus status = ServerStatus.stopped;
+  String statusError = "Error desconocido";
 
   ServerStatus getServerStatus() {
     return status;
@@ -35,7 +28,7 @@ class HttpServerStateProvider extends ChangeNotifier {
   }
 
   bool isServerRunning() {
-    return _serverManager!.isServerRunning();
+    return serverManager.isServerRunning();
   }
 
   Future<void> tryStartServer() async {
@@ -48,20 +41,13 @@ class HttpServerStateProvider extends ChangeNotifier {
       return;
     }
 
-    String? roomKey = prefs.getString('RoomKey');
-
-    if (roomKey == null) {
-      setServerStatus(ServerStatus.error, error: "Introduzca una clave de sala");
-      return;
-    }
-
-    _serverManager!.startServer();
+    serverManager.startServer(this);
 
     notifyListeners();
   }
 
   Future<void> stopServer() async {
-    _serverManager!.stopServer();
+    serverManager.stopServer(this);
 
     notifyListeners();
   }

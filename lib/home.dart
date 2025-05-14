@@ -4,11 +4,11 @@ import 'package:jhopping_list/recipies/recipe_manager.dart';
 import 'package:jhopping_list/products/simple_shopping_list.dart';
 import 'package:jhopping_list/schedule/schedule_view.dart';
 import 'package:jhopping_list/schedule/utils.dart';
-import 'package:jhopping_list/sync/http_client_manager.dart';
+import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:jhopping_list/sync/sync_view.dart';
 
 class Home extends StatelessWidget {
-  final HttpClientManager syncManager;
+  final OpenConnectionManager syncManager;
   const Home(this.syncManager, {super.key});
 
   Widget button(String lable, Widget page, BuildContext context, {bool disabled = false}) {

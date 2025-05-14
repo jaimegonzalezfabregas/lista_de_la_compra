@@ -7,7 +7,8 @@ import 'package:jhopping_list/home.dart';
 import 'package:jhopping_list/providers/schedule_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
 import 'package:jhopping_list/providers/shared_preferences_provider.dart';
-import 'package:jhopping_list/sync/http_client_manager.dart';
+import 'package:jhopping_list/sync/http_server_manager.dart';
+import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
@@ -25,18 +26,13 @@ class MyApp extends StatelessWidget {
     final ScheduleProvider scheduleProvider = ScheduleProvider();
     final PairingProvider pairingProvider = PairingProvider();
     final SharedPreferencesProvider sharedPreferencesProvider = SharedPreferencesProvider();
+    final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider();
 
-    final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider(
-      productProvider,
-      recipeProvider,
-      scheduleProvider,
-      sharedPreferencesProvider,
-      pairingProvider,
-    );
+    final OpenConnectionManager openConnectionManager = OpenConnectionManager(pairingProvider, openConnectionProvider);
 
-    final HttpClientManager httpClientManager = HttpClientManager(pairingProvider, openConnectionProvider);
+    final HttpServerManager httpServerManager = HttpServerManager(pairingProvider, openConnectionManager);
 
-    final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(pairingProvider, openConnectionProvider);
+    final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager);
 
     return MultiProvider(
       providers: [
@@ -54,7 +50,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 25, 0, 255), brightness: MediaQuery.platformBrightnessOf(context)),
         ),
-        home: Home(httpClientManager),
+        home: Home(openConnectionManager),
       ),
     );
   }

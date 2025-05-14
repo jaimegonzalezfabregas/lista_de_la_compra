@@ -96,6 +96,9 @@ class ProductProvider extends ChangeNotifier {
   Future<List<Product>> getSyncProductList() async {
     final database = AppDatabaseSingleton.instance;
 
-    return await database.select(database.products).get();
+    var query = database.select(database.products);
+    query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
+
+    return await query.get();
   }
 }

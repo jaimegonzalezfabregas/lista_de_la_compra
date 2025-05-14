@@ -105,11 +105,6 @@ class RecipeProvider extends ChangeNotifier {
     return await (database.select(database.recipes)..where((table) => table.deletedAt.isNull())).get();
   }
 
-  Future<List<Recipe>> getSyncRecipeList() async {
-    final database = AppDatabaseSingleton.instance;
-    return await database.select(database.recipes).get();
-  }
-
   Future addRecipe(String name) async {
     final database = AppDatabaseSingleton.instance;
 
@@ -191,7 +186,19 @@ class RecipeProvider extends ChangeNotifier {
   Future<List<RecipeProduct>> getSyncRecipeProductList() async {
     final database = AppDatabaseSingleton.instance;
 
-    return await database.select(database.recipeProducts).get();
+    var query = database.select(database.recipeProducts);
+    query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
+
+    return await query.get();
+  }
+
+  Future<List<Recipe>> getSyncRecipeList() async {
+    final database = AppDatabaseSingleton.instance;
+
+    var query = database.select(database.recipes);
+    query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
+
+    return await query.get();
   }
 
   // TODO change recipe name

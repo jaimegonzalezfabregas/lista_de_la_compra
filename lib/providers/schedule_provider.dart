@@ -118,7 +118,10 @@ class ScheduleProvider extends ChangeNotifier {
   Future<List<ScheduleEntry>> getSyncEntryList() async {
     final database = AppDatabaseSingleton.instance;
 
-    return await database.select(database.scheduleEntries).get();
+    var query = database.select(database.scheduleEntries);
+    query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
+    
+    return await query.get();
   }
 
   Future<void> removeEntryById(String entryId) async {

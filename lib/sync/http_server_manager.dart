@@ -3,28 +3,28 @@ import 'dart:io';
 import 'package:jhopping_list/providers/http_server_state_provider.dart';
 import 'package:jhopping_list/providers/open_conection_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
+import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
 class HttpServerManager {
   HttpServer? _server;
-  final HttpServerStateProvider serverStateProvider;
   final PairingProvider pairingProvider;
-  final OpenConnectionProvider openConnectionProvider;
+  final OpenConnectionManager openConnectionManager;
 
   HttpServerManager(
-    this.serverStateProvider,
     this.pairingProvider,
-    this.openConnectionProvider,
+    this.openConnectionManager,
   );
 
-  Future<void> startServer() async {
+  Future<void> startServer(HttpServerStateProvider serverStateProvider) async {
     if (_server != null) {
-      await stopServer();
+      await stopServer(serverStateProvider);
     }
 
     var handler = webSocketHandler((webSocket, x) async {
-      openConnectionProvider.socketManage(webSocket, (terminalId, nick) {
+      
+      openConnectionManager.socketManage(webSocket, (terminalId, nick) {
         pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick);
       });
     });
@@ -40,7 +40,7 @@ class HttpServerManager {
     }
   }
 
-  Future<void> stopServer() async {
+  Future<void> stopServer(HttpServerStateProvider serverStateProvider) async {
     serverStateProvider.setServerStatus(ServerStatus.turningOff);
 
     await _server?.close();
