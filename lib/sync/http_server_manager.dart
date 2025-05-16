@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/http_server_state_provider.dart';
-import 'package:jhopping_list/providers/open_conection_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -11,10 +11,12 @@ class HttpServerManager {
   HttpServer? _server;
   final PairingProvider pairingProvider;
   final OpenConnectionManager openConnectionManager;
+  final Enviroment enviroment;
 
   HttpServerManager(
     this.pairingProvider,
     this.openConnectionManager,
+    this.enviroment,
   );
 
   Future<void> startServer(HttpServerStateProvider serverStateProvider) async {
@@ -25,7 +27,7 @@ class HttpServerManager {
     var handler = webSocketHandler((webSocket, x) async {
       
       openConnectionManager.socketManage(webSocket, (terminalId, nick) {
-        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick);
+        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick, enviroment.id);
       });
     });
 

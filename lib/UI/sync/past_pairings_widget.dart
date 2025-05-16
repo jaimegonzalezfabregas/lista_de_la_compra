@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
+import 'package:jhopping_list/providers/open_conection_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
-import 'package:jhopping_list/sync/remote_terminal_view.dart';
+import 'package:jhopping_list/UI/sync/remote_terminal_view.dart';
 import 'package:provider/provider.dart';
 
 class RemoteTerminalList extends StatelessWidget {
-  const RemoteTerminalList({super.key});
+  final String enviromentId;
+  const RemoteTerminalList(this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
     PairingProvider pairingProvider = context.watch();
+    OpenConnectionProvider openConnectionProvider = context.watch();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -19,7 +22,7 @@ class RemoteTerminalList extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Builder(
             builder: (context) {
-              var remoteTerminals = pairingProvider.getRemoteTerminals();
+              var remoteTerminals = pairingProvider.getRemoteTerminals(enviromentId);
 
               return Column(
                 children: [
@@ -38,8 +41,11 @@ class RemoteTerminalList extends StatelessWidget {
                           itemCount: pairings.length,
                           itemBuilder: (context, index) {
                             RemoteTerminal pairing = pairings[index];
+
+                            bool isOpen = openConnectionProvider.isOpenConnection(pairing.terminalId);
+
                             return ListTile(
-                              title: Text(pairing.nick),
+                              title: Row(children: [if (isOpen) Icon(Icons.link), if (!isOpen) Icon(Icons.link_off), Text(pairing.nick)]),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -58,7 +64,7 @@ class RemoteTerminalList extends StatelessWidget {
                                   IconButton(
                                     icon: Icon(Icons.delete),
                                     onPressed: () {
-                                      pairingProvider.deleteRemoteTerminalById(pairing.terminalId);
+                                      pairingProvider.deleteRemoteTerminalById(pairing.terminalId, enviromentId);
                                     },
                                   ),
                                 ],

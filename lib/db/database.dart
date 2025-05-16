@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:jhopping_list/db/pairing_model.dart';
+import 'package:jhopping_list/db/enviroments.dart';
+import 'package:jhopping_list/db/remote_terminals_model.dart';
 import 'package:jhopping_list/db/product_model.dart';
 import 'package:jhopping_list/db/recipe_model.dart';
 import 'package:jhopping_list/db/schedule.dart';
@@ -8,7 +9,7 @@ import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, RemoteTerminals])
+@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, RemoteTerminals, Enviroments, RemoteTerminalEnviroments])
 class AppDatabase extends _$AppDatabase {
   // After generating code, this class needs to define a `schemaVersion` getter
   // and a constructor telling drift where the database should be stored.

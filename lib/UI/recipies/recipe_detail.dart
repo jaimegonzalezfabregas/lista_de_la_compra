@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/products/product_detail.dart';
+import 'package:jhopping_list/UI/products/product_detail.dart';
 import 'package:jhopping_list/providers/product_provider.dart';
-import 'package:jhopping_list/recipies/add_ingredient.dart';
+import 'package:jhopping_list/UI/recipies/add_ingredient.dart';
 import 'package:jhopping_list/providers/recipe_provider.dart';
-import 'package:jhopping_list/schedule/day_view.dart';
-import 'package:jhopping_list/schedule/schedule_view.dart';
+import 'package:jhopping_list/UI/schedule/day_view.dart';
+import 'package:jhopping_list/UI/schedule/schedule_view.dart';
 import 'package:jhopping_list/providers/schedule_provider.dart';
-import 'package:jhopping_list/schedule/utils.dart';
-import 'package:jhopping_list/common/loading_box.dart';
+import 'package:jhopping_list/UI/schedule/utils.dart';
+import 'package:jhopping_list/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class Ingredients extends StatelessWidget {
   final String recipeId;
   const Ingredients(this.recipeId, {super.key});
 
-  ListTile ingredientEntry(
-    RecipeProduct ingredient,
-    Product product,
-    RecipeProvider recipeProvider,
-    BuildContext context,
-  ) {
+  ListTile ingredientEntry(RecipeProduct ingredient, Product product, RecipeProvider recipeProvider, BuildContext context) {
     ProductProvider productProvider = context.watch();
 
     return ListTile(
@@ -37,8 +32,7 @@ class Ingredients extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              TextEditingController textEditingController =
-                  TextEditingController();
+              TextEditingController textEditingController = TextEditingController();
               textEditingController.text = ingredient.amount;
               showDialog(
                 context: context,
@@ -52,11 +46,7 @@ class Ingredients extends StatelessWidget {
                   Widget continueButton = ElevatedButton(
                     child: Text("Guardar"),
                     onPressed: () {
-                      recipeProvider.setIngredientAmountOfRecipeById(
-                        recipeId,
-                        ingredient.productId,
-                        textEditingController.text,
-                      );
+                      recipeProvider.setIngredientAmountOfRecipeById(recipeId, ingredient.productId, textEditingController.text);
                       Navigator.of(context).pop();
                     },
                   );
@@ -85,11 +75,7 @@ class Ingredients extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              recipeProvider.setIngredientOfRecipeById(
-                recipeId,
-                ingredient.productId,
-                false,
-              );
+              recipeProvider.setIngredientOfRecipeById(recipeId, ingredient.productId, false);
             },
             icon: Icon(Icons.delete),
           ),
@@ -107,10 +93,7 @@ class Ingredients extends StatelessWidget {
 
     return FutureBuilder(
       future: ingredients,
-      builder: (
-        context,
-        AsyncSnapshot<List<(RecipeProduct, Product)>> snapshot,
-      ) {
+      builder: (context, AsyncSnapshot<List<(RecipeProduct, Product)>> snapshot) {
         if (!snapshot.hasData) {
           return LoadingBox();
         }
@@ -118,10 +101,7 @@ class Ingredients extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHigh,
-              borderRadius: BorderRadius.circular(8),
-            ),
+            decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(8)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -129,27 +109,15 @@ class Ingredients extends StatelessWidget {
                 if (snapshot.data!.isNotEmpty)
                   ListView.separated(
                     shrinkWrap: true,
-                    physics:
-                        NeverScrollableScrollPhysics(), // Prevent scrolling inside the Column
+                    physics: NeverScrollableScrollPhysics(), // Prevent scrolling inside the Column
                     separatorBuilder: (context, index) => Divider(),
                     itemCount: snapshot.data!.length,
-                    itemBuilder:
-                        (context, index) => ingredientEntry(
-                          snapshot.data![index].$1,
-                          snapshot.data![index].$2,
-                          recipeProvider,
-                          context,
-                        ),
+                    itemBuilder: (context, index) => ingredientEntry(snapshot.data![index].$1, snapshot.data![index].$2, recipeProvider, context),
                   )
                 else
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text("Todavía no se han añadido ingredientes"),
-                      ),
-                    ),
+                    child: Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Text("Todavía no se han añadido ingredientes"))),
                   ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -169,12 +137,7 @@ class Ingredients extends StatelessWidget {
                       children: [
                         Icon(Icons.add),
                         SizedBox(width: 8),
-                        Text(
-                          "Añadir ingredientes",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
+                        Text("Añadir ingredientes", style: TextStyle(color: Theme.of(context).colorScheme.primary)),
                       ],
                     ),
                   ),
@@ -202,18 +165,15 @@ class _PlannedDatesState extends State<PlannedDates> {
   @override
   Widget build(BuildContext context) {
     ScheduleProvider scheduleRecipeProvider = context.watch();
+    RecipeProvider recipeProvider = context.watch();
 
-    Future<List<ScheduleEntry>> dates = scheduleRecipeProvider
-        .getEntriesForRecipe(widget.recipeId, showPast);
+    Future<List<ScheduleEntry>> dates = scheduleRecipeProvider.getEntriesForRecipe(widget.recipeId, showPast);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
 
       child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(8),
-        ),
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(8)),
         child: Column(
           children: [
             Padding(
@@ -252,27 +212,24 @@ class _PlannedDatesState extends State<PlannedDates> {
                       itemBuilder: (context, index) {
                         var entry = snapshot.data![index];
 
-                        DateTime date = weekAndDayToDateTime(
-                          entry.week,
-                          entry.day,
-                        );
+                        DateTime date = weekAndDayToDateTime(entry.week, entry.day);
 
                         return ListTile(
-                          title: Text(
-                            "${date.day} de ${months[date.month]} de ${date.year}",
-                          ),
+                          title: Text("${date.day} de ${months[date.month]} de ${date.year}"),
 
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
 
                             children: [
                               IconButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  Recipe? recipe = await recipeProvider.getRecipeById(widget.recipeId);
+
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return ScheduleView(entry.week);
+                                        return ScheduleView(entry.week, recipe!.enviromentId);
                                       },
                                     ),
                                   );
@@ -281,9 +238,7 @@ class _PlannedDatesState extends State<PlannedDates> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  scheduleRecipeProvider.removeEntryById(
-                                    entry.id,
-                                  );
+                                  scheduleRecipeProvider.removeEntryById(entry.id);
                                 },
                                 icon: Icon(Icons.delete),
                               ),
@@ -292,14 +247,7 @@ class _PlannedDatesState extends State<PlannedDates> {
                         );
                       },
                     )
-                    : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Center(
-                          child: Text("No hay fechas planificadas"),
-                        ),
-                      ),
-                    );
+                    : Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Center(child: Text("No hay fechas planificadas"))));
               },
             ),
           ],
@@ -328,13 +276,7 @@ class RecipeDetail extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: Row(
-                    children: [
-                      Text("Eliminar"),
-                      SizedBox(width: 8),
-                      Icon(Icons.delete),
-                    ],
-                  ),
+                  child: Row(children: [Text("Eliminar"), SizedBox(width: 8), Icon(Icons.delete)]),
                   onTap: () {
                     Navigator.pop(context);
                     appState.deleteRecipeById(recipeId);
@@ -352,12 +294,7 @@ class RecipeDetail extends StatelessWidget {
               return LoadingBox();
             }
             if (snapshot.data == null) {
-              return Text(
-                "Error",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-              );
+              return Text("Error", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer));
             }
 
             var recipe = snapshot.data!;
@@ -372,19 +309,10 @@ class RecipeDetail extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                "Ingredientes",
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
+              child: Text("Ingredientes", style: Theme.of(context).textTheme.titleSmall),
             ),
             Ingredients(recipeId),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                "Fechas",
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: 15.0), child: Text("Fechas", style: Theme.of(context).textTheme.titleSmall)),
             PlannedDates(recipeId),
           ],
         ),

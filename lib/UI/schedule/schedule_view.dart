@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/schedule/day_view.dart';
-import 'package:jhopping_list/schedule/utils.dart';
+import 'package:jhopping_list/UI/schedule/day_view.dart';
+import 'package:jhopping_list/UI/schedule/utils.dart';
 
-class _ScheduleView extends State {
+class _ScheduleView extends State<ScheduleViewContents> {
   int currentWeek;
 
   _ScheduleView(this.currentWeek);
@@ -13,21 +13,30 @@ class _ScheduleView extends State {
 
     List<Widget> days = [];
     for (var dayI = 0; dayI < 7; dayI++) {
-      days.add(DayView(currentWeek, dayI, startOfWeekTime));
+      days.add(DayView(currentWeek, dayI, startOfWeekTime, widget.enviromentId));
     }
 
-    List<Widget> head = [
-      Center(
-        child: Text(
-          "${startOfWeekTime.day} de ${months[startOfWeekTime.month]} de ${startOfWeekTime.year}",
-        ),
-      ),
-    ];
+    List<Widget> head = [];
 
-    if (currentWeek != getCurrentWeek()) {
+    if (currentWeek > getCurrentWeek()) {
       head.add(
         IconButton(
-          icon: Icon(Icons.reply),
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            setState(() {
+              currentWeek = getCurrentWeek();
+            });
+          },
+        ),
+      );
+    }
+
+    head.add(Center(child: Text("${startOfWeekTime.day} de ${months[startOfWeekTime.month]} de ${startOfWeekTime.year}")));
+
+    if (currentWeek < getCurrentWeek()) {
+      head.add(
+        IconButton(
+          icon: Icon(Icons.arrow_forward),
           onPressed: () {
             setState(() {
               currentWeek = getCurrentWeek();
@@ -53,12 +62,7 @@ class _ScheduleView extends State {
                 },
                 child: Icon(Icons.arrow_back),
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: head,
-                ),
-              ),
+              Expanded(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: head)),
               OutlinedButton(
                 onPressed: () {
                   setState(() {
@@ -78,7 +82,8 @@ class _ScheduleView extends State {
 
 class ScheduleViewContents extends StatefulWidget {
   final int initialWeek;
-  const ScheduleViewContents(this.initialWeek, {super.key});
+  final String enviromentId;
+  const ScheduleViewContents(this.initialWeek, this.enviromentId, {super.key});
 
   @override
   State<StatefulWidget> createState() => _ScheduleView(initialWeek);
@@ -86,22 +91,18 @@ class ScheduleViewContents extends StatefulWidget {
 
 class ScheduleView extends StatelessWidget {
   final int initialWeek;
+  final String enviromentId;
 
-  const ScheduleView(this.initialWeek, {super.key});
+  const ScheduleView(this.initialWeek, this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Agenda",
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
-          ),
-        ),
+        title: Text("Agenda", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer)),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
-      body: ScheduleViewContents(initialWeek),
+      body: ScheduleViewContents(initialWeek, enviromentId),
     );
   }
 }

@@ -3,6 +3,264 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
+class $EnviromentsTable extends Enviroments
+    with TableInfo<$EnviromentsTable, Enviroment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EnviromentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    clientDefault: () => Uuid().v7(),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    clientDefault: () => DateTime.now().millisecondsSinceEpoch,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'enviroments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Enviroment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Enviroment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Enviroment(
+      id:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}id'],
+          )!,
+      name:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}name'],
+          )!,
+      updatedAt:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}updated_at'],
+          )!,
+    );
+  }
+
+  @override
+  $EnviromentsTable createAlias(String alias) {
+    return $EnviromentsTable(attachedDatabase, alias);
+  }
+}
+
+class Enviroment extends DataClass implements Insertable<Enviroment> {
+  final String id;
+  final String name;
+  final int updatedAt;
+  const Enviroment({
+    required this.id,
+    required this.name,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['updated_at'] = Variable<int>(updatedAt);
+    return map;
+  }
+
+  EnviromentsCompanion toCompanion(bool nullToAbsent) {
+    return EnviromentsCompanion(
+      id: Value(id),
+      name: Value(name),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory Enviroment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Enviroment(
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'updatedAt': serializer.toJson<int>(updatedAt),
+    };
+  }
+
+  Enviroment copyWith({String? id, String? name, int? updatedAt}) => Enviroment(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  Enviroment copyWithCompanion(EnviromentsCompanion data) {
+    return Enviroment(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Enviroment(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Enviroment &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.updatedAt == this.updatedAt);
+}
+
+class EnviromentsCompanion extends UpdateCompanion<Enviroment> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<int> updatedAt;
+  final Value<int> rowid;
+  const EnviromentsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  EnviromentsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : name = Value(name);
+  static Insertable<Enviroment> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<int>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  EnviromentsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<int>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return EnviromentsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EnviromentsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -51,8 +309,28 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _enviromentIdMeta = const VerificationMeta(
+    'enviromentId',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, updatedAt, deletedAt];
+  late final GeneratedColumn<String> enviromentId = GeneratedColumn<String>(
+    'enviroment_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES enviroments (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    updatedAt,
+    deletedAt,
+    enviromentId,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -88,6 +366,17 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
         deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
       );
     }
+    if (data.containsKey('enviroment_id')) {
+      context.handle(
+        _enviromentIdMeta,
+        enviromentId.isAcceptableOrUnknown(
+          data['enviroment_id']!,
+          _enviromentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_enviromentIdMeta);
+    }
     return context;
   }
 
@@ -116,6 +405,11 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, Recipe> {
         DriftSqlType.int,
         data['${effectivePrefix}deleted_at'],
       ),
+      enviromentId:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}enviroment_id'],
+          )!,
     );
   }
 
@@ -130,11 +424,13 @@ class Recipe extends DataClass implements Insertable<Recipe> {
   final String name;
   final int updatedAt;
   final int? deletedAt;
+  final String enviromentId;
   const Recipe({
     required this.id,
     required this.name,
     required this.updatedAt,
     this.deletedAt,
+    required this.enviromentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -145,6 +441,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     if (!nullToAbsent || deletedAt != null) {
       map['deleted_at'] = Variable<int>(deletedAt);
     }
+    map['enviroment_id'] = Variable<String>(enviromentId);
     return map;
   }
 
@@ -157,6 +454,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           deletedAt == null && nullToAbsent
               ? const Value.absent()
               : Value(deletedAt),
+      enviromentId: Value(enviromentId),
     );
   }
 
@@ -170,6 +468,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       name: serializer.fromJson<String>(json['name']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
       deletedAt: serializer.fromJson<int?>(json['deletedAt']),
+      enviromentId: serializer.fromJson<String>(json['enviromentId']),
     );
   }
   @override
@@ -180,6 +479,7 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       'name': serializer.toJson<String>(name),
       'updatedAt': serializer.toJson<int>(updatedAt),
       'deletedAt': serializer.toJson<int?>(deletedAt),
+      'enviromentId': serializer.toJson<String>(enviromentId),
     };
   }
 
@@ -188,11 +488,13 @@ class Recipe extends DataClass implements Insertable<Recipe> {
     String? name,
     int? updatedAt,
     Value<int?> deletedAt = const Value.absent(),
+    String? enviromentId,
   }) => Recipe(
     id: id ?? this.id,
     name: name ?? this.name,
     updatedAt: updatedAt ?? this.updatedAt,
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    enviromentId: enviromentId ?? this.enviromentId,
   );
   Recipe copyWithCompanion(RecipesCompanion data) {
     return Recipe(
@@ -200,6 +502,10 @@ class Recipe extends DataClass implements Insertable<Recipe> {
       name: data.name.present ? data.name.value : this.name,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      enviromentId:
+          data.enviromentId.present
+              ? data.enviromentId.value
+              : this.enviromentId,
     );
   }
 
@@ -209,13 +515,14 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('enviromentId: $enviromentId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, updatedAt, deletedAt);
+  int get hashCode => Object.hash(id, name, updatedAt, deletedAt, enviromentId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -223,7 +530,8 @@ class Recipe extends DataClass implements Insertable<Recipe> {
           other.id == this.id &&
           other.name == this.name &&
           other.updatedAt == this.updatedAt &&
-          other.deletedAt == this.deletedAt);
+          other.deletedAt == this.deletedAt &&
+          other.enviromentId == this.enviromentId);
 }
 
 class RecipesCompanion extends UpdateCompanion<Recipe> {
@@ -231,12 +539,14 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
   final Value<String> name;
   final Value<int> updatedAt;
   final Value<int?> deletedAt;
+  final Value<String> enviromentId;
   final Value<int> rowid;
   const RecipesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
+    this.enviromentId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   RecipesCompanion.insert({
@@ -244,13 +554,16 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     required String name,
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
+    required String enviromentId,
     this.rowid = const Value.absent(),
-  }) : name = Value(name);
+  }) : name = Value(name),
+       enviromentId = Value(enviromentId);
   static Insertable<Recipe> custom({
     Expression<String>? id,
     Expression<String>? name,
     Expression<int>? updatedAt,
     Expression<int>? deletedAt,
+    Expression<String>? enviromentId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -258,6 +571,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       if (name != null) 'name': name,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
+      if (enviromentId != null) 'enviroment_id': enviromentId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -267,6 +581,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     Value<String>? name,
     Value<int>? updatedAt,
     Value<int?>? deletedAt,
+    Value<String>? enviromentId,
     Value<int>? rowid,
   }) {
     return RecipesCompanion(
@@ -274,6 +589,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
       name: name ?? this.name,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
+      enviromentId: enviromentId ?? this.enviromentId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -293,6 +609,9 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
     if (deletedAt.present) {
       map['deleted_at'] = Variable<int>(deletedAt.value);
     }
+    if (enviromentId.present) {
+      map['enviroment_id'] = Variable<String>(enviromentId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -306,6 +625,7 @@ class RecipesCompanion extends UpdateCompanion<Recipe> {
           ..write('name: $name, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
+          ..write('enviromentId: $enviromentId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -784,6 +1104,20 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _enviromentIdMeta = const VerificationMeta(
+    'enviromentId',
+  );
+  @override
+  late final GeneratedColumn<String> enviromentId = GeneratedColumn<String>(
+    'enviroment_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES enviroments (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -791,6 +1125,7 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     needed,
     updatedAt,
     deletedAt,
+    enviromentId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -835,6 +1170,17 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
         deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
       );
     }
+    if (data.containsKey('enviroment_id')) {
+      context.handle(
+        _enviromentIdMeta,
+        enviromentId.isAcceptableOrUnknown(
+          data['enviroment_id']!,
+          _enviromentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_enviromentIdMeta);
+    }
     return context;
   }
 
@@ -868,6 +1214,11 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
         DriftSqlType.int,
         data['${effectivePrefix}deleted_at'],
       ),
+      enviromentId:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}enviroment_id'],
+          )!,
     );
   }
 
@@ -883,12 +1234,14 @@ class Product extends DataClass implements Insertable<Product> {
   final bool needed;
   final int updatedAt;
   final int? deletedAt;
+  final String enviromentId;
   const Product({
     required this.id,
     required this.name,
     required this.needed,
     required this.updatedAt,
     this.deletedAt,
+    required this.enviromentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -900,6 +1253,7 @@ class Product extends DataClass implements Insertable<Product> {
     if (!nullToAbsent || deletedAt != null) {
       map['deleted_at'] = Variable<int>(deletedAt);
     }
+    map['enviroment_id'] = Variable<String>(enviromentId);
     return map;
   }
 
@@ -913,6 +1267,7 @@ class Product extends DataClass implements Insertable<Product> {
           deletedAt == null && nullToAbsent
               ? const Value.absent()
               : Value(deletedAt),
+      enviromentId: Value(enviromentId),
     );
   }
 
@@ -927,6 +1282,7 @@ class Product extends DataClass implements Insertable<Product> {
       needed: serializer.fromJson<bool>(json['needed']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
       deletedAt: serializer.fromJson<int?>(json['deletedAt']),
+      enviromentId: serializer.fromJson<String>(json['enviromentId']),
     );
   }
   @override
@@ -938,6 +1294,7 @@ class Product extends DataClass implements Insertable<Product> {
       'needed': serializer.toJson<bool>(needed),
       'updatedAt': serializer.toJson<int>(updatedAt),
       'deletedAt': serializer.toJson<int?>(deletedAt),
+      'enviromentId': serializer.toJson<String>(enviromentId),
     };
   }
 
@@ -947,12 +1304,14 @@ class Product extends DataClass implements Insertable<Product> {
     bool? needed,
     int? updatedAt,
     Value<int?> deletedAt = const Value.absent(),
+    String? enviromentId,
   }) => Product(
     id: id ?? this.id,
     name: name ?? this.name,
     needed: needed ?? this.needed,
     updatedAt: updatedAt ?? this.updatedAt,
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    enviromentId: enviromentId ?? this.enviromentId,
   );
   Product copyWithCompanion(ProductsCompanion data) {
     return Product(
@@ -961,6 +1320,10 @@ class Product extends DataClass implements Insertable<Product> {
       needed: data.needed.present ? data.needed.value : this.needed,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      enviromentId:
+          data.enviromentId.present
+              ? data.enviromentId.value
+              : this.enviromentId,
     );
   }
 
@@ -971,13 +1334,15 @@ class Product extends DataClass implements Insertable<Product> {
           ..write('name: $name, ')
           ..write('needed: $needed, ')
           ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('enviromentId: $enviromentId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, needed, updatedAt, deletedAt);
+  int get hashCode =>
+      Object.hash(id, name, needed, updatedAt, deletedAt, enviromentId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -986,7 +1351,8 @@ class Product extends DataClass implements Insertable<Product> {
           other.name == this.name &&
           other.needed == this.needed &&
           other.updatedAt == this.updatedAt &&
-          other.deletedAt == this.deletedAt);
+          other.deletedAt == this.deletedAt &&
+          other.enviromentId == this.enviromentId);
 }
 
 class ProductsCompanion extends UpdateCompanion<Product> {
@@ -995,6 +1361,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
   final Value<bool> needed;
   final Value<int> updatedAt;
   final Value<int?> deletedAt;
+  final Value<String> enviromentId;
   final Value<int> rowid;
   const ProductsCompanion({
     this.id = const Value.absent(),
@@ -1002,6 +1369,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     this.needed = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
+    this.enviromentId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ProductsCompanion.insert({
@@ -1010,15 +1378,18 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     required bool needed,
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
+    required String enviromentId,
     this.rowid = const Value.absent(),
   }) : name = Value(name),
-       needed = Value(needed);
+       needed = Value(needed),
+       enviromentId = Value(enviromentId);
   static Insertable<Product> custom({
     Expression<String>? id,
     Expression<String>? name,
     Expression<bool>? needed,
     Expression<int>? updatedAt,
     Expression<int>? deletedAt,
+    Expression<String>? enviromentId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1027,6 +1398,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
       if (needed != null) 'needed': needed,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
+      if (enviromentId != null) 'enviroment_id': enviromentId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1037,6 +1409,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     Value<bool>? needed,
     Value<int>? updatedAt,
     Value<int?>? deletedAt,
+    Value<String>? enviromentId,
     Value<int>? rowid,
   }) {
     return ProductsCompanion(
@@ -1045,6 +1418,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
       needed: needed ?? this.needed,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
+      enviromentId: enviromentId ?? this.enviromentId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1067,6 +1441,9 @@ class ProductsCompanion extends UpdateCompanion<Product> {
     if (deletedAt.present) {
       map['deleted_at'] = Variable<int>(deletedAt.value);
     }
+    if (enviromentId.present) {
+      map['enviroment_id'] = Variable<String>(enviromentId.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1081,6 +1458,7 @@ class ProductsCompanion extends UpdateCompanion<Product> {
           ..write('needed: $needed, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
+          ..write('enviromentId: $enviromentId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2046,9 +2424,255 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   }
 }
 
+class $RemoteTerminalEnviromentsTable extends RemoteTerminalEnviroments
+    with TableInfo<$RemoteTerminalEnviromentsTable, RemoteTerminalEnviroment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RemoteTerminalEnviromentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _terminalIdMeta = const VerificationMeta(
+    'terminalId',
+  );
+  @override
+  late final GeneratedColumn<String> terminalId = GeneratedColumn<String>(
+    'terminal_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES remote_terminals (terminal_id)',
+    ),
+  );
+  static const VerificationMeta _enviromentIdMeta = const VerificationMeta(
+    'enviromentId',
+  );
+  @override
+  late final GeneratedColumn<String> enviromentId = GeneratedColumn<String>(
+    'enviroment_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES enviroments (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [terminalId, enviromentId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'remote_terminal_enviroments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RemoteTerminalEnviroment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('terminal_id')) {
+      context.handle(
+        _terminalIdMeta,
+        terminalId.isAcceptableOrUnknown(data['terminal_id']!, _terminalIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_terminalIdMeta);
+    }
+    if (data.containsKey('enviroment_id')) {
+      context.handle(
+        _enviromentIdMeta,
+        enviromentId.isAcceptableOrUnknown(
+          data['enviroment_id']!,
+          _enviromentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_enviromentIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {terminalId, enviromentId};
+  @override
+  RemoteTerminalEnviroment map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RemoteTerminalEnviroment(
+      terminalId:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}terminal_id'],
+          )!,
+      enviromentId:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}enviroment_id'],
+          )!,
+    );
+  }
+
+  @override
+  $RemoteTerminalEnviromentsTable createAlias(String alias) {
+    return $RemoteTerminalEnviromentsTable(attachedDatabase, alias);
+  }
+}
+
+class RemoteTerminalEnviroment extends DataClass
+    implements Insertable<RemoteTerminalEnviroment> {
+  final String terminalId;
+  final String enviromentId;
+  const RemoteTerminalEnviroment({
+    required this.terminalId,
+    required this.enviromentId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['terminal_id'] = Variable<String>(terminalId);
+    map['enviroment_id'] = Variable<String>(enviromentId);
+    return map;
+  }
+
+  RemoteTerminalEnviromentsCompanion toCompanion(bool nullToAbsent) {
+    return RemoteTerminalEnviromentsCompanion(
+      terminalId: Value(terminalId),
+      enviromentId: Value(enviromentId),
+    );
+  }
+
+  factory RemoteTerminalEnviroment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RemoteTerminalEnviroment(
+      terminalId: serializer.fromJson<String>(json['terminalId']),
+      enviromentId: serializer.fromJson<String>(json['enviromentId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'terminalId': serializer.toJson<String>(terminalId),
+      'enviromentId': serializer.toJson<String>(enviromentId),
+    };
+  }
+
+  RemoteTerminalEnviroment copyWith({
+    String? terminalId,
+    String? enviromentId,
+  }) => RemoteTerminalEnviroment(
+    terminalId: terminalId ?? this.terminalId,
+    enviromentId: enviromentId ?? this.enviromentId,
+  );
+  RemoteTerminalEnviroment copyWithCompanion(
+    RemoteTerminalEnviromentsCompanion data,
+  ) {
+    return RemoteTerminalEnviroment(
+      terminalId:
+          data.terminalId.present ? data.terminalId.value : this.terminalId,
+      enviromentId:
+          data.enviromentId.present
+              ? data.enviromentId.value
+              : this.enviromentId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RemoteTerminalEnviroment(')
+          ..write('terminalId: $terminalId, ')
+          ..write('enviromentId: $enviromentId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(terminalId, enviromentId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RemoteTerminalEnviroment &&
+          other.terminalId == this.terminalId &&
+          other.enviromentId == this.enviromentId);
+}
+
+class RemoteTerminalEnviromentsCompanion
+    extends UpdateCompanion<RemoteTerminalEnviroment> {
+  final Value<String> terminalId;
+  final Value<String> enviromentId;
+  final Value<int> rowid;
+  const RemoteTerminalEnviromentsCompanion({
+    this.terminalId = const Value.absent(),
+    this.enviromentId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  RemoteTerminalEnviromentsCompanion.insert({
+    required String terminalId,
+    required String enviromentId,
+    this.rowid = const Value.absent(),
+  }) : terminalId = Value(terminalId),
+       enviromentId = Value(enviromentId);
+  static Insertable<RemoteTerminalEnviroment> custom({
+    Expression<String>? terminalId,
+    Expression<String>? enviromentId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (terminalId != null) 'terminal_id': terminalId,
+      if (enviromentId != null) 'enviroment_id': enviromentId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  RemoteTerminalEnviromentsCompanion copyWith({
+    Value<String>? terminalId,
+    Value<String>? enviromentId,
+    Value<int>? rowid,
+  }) {
+    return RemoteTerminalEnviromentsCompanion(
+      terminalId: terminalId ?? this.terminalId,
+      enviromentId: enviromentId ?? this.enviromentId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (terminalId.present) {
+      map['terminal_id'] = Variable<String>(terminalId.value);
+    }
+    if (enviromentId.present) {
+      map['enviroment_id'] = Variable<String>(enviromentId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RemoteTerminalEnviromentsCompanion(')
+          ..write('terminalId: $terminalId, ')
+          ..write('enviromentId: $enviromentId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $EnviromentsTable enviroments = $EnviromentsTable(this);
   late final $RecipesTable recipes = $RecipesTable(this);
   late final $ScheduleEntriesTable scheduleEntries = $ScheduleEntriesTable(
     this,
@@ -2058,25 +2682,514 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $RemoteTerminalsTable remoteTerminals = $RemoteTerminalsTable(
     this,
   );
+  late final $RemoteTerminalEnviromentsTable remoteTerminalEnviroments =
+      $RemoteTerminalEnviromentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+    enviroments,
     recipes,
     scheduleEntries,
     products,
     recipeProducts,
     remoteTerminals,
+    remoteTerminalEnviroments,
   ];
 }
 
+typedef $$EnviromentsTableCreateCompanionBuilder =
+    EnviromentsCompanion Function({
+      Value<String> id,
+      required String name,
+      Value<int> updatedAt,
+      Value<int> rowid,
+    });
+typedef $$EnviromentsTableUpdateCompanionBuilder =
+    EnviromentsCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<int> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$EnviromentsTableReferences
+    extends BaseReferences<_$AppDatabase, $EnviromentsTable, Enviroment> {
+  $$EnviromentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$RecipesTable, List<Recipe>> _recipesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.recipes,
+    aliasName: $_aliasNameGenerator(db.enviroments.id, db.recipes.enviromentId),
+  );
+
+  $$RecipesTableProcessedTableManager get recipesRefs {
+    final manager = $$RecipesTableTableManager(
+      $_db,
+      $_db.recipes,
+    ).filter((f) => f.enviromentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_recipesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ProductsTable, List<Product>> _productsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.products,
+    aliasName: $_aliasNameGenerator(
+      db.enviroments.id,
+      db.products.enviromentId,
+    ),
+  );
+
+  $$ProductsTableProcessedTableManager get productsRefs {
+    final manager = $$ProductsTableTableManager(
+      $_db,
+      $_db.products,
+    ).filter((f) => f.enviromentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_productsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $RemoteTerminalEnviromentsTable,
+    List<RemoteTerminalEnviroment>
+  >
+  _remoteTerminalEnviromentsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.remoteTerminalEnviroments,
+        aliasName: $_aliasNameGenerator(
+          db.enviroments.id,
+          db.remoteTerminalEnviroments.enviromentId,
+        ),
+      );
+
+  $$RemoteTerminalEnviromentsTableProcessedTableManager
+  get remoteTerminalEnviromentsRefs {
+    final manager = $$RemoteTerminalEnviromentsTableTableManager(
+      $_db,
+      $_db.remoteTerminalEnviroments,
+    ).filter((f) => f.enviromentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _remoteTerminalEnviromentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$EnviromentsTableFilterComposer
+    extends Composer<_$AppDatabase, $EnviromentsTable> {
+  $$EnviromentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> recipesRefs(
+    Expression<bool> Function($$RecipesTableFilterComposer f) f,
+  ) {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.enviromentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableFilterComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> productsRefs(
+    Expression<bool> Function($$ProductsTableFilterComposer f) f,
+  ) {
+    final $$ProductsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.products,
+      getReferencedColumn: (t) => t.enviromentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductsTableFilterComposer(
+            $db: $db,
+            $table: $db.products,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> remoteTerminalEnviromentsRefs(
+    Expression<bool> Function($$RemoteTerminalEnviromentsTableFilterComposer f)
+    f,
+  ) {
+    final $$RemoteTerminalEnviromentsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.remoteTerminalEnviroments,
+          getReferencedColumn: (t) => t.enviromentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RemoteTerminalEnviromentsTableFilterComposer(
+                $db: $db,
+                $table: $db.remoteTerminalEnviroments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$EnviromentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $EnviromentsTable> {
+  $$EnviromentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$EnviromentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EnviromentsTable> {
+  $$EnviromentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  Expression<T> recipesRefs<T extends Object>(
+    Expression<T> Function($$RecipesTableAnnotationComposer a) f,
+  ) {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.recipes,
+      getReferencedColumn: (t) => t.enviromentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RecipesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.recipes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> productsRefs<T extends Object>(
+    Expression<T> Function($$ProductsTableAnnotationComposer a) f,
+  ) {
+    final $$ProductsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.products,
+      getReferencedColumn: (t) => t.enviromentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.products,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> remoteTerminalEnviromentsRefs<T extends Object>(
+    Expression<T> Function($$RemoteTerminalEnviromentsTableAnnotationComposer a)
+    f,
+  ) {
+    final $$RemoteTerminalEnviromentsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.remoteTerminalEnviroments,
+          getReferencedColumn: (t) => t.enviromentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RemoteTerminalEnviromentsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.remoteTerminalEnviroments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$EnviromentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EnviromentsTable,
+          Enviroment,
+          $$EnviromentsTableFilterComposer,
+          $$EnviromentsTableOrderingComposer,
+          $$EnviromentsTableAnnotationComposer,
+          $$EnviromentsTableCreateCompanionBuilder,
+          $$EnviromentsTableUpdateCompanionBuilder,
+          (Enviroment, $$EnviromentsTableReferences),
+          Enviroment,
+          PrefetchHooks Function({
+            bool recipesRefs,
+            bool productsRefs,
+            bool remoteTerminalEnviromentsRefs,
+          })
+        > {
+  $$EnviromentsTableTableManager(_$AppDatabase db, $EnviromentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer:
+              () => $$EnviromentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer:
+              () => $$EnviromentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer:
+              () =>
+                  $$EnviromentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => EnviromentsCompanion(
+                id: id,
+                name: name,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                required String name,
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => EnviromentsCompanion.insert(
+                id: id,
+                name: name,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper:
+              (p0) =>
+                  p0
+                      .map(
+                        (e) => (
+                          e.readTable(table),
+                          $$EnviromentsTableReferences(db, table, e),
+                        ),
+                      )
+                      .toList(),
+          prefetchHooksCallback: ({
+            recipesRefs = false,
+            productsRefs = false,
+            remoteTerminalEnviromentsRefs = false,
+          }) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (recipesRefs) db.recipes,
+                if (productsRefs) db.products,
+                if (remoteTerminalEnviromentsRefs) db.remoteTerminalEnviroments,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (recipesRefs)
+                    await $_getPrefetchedData<
+                      Enviroment,
+                      $EnviromentsTable,
+                      Recipe
+                    >(
+                      currentTable: table,
+                      referencedTable: $$EnviromentsTableReferences
+                          ._recipesRefsTable(db),
+                      managerFromTypedResult:
+                          (p0) =>
+                              $$EnviromentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).recipesRefs,
+                      referencedItemsForCurrentItem:
+                          (item, referencedItems) => referencedItems.where(
+                            (e) => e.enviromentId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                  if (productsRefs)
+                    await $_getPrefetchedData<
+                      Enviroment,
+                      $EnviromentsTable,
+                      Product
+                    >(
+                      currentTable: table,
+                      referencedTable: $$EnviromentsTableReferences
+                          ._productsRefsTable(db),
+                      managerFromTypedResult:
+                          (p0) =>
+                              $$EnviromentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).productsRefs,
+                      referencedItemsForCurrentItem:
+                          (item, referencedItems) => referencedItems.where(
+                            (e) => e.enviromentId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                  if (remoteTerminalEnviromentsRefs)
+                    await $_getPrefetchedData<
+                      Enviroment,
+                      $EnviromentsTable,
+                      RemoteTerminalEnviroment
+                    >(
+                      currentTable: table,
+                      referencedTable: $$EnviromentsTableReferences
+                          ._remoteTerminalEnviromentsRefsTable(db),
+                      managerFromTypedResult:
+                          (p0) =>
+                              $$EnviromentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).remoteTerminalEnviromentsRefs,
+                      referencedItemsForCurrentItem:
+                          (item, referencedItems) => referencedItems.where(
+                            (e) => e.enviromentId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$EnviromentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EnviromentsTable,
+      Enviroment,
+      $$EnviromentsTableFilterComposer,
+      $$EnviromentsTableOrderingComposer,
+      $$EnviromentsTableAnnotationComposer,
+      $$EnviromentsTableCreateCompanionBuilder,
+      $$EnviromentsTableUpdateCompanionBuilder,
+      (Enviroment, $$EnviromentsTableReferences),
+      Enviroment,
+      PrefetchHooks Function({
+        bool recipesRefs,
+        bool productsRefs,
+        bool remoteTerminalEnviromentsRefs,
+      })
+    >;
 typedef $$RecipesTableCreateCompanionBuilder =
     RecipesCompanion Function({
       Value<String> id,
       required String name,
       Value<int> updatedAt,
       Value<int?> deletedAt,
+      required String enviromentId,
       Value<int> rowid,
     });
 typedef $$RecipesTableUpdateCompanionBuilder =
@@ -2085,12 +3198,32 @@ typedef $$RecipesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<int> updatedAt,
       Value<int?> deletedAt,
+      Value<String> enviromentId,
       Value<int> rowid,
     });
 
 final class $$RecipesTableReferences
     extends BaseReferences<_$AppDatabase, $RecipesTable, Recipe> {
   $$RecipesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $EnviromentsTable _enviromentIdTable(_$AppDatabase db) =>
+      db.enviroments.createAlias(
+        $_aliasNameGenerator(db.recipes.enviromentId, db.enviroments.id),
+      );
+
+  $$EnviromentsTableProcessedTableManager get enviromentId {
+    final $_column = $_itemColumn<String>('enviroment_id')!;
+
+    final manager = $$EnviromentsTableTableManager(
+      $_db,
+      $_db.enviroments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_enviromentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static MultiTypedResultKey<$ScheduleEntriesTable, List<ScheduleEntry>>
   _scheduleEntriesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
@@ -2159,6 +3292,29 @@ class $$RecipesTableFilterComposer
     column: $table.deletedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$EnviromentsTableFilterComposer get enviromentId {
+    final $$EnviromentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableFilterComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<bool> scheduleEntriesRefs(
     Expression<bool> Function($$ScheduleEntriesTableFilterComposer f) f,
@@ -2239,6 +3395,29 @@ class $$RecipesTableOrderingComposer
     column: $table.deletedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$EnviromentsTableOrderingComposer get enviromentId {
+    final $$EnviromentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$RecipesTableAnnotationComposer
@@ -2261,6 +3440,29 @@ class $$RecipesTableAnnotationComposer
 
   GeneratedColumn<int> get deletedAt =>
       $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  $$EnviromentsTableAnnotationComposer get enviromentId {
+    final $$EnviromentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<T> scheduleEntriesRefs<T extends Object>(
     Expression<T> Function($$ScheduleEntriesTableAnnotationComposer a) f,
@@ -2327,6 +3529,7 @@ class $$RecipesTableTableManager
           (Recipe, $$RecipesTableReferences),
           Recipe,
           PrefetchHooks Function({
+            bool enviromentId,
             bool scheduleEntriesRefs,
             bool recipeProductsRefs,
           })
@@ -2348,12 +3551,14 @@ class $$RecipesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
+                Value<String> enviromentId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => RecipesCompanion(
                 id: id,
                 name: name,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
+                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -2362,12 +3567,14 @@ class $$RecipesTableTableManager
                 required String name,
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
+                required String enviromentId,
                 Value<int> rowid = const Value.absent(),
               }) => RecipesCompanion.insert(
                 id: id,
                 name: name,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
+                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           withReferenceMapper:
@@ -2381,6 +3588,7 @@ class $$RecipesTableTableManager
                       )
                       .toList(),
           prefetchHooksCallback: ({
+            enviromentId = false,
             scheduleEntriesRefs = false,
             recipeProductsRefs = false,
           }) {
@@ -2390,7 +3598,38 @@ class $$RecipesTableTableManager
                 if (scheduleEntriesRefs) db.scheduleEntries,
                 if (recipeProductsRefs) db.recipeProducts,
               ],
-              addJoins: null,
+              addJoins: <
+                T extends TableManagerState<
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic
+                >
+              >(state) {
+                if (enviromentId) {
+                  state =
+                      state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.enviromentId,
+                            referencedTable: $$RecipesTableReferences
+                                ._enviromentIdTable(db),
+                            referencedColumn:
+                                $$RecipesTableReferences
+                                    ._enviromentIdTable(db)
+                                    .id,
+                          )
+                          as T;
+                }
+
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (scheduleEntriesRefs)
@@ -2458,6 +3697,7 @@ typedef $$RecipesTableProcessedTableManager =
       (Recipe, $$RecipesTableReferences),
       Recipe,
       PrefetchHooks Function({
+        bool enviromentId,
         bool scheduleEntriesRefs,
         bool recipeProductsRefs,
       })
@@ -2823,6 +4063,7 @@ typedef $$ProductsTableCreateCompanionBuilder =
       required bool needed,
       Value<int> updatedAt,
       Value<int?> deletedAt,
+      required String enviromentId,
       Value<int> rowid,
     });
 typedef $$ProductsTableUpdateCompanionBuilder =
@@ -2832,12 +4073,32 @@ typedef $$ProductsTableUpdateCompanionBuilder =
       Value<bool> needed,
       Value<int> updatedAt,
       Value<int?> deletedAt,
+      Value<String> enviromentId,
       Value<int> rowid,
     });
 
 final class $$ProductsTableReferences
     extends BaseReferences<_$AppDatabase, $ProductsTable, Product> {
   $$ProductsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $EnviromentsTable _enviromentIdTable(_$AppDatabase db) =>
+      db.enviroments.createAlias(
+        $_aliasNameGenerator(db.products.enviromentId, db.enviroments.id),
+      );
+
+  $$EnviromentsTableProcessedTableManager get enviromentId {
+    final $_column = $_itemColumn<String>('enviroment_id')!;
+
+    final manager = $$EnviromentsTableTableManager(
+      $_db,
+      $_db.enviroments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_enviromentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static MultiTypedResultKey<$RecipeProductsTable, List<RecipeProduct>>
   _recipeProductsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
@@ -2894,6 +4155,29 @@ class $$ProductsTableFilterComposer
     column: $table.deletedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$EnviromentsTableFilterComposer get enviromentId {
+    final $$EnviromentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableFilterComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<bool> recipeProductsRefs(
     Expression<bool> Function($$RecipeProductsTableFilterComposer f) f,
@@ -2954,6 +4238,29 @@ class $$ProductsTableOrderingComposer
     column: $table.deletedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$EnviromentsTableOrderingComposer get enviromentId {
+    final $$EnviromentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ProductsTableAnnotationComposer
@@ -2979,6 +4286,29 @@ class $$ProductsTableAnnotationComposer
 
   GeneratedColumn<int> get deletedAt =>
       $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  $$EnviromentsTableAnnotationComposer get enviromentId {
+    final $$EnviromentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<T> recipeProductsRefs<T extends Object>(
     Expression<T> Function($$RecipeProductsTableAnnotationComposer a) f,
@@ -3019,7 +4349,7 @@ class $$ProductsTableTableManager
           $$ProductsTableUpdateCompanionBuilder,
           (Product, $$ProductsTableReferences),
           Product,
-          PrefetchHooks Function({bool recipeProductsRefs})
+          PrefetchHooks Function({bool enviromentId, bool recipeProductsRefs})
         > {
   $$ProductsTableTableManager(_$AppDatabase db, $ProductsTable table)
     : super(
@@ -3039,6 +4369,7 @@ class $$ProductsTableTableManager
                 Value<bool> needed = const Value.absent(),
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
+                Value<String> enviromentId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion(
                 id: id,
@@ -3046,6 +4377,7 @@ class $$ProductsTableTableManager
                 needed: needed,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
+                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3055,6 +4387,7 @@ class $$ProductsTableTableManager
                 required bool needed,
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
+                required String enviromentId,
                 Value<int> rowid = const Value.absent(),
               }) => ProductsCompanion.insert(
                 id: id,
@@ -3062,6 +4395,7 @@ class $$ProductsTableTableManager
                 needed: needed,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
+                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           withReferenceMapper:
@@ -3074,13 +4408,47 @@ class $$ProductsTableTableManager
                         ),
                       )
                       .toList(),
-          prefetchHooksCallback: ({recipeProductsRefs = false}) {
+          prefetchHooksCallback: ({
+            enviromentId = false,
+            recipeProductsRefs = false,
+          }) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (recipeProductsRefs) db.recipeProducts,
               ],
-              addJoins: null,
+              addJoins: <
+                T extends TableManagerState<
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic
+                >
+              >(state) {
+                if (enviromentId) {
+                  state =
+                      state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.enviromentId,
+                            referencedTable: $$ProductsTableReferences
+                                ._enviromentIdTable(db),
+                            referencedColumn:
+                                $$ProductsTableReferences
+                                    ._enviromentIdTable(db)
+                                    .id,
+                          )
+                          as T;
+                }
+
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (recipeProductsRefs)
@@ -3125,7 +4493,7 @@ typedef $$ProductsTableProcessedTableManager =
       $$ProductsTableUpdateCompanionBuilder,
       (Product, $$ProductsTableReferences),
       Product,
-      PrefetchHooks Function({bool recipeProductsRefs})
+      PrefetchHooks Function({bool enviromentId, bool recipeProductsRefs})
     >;
 typedef $$RecipeProductsTableCreateCompanionBuilder =
     RecipeProductsCompanion Function({
@@ -3591,6 +4959,48 @@ typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$RemoteTerminalsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $RemoteTerminalsTable, RemoteTerminal> {
+  $$RemoteTerminalsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<
+    $RemoteTerminalEnviromentsTable,
+    List<RemoteTerminalEnviroment>
+  >
+  _remoteTerminalEnviromentsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.remoteTerminalEnviroments,
+        aliasName: $_aliasNameGenerator(
+          db.remoteTerminals.terminalId,
+          db.remoteTerminalEnviroments.terminalId,
+        ),
+      );
+
+  $$RemoteTerminalEnviromentsTableProcessedTableManager
+  get remoteTerminalEnviromentsRefs {
+    final manager = $$RemoteTerminalEnviromentsTableTableManager(
+      $_db,
+      $_db.remoteTerminalEnviroments,
+    ).filter(
+      (f) => f.terminalId.terminalId.sqlEquals(
+        $_itemColumn<String>('terminal_id')!,
+      ),
+    );
+
+    final cache = $_typedResult.readTableOrNull(
+      _remoteTerminalEnviromentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
 class $$RemoteTerminalsTableFilterComposer
     extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
   $$RemoteTerminalsTableFilterComposer({
@@ -3639,6 +5049,33 @@ class $$RemoteTerminalsTableFilterComposer
     column: $table.isHttpClient,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> remoteTerminalEnviromentsRefs(
+    Expression<bool> Function($$RemoteTerminalEnviromentsTableFilterComposer f)
+    f,
+  ) {
+    final $$RemoteTerminalEnviromentsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.terminalId,
+          referencedTable: $db.remoteTerminalEnviroments,
+          getReferencedColumn: (t) => t.terminalId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RemoteTerminalEnviromentsTableFilterComposer(
+                $db: $db,
+                $table: $db.remoteTerminalEnviroments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$RemoteTerminalsTableOrderingComposer
@@ -3729,6 +5166,33 @@ class $$RemoteTerminalsTableAnnotationComposer
     column: $table.isHttpClient,
     builder: (column) => column,
   );
+
+  Expression<T> remoteTerminalEnviromentsRefs<T extends Object>(
+    Expression<T> Function($$RemoteTerminalEnviromentsTableAnnotationComposer a)
+    f,
+  ) {
+    final $$RemoteTerminalEnviromentsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.terminalId,
+          referencedTable: $db.remoteTerminalEnviroments,
+          getReferencedColumn: (t) => t.terminalId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RemoteTerminalEnviromentsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.remoteTerminalEnviroments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$RemoteTerminalsTableTableManager
@@ -3742,16 +5206,9 @@ class $$RemoteTerminalsTableTableManager
           $$RemoteTerminalsTableAnnotationComposer,
           $$RemoteTerminalsTableCreateCompanionBuilder,
           $$RemoteTerminalsTableUpdateCompanionBuilder,
-          (
-            RemoteTerminal,
-            BaseReferences<
-              _$AppDatabase,
-              $RemoteTerminalsTable,
-              RemoteTerminal
-            >,
-          ),
+          (RemoteTerminal, $$RemoteTerminalsTableReferences),
           RemoteTerminal,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool remoteTerminalEnviromentsRefs})
         > {
   $$RemoteTerminalsTableTableManager(
     _$AppDatabase db,
@@ -3823,11 +5280,45 @@ class $$RemoteTerminalsTableTableManager
                       .map(
                         (e) => (
                           e.readTable(table),
-                          BaseReferences(db, table, e),
+                          $$RemoteTerminalsTableReferences(db, table, e),
                         ),
                       )
                       .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({remoteTerminalEnviromentsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (remoteTerminalEnviromentsRefs) db.remoteTerminalEnviroments,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (remoteTerminalEnviromentsRefs)
+                    await $_getPrefetchedData<
+                      RemoteTerminal,
+                      $RemoteTerminalsTable,
+                      RemoteTerminalEnviroment
+                    >(
+                      currentTable: table,
+                      referencedTable: $$RemoteTerminalsTableReferences
+                          ._remoteTerminalEnviromentsRefsTable(db),
+                      managerFromTypedResult:
+                          (p0) =>
+                              $$RemoteTerminalsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).remoteTerminalEnviromentsRefs,
+                      referencedItemsForCurrentItem:
+                          (item, referencedItems) => referencedItems.where(
+                            (e) => e.terminalId == item.terminalId,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -3842,17 +5333,404 @@ typedef $$RemoteTerminalsTableProcessedTableManager =
       $$RemoteTerminalsTableAnnotationComposer,
       $$RemoteTerminalsTableCreateCompanionBuilder,
       $$RemoteTerminalsTableUpdateCompanionBuilder,
-      (
-        RemoteTerminal,
-        BaseReferences<_$AppDatabase, $RemoteTerminalsTable, RemoteTerminal>,
-      ),
+      (RemoteTerminal, $$RemoteTerminalsTableReferences),
       RemoteTerminal,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool remoteTerminalEnviromentsRefs})
+    >;
+typedef $$RemoteTerminalEnviromentsTableCreateCompanionBuilder =
+    RemoteTerminalEnviromentsCompanion Function({
+      required String terminalId,
+      required String enviromentId,
+      Value<int> rowid,
+    });
+typedef $$RemoteTerminalEnviromentsTableUpdateCompanionBuilder =
+    RemoteTerminalEnviromentsCompanion Function({
+      Value<String> terminalId,
+      Value<String> enviromentId,
+      Value<int> rowid,
+    });
+
+final class $$RemoteTerminalEnviromentsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $RemoteTerminalEnviromentsTable,
+          RemoteTerminalEnviroment
+        > {
+  $$RemoteTerminalEnviromentsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $RemoteTerminalsTable _terminalIdTable(_$AppDatabase db) =>
+      db.remoteTerminals.createAlias(
+        $_aliasNameGenerator(
+          db.remoteTerminalEnviroments.terminalId,
+          db.remoteTerminals.terminalId,
+        ),
+      );
+
+  $$RemoteTerminalsTableProcessedTableManager get terminalId {
+    final $_column = $_itemColumn<String>('terminal_id')!;
+
+    final manager = $$RemoteTerminalsTableTableManager(
+      $_db,
+      $_db.remoteTerminals,
+    ).filter((f) => f.terminalId.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_terminalIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $EnviromentsTable _enviromentIdTable(_$AppDatabase db) =>
+      db.enviroments.createAlias(
+        $_aliasNameGenerator(
+          db.remoteTerminalEnviroments.enviromentId,
+          db.enviroments.id,
+        ),
+      );
+
+  $$EnviromentsTableProcessedTableManager get enviromentId {
+    final $_column = $_itemColumn<String>('enviroment_id')!;
+
+    final manager = $$EnviromentsTableTableManager(
+      $_db,
+      $_db.enviroments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_enviromentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$RemoteTerminalEnviromentsTableFilterComposer
+    extends Composer<_$AppDatabase, $RemoteTerminalEnviromentsTable> {
+  $$RemoteTerminalEnviromentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$RemoteTerminalsTableFilterComposer get terminalId {
+    final $$RemoteTerminalsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.terminalId,
+      referencedTable: $db.remoteTerminals,
+      getReferencedColumn: (t) => t.terminalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RemoteTerminalsTableFilterComposer(
+            $db: $db,
+            $table: $db.remoteTerminals,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EnviromentsTableFilterComposer get enviromentId {
+    final $$EnviromentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableFilterComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RemoteTerminalEnviromentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RemoteTerminalEnviromentsTable> {
+  $$RemoteTerminalEnviromentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$RemoteTerminalsTableOrderingComposer get terminalId {
+    final $$RemoteTerminalsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.terminalId,
+      referencedTable: $db.remoteTerminals,
+      getReferencedColumn: (t) => t.terminalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RemoteTerminalsTableOrderingComposer(
+            $db: $db,
+            $table: $db.remoteTerminals,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EnviromentsTableOrderingComposer get enviromentId {
+    final $$EnviromentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RemoteTerminalEnviromentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RemoteTerminalEnviromentsTable> {
+  $$RemoteTerminalEnviromentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$RemoteTerminalsTableAnnotationComposer get terminalId {
+    final $$RemoteTerminalsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.terminalId,
+      referencedTable: $db.remoteTerminals,
+      getReferencedColumn: (t) => t.terminalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RemoteTerminalsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.remoteTerminals,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EnviromentsTableAnnotationComposer get enviromentId {
+    final $$EnviromentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.enviromentId,
+      referencedTable: $db.enviroments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnviromentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.enviroments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RemoteTerminalEnviromentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RemoteTerminalEnviromentsTable,
+          RemoteTerminalEnviroment,
+          $$RemoteTerminalEnviromentsTableFilterComposer,
+          $$RemoteTerminalEnviromentsTableOrderingComposer,
+          $$RemoteTerminalEnviromentsTableAnnotationComposer,
+          $$RemoteTerminalEnviromentsTableCreateCompanionBuilder,
+          $$RemoteTerminalEnviromentsTableUpdateCompanionBuilder,
+          (
+            RemoteTerminalEnviroment,
+            $$RemoteTerminalEnviromentsTableReferences,
+          ),
+          RemoteTerminalEnviroment,
+          PrefetchHooks Function({bool terminalId, bool enviromentId})
+        > {
+  $$RemoteTerminalEnviromentsTableTableManager(
+    _$AppDatabase db,
+    $RemoteTerminalEnviromentsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer:
+              () => $$RemoteTerminalEnviromentsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer:
+              () => $$RemoteTerminalEnviromentsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer:
+              () => $$RemoteTerminalEnviromentsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> terminalId = const Value.absent(),
+                Value<String> enviromentId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => RemoteTerminalEnviromentsCompanion(
+                terminalId: terminalId,
+                enviromentId: enviromentId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String terminalId,
+                required String enviromentId,
+                Value<int> rowid = const Value.absent(),
+              }) => RemoteTerminalEnviromentsCompanion.insert(
+                terminalId: terminalId,
+                enviromentId: enviromentId,
+                rowid: rowid,
+              ),
+          withReferenceMapper:
+              (p0) =>
+                  p0
+                      .map(
+                        (e) => (
+                          e.readTable(table),
+                          $$RemoteTerminalEnviromentsTableReferences(
+                            db,
+                            table,
+                            e,
+                          ),
+                        ),
+                      )
+                      .toList(),
+          prefetchHooksCallback: ({terminalId = false, enviromentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                T extends TableManagerState<
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic,
+                  dynamic
+                >
+              >(state) {
+                if (terminalId) {
+                  state =
+                      state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.terminalId,
+                            referencedTable:
+                                $$RemoteTerminalEnviromentsTableReferences
+                                    ._terminalIdTable(db),
+                            referencedColumn:
+                                $$RemoteTerminalEnviromentsTableReferences
+                                    ._terminalIdTable(db)
+                                    .terminalId,
+                          )
+                          as T;
+                }
+                if (enviromentId) {
+                  state =
+                      state.withJoin(
+                            currentTable: table,
+                            currentColumn: table.enviromentId,
+                            referencedTable:
+                                $$RemoteTerminalEnviromentsTableReferences
+                                    ._enviromentIdTable(db),
+                            referencedColumn:
+                                $$RemoteTerminalEnviromentsTableReferences
+                                    ._enviromentIdTable(db)
+                                    .id,
+                          )
+                          as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$RemoteTerminalEnviromentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RemoteTerminalEnviromentsTable,
+      RemoteTerminalEnviroment,
+      $$RemoteTerminalEnviromentsTableFilterComposer,
+      $$RemoteTerminalEnviromentsTableOrderingComposer,
+      $$RemoteTerminalEnviromentsTableAnnotationComposer,
+      $$RemoteTerminalEnviromentsTableCreateCompanionBuilder,
+      $$RemoteTerminalEnviromentsTableUpdateCompanionBuilder,
+      (RemoteTerminalEnviroment, $$RemoteTerminalEnviromentsTableReferences),
+      RemoteTerminalEnviroment,
+      PrefetchHooks Function({bool terminalId, bool enviromentId})
     >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $$EnviromentsTableTableManager get enviroments =>
+      $$EnviromentsTableTableManager(_db, _db.enviroments);
   $$RecipesTableTableManager get recipes =>
       $$RecipesTableTableManager(_db, _db.recipes);
   $$ScheduleEntriesTableTableManager get scheduleEntries =>
@@ -3863,4 +5741,9 @@ class $AppDatabaseManager {
       $$RecipeProductsTableTableManager(_db, _db.recipeProducts);
   $$RemoteTerminalsTableTableManager get remoteTerminals =>
       $$RemoteTerminalsTableTableManager(_db, _db.remoteTerminals);
+  $$RemoteTerminalEnviromentsTableTableManager get remoteTerminalEnviroments =>
+      $$RemoteTerminalEnviromentsTableTableManager(
+        _db,
+        _db.remoteTerminalEnviroments,
+      );
 }

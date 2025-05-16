@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/product_provider.dart';
-import 'package:jhopping_list/recipies/recipe_detail.dart';
+import 'package:jhopping_list/UI/recipies/recipe_detail.dart';
 import 'package:jhopping_list/providers/recipe_provider.dart';
-import 'package:jhopping_list/schedule/choose_recipe.dart';
+import 'package:jhopping_list/UI/schedule/choose_recipe.dart';
 import 'package:jhopping_list/providers/schedule_provider.dart';
-import 'package:jhopping_list/common/loading_box.dart';
+import 'package:jhopping_list/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 const List<String> weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-const List<String> months = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Juilo", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+const List<String> months = [
+  "",
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Juilo",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
+];
 
 class DayView extends StatelessWidget {
   final int week;
   final int day;
+  final String enviromentId;
   final DateTime startOfWeekTime;
-  const DayView(this.week, this.day, this.startOfWeekTime, {super.key});
+  const DayView(this.week, this.day, this.startOfWeekTime, this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +49,19 @@ class DayView extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: Text("${weekDays[day]} ${dayTime.day}", style: TextStyle(color: isToday ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface))),
+              Expanded(
+                child: Text(
+                  "${weekDays[day]} ${dayTime.day}",
+                  style: TextStyle(color: isToday ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface),
+                ),
+              ),
               IconButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return ChooseRecipe(week, day);
+                        return ChooseRecipe(week, day, enviromentId);
                       },
                     ),
                   );
@@ -55,7 +75,7 @@ class DayView extends StatelessWidget {
             child: Column(
               children: [
                 FutureBuilder(
-                  future: (() => scheduleProvider.getEntries(week, day))(),
+                  future: (() => scheduleProvider.getEntries(week, day, enviromentId))(),
                   builder: (context, entrySnapshot) {
                     if (!entrySnapshot.hasData) {
                       return LoadingBox();

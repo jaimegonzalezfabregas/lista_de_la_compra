@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/providers/open_conection_provider.dart';
-import 'package:jhopping_list/providers/pairing_provider.dart';
 import 'package:jhopping_list/sync/http_server_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:jhopping_list/db/enviroments.dart';
 import 'package:jhopping_list/db/product_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -7,6 +8,7 @@ class Recipes extends Table {
   TextColumn get name => text().unique()();
   IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)();
   IntColumn get deletedAt => integer().nullable()();
+  TextColumn get enviromentId => text().references(Enviroments, #id)();
 
   @override
   Set<Column<Object>> get primaryKey => {id};

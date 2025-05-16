@@ -35,7 +35,7 @@ class RemoteTerminalView extends StatelessWidget {
 
                 Padding(padding: const EdgeInsets.all(8.0), child: Text(pairing.lastSync ?? "Sincronización no realizada")),
 
-                Text("Tipos de emparejamiento", style: Theme.of(context).textTheme.titleSmall),
+                Text("Ultimo contacto", style: Theme.of(context).textTheme.titleSmall),
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),

@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 
 class ProductProvider extends ChangeNotifier {
-  Future addProduct(String name, bool needed) async {
+  Future addProduct(String name, bool needed, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
     database
         .into(database.products)
-        .insert(ProductsCompanion(name: Value(name), needed: Value(needed), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+        .insert(
+          ProductsCompanion(
+            name: Value(name),
+            needed: Value(needed),
+            enviromentId: Value(enviromentId),
+            updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+          ),
+        );
     notifyListeners();
   }
 
@@ -24,6 +31,7 @@ class ProductProvider extends ChangeNotifier {
             needed: Value(serializedProduct["needed"]),
             updatedAt: Value(serializedProduct["updatedAt"]),
             deletedAt: Value(serializedProduct["deletedAt"]),
+            enviromentId: Value(serializedProduct["enviromentId"]),
           ),
         );
     notifyListeners();
@@ -38,6 +46,8 @@ class ProductProvider extends ChangeNotifier {
 
   Future<void> syncOveride(String id, Map<String, dynamic> serializedProduct) async {
     final database = AppDatabaseSingleton.instance;
+
+    // check it there is a difference
 
     await (database.update(database.products)..where((table) => table.id.equals(id))).write(
       ProductsCompanion(
@@ -87,16 +97,20 @@ class ProductProvider extends ChangeNotifier {
         .getSingleOrNull();
   }
 
-  Future<List<Product>> getDisplayProductList() async {
+  Future<List<Product>> getDisplayProductList(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
-    return await (database.select(database.products)..where((table) => table.deletedAt.isNull())).get();
+    return await (database.select(database.products)
+          ..where((table) => table.deletedAt.isNull())
+          ..where((table) => table.enviromentId.equals(enviromentId)))
+        .get();
   }
 
-  Future<List<Product>> getSyncProductList() async {
+  Future<List<Product>> getSyncProductList(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
     var query = database.select(database.products);
+    query.where((table) => table.enviromentId.equals(enviromentId));
     query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
 
     return await query.get();

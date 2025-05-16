@@ -13,17 +13,31 @@ class SharedPreferencesProvider extends ChangeNotifier {
     return ret;
   }
 
-
   Future<String?> getLocalNick() async {
     final prefs = await SharedPreferences.getInstance();
-    var ret = prefs.getString('LocalNick');
-    return ret;
+    return prefs.getString('LocalNick');
   }
 
   Future<void> setLocalNick(String nick) async {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.setString('LocalNick', nick);
+
+    notifyListeners();
+  }
+
+  Future<String?> getCurrnetEnviromentId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('CurrentEnviromentId');
+  }
+
+  Future<void> setCurrentEnviromentId(String? enviromentId) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (enviromentId == null) {
+      await prefs.remove('CurrentEnviromentId');
+    } else {
+      await prefs.setString('CurrentEnviromentId', enviromentId);
+    }
 
     notifyListeners();
   }

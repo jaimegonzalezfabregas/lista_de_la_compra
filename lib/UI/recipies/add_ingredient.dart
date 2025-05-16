@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/common/searchable_list_view.dart';
+import 'package:jhopping_list/UI/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/product_provider.dart';
 import 'package:jhopping_list/providers/recipe_provider.dart';
-import 'package:jhopping_list/common/loading_box.dart';
+import 'package:jhopping_list/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class AddIngredient extends StatelessWidget {
@@ -16,13 +16,10 @@ class AddIngredient extends StatelessWidget {
     ProductProvider productProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
-    var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
+    var ingredientsFuture = recipeProvider.getProductsOfRecipeById(recipeId);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Selecionar ingredientes"),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      ),
+      appBar: AppBar(title: Text("Selecionar ingredientes"), backgroundColor: Theme.of(context).colorScheme.primaryContainer),
       floatingActionButton: ElevatedButton(
         onPressed: () {
           Navigator.pop(context);
@@ -30,7 +27,9 @@ class AddIngredient extends StatelessWidget {
         child: Text("Hecho"),
       ),
       body: FutureBuilder(
-        future: productProvider.getDisplayProductList(),
+        future: recipeProvider
+            .getRecipeById(recipeId)
+            .then((Recipe? recipe) async => recipe == null ? null : await productProvider.getDisplayProductList(recipe.enviromentId)),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return LoadingBox();
@@ -43,27 +42,17 @@ class AddIngredient extends StatelessWidget {
               return ListTile(
                 title: tag,
                 trailing: FutureBuilder(
-                  future: ingredients,
+                  future: ingredientsFuture,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Checkbox(
-                        value: snapshot.data!.any(
-                          (ingredient) => ingredient.$2.id == product.id,
-                        ),
+                        value: snapshot.data!.any((ingredient) => ingredient.$2.id == product.id),
                         onChanged: (value) {
-                          recipeProvider.setIngredientOfRecipeById(
-                            recipeId,
-                            product.id,
-                            value == true,
-                          );
+                          recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true);
                         },
                       );
                     } else {
-                      return Checkbox(
-                        value: false,
-                        onChanged: (_) {},
-                        tristate: true,
-                      );
+                      return Checkbox(value: false, onChanged: (_) {}, tristate: true);
                     }
                   },
                 ),

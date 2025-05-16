@@ -2,14 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/providers/shared_preferences_provider.dart';
-import 'package:jhopping_list/sync/http_view.dart';
+import 'package:jhopping_list/UI/sync/http_view.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
-import 'package:jhopping_list/sync/past_pairings_widget.dart';
+import 'package:jhopping_list/UI/sync/past_pairings_widget.dart';
 import 'package:provider/provider.dart';
 
 class SyncView extends StatefulWidget {
+  final String enviromentId;
   final OpenConnectionManager openConnectionManager;
-  const SyncView(this.openConnectionManager, {super.key});
+  const SyncView(this.openConnectionManager, this.enviromentId, {super.key});
 
   @override
   State<SyncView> createState() => _SyncViewState();
@@ -78,7 +79,7 @@ class _SyncViewState extends State<SyncView> {
               ),
             ),
             Text("Emparejamientos pasados", style: Theme.of(context).textTheme.titleSmall),
-            RemoteTerminalList(),
+            RemoteTerminalList(widget.enviromentId),
             HTTPView(widget.openConnectionManager),
             // ExpansionTile(title: Text("Sincronización HTTP"), children: []),
             // ExpansionTile(title: Text("Sincronización MQTT"), children: []),

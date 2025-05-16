@@ -23,6 +23,7 @@ class RecipeProvider extends ChangeNotifier {
             name: Value(serializedRecipe["name"]),
             updatedAt: Value(serializedRecipe["updatedAt"]),
             deletedAt: Value(serializedRecipe["deletedAt"]),
+            enviromentId: Value(serializedRecipe["enviromentId"]),
           ),
         );
     notifyListeners();
@@ -44,6 +45,7 @@ class RecipeProvider extends ChangeNotifier {
         name: Value(serializedRecipe["name"]),
         updatedAt: Value(serializedRecipe["updatedAt"]),
         deletedAt: Value(serializedRecipe["deletedAt"]),
+        enviromentId: Value(serializedRecipe["enviromentId"]),
       ),
     );
     notifyListeners();
@@ -60,7 +62,7 @@ class RecipeProvider extends ChangeNotifier {
   Future<void> syncOverideRecipeProduct(String recipeProductId, Map<String, dynamic> serializedRecipeProduct) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.update(database.recipeProducts)..where((table) => table.recipeId.equals(recipeProductId))).write(
+    await (database.update(database.recipeProducts)..where((table) => table.id.equals(recipeProductId))).write(
       RecipeProductsCompanion(
         id: Value(serializedRecipeProduct["id"]),
         recipeId: Value(serializedRecipeProduct["recipeId"]),
@@ -100,15 +102,20 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Recipe>> getDisplayRecipeList() async {
+  Future<List<Recipe>> getDisplayRecipeList(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
-    return await (database.select(database.recipes)..where((table) => table.deletedAt.isNull())).get();
+    return await (database.select(database.recipes)
+          ..where((table) => table.deletedAt.isNull())
+          ..where((table) => table.enviromentId.equals(enviromentId)))
+        .get();
   }
 
-  Future addRecipe(String name) async {
+  Future addRecipe(String name, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
-    database.into(database.recipes).insert(RecipesCompanion(name: Value(name), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+    database
+        .into(database.recipes)
+        .insert(RecipesCompanion(name: Value(name), enviromentId: Value(enviromentId), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
     notifyListeners();
   }
 
@@ -177,25 +184,26 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<RecipeProduct>> getDisplayRecipeProductList() async {
+  Future<List<RecipeProduct>> getSyncRecipeProductList(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
-    return await (database.select(database.recipeProducts)..where((table) => table.deletedAt.isNull())).get();
+    var query = database.select(database.recipeProducts).join([
+      innerJoin(database.recipes, database.recipes.id.equalsExp(database.recipeProducts.recipeId)),
+    ]);
+    query.where(database.recipes.enviromentId.equals(enviromentId));
+
+    query.orderBy([OrderingTerm(expression: database.recipeProducts.updatedAt, mode: OrderingMode.desc)]);
+
+    return await query.map((row) => row.readTable(database.recipeProducts)).get();
   }
 
-  Future<List<RecipeProduct>> getSyncRecipeProductList() async {
-    final database = AppDatabaseSingleton.instance;
-
-    var query = database.select(database.recipeProducts);
-    query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
-
-    return await query.get();
-  }
-
-  Future<List<Recipe>> getSyncRecipeList() async {
+  Future<List<Recipe>> getSyncRecipeList(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
     var query = database.select(database.recipes);
+
+    query.where((table) => database.recipes.enviromentId.equals(enviromentId));
+
     query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
 
     return await query.get();

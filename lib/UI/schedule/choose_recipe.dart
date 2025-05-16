@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/common/searchable_list_view.dart';
+import 'package:jhopping_list/UI/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/recipe_provider.dart';
 import 'package:jhopping_list/providers/schedule_provider.dart';
-import 'package:jhopping_list/common/loading_box.dart';
+import 'package:jhopping_list/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class ChooseRecipe extends StatelessWidget {
   final int week;
   final int day;
+  final String enviromentId;
 
-  const ChooseRecipe(this.week, this.day, {super.key});
+  const ChooseRecipe(this.week, this.day, this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
     ScheduleProvider scheduleProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
-    Future<List<ScheduleEntry>> scheduleList = scheduleProvider.getEntries(
-      week,
-      day,
-    );
+    Future<List<ScheduleEntry>> scheduleList = scheduleProvider.getEntries(week, day, enviromentId);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,7 +33,7 @@ class ChooseRecipe extends StatelessWidget {
         ],
       ),
       body: FutureBuilder(
-        future: recipeProvider.getDisplayRecipeList(),
+        future: recipeProvider.getDisplayRecipeList(enviromentId),
 
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -54,24 +52,14 @@ class ChooseRecipe extends StatelessWidget {
                   future: scheduleList,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Checkbox(
-                        tristate: true,
-                        value: false,
-                        onChanged: (_) {},
-                      );
+                      return Checkbox(tristate: true, value: false, onChanged: (_) {});
                     }
                     if (snapshot.data == null) {
-                      return Checkbox(
-                        tristate: true,
-                        value: false,
-                        onChanged: (_) {},
-                      );
+                      return Checkbox(tristate: true, value: false, onChanged: (_) {});
                     }
 
                     return Checkbox(
-                      value: snapshot.data!.any(
-                        (entry) => entry.recipeId == recipe.id,
-                      ),
+                      value: snapshot.data!.any((entry) => entry.recipeId == recipe.id),
                       onChanged: (value) {
                         if (value == true) {
                           scheduleProvider.addEntry(week, day, recipe.id);

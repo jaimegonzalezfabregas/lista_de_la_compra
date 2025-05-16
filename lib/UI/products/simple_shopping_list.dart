@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/common/searchable_list_view.dart';
+import 'package:jhopping_list/UI/common/searchable_list_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/product_provider.dart';
-import 'package:jhopping_list/products/product_detail.dart';
+import 'package:jhopping_list/UI/products/product_detail.dart';
 import 'package:jhopping_list/providers/schedule_provider.dart';
-import 'package:jhopping_list/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class ProductListDisplay extends StatelessWidget {
   final bool Function(Product) filter;
   final bool defaultNeeded;
+  final String enviromentId;
 
-  const ProductListDisplay(this.defaultNeeded, this.filter, {super.key});
+  const ProductListDisplay(this.defaultNeeded, this.filter, this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ class ProductListDisplay extends StatelessWidget {
     ScheduleProvider scheduleProvider = context.watch();
 
     return FutureBuilder(
-      future: productProvider.getDisplayProductList(),
+      future: productProvider.getDisplayProductList(enviromentId),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return LoadingBox();
+          return Text("Cargando...");
         }
         var products = snapshot.data!.where(filter).toList();
 
@@ -68,13 +68,13 @@ class ProductListDisplay extends StatelessWidget {
           },
           elementToTag: (Product p) => p.name,
           newElement: (String name) async {
-            var allProducts = await productProvider.getDisplayProductList();
+            var allProducts = await productProvider.getDisplayProductList(enviromentId);
             if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
               var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
 
               productProvider.setProductNeededness(referenced.id, defaultNeeded);
             } else {
-              productProvider.addProduct(name, defaultNeeded);
+              productProvider.addProduct(name, defaultNeeded, enviromentId);
             }
           },
         );
@@ -84,7 +84,8 @@ class ProductListDisplay extends StatelessWidget {
 }
 
 class SimpleShoppinglist extends StatelessWidget {
-  const SimpleShoppinglist({super.key});
+  final String enviromentId;
+  const SimpleShoppinglist(this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,11 @@ class SimpleShoppinglist extends StatelessWidget {
           title: Text("Lista de la compra"),
         ),
         body: TabBarView(
-          children: [ProductListDisplay(false, (p) => !p.needed), ProductListDisplay(true, (p) => p.needed), ProductListDisplay(true, (_) => true)],
+          children: [
+            ProductListDisplay(false, (p) => !p.needed, enviromentId),
+            ProductListDisplay(true, (p) => p.needed, enviromentId),
+            ProductListDisplay(true, (_) => true, enviromentId),
+          ],
         ),
       ),
     );

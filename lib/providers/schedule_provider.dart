@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/schedule/utils.dart';
+import 'package:jhopping_list/UI/schedule/utils.dart';
 
 class ScheduleProvider extends ChangeNotifier {
   // Adds a new schedule entry.
@@ -105,22 +105,27 @@ class ScheduleProvider extends ChangeNotifier {
     return (await query.get()).map((row) => row.readTable(database.recipeProducts)).toList();
   }
 
-  Future<List<ScheduleEntry>> getEntries(int week, int day) async {
+  Future<List<ScheduleEntry>> getEntries(int week, int day, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
-    return await (database.select(database.scheduleEntries)
-          ..where((table) => table.week.equals(week))
-          ..where((table) => table.day.equals(day))
-          ..where((table) => table.deletedAt.isNull()))
-        .get();
+    var query = database.select(database.scheduleEntries).join([
+      innerJoin(database.recipes, database.recipes.id.equalsExp(database.scheduleEntries.id)),
+    ]);
+
+    query.where(database.recipes.enviromentId.equals(enviromentId));
+    query.where(database.scheduleEntries.week.equals(week));
+    query.where(database.scheduleEntries.day.equals(day));
+    query.where(database.scheduleEntries.deletedAt.isNull());
+
+    return await (query.map((row) => row.readTable(database.scheduleEntries))).get();
   }
 
-  Future<List<ScheduleEntry>> getSyncEntryList() async {
+  Future<List<ScheduleEntry>> getSyncEntryList(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
     var query = database.select(database.scheduleEntries);
     query.orderBy([(u) => OrderingTerm(expression: u.updatedAt, mode: OrderingMode.desc)]);
-    
+
     return await query.get();
   }
 
