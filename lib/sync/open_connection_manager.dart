@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:jhopping_list/db/database.dart';
+import 'package:jhopping_list/providers/enviroment_provider.dart';
 import 'package:jhopping_list/providers/open_conection_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
 import 'package:jhopping_list/providers/product_provider.dart';
@@ -83,16 +84,15 @@ class OpenConnectionManager {
   final PairingProvider pairingProvider;
   final OpenConnectionProvider openConnectionProvider;
   final SharedPreferencesProvider sharedPreferencesProvider;
+  final EnviromentProvider enviromentProvider;
 
-  final Enviroment enviroment;
-
-  void tryConnectingToHttpServer(String host, int port) {
+  void tryConnectingToHttpServer(String host, int port, String enviromentId) {
     var textUrl = "ws://$host:$port";
     try {
       WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(textUrl));
 
-      socketManage(channel, (terminalId, nick) {
-        pairingProvider.addHttpServerToRemoteTerminal(terminalId, host, port, nick, enviroment.id);
+      socketManage(channel, enviromentId, (terminalId, nick) {
+        pairingProvider.addHttpServerToRemoteTerminal(terminalId, host, port, nick, enviromentId);
       });
     } catch (e) {}
   }
@@ -110,7 +110,7 @@ class OpenConnectionManager {
     this.recipeProvider,
     this.scheduleProvider,
     this.sharedPreferencesProvider,
-    this.enviroment,
+    this.enviromentProvider,
   ) {
     Timer.periodic(const Duration(seconds: 60), (timer) {
       for (OpenConnection conection in openConnectionProvider.openConnections) {
@@ -119,13 +119,15 @@ class OpenConnectionManager {
     });
 
     Timer.periodic(const Duration(seconds: 2), (timer) async {
-      for (var peer in await pairingProvider.getRemoteTerminals(enviroment.id)) {
-        if (openConnectionProvider.isOpenConnection(peer.terminalId)) {
-          continue;
-        }
+      for (var enviroment in await enviromentProvider.getEnviromentList()) {
+        for (var peer in await pairingProvider.getRemoteTerminals(enviroment.id)) {
+          if (openConnectionProvider.isOpenConnection(peer.terminalId)) {
+            continue;
+          }
 
-        if (peer.httpHost != null && peer.httpPort != null) {
-          tryConnectingToHttpServer(peer.httpHost!, peer.httpPort!);
+          if (peer.httpHost != null && peer.httpPort != null) {
+            tryConnectingToHttpServer(peer.httpHost!, peer.httpPort!, enviroment.id);
+          }
         }
       }
     });
@@ -137,8 +139,9 @@ class OpenConnectionManager {
     scheduleProvider.addListener(triggerSyncPush);
   }
 
-  Future<Map<String, dynamic>> getState() async {
+  Future<Map<String, dynamic>> getState(Enviroment enviroment) async {
     return {
+      "enviroment": enviroment,
       "products": await productProvider.getSyncProductList(enviroment.id),
       "recipes": await recipeProvider.getSyncRecipeList(enviroment.id),
       "products_recipies": await recipeProvider.getSyncRecipeProductList(enviroment.id),
@@ -146,25 +149,27 @@ class OpenConnectionManager {
     };
   }
 
-  Future<String> getStateDigest(int salt) async {
-    Uint8List bytes = utf8.encode(jsonEncode(await getState())); // data being hashed
+  Future<String> getStateDigest(int salt, Enviroment enviroment) async {
+    Uint8List bytes = utf8.encode(jsonEncode(await getState(enviroment))); // data being hashed
     var saltedBytes = bytes + utf8.encode(salt.toString());
     return sha512256.convert(saltedBytes).toString().substring(0, 4);
   }
 
-  void socketManage(WebSocketChannel ws, Function(String, String) afterHandshakeCb) async {
+  void socketManage(WebSocketChannel ws, String enviromentId, Function(String, String) afterHandshakeCb) async {
     String? terminalId;
     String? nick;
+
+    Enviroment enviroment = (await enviromentProvider.getEnviromentById(enviromentId))!;
 
     void send(msg) {
       // print("sending to $nick   : $msg");
       ws.sink.add(msg);
     }
 
-    Future<void> triggerSyncPull() async {
+    Future<void> triggerSyncPull(Enviroment enviroment) async {
       int salt = math.Random().nextInt(1000);
 
-      send(jsonEncode({"type": "send_digest", "salt": salt, "digest": await getStateDigest(salt)}));
+      send(jsonEncode({"type": "send_digest", "salt": salt, "digest": await getStateDigest(salt, enviroment)}));
     }
 
     ws.stream.listen(
@@ -188,27 +193,37 @@ class OpenConnectionManager {
               openConnectionProvider.addOpenConnection(
                 terminalId!,
                 nick!,
-                () async => triggerSyncPull(),
+                () async => triggerSyncPull(enviroment),
                 () async => send(jsonEncode({"type": "sync_push"})),
               );
               openConnectionProvider.refreshOpenConnection(terminalId!);
-              triggerSyncPull();
+              triggerSyncPull(enviroment);
               break;
 
             case "sync_push":
-              triggerSyncPull();
+              triggerSyncPull(enviroment);
 
               break;
 
             case "send_digest":
-              String ownDigest = await getStateDigest(data["salt"]);
-              if (data["digest"] == ownDigest) {
-                pairingProvider.setAsSynced(terminalId!);
-                send(jsonEncode({"type": "sync_up_to_date"}));
+              Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
+
+              if (await enviromentProvider.existsById(remoteEnviroment.id)) {
+                String ownDigest = await getStateDigest(data["salt"], remoteEnviroment);
+
+                if (data["digest"] == ownDigest) {
+                  pairingProvider.setAsSynced(terminalId!);
+                  send(jsonEncode({"type": "sync_up_to_date"}));
+                } else {
+                  send(jsonEncode({"type": "send_state", "state": await getState(enviroment)}));
+                }
+                break;
               } else {
-                send(jsonEncode({"type": "send_state", "state": await getState()}));
+                send(jsonEncode({"type": "enviroment_not_found"}));
               }
-              break;
+            case "enviroment_not_found":
+              pairingProvider.setAsEnviromentNotFound(terminalId!);
+
             case "sync_up_to_date":
               pairingProvider.setAsSynced(terminalId!);
 

@@ -78,4 +78,8 @@ class PairingProvider extends ChangeNotifier {
       ..where((table) => table.terminalId.equals(terminalId))).write(RemoteTerminalsCompanion(lastSync: Value(DateTime.now().toString())));
     notifyListeners();
   }
+
+  Future<void> setAsEnviromentNotFound(String terminalId) async {
+    // TODO
+  }
 }

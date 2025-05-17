@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/http_server_state_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
@@ -11,23 +10,17 @@ class HttpServerManager {
   HttpServer? _server;
   final PairingProvider pairingProvider;
   final OpenConnectionManager openConnectionManager;
-  final Enviroment enviroment;
 
-  HttpServerManager(
-    this.pairingProvider,
-    this.openConnectionManager,
-    this.enviroment,
-  );
+  HttpServerManager(this.pairingProvider, this.openConnectionManager);
 
-  Future<void> startServer(HttpServerStateProvider serverStateProvider) async {
+  Future<void> startServer(HttpServerStateProvider serverStateProvider, String enviromentId) async {
     if (_server != null) {
       await stopServer(serverStateProvider);
     }
 
     var handler = webSocketHandler((webSocket, x) async {
-      
-      openConnectionManager.socketManage(webSocket, (terminalId, nick) {
-        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick, enviroment.id);
+      openConnectionManager.socketManage(webSocket, enviromentId, (terminalId, nick) {
+        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick, enviromentId );
       });
     });
 

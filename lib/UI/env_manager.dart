@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jhopping_list/UI/env_create.dart';
 import 'package:jhopping_list/UI/home.dart';
 import 'package:jhopping_list/UI/share_enviroment.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/enviroment_provider.dart';
+import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 class EnvSelect extends StatelessWidget {
-  const EnvSelect({super.key});
+  final OpenConnectionManager openConnectionManager;
+  const EnvSelect(this.openConnectionManager, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,11 @@ class EnvSelect extends StatelessWidget {
                           snapshot.data!
                               .map(
                                 (env) => ListTile(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env, openConnectionManager)));
+                                  },
                                   title: Text(env.name),
+                                  subtitle: Text(env.id),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -58,18 +65,19 @@ class EnvSelect extends StatelessWidget {
                                         },
                                         icon: Icon(Icons.edit),
                                       ),
-                                      IconButton(
-                                        onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env)));
-                                        },
-                                        icon: Icon(Icons.arrow_outward),
-                                      ),
 
                                       IconButton(
                                         icon: Icon(Icons.share),
                                         onPressed: () {
                                           Navigator.push(context, MaterialPageRoute(builder: (context) => ShareEnviroment(env)));
                                         },
+                                      ),
+
+                                      IconButton(
+                                        onPressed: () {
+                                          enviromentProvider.deleteById(env.id);
+                                        },
+                                        icon: Icon(Icons.delete),
                                       ),
                                     ],
                                   ),
@@ -106,7 +114,12 @@ class EnvSelect extends StatelessWidget {
                         child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Crear entorno")]),
                       ),
                       SizedBox(height: 10),
-                      OutlinedButton(onPressed: () {}, child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text("Cargar entorno")])),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => EnviromentLoad()));
+                        },
+                        child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text("Cargar entorno")]),
+                      ),
                     ],
                   ),
                 ],

@@ -80,7 +80,7 @@ class _SyncViewState extends State<SyncView> {
             ),
             Text("Emparejamientos pasados", style: Theme.of(context).textTheme.titleSmall),
             RemoteTerminalList(widget.enviromentId),
-            HTTPView(widget.openConnectionManager),
+            HTTPView(widget.openConnectionManager, widget.enviromentId),
             // ExpansionTile(title: Text("Sincronización HTTP"), children: []),
             // ExpansionTile(title: Text("Sincronización MQTT"), children: []),
           ],

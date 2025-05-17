@@ -7,9 +7,7 @@ enum ServerStatus { running, stopped, turningOn, turningOff, error }
 class HttpServerStateProvider extends ChangeNotifier {
   HttpServerManager serverManager;
 
-  HttpServerStateProvider(this.serverManager) {
-    tryStartServer();
-  }
+  HttpServerStateProvider(this.serverManager);
 
   ServerStatus status = ServerStatus.stopped;
   String statusError = "Error desconocido";
@@ -29,8 +27,10 @@ class HttpServerStateProvider extends ChangeNotifier {
     return serverManager.isServerRunning();
   }
 
-  Future<void> tryStartServer() async {
+  Future<void> tryStartServer(String enviromentId) async {
     final prefs = await SharedPreferences.getInstance();
+
+
 
     String? localNick = prefs.getString('LocalNick');
 
@@ -39,7 +39,7 @@ class HttpServerStateProvider extends ChangeNotifier {
       return;
     }
 
-    serverManager.startServer(this);
+    serverManager.startServer(this, enviromentId);
 
     notifyListeners();
   }

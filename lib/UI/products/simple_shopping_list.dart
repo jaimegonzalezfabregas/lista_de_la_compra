@@ -15,71 +15,76 @@ class ProductListDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductProvider productProvider = context.watch();
-    ScheduleProvider scheduleProvider = context.watch();
+    try {
+      ProductProvider productProvider = context.watch();
+      ScheduleProvider scheduleProvider = context.watch();
 
-    return FutureBuilder(
-      future: productProvider.getDisplayProductList(enviromentId),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Text("Cargando...");
-        }
-        var products = snapshot.data!.where(filter).toList();
+      return FutureBuilder(
+        future: productProvider.getDisplayProductList(enviromentId),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Text("Cargando...");
+          }
+          var products = snapshot.data!.where(filter).toList();
 
-        return Searchablelistview<Product>(
-          elements: products,
-          elementToListTile: (Product p, RichText tag) {
-            var amountPromise = scheduleProvider.getFutureRecipesWithProduct(p.id);
+          return Searchablelistview<Product>(
+            elements: products,
+            elementToListTile: (Product p, RichText tag) {
+              var amountPromise = scheduleProvider.getFutureRecipesWithProduct(p.id);
 
-            return ListTile(
-              title: tag,
-              onTap: () => productProvider.setProductNeededness(p.id, !p.needed),
-              subtitle: FutureBuilder(
-                future: amountPromise,
-                builder: (context, amountSnapshot) {
-                  if (!amountSnapshot.hasData) {
-                    return Text("Cargando...");
-                  }
+              return ListTile(
+                title: tag,
+                onTap: () => productProvider.setProductNeededness(p.id, !p.needed),
+                subtitle: FutureBuilder(
+                  future: amountPromise,
+                  builder: (context, amountSnapshot) {
+                    if (!amountSnapshot.hasData) {
+                      return Text("Cargando...");
+                    }
 
-                  var recipes = amountSnapshot.data!;
+                    var recipes = amountSnapshot.data!;
 
-                  if (recipes.isEmpty) {
-                    return SizedBox.shrink();
-                  }
+                    if (recipes.isEmpty) {
+                      return SizedBox.shrink();
+                    }
 
-                  var amounts = recipes.map((recipe) => recipe.amount).join(" + r");
+                    var amounts = recipes.map((recipe) => recipe.amount).join(" + r");
 
-                  return Text(amounts);
-                },
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_outward),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail(p.id)));
-                    },
-                  ),
-                  Checkbox(value: p.needed, onChanged: (bool? x) => productProvider.setProductNeededness(p.id, x!)),
-                ],
-              ),
-            );
-          },
-          elementToTag: (Product p) => p.name,
-          newElement: (String name) async {
-            var allProducts = await productProvider.getDisplayProductList(enviromentId);
-            if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
-              var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
+                    return Text(amounts);
+                  },
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_outward),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail(p.id)));
+                      },
+                    ),
+                    Checkbox(value: p.needed, onChanged: (bool? x) => productProvider.setProductNeededness(p.id, x!)),
+                  ],
+                ),
+              );
+            },
+            elementToTag: (Product p) => p.name,
+            newElement: (String name) async {
+              var allProducts = await productProvider.getDisplayProductList(enviromentId);
+              if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
+                var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
 
-              productProvider.setProductNeededness(referenced.id, defaultNeeded);
-            } else {
-              productProvider.addProduct(name, defaultNeeded, enviromentId);
-            }
-          },
-        );
-      },
-    );
+                productProvider.setProductNeededness(referenced.id, defaultNeeded);
+              } else {
+                productProvider.addProduct(name, defaultNeeded, enviromentId);
+              }
+            },
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+      return Text("$e", textScaler: TextScaler.linear(0.7),);
+    }
   }
 }
 

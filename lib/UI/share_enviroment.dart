@@ -26,10 +26,7 @@ class ShareEnviroment extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      color: Colors.white,
-                      child: QrImageView(data: jsonEncode(enviroment), version: QrVersions.auto),
-                    ),
+                    Container(color: Colors.white, child: QrImageView(data: jsonEncode(enviroment.id), version: QrVersions.auto)),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +45,6 @@ class ShareEnviroment extends StatelessWidget {
               ),
             ),
           ),
-
         ],
       ),
     );

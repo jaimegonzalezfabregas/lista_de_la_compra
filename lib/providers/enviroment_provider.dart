@@ -33,4 +33,25 @@ class EnviromentProvider extends ChangeNotifier {
         .insert(EnviromentsCompanion(name: Value(name), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
     notifyListeners();
   }
+
+  Future<void> addEnviromentFromQR(String id) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await database.into(database.enviroments).insert(EnviromentsCompanion(id: Value(id), name: Value("Sin nombre"), updatedAt: Value(0)));
+    notifyListeners();
+  }
+
+  Future<void> deleteById(String id) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.delete(database.enviroments)..where((tbl) => tbl.id.equals(id))).go();
+
+    notifyListeners();
+  }
+
+  Future<bool> existsById(String id) async {
+    final database = AppDatabaseSingleton.instance;
+
+    return (await (database.select(database.enviroments)..where((tbl) => tbl.id.equals(id))).get()).isNotEmpty;
+  }
 }
