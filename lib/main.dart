@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => enviromentProvider)],
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'Jhopping List',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 25, 0, 255), brightness: MediaQuery.platformBrightnessOf(context)),

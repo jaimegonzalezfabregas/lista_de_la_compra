@@ -24,12 +24,12 @@ class OpenConnection {
   OpenConnection(this.terminalId, this.nick, this.cascadeTriggerSyncPull, this.cascadeTriggerSyncPush);
 
   void triggerSyncPull() {
-    print("triggering sync with $nick");
+    // print("triggering sync with $nick");
     cascadeTriggerSyncPull();
   }
 
   void triggerSyncPush() {
-    print("triggering syncwithme with $nick");
+    // print("triggering syncwithme with $nick");
     cascadeTriggerSyncPush();
   }
 

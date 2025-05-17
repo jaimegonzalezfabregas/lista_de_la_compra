@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/UI/home.dart';
+import 'package:jhopping_list/UI/share_enviroment.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/enviroment_provider.dart';
-import 'package:jhopping_list/providers/shared_preferences_provider.dart';
 import 'package:provider/provider.dart';
 
 class EnvSelect extends StatelessWidget {
@@ -10,40 +10,115 @@ class EnvSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SharedPreferencesProvider sharedPreferencesProvider = context.watch();
     EnviromentProvider enviromentProvider = context.watch();
 
-    Future<Enviroment?> currentEnviromentId = sharedPreferencesProvider.getCurrnetEnviromentId().then(
-      (String? id) async => id == null ? null : await enviromentProvider.getProductById(id),
-    );
+    Future<List<Enviroment>> enviroment_list_future = enviromentProvider.getEnviromentList();
 
-    return FutureBuilder(
-      future: currentEnviromentId,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Scaffold(
-            appBar: AppBar(title: Text("Home"), backgroundColor: Theme.of(context).colorScheme.primaryContainer),
-            body: Padding(
+    return Scaffold(
+      body: FutureBuilder(
+        future: enviroment_list_future,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  FilledButton(
-                    onPressed: () {
-                      Enviroment? env = snapshot.data;
-                      if (env != null) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env)));
-                      }
-                    },
-                    child: Text("Entrar en el entorno"),
+                  Expanded(
+                    child: ListView(
+                      children:
+                          snapshot.data!
+                              .map(
+                                (env) => ListTile(
+                                  title: Text(env.name),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              TextEditingController textControler = TextEditingController();
+                                              textControler.text = env.name;
+                                              return AlertDialog(
+                                                title: Text("Cambiar nombre"),
+                                                content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      enviromentProvider.setName(env.id, textControler.text);
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    child: Text("Guardar"),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        icon: Icon(Icons.edit),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env)));
+                                        },
+                                        icon: Icon(Icons.arrow_outward),
+                                      ),
+
+                                      IconButton(
+                                        icon: Icon(Icons.share),
+                                        onPressed: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ShareEnviroment(env)));
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              TextEditingController textControler = TextEditingController();
+                              return AlertDialog(
+                                title: Text("Crear entorno"),
+                                content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      enviromentProvider.addEnviroment(textControler.text);
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Guardar"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Crear entorno")]),
+                      ),
+                      SizedBox(height: 10),
+                      OutlinedButton(onPressed: () {}, child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text("Cargar entorno")])),
+                    ],
                   ),
                 ],
               ),
-            ),
-          );
-        } else {
-          return Text("Cargando...");
-        }
-      },
+            );
+          } else if (snapshot.hasError) {
+            return Text("$snapshot");
+          } else {
+            return Text("Cargando...");
+          }
+        },
+      ),
     );
   }
 }

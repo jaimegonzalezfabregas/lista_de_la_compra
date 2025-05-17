@@ -26,19 +26,4 @@ class SharedPreferencesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?> getCurrnetEnviromentId() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('CurrentEnviromentId');
-  }
-
-  Future<void> setCurrentEnviromentId(String? enviromentId) async {
-    final prefs = await SharedPreferences.getInstance();
-    if (enviromentId == null) {
-      await prefs.remove('CurrentEnviromentId');
-    } else {
-      await prefs.setString('CurrentEnviromentId', enviromentId);
-    }
-
-    notifyListeners();
-  }
 }
