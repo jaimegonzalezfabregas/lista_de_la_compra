@@ -23,8 +23,8 @@ class _SyncViewState extends State<SyncView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sincronización", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer)),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: Text("Sincronización", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

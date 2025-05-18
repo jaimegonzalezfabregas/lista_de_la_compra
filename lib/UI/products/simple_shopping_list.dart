@@ -99,7 +99,7 @@ class SimpleShoppinglist extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
 
           bottom: const TabBar(
             tabs: [Tab(icon: Icon(Icons.check_box_outline_blank)), Tab(icon: Icon(Icons.check_box)), Tab(icon: Icon(Icons.indeterminate_check_box))],

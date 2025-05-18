@@ -31,6 +31,7 @@ class ChooseRecipe extends StatelessWidget {
             },
           ),
         ],
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
       body: FutureBuilder(
         future: recipeProvider.getDisplayRecipeList(enviromentId),

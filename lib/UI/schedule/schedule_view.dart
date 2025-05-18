@@ -99,8 +99,8 @@ class ScheduleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Agenda", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer)),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        title: Text("Agenda", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
       body: ScheduleViewContents(initialWeek, enviromentId),
     );

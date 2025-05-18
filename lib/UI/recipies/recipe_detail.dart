@@ -286,7 +286,7 @@ class RecipeDetail extends StatelessWidget {
             },
           ),
         ],
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         title: FutureBuilder(
           future: recipeFuture,
           builder: (context, snapshot) {
@@ -294,7 +294,7 @@ class RecipeDetail extends StatelessWidget {
               return LoadingBox();
             }
             if (snapshot.data == null) {
-              return Text("Error", style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer));
+              return Text("Error", style: TextStyle(color: Theme.of(context).colorScheme.onSurface));
             }
 
             var recipe = snapshot.data!;

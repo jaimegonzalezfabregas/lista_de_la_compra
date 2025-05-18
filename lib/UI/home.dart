@@ -28,16 +28,19 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          button("Lista de la compra", SimpleShoppinglist(enviroment.id), context),
-          button("Lista de Recetas", RecipeView(enviroment.id), context),
-          button("Agenda", ScheduleView(getCurrentWeek(), enviroment.id), context),
-          button("Sincronización", SyncView(openConnectionManager, enviroment.id), context),
-          button("Lista de Mapas", MapList(), context, disabled: true),
-        ],
+    return Scaffold(
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: Text("Home")),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            button("Lista de la compra", SimpleShoppinglist(enviroment.id), context),
+            button("Lista de Recetas", RecipeView(enviroment.id), context),
+            button("Agenda", ScheduleView(getCurrentWeek(), enviroment.id), context),
+            button("Sincronización", SyncView(openConnectionManager, enviroment.id), context),
+            button("Lista de Mapas", MapList(), context, disabled: true),
+          ],
+        ),
       ),
     );
   }

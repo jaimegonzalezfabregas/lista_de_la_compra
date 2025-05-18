@@ -13,7 +13,7 @@ class ShareEnviroment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Compartir (${enviroment.name})"), backgroundColor: Theme.of(context).colorScheme.primaryContainer),
+      appBar: AppBar(title: Text("Compartir (${enviroment.name})"), backgroundColor: Theme.of(context).colorScheme.surfaceContainer),
       body: Column(
         children: [
           Padding(

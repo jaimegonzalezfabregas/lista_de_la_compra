@@ -75,7 +75,7 @@ class ProductDetail extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: (s) {},

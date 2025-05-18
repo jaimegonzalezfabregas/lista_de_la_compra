@@ -15,11 +15,11 @@ class EnvSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     EnviromentProvider enviromentProvider = context.watch();
 
-    Future<List<Enviroment>> enviroment_list_future = enviromentProvider.getEnviromentList();
+    Future<List<Enviroment>> enviromentListFuture = enviromentProvider.getEnviromentList();
 
     return Scaffold(
       body: FutureBuilder(
-        future: enviroment_list_future,
+        future: enviromentListFuture,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Padding(
