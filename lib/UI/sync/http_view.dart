@@ -1,83 +1,59 @@
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
+import 'package:jhopping_list/UI/sync/nearby_servers.dart';
 import 'package:jhopping_list/providers/http_server_state_provider.dart';
 import 'package:jhopping_list/UI/sync/ip_list_view.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 class HTTPView extends StatelessWidget {
-  final OpenConnectionManager syncManager;
+  final OpenConnectionManager openConnectionManager;
   final String enviromentId;
 
-  const HTTPView(this.syncManager, this.enviromentId, {super.key});
+  const HTTPView(this.openConnectionManager, this.enviromentId, {super.key});
 
   Widget serveControlls(BuildContext context) {
     HttpServerStateProvider serverStateProvider = context.watch();
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Builder(
-            builder: (context) {
-              Widget child;
-
-              switch (serverStateProvider.getServerStatus()) {
-                case ServerStatus.running:
-                  child = Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IpListView(),
-                      TextButton(
-                        onPressed: () async {
-                          await serverStateProvider.stopServer();
-                        },
-                        child: Text("Detener servidor"),
-                      ),
-                    ],
-                  );
-                  break;
-                case ServerStatus.stopped:
-                  child = TextButton(
-                    onPressed: () async {
-                      await serverStateProvider.tryStartServer(enviromentId);
-                    },
-                    child: Text("Iniciar servidor"),
-                  );
-                  break;
-                case ServerStatus.turningOn:
-                  child = Text("Iniciando servidor...");
-                  break;
-                case ServerStatus.turningOff:
-                  child = Text("Deteniendo servidor...");
-                  break;
-                case ServerStatus.error:
-                  child = Column(
-                    children: [
-                      Text("Error iniciando servidor: ${serverStateProvider.getServerError()}"),
-                      TextButton(
-                        onPressed: () async {
-                          await serverStateProvider.tryStartServer(enviromentId);
-                        },
-                        child: Text("Iniciar servidor"),
-                      ),
-                    ],
-                  );
-                  break;
-              }
-
-              return Container(
-                width: double.infinity,
-                decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(10)),
-                child: Padding(padding: const EdgeInsets.all(8.0), child: child),
-              );
-            },
-          ),
-        ),
-      ],
-    );
+    switch (serverStateProvider.getServerStatus()) {
+      case ServerStatus.running:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("A continuación se listan las IPs en las que está disponible el dispositivo local"),
+            IpListView(),
+            TextButton(
+              onPressed: () async {
+                await serverStateProvider.stopServer();
+              },
+              child: Text("Detener servidor"),
+            ),
+          ],
+        );
+      case ServerStatus.stopped:
+        return TextButton(
+          onPressed: () async {
+            await serverStateProvider.tryStartServer(enviromentId);
+          },
+          child: Text("Iniciar servidor"),
+        );
+      case ServerStatus.turningOn:
+        return Text("Iniciando servidor...");
+      case ServerStatus.turningOff:
+        return Text("Deteniendo servidor...");
+      case ServerStatus.error:
+        return Column(
+          children: [
+            Text("Error iniciando servidor: ${serverStateProvider.getServerError()}"),
+            TextButton(
+              onPressed: () async {
+                await serverStateProvider.tryStartServer(enviromentId);
+              },
+              child: Text("Iniciar servidor"),
+            ),
+          ],
+        );
+    }
   }
 
   Widget clientControlls(BuildContext context) {
@@ -86,54 +62,67 @@ class HTTPView extends StatelessWidget {
 
     var toast = ScaffoldMessenger.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: hostTextController,
-              decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder()),
-            ),
+    return Column(
+      children: [
+        Text("Dispositivos cercanos"),
+
+        NearbyServers(openConnectionManager, enviromentId),
+
+        Text("Introducir direción manualmente"),
+
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(controller: hostTextController, decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder())),
+        ),
+
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            keyboardType: TextInputType.numberWithOptions(),
+            controller: portTextController,
+            decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder()),
           ),
+        ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: portTextController,
-              decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder()),
-            ),
-          ),
-          TextButton(
-            onPressed: () async {
-              var host = hostTextController.text;
-              if (host.isEmpty) {
-                toast.showSnackBar(SnackBar(content: Text("Error: la dirección remota no puede estar vacía")));
-                return;
-              }
+        TextButton(
+          onPressed: () async {
+            var host = hostTextController.text;
+            if (host.isEmpty) {
+              toast.showSnackBar(SnackBar(content: Text("Error: la dirección remota no puede estar vacía")));
+              return;
+            }
 
-              var port = int.tryParse(portTextController.text) ?? 4545;
+            var port = int.tryParse(portTextController.text) ?? 4545;
 
-              portTextController.text = port.toString();
+            portTextController.text = port.toString();
 
-              syncManager.tryConnectingToHttpServer(host, port, enviromentId);
-            },
-            child: Text("Conectar"),
-          ),
-        ],
-      ),
+            openConnectionManager.tryConnectingToHttpServer(host, port, enviromentId);
+          },
+          child: Text("Conectar"),
+        ),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget putInsideContainer(Widget child) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(10)),
+          child: Padding(padding: const EdgeInsets.all(8.0), child: child),
+        ),
+      );
+    }
+
     return DefaultTabController(
       length: 2,
       child: Column(
         children: [
           const TabBar(tabs: [Tab(text: "Servidor"), Tab(text: "Cliente")]),
-          ContentSizeTabBarView(children: [serveControlls(context), clientControlls(context)]),
+          ContentSizeTabBarView(children: [serveControlls(context), clientControlls(context)].map(putInsideContainer).toList()),
         ],
       ),
     );

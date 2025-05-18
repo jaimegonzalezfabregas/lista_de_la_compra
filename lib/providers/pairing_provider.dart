@@ -42,15 +42,13 @@ class PairingProvider extends ChangeNotifier {
   Future<List<RemoteTerminal>> getRemoteTerminals(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
-    return await (database.select(database.remoteTerminals)
-          ..join([
-            innerJoin(
-              database.remoteTerminalEnviroments,
-              database.remoteTerminalEnviroments.terminalId.equalsExp(database.remoteTerminals.terminalId),
-            ),
-          ])
-          ..where((tbl) => database.remoteTerminalEnviroments.enviromentId.equals(enviromentId)))
-        .get();
+    var query = database.select(database.remoteTerminals).join([
+      innerJoin(database.remoteTerminalEnviroments, database.remoteTerminalEnviroments.terminalId.equalsExp(database.remoteTerminals.terminalId)),
+    ]);
+
+    query.where(database.remoteTerminalEnviroments.enviromentId.equals(enviromentId));
+
+    return await query.map((u) => u.readTable(database.remoteTerminals)).get();
   }
 
   Future<void> deleteRemoteTerminalById(String terminalId, String enviromentId) async {

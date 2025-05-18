@@ -5,22 +5,24 @@ import 'package:jhopping_list/providers/pairing_provider.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
+import 'package:nsd/nsd.dart';
 
 class HttpServerManager {
   HttpServer? _server;
   final PairingProvider pairingProvider;
   final OpenConnectionManager openConnectionManager;
+  Registration? avahiRegistration;
 
   HttpServerManager(this.pairingProvider, this.openConnectionManager);
 
-  Future<void> startServer(HttpServerStateProvider serverStateProvider, String enviromentId) async {
+  Future<void> startServer(HttpServerStateProvider serverStateProvider, String enviromentId, String humanFriendlyIdentification) async {
     if (_server != null) {
       await stopServer(serverStateProvider);
     }
 
     var handler = webSocketHandler((webSocket, x) async {
       openConnectionManager.socketManage(webSocket, enviromentId, (terminalId, nick) {
-        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick, enviromentId );
+        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick, enviromentId);
       });
     });
 
@@ -33,10 +35,20 @@ class HttpServerManager {
     } catch (e) {
       serverStateProvider.setServerStatus(ServerStatus.error, error: "Error al iniciar el servidor: $e");
     }
+
+    if (avahiRegistration != null) {
+      await unregister(avahiRegistration!);
+    }
+
+    avahiRegistration = await register(Service(name: humanFriendlyIdentification, type: '_jhop._tcp', port: 4545));
   }
 
   Future<void> stopServer(HttpServerStateProvider serverStateProvider) async {
     serverStateProvider.setServerStatus(ServerStatus.turningOff);
+
+    if (avahiRegistration != null) {
+      await unregister(avahiRegistration!);
+    }
 
     await _server?.close();
     _server = null;
