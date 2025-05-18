@@ -8,7 +8,11 @@ class _NearbyServers extends State<NearbyServers> {
   Discovery? discovery;
 
   _NearbyServers() {
+    // ask for permission 
     startDiscovery('_jhop._tcp').then((d) {
+      setState(() {
+        discovery = d;
+      });
       d.addListener(() {
         setState(() {});
       });

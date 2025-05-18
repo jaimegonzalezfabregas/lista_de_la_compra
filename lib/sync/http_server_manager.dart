@@ -35,9 +35,9 @@ class HttpServerManager {
     } catch (e) {
       serverStateProvider.setServerStatus(ServerStatus.error, error: "Error al iniciar el servidor: $e");
     }
-
     if (avahiRegistration != null) {
       await unregister(avahiRegistration!);
+      avahiRegistration = null;
     }
 
     avahiRegistration = await register(Service(name: humanFriendlyIdentification, type: '_jhop._tcp', port: 4545));
@@ -48,8 +48,8 @@ class HttpServerManager {
 
     if (avahiRegistration != null) {
       await unregister(avahiRegistration!);
+      avahiRegistration = null;
     }
-
     await _server?.close();
     _server = null;
     serverStateProvider.setServerStatus(ServerStatus.stopped);
