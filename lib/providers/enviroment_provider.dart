@@ -48,10 +48,4 @@ class EnviromentProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  Future<bool> existsById(String id) async {
-    final database = AppDatabaseSingleton.instance;
-
-    return (await (database.select(database.enviroments)..where((tbl) => tbl.id.equals(id))).get()).isNotEmpty;
-  }
 }

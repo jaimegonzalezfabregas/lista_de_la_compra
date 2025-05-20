@@ -1930,32 +1930,6 @@ class $RemoteTerminalsTable extends RemoteTerminals
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _lastSyncMeta = const VerificationMeta(
-    'lastSync',
-  );
-  @override
-  late final GeneratedColumn<String> lastSync = GeneratedColumn<String>(
-    'last_sync',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _acceptedMeta = const VerificationMeta(
-    'accepted',
-  );
-  @override
-  late final GeneratedColumn<bool> accepted = GeneratedColumn<bool>(
-    'accepted',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("accepted" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
   static const VerificationMeta _isHttpServerMeta = const VerificationMeta(
     'isHttpServer',
   );
@@ -1992,8 +1966,6 @@ class $RemoteTerminalsTable extends RemoteTerminals
     nick,
     httpHost,
     httpPort,
-    lastSync,
-    accepted,
     isHttpServer,
     isHttpClient,
   ];
@@ -2035,18 +2007,6 @@ class $RemoteTerminalsTable extends RemoteTerminals
       context.handle(
         _httpPortMeta,
         httpPort.isAcceptableOrUnknown(data['http_port']!, _httpPortMeta),
-      );
-    }
-    if (data.containsKey('last_sync')) {
-      context.handle(
-        _lastSyncMeta,
-        lastSync.isAcceptableOrUnknown(data['last_sync']!, _lastSyncMeta),
-      );
-    }
-    if (data.containsKey('accepted')) {
-      context.handle(
-        _acceptedMeta,
-        accepted.isAcceptableOrUnknown(data['accepted']!, _acceptedMeta),
       );
     }
     if (data.containsKey('is_http_server')) {
@@ -2094,15 +2054,6 @@ class $RemoteTerminalsTable extends RemoteTerminals
         DriftSqlType.int,
         data['${effectivePrefix}http_port'],
       ),
-      lastSync: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}last_sync'],
-      ),
-      accepted:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.bool,
-            data['${effectivePrefix}accepted'],
-          )!,
       isHttpServer:
           attachedDatabase.typeMapping.read(
             DriftSqlType.bool,
@@ -2127,8 +2078,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
   final String nick;
   final String? httpHost;
   final int? httpPort;
-  final String? lastSync;
-  final bool accepted;
   final bool isHttpServer;
   final bool isHttpClient;
   const RemoteTerminal({
@@ -2136,8 +2085,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     required this.nick,
     this.httpHost,
     this.httpPort,
-    this.lastSync,
-    required this.accepted,
     required this.isHttpServer,
     required this.isHttpClient,
   });
@@ -2152,10 +2099,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     if (!nullToAbsent || httpPort != null) {
       map['http_port'] = Variable<int>(httpPort);
     }
-    if (!nullToAbsent || lastSync != null) {
-      map['last_sync'] = Variable<String>(lastSync);
-    }
-    map['accepted'] = Variable<bool>(accepted);
     map['is_http_server'] = Variable<bool>(isHttpServer);
     map['is_http_client'] = Variable<bool>(isHttpClient);
     return map;
@@ -2173,11 +2116,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
           httpPort == null && nullToAbsent
               ? const Value.absent()
               : Value(httpPort),
-      lastSync:
-          lastSync == null && nullToAbsent
-              ? const Value.absent()
-              : Value(lastSync),
-      accepted: Value(accepted),
       isHttpServer: Value(isHttpServer),
       isHttpClient: Value(isHttpClient),
     );
@@ -2193,8 +2131,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
       nick: serializer.fromJson<String>(json['nick']),
       httpHost: serializer.fromJson<String?>(json['httpHost']),
       httpPort: serializer.fromJson<int?>(json['httpPort']),
-      lastSync: serializer.fromJson<String?>(json['lastSync']),
-      accepted: serializer.fromJson<bool>(json['accepted']),
       isHttpServer: serializer.fromJson<bool>(json['isHttpServer']),
       isHttpClient: serializer.fromJson<bool>(json['isHttpClient']),
     );
@@ -2207,8 +2143,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
       'nick': serializer.toJson<String>(nick),
       'httpHost': serializer.toJson<String?>(httpHost),
       'httpPort': serializer.toJson<int?>(httpPort),
-      'lastSync': serializer.toJson<String?>(lastSync),
-      'accepted': serializer.toJson<bool>(accepted),
       'isHttpServer': serializer.toJson<bool>(isHttpServer),
       'isHttpClient': serializer.toJson<bool>(isHttpClient),
     };
@@ -2219,8 +2153,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     String? nick,
     Value<String?> httpHost = const Value.absent(),
     Value<int?> httpPort = const Value.absent(),
-    Value<String?> lastSync = const Value.absent(),
-    bool? accepted,
     bool? isHttpServer,
     bool? isHttpClient,
   }) => RemoteTerminal(
@@ -2228,8 +2160,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     nick: nick ?? this.nick,
     httpHost: httpHost.present ? httpHost.value : this.httpHost,
     httpPort: httpPort.present ? httpPort.value : this.httpPort,
-    lastSync: lastSync.present ? lastSync.value : this.lastSync,
-    accepted: accepted ?? this.accepted,
     isHttpServer: isHttpServer ?? this.isHttpServer,
     isHttpClient: isHttpClient ?? this.isHttpClient,
   );
@@ -2240,8 +2170,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
       nick: data.nick.present ? data.nick.value : this.nick,
       httpHost: data.httpHost.present ? data.httpHost.value : this.httpHost,
       httpPort: data.httpPort.present ? data.httpPort.value : this.httpPort,
-      lastSync: data.lastSync.present ? data.lastSync.value : this.lastSync,
-      accepted: data.accepted.present ? data.accepted.value : this.accepted,
       isHttpServer:
           data.isHttpServer.present
               ? data.isHttpServer.value
@@ -2260,8 +2188,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
           ..write('nick: $nick, ')
           ..write('httpHost: $httpHost, ')
           ..write('httpPort: $httpPort, ')
-          ..write('lastSync: $lastSync, ')
-          ..write('accepted: $accepted, ')
           ..write('isHttpServer: $isHttpServer, ')
           ..write('isHttpClient: $isHttpClient')
           ..write(')'))
@@ -2274,8 +2200,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
     nick,
     httpHost,
     httpPort,
-    lastSync,
-    accepted,
     isHttpServer,
     isHttpClient,
   );
@@ -2287,8 +2211,6 @@ class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
           other.nick == this.nick &&
           other.httpHost == this.httpHost &&
           other.httpPort == this.httpPort &&
-          other.lastSync == this.lastSync &&
-          other.accepted == this.accepted &&
           other.isHttpServer == this.isHttpServer &&
           other.isHttpClient == this.isHttpClient);
 }
@@ -2298,8 +2220,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   final Value<String> nick;
   final Value<String?> httpHost;
   final Value<int?> httpPort;
-  final Value<String?> lastSync;
-  final Value<bool> accepted;
   final Value<bool> isHttpServer;
   final Value<bool> isHttpClient;
   final Value<int> rowid;
@@ -2308,8 +2228,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     this.nick = const Value.absent(),
     this.httpHost = const Value.absent(),
     this.httpPort = const Value.absent(),
-    this.lastSync = const Value.absent(),
-    this.accepted = const Value.absent(),
     this.isHttpServer = const Value.absent(),
     this.isHttpClient = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -2319,8 +2237,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     required String nick,
     this.httpHost = const Value.absent(),
     this.httpPort = const Value.absent(),
-    this.lastSync = const Value.absent(),
-    this.accepted = const Value.absent(),
     this.isHttpServer = const Value.absent(),
     this.isHttpClient = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -2331,8 +2247,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     Expression<String>? nick,
     Expression<String>? httpHost,
     Expression<int>? httpPort,
-    Expression<String>? lastSync,
-    Expression<bool>? accepted,
     Expression<bool>? isHttpServer,
     Expression<bool>? isHttpClient,
     Expression<int>? rowid,
@@ -2342,8 +2256,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
       if (nick != null) 'nick': nick,
       if (httpHost != null) 'http_host': httpHost,
       if (httpPort != null) 'http_port': httpPort,
-      if (lastSync != null) 'last_sync': lastSync,
-      if (accepted != null) 'accepted': accepted,
       if (isHttpServer != null) 'is_http_server': isHttpServer,
       if (isHttpClient != null) 'is_http_client': isHttpClient,
       if (rowid != null) 'rowid': rowid,
@@ -2355,8 +2267,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     Value<String>? nick,
     Value<String?>? httpHost,
     Value<int?>? httpPort,
-    Value<String?>? lastSync,
-    Value<bool>? accepted,
     Value<bool>? isHttpServer,
     Value<bool>? isHttpClient,
     Value<int>? rowid,
@@ -2366,8 +2276,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
       nick: nick ?? this.nick,
       httpHost: httpHost ?? this.httpHost,
       httpPort: httpPort ?? this.httpPort,
-      lastSync: lastSync ?? this.lastSync,
-      accepted: accepted ?? this.accepted,
       isHttpServer: isHttpServer ?? this.isHttpServer,
       isHttpClient: isHttpClient ?? this.isHttpClient,
       rowid: rowid ?? this.rowid,
@@ -2389,12 +2297,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     if (httpPort.present) {
       map['http_port'] = Variable<int>(httpPort.value);
     }
-    if (lastSync.present) {
-      map['last_sync'] = Variable<String>(lastSync.value);
-    }
-    if (accepted.present) {
-      map['accepted'] = Variable<bool>(accepted.value);
-    }
     if (isHttpServer.present) {
       map['is_http_server'] = Variable<bool>(isHttpServer.value);
     }
@@ -2414,8 +2316,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
           ..write('nick: $nick, ')
           ..write('httpHost: $httpHost, ')
           ..write('httpPort: $httpPort, ')
-          ..write('lastSync: $lastSync, ')
-          ..write('accepted: $accepted, ')
           ..write('isHttpServer: $isHttpServer, ')
           ..write('isHttpClient: $isHttpClient, ')
           ..write('rowid: $rowid')
@@ -4940,8 +4840,6 @@ typedef $$RemoteTerminalsTableCreateCompanionBuilder =
       required String nick,
       Value<String?> httpHost,
       Value<int?> httpPort,
-      Value<String?> lastSync,
-      Value<bool> accepted,
       Value<bool> isHttpServer,
       Value<bool> isHttpClient,
       Value<int> rowid,
@@ -4952,8 +4850,6 @@ typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
       Value<String> nick,
       Value<String?> httpHost,
       Value<int?> httpPort,
-      Value<String?> lastSync,
-      Value<bool> accepted,
       Value<bool> isHttpServer,
       Value<bool> isHttpClient,
       Value<int> rowid,
@@ -5030,16 +4926,6 @@ class $$RemoteTerminalsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get lastSync => $composableBuilder(
-    column: $table.lastSync,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get accepted => $composableBuilder(
-    column: $table.accepted,
-    builder: (column) => ColumnFilters(column),
-  );
-
   ColumnFilters<bool> get isHttpServer => $composableBuilder(
     column: $table.isHttpServer,
     builder: (column) => ColumnFilters(column),
@@ -5107,16 +4993,6 @@ class $$RemoteTerminalsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get lastSync => $composableBuilder(
-    column: $table.lastSync,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get accepted => $composableBuilder(
-    column: $table.accepted,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<bool> get isHttpServer => $composableBuilder(
     column: $table.isHttpServer,
     builder: (column) => ColumnOrderings(column),
@@ -5150,12 +5026,6 @@ class $$RemoteTerminalsTableAnnotationComposer
 
   GeneratedColumn<int> get httpPort =>
       $composableBuilder(column: $table.httpPort, builder: (column) => column);
-
-  GeneratedColumn<String> get lastSync =>
-      $composableBuilder(column: $table.lastSync, builder: (column) => column);
-
-  GeneratedColumn<bool> get accepted =>
-      $composableBuilder(column: $table.accepted, builder: (column) => column);
 
   GeneratedColumn<bool> get isHttpServer => $composableBuilder(
     column: $table.isHttpServer,
@@ -5236,8 +5106,6 @@ class $$RemoteTerminalsTableTableManager
                 Value<String> nick = const Value.absent(),
                 Value<String?> httpHost = const Value.absent(),
                 Value<int?> httpPort = const Value.absent(),
-                Value<String?> lastSync = const Value.absent(),
-                Value<bool> accepted = const Value.absent(),
                 Value<bool> isHttpServer = const Value.absent(),
                 Value<bool> isHttpClient = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -5246,8 +5114,6 @@ class $$RemoteTerminalsTableTableManager
                 nick: nick,
                 httpHost: httpHost,
                 httpPort: httpPort,
-                lastSync: lastSync,
-                accepted: accepted,
                 isHttpServer: isHttpServer,
                 isHttpClient: isHttpClient,
                 rowid: rowid,
@@ -5258,8 +5124,6 @@ class $$RemoteTerminalsTableTableManager
                 required String nick,
                 Value<String?> httpHost = const Value.absent(),
                 Value<int?> httpPort = const Value.absent(),
-                Value<String?> lastSync = const Value.absent(),
-                Value<bool> accepted = const Value.absent(),
                 Value<bool> isHttpServer = const Value.absent(),
                 Value<bool> isHttpClient = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -5268,8 +5132,6 @@ class $$RemoteTerminalsTableTableManager
                 nick: nick,
                 httpHost: httpHost,
                 httpPort: httpPort,
-                lastSync: lastSync,
-                accepted: accepted,
                 isHttpServer: isHttpServer,
                 isHttpClient: isHttpClient,
                 rowid: rowid,

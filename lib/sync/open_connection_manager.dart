@@ -16,13 +16,14 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class OpenConnection {
   final String terminalId;
-  final String nick;
+  String nick;
   final Function cascadeTriggerSyncPull;
   final Function cascadeTriggerSyncPush;
+  final Function cascadeTriggerHandshakePush;
 
   DateTime lastContact = DateTime.now();
 
-  OpenConnection(this.terminalId, this.nick, this.cascadeTriggerSyncPull, this.cascadeTriggerSyncPush);
+  OpenConnection(this.terminalId, this.nick, this.cascadeTriggerSyncPull, this.cascadeTriggerSyncPush, this.cascadeTriggerHandshakePush);
 
   void triggerSyncPull() {
     // print("triggering sync with $nick");
@@ -36,6 +37,14 @@ class OpenConnection {
 
   void updateLastContact() {
     lastContact = DateTime.now();
+  }
+
+  void setNick(String nick) {
+    this.nick = nick;
+  }
+
+  void triggerHandshakePush() {
+    cascadeTriggerHandshakePush();
   }
 }
 
@@ -103,6 +112,12 @@ class OpenConnectionManager {
     }
   }
 
+  void triggerHandshakePush() async {
+    for (var openConnection in openConnectionProvider.openConnections) {
+      openConnection.triggerHandshakePush();
+    }
+  }
+
   OpenConnectionManager(
     this.pairingProvider,
     this.openConnectionProvider,
@@ -121,7 +136,7 @@ class OpenConnectionManager {
     Timer.periodic(const Duration(seconds: 2), (timer) async {
       for (var enviroment in await enviromentProvider.getEnviromentList()) {
         for (var peer in await pairingProvider.getRemoteTerminals(enviroment.id)) {
-          if (openConnectionProvider.isOpenConnection(peer.terminalId)) {
+          if (openConnectionProvider.isConnected(peer.terminalId)) {
             continue;
           }
 
@@ -139,37 +154,42 @@ class OpenConnectionManager {
     scheduleProvider.addListener(triggerSyncPush);
   }
 
-  Future<Map<String, dynamic>> getState(Enviroment enviroment) async {
+  Future<Map<String, dynamic>> getState(String enviromentId) async {
+    Enviroment enviroment = (await enviromentProvider.getEnviromentById(enviromentId))!;
+
     return {
       "enviroment": enviroment,
-      "products": await productProvider.getSyncProductList(enviroment.id),
-      "recipes": await recipeProvider.getSyncRecipeList(enviroment.id),
-      "products_recipies": await recipeProvider.getSyncRecipeProductList(enviroment.id),
-      "schedule": await scheduleProvider.getSyncEntryList(enviroment.id),
+      "products": await productProvider.getSyncProductList(enviromentId),
+      "recipes": await recipeProvider.getSyncRecipeList(enviromentId),
+      "products_recipies": await recipeProvider.getSyncRecipeProductList(enviromentId),
+      "schedule": await scheduleProvider.getSyncEntryList(enviromentId),
     };
   }
 
-  Future<String> getStateDigest(int salt, Enviroment enviroment) async {
-    Uint8List bytes = utf8.encode(jsonEncode(await getState(enviroment))); // data being hashed
+  Future<String> getStateDigest(int salt, String enviromentId) async {
+    Uint8List bytes = utf8.encode(jsonEncode(await getState(enviromentId))); // data being hashed
     var saltedBytes = bytes + utf8.encode(salt.toString());
     return sha512256.convert(saltedBytes).toString().substring(0, 4);
+  }
+
+  Future<Map<String, String>> getHandshake() async {
+    return {"type": "handshake", "id": await sharedPreferencesProvider.getTerminalId(), "nick": await sharedPreferencesProvider.getLocalNick()};
   }
 
   void socketManage(WebSocketChannel ws, String enviromentId, Function(String, String) afterHandshakeCb) async {
     String? terminalId;
     String? nick;
 
-    Enviroment enviroment = (await enviromentProvider.getEnviromentById(enviromentId))!;
-
     void send(msg) {
       // print("sending to $nick   : $msg");
       ws.sink.add(msg);
     }
 
-    Future<void> triggerSyncPull(Enviroment enviroment) async {
+    Future<void> triggerSyncPull(String enviromentId) async {
       int salt = math.Random().nextInt(1000);
+      Enviroment enviroment = (await enviromentProvider.getEnviromentById(enviromentId))!;
 
-      send(jsonEncode({"type": "send_digest", "salt": salt, "digest": await getStateDigest(salt, enviroment)}));
+      send(jsonEncode({"type": "send_digest", "salt": salt, "enviroment": enviroment, "digest": await getStateDigest(salt, enviromentId)}));
     }
 
     ws.stream.listen(
@@ -189,102 +209,127 @@ class OpenConnectionManager {
               nick = data["nick"];
 
               afterHandshakeCb(terminalId!, nick!);
+              if (openConnectionProvider.isConnected(data["id"])) {
+                openConnectionProvider.setNickOf(data["id"], data["nick"]);
+              } else {
+                openConnectionProvider.addOpenConnection(
+                  terminalId!,
+                  nick!,
+                  () async => await triggerSyncPull(enviromentId),
+                  () => send(jsonEncode({"type": "sync_push"})),
+                  () async => send(jsonEncode(await getHandshake())),
+                );
+                openConnectionProvider.refreshOpenConnection(terminalId!);
+                triggerSyncPull(enviromentId);
+              }
 
-              openConnectionProvider.addOpenConnection(
-                terminalId!,
-                nick!,
-                () async => triggerSyncPull(enviroment),
-                () async => send(jsonEncode({"type": "sync_push"})),
-              );
-              openConnectionProvider.refreshOpenConnection(terminalId!);
-              triggerSyncPull(enviroment);
+              pairingProvider.setNickOf(data["id"], data["nick"]);
+
               break;
 
             case "sync_push":
-              triggerSyncPull(enviroment);
+              triggerSyncPull(enviromentId);
 
               break;
 
             case "send_digest":
+              print(data);
               Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
+              Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
+              if (currentEnviroment != null) {
+                if (currentEnviroment.updatedAt < remoteEnviroment.updatedAt) {
+                  if (currentEnviroment.name != remoteEnviroment.name) {
+                    enviromentProvider.setName(currentEnviroment.id, remoteEnviroment.name);
+                  }
+                }
 
-              if (await enviromentProvider.existsById(remoteEnviroment.id)) {
-                String ownDigest = await getStateDigest(data["salt"], remoteEnviroment);
+                String ownDigest = await getStateDigest(data["salt"], remoteEnviroment.id);
 
                 if (data["digest"] == ownDigest) {
-                  pairingProvider.setAsSynced(terminalId!);
                   send(jsonEncode({"type": "sync_up_to_date"}));
                 } else {
-                  send(jsonEncode({"type": "send_state", "state": await getState(enviroment)}));
+                  send(jsonEncode({"type": "send_state", "state": await getState(remoteEnviroment.id)}));
                 }
                 break;
               } else {
                 send(jsonEncode({"type": "enviroment_not_found"}));
               }
+              break;
+
             case "enviroment_not_found":
               pairingProvider.setAsEnviromentNotFound(terminalId!);
+              break;
 
             case "sync_up_to_date":
-              pairingProvider.setAsSynced(terminalId!);
-
+              // TODO
+              break;
             case "send_state":
-              Map<String, dynamic> state = data["state"];
+              Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
+              Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
+              if (currentEnviroment != null) {
+                if (currentEnviroment.updatedAt < remoteEnviroment.updatedAt) {
+                  if (currentEnviroment.name != remoteEnviroment.name) {
+                    enviromentProvider.setName(currentEnviroment.id, remoteEnviroment.name);
+                  }
+                }
 
-              List<dynamic> otherProducts = state["products"]!;
-              List<dynamic> otherRecipes = state["recipes"]!;
-              List<dynamic> otherProductsRecipies = state["products_recipies"]!;
-              List<dynamic> otherSchedule = state["schedule"]!;
+                Map<String, dynamic> state = data["state"];
 
-              var selfProducts = productProvider.getSyncProductList(enviroment.id);
-              var selfRecipes = recipeProvider.getSyncRecipeList(enviroment.id);
-              var selfProductsRecipes = recipeProvider.getSyncRecipeProductList(enviroment.id);
-              var selfSchedule = scheduleProvider.getSyncEntryList(enviroment.id);
+                List<dynamic> otherProducts = state["products"]!;
+                List<dynamic> otherRecipes = state["recipes"]!;
+                List<dynamic> otherProductsRecipies = state["products_recipies"]!;
+                List<dynamic> otherSchedule = state["schedule"]!;
 
-              await syncItems(
-                otherProducts,
-                await selfProducts,
-                (id, item) => productProvider.syncOveride(id, item),
-                (id, deletedAt) => productProvider.syncSetDeleted(id, deletedAt),
-                (item) => productProvider.syncAddProduct(item),
-              );
+                var selfProducts = productProvider.getSyncProductList(enviromentId);
+                var selfRecipes = recipeProvider.getSyncRecipeList(enviromentId);
+                var selfProductsRecipes = recipeProvider.getSyncRecipeProductList(enviromentId);
+                var selfSchedule = scheduleProvider.getSyncEntryList(enviromentId);
 
-              await syncItems(
-                otherRecipes,
-                await selfRecipes,
-                (id, item) => recipeProvider.syncOverideRecipe(id, item),
-                (id, deletedAt) => recipeProvider.syncSetDeletedRecipe(id, deletedAt),
-                (item) => recipeProvider.syncAddRecipe(item),
-              );
+                await syncItems(
+                  otherProducts,
+                  await selfProducts,
+                  (id, item) => productProvider.syncOveride(id, item),
+                  (id, deletedAt) => productProvider.syncSetDeleted(id, deletedAt),
+                  (item) => productProvider.syncAddProduct(item),
+                );
 
-              await syncItems(
-                otherProductsRecipies,
-                await selfProductsRecipes,
-                (id, item) => recipeProvider.syncOverideRecipeProduct(id, item),
-                (id, deletedAt) => recipeProvider.syncSetDeletedRecipeProduct(id, deletedAt),
-                (item) => recipeProvider.syncAddRecipeProduct(item),
-              );
+                await syncItems(
+                  otherRecipes,
+                  await selfRecipes,
+                  (id, item) => recipeProvider.syncOverideRecipe(id, item),
+                  (id, deletedAt) => recipeProvider.syncSetDeletedRecipe(id, deletedAt),
+                  (item) => recipeProvider.syncAddRecipe(item),
+                );
 
-              await syncItems(
-                otherSchedule,
-                await selfSchedule,
-                (id, item) => scheduleProvider.syncOveride(id, item),
-                (id, deletedAt) => scheduleProvider.syncSetDeleted(id, deletedAt),
-                (item) => scheduleProvider.syncAddEntry(item),
-              );
+                await syncItems(
+                  otherProductsRecipies,
+                  await selfProductsRecipes,
+                  (id, item) => recipeProvider.syncOverideRecipeProduct(id, item),
+                  (id, deletedAt) => recipeProvider.syncSetDeletedRecipeProduct(id, deletedAt),
+                  (item) => recipeProvider.syncAddRecipeProduct(item),
+                );
+
+                await syncItems(
+                  otherSchedule,
+                  await selfSchedule,
+                  (id, item) => scheduleProvider.syncOveride(id, item),
+                  (id, deletedAt) => scheduleProvider.syncSetDeleted(id, deletedAt),
+                  (item) => scheduleProvider.syncAddEntry(item),
+                );
+              } else {
+                send(jsonEncode({"type": "enviroment_not_found"}));
+              }
+              break;
           }
         }
       },
       onDone: () {
-        openConnectionProvider.removeOpenConnection(terminalId!);
+        if (terminalId != null) {
+          openConnectionProvider.removeOpenConnection(terminalId!);
+        }
       },
     );
 
-    send(
-      jsonEncode({
-        "type": "handshake",
-        "id": await sharedPreferencesProvider.getTerminalId(),
-        "nick": await sharedPreferencesProvider.getLocalNick(),
-      }),
-    );
+    send(jsonEncode(await getHandshake()));
   }
 }

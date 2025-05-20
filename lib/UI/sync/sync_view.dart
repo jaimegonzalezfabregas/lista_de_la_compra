@@ -64,6 +64,7 @@ class _SyncViewState extends State<SyncView> {
                                     onPressed: () {
                                       sharedPreferencesProvider.setLocalNick(textControler.text);
                                       Navigator.of(context).pop();
+                                      widget.openConnectionManager.triggerHandshakePush();
                                     },
                                     child: Text("Guardar"),
                                   ),

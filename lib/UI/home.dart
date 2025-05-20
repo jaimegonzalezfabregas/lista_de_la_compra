@@ -4,14 +4,15 @@ import 'package:jhopping_list/UI/recipies/recipe_manager.dart';
 import 'package:jhopping_list/UI/products/simple_shopping_list.dart';
 import 'package:jhopping_list/UI/schedule/schedule_view.dart';
 import 'package:jhopping_list/UI/schedule/utils.dart';
-import 'package:jhopping_list/db/database.dart';
+import 'package:jhopping_list/providers/enviroment_provider.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:jhopping_list/UI/sync/sync_view.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  final Enviroment enviroment;
+  final String enviromentId;
   final OpenConnectionManager openConnectionManager;
-  const Home(this.enviroment, this.openConnectionManager, {super.key});
+  const Home(this.enviromentId, this.openConnectionManager, {super.key});
 
   Widget button(String lable, Widget page, BuildContext context, {bool disabled = false}) {
     return Padding(
@@ -28,16 +29,31 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    EnviromentProvider enviromentProvider = context.watch();
     return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: Text("Home")),
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: FutureBuilder(
+          future: enviromentProvider.getEnviromentById(enviromentId),
+          builder: (context, snapshot) {
+            String envName = "Cargando...";
+            if (snapshot.hasData) {
+              envName = snapshot.data!.name;
+            }
+
+            if (snapshot.hasError) {
+              envName = "error!";
+            }
+
+            return Text("Home ($envName)");
+          },
+        ),),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            button("Lista de la compra", SimpleShoppinglist(enviroment.id), context),
-            button("Lista de Recetas", RecipeView(enviroment.id), context),
-            button("Agenda", ScheduleView(getCurrentWeek(), enviroment.id), context),
-            button("Sincronización", SyncView(openConnectionManager, enviroment.id), context),
+            button("Lista de la compra", SimpleShoppinglist(enviromentId), context),
+            button("Lista de Recetas", RecipeView(enviromentId), context),
+            button("Agenda", ScheduleView(getCurrentWeek(), enviromentId), context),
+            button("Sincronización", SyncView(openConnectionManager, enviromentId), context),
             button("Lista de Mapas", MapList(), context, disabled: true),
           ],
         ),

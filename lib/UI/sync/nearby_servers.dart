@@ -7,16 +7,27 @@ class DiscoveredPear {}
 class _NearbyServers extends State<NearbyServers> {
   Discovery? discovery;
 
+  void notifyUpdate() {
+    setState(() {});
+  }
+
   _NearbyServers() {
-    // ask for permission 
-    startDiscovery('_jhop._tcp').then((d) {
+    (() async {
+
+      var d = await startDiscovery('_jhop._tcp');
+
+      d.addListener(notifyUpdate);
+
       setState(() {
         discovery = d;
       });
-      d.addListener(() {
-        setState(() {});
-      });
-    });
+    })();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    discovery?.removeListener(notifyUpdate);
   }
 
   @override
@@ -27,7 +38,7 @@ class _NearbyServers extends State<NearbyServers> {
       if (discovery!.services.isEmpty) {
         return Text("Todavía no se han encontrado resultados");
       } else {
-        return ListView(
+        return Column(
           children:
               discovery!.services.map((Service service) {
                 return ListTile(

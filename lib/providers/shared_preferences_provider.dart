@@ -13,9 +13,9 @@ class SharedPreferencesProvider extends ChangeNotifier {
     return ret;
   }
 
-  Future<String?> getLocalNick() async {
+  Future<String> getLocalNick() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('LocalNick');
+    return prefs.getString('LocalNick') ?? "Sin nick";
   }
 
   Future<void> setLocalNick(String nick) async {

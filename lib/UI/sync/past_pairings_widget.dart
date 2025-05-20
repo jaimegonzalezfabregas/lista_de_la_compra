@@ -42,7 +42,7 @@ class RemoteTerminalList extends StatelessWidget {
                           itemBuilder: (context, index) {
                             RemoteTerminal pairing = pairings[index];
 
-                            bool isOpen = openConnectionProvider.isOpenConnection(pairing.terminalId);
+                            bool isOpen = openConnectionProvider.isConnected(pairing.terminalId);
 
                             return ListTile(
                               title: Row(children: [if (isOpen) Icon(Icons.link), if (!isOpen) Icon(Icons.link_off), Text(pairing.nick)]),

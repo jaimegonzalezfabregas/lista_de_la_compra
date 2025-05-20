@@ -6,8 +6,6 @@ class RemoteTerminals extends Table {
   TextColumn get nick => text()();
   TextColumn get httpHost => text().nullable()();
   IntColumn get httpPort => integer().nullable()();
-  TextColumn get lastSync => text().nullable()();
-  BoolColumn get accepted => boolean().withDefault(const Constant(false))();
   BoolColumn get isHttpServer => boolean().withDefault(const Constant(false))();
   BoolColumn get isHttpClient => boolean().withDefault(const Constant(false))();
 

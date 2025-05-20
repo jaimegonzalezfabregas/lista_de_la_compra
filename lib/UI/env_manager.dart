@@ -7,6 +7,9 @@ import 'package:jhopping_list/providers/enviroment_provider.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
+// TODO el nombre del env no se pasa a terminales nuevos
+
+
 class EnvSelect extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
   const EnvSelect(this.openConnectionManager, {super.key});
@@ -33,7 +36,7 @@ class EnvSelect extends StatelessWidget {
                               .map(
                                 (env) => ListTile(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env, openConnectionManager)));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env.id, openConnectionManager)));
                                   },
                                   title: Text(env.name),
                                   subtitle: Text(env.id),
@@ -69,7 +72,7 @@ class EnvSelect extends StatelessWidget {
                                       IconButton(
                                         icon: Icon(Icons.share),
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ShareEnviroment(env)));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => ShareEnviroment(env.id)));
                                         },
                                       ),
 

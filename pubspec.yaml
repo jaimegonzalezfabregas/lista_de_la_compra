@@ -63,6 +63,7 @@ dependencies:
   qr_flutter: ^4.1.0
   flutter_zxing: ^2.0.0
   nsd: ^4.0.3
+  permission_handler: ^12.0.0+1
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15
