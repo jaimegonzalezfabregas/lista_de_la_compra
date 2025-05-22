@@ -20,10 +20,16 @@ class OpenConnection {
   final Function cascadeTriggerSyncPull;
   final Function cascadeTriggerSyncPush;
   final Function cascadeTriggerHandshakePush;
+  final List<Enviroment> enviromentList;
 
-  DateTime lastContact = DateTime.now();
-
-  OpenConnection(this.terminalId, this.nick, this.cascadeTriggerSyncPull, this.cascadeTriggerSyncPush, this.cascadeTriggerHandshakePush);
+  OpenConnection(
+    this.terminalId,
+    this.nick,
+    this.cascadeTriggerSyncPull,
+    this.cascadeTriggerSyncPush,
+    this.cascadeTriggerHandshakePush,
+    this.enviromentList,
+  );
 
   void triggerSyncPull() {
     // print("triggering sync with $nick");
@@ -33,10 +39,6 @@ class OpenConnection {
   void triggerSyncPush() {
     // print("triggering syncwithme with $nick");
     cascadeTriggerSyncPush();
-  }
-
-  void updateLastContact() {
-    lastContact = DateTime.now();
   }
 
   void setNick(String nick) {
@@ -63,14 +65,12 @@ Future<void> syncItems(
 
         if (selfItem.deletedAt == null && otherItem["deletedAt"] == null) {
           if (selfItem.updatedAt < otherItem["updatedAt"]) {
-            print("overriding $selfItem with $otherItem");
             syncOverideCallback(selfItem.id, otherItem);
           }
         }
 
         if (otherItem["deletedAt"] != null) {
           if (selfItem.deletedAt == null || selfItem.deletedAt > otherItem["deletedAt"]) {
-            print("deleting $selfItem because of $otherItem");
 
             syncSetDeletedCallback(selfItem.id, otherItem["deletedAt"]);
           }
@@ -79,7 +79,6 @@ Future<void> syncItems(
     }
 
     if (!found) {
-      print("adding $otherItem");
 
       syncAddProductCallback(otherItem);
     }
@@ -103,7 +102,15 @@ class OpenConnectionManager {
       socketManage(channel, (terminalId, nick) {
         pairingProvider.addHttpServerToRemoteTerminal(terminalId, host, port, nick);
       });
-    } catch (e) {}
+    } catch (e) {
+      print("cant reach $textUrl: $e");
+    }
+  }
+
+  void triggerSyncPull() async {
+    for (OpenConnection conection in openConnectionProvider.openConnections) {
+      conection.triggerSyncPull();
+    }
   }
 
   void triggerSyncPush() async {
@@ -127,11 +134,9 @@ class OpenConnectionManager {
     this.sharedPreferencesProvider,
     this.enviromentProvider,
   ) {
-    Timer.periodic(const Duration(seconds: 60), (timer) {
-      for (OpenConnection conection in openConnectionProvider.openConnections) {
-        conection.triggerSyncPull();
-      }
-    });
+    // Timer.periodic(const Duration(seconds: 60), (timer) {
+    //   triggerSyncPull();
+    // });
 
     Timer.periodic(const Duration(seconds: 2), (timer) async {
       for (var peer in await pairingProvider.getRemoteTerminals()) {
@@ -146,10 +151,11 @@ class OpenConnectionManager {
     });
 
     productProvider.addListener(triggerSyncPush);
-
     recipeProvider.addListener(triggerSyncPush);
-
     scheduleProvider.addListener(triggerSyncPush);
+
+    enviromentProvider.addListener(triggerHandshakePush);
+    sharedPreferencesProvider.addListener(triggerHandshakePush);
   }
 
   Future<Map<String, dynamic>> getState(String enviromentId) async {
@@ -167,7 +173,7 @@ class OpenConnectionManager {
   Future<String> getStateDigest(int salt, String enviromentId) async {
     Uint8List bytes = utf8.encode(jsonEncode(await getState(enviromentId))); // data being hashed
     var saltedBytes = bytes + utf8.encode(salt.toString());
-    return sha512256.convert(saltedBytes).toString().substring(0, 4);
+    return sha512256.convert(saltedBytes).toString();
   }
 
   Future<Map<String, dynamic>> getHandshake() async {
@@ -197,35 +203,34 @@ class OpenConnectionManager {
     ws.stream.listen(
       (message) async {
         if (message is String) {
-          if (terminalId != null) {
-            openConnectionProvider.refreshOpenConnection(terminalId!);
-          }
-
           Map<String, dynamic> data = jsonDecode(message);
 
-          // print("recieved from $nick: $data");
+          print("recieved from $nick: $data");
 
           switch (data["type"]) {
             case "handshake":
               terminalId = data["id"];
               nick = data["nick"];
 
+              pairingProvider.setNickOf(data["id"], data["nick"]);
+
               afterHandshakeCb(terminalId!, nick!);
-              if (openConnectionProvider.isConnected(data["id"])) {
-                openConnectionProvider.setNickOf(data["id"], data["nick"]);
-              } else {
-                openConnectionProvider.addOpenConnection(
-                  terminalId!,
-                  nick!,
-                  () async => await triggerSyncPull(),
-                  () => send(jsonEncode({"type": "sync_push"})),
-                  () async => send(jsonEncode(await getHandshake())),
-                );
-                openConnectionProvider.refreshOpenConnection(terminalId!);
-                triggerSyncPull();
+
+              List<Enviroment> envList = [];
+
+              for (var jsonEnv in data["env_list"]) {
+                envList.add(Enviroment.fromJson(jsonEnv));
               }
 
-              pairingProvider.setNickOf(data["id"], data["nick"]);
+              openConnectionProvider.addOpenConnection(
+                terminalId!,
+                nick!,
+                () async => await triggerSyncPull(),
+                () => send(jsonEncode({"type": "sync_push"})),
+                () async => send(jsonEncode(await getHandshake())),
+                envList,
+              );
+              triggerSyncPull();
 
               break;
 
@@ -235,14 +240,13 @@ class OpenConnectionManager {
               break;
 
             case "send_digest":
-              print(data);
               Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
               Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
               if (currentEnviroment == null) {
                 send(jsonEncode({"type": "enviroment_not_found"}));
                 break;
               }
-              
+
               if (currentEnviroment.updatedAt < remoteEnviroment.updatedAt) {
                 if (currentEnviroment.name != remoteEnviroment.name) {
                   enviromentProvider.setName(currentEnviroment.id, remoteEnviroment.name);
@@ -262,11 +266,8 @@ class OpenConnectionManager {
               pairingProvider.setAsEnviromentNotFound(terminalId!);
               break;
 
-            case "sync_up_to_date":
-              // TODO
-              break;
             case "send_state":
-              Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
+              Enviroment remoteEnviroment = Enviroment.fromJson(data["state"]["enviroment"]);
               Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
               if (currentEnviroment == null) {
                 send(jsonEncode({"type": "enviroment_not_found"}));

@@ -3,7 +3,7 @@ import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:nsd/nsd.dart';
 
 class DiscoveredPear {}
-// TODO dedup by id
+// TODO dedup by ip
 
 class _NearbyServers extends State<NearbyServers> {
   Discovery? discovery;

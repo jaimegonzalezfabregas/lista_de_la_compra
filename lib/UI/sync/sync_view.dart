@@ -62,6 +62,12 @@ class _SyncViewState extends State<SyncView> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Cancelar"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
                                       sharedPreferencesProvider.setLocalNick(textControler.text);
                                       Navigator.of(context).pop();
                                       widget.openConnectionManager.triggerHandshakePush();

@@ -25,7 +25,7 @@ class EnviromentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addEnviroment(String name) async {
+  Future<void> addEmptyEnviroment(String name) async {
     final database = AppDatabaseSingleton.instance;
 
     await database
@@ -34,10 +34,10 @@ class EnviromentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addEnviromentFromQR(String id) async {
+  Future<void> addEnviroment(Enviroment env) async {
     final database = AppDatabaseSingleton.instance;
 
-    await database.into(database.enviroments).insert(EnviromentsCompanion(id: Value(id), name: Value("Sin nombre"), updatedAt: Value(0)));
+    await database.into(database.enviroments).insert(env);
     notifyListeners();
   }
 
@@ -48,4 +48,6 @@ class EnviromentProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+ 
 }
