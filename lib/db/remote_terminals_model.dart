@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:jhopping_list/db/enviroments.dart';
 
 class RemoteTerminals extends Table {
   TextColumn get terminalId => text()();
@@ -11,12 +10,4 @@ class RemoteTerminals extends Table {
 
   @override
   Set<Column<Object>> get primaryKey => {terminalId};
-}
-
-class RemoteTerminalEnviroments extends Table {
-  TextColumn get terminalId => text().references(RemoteTerminals, #terminalId)();
-  TextColumn get enviromentId => text().references(Enviroments, #id)();
-
-  @override
-  Set<Column<Object>> get primaryKey => {terminalId, enviromentId};
 }

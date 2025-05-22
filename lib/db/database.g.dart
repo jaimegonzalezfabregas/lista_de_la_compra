@@ -2324,251 +2324,6 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   }
 }
 
-class $RemoteTerminalEnviromentsTable extends RemoteTerminalEnviroments
-    with TableInfo<$RemoteTerminalEnviromentsTable, RemoteTerminalEnviroment> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $RemoteTerminalEnviromentsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _terminalIdMeta = const VerificationMeta(
-    'terminalId',
-  );
-  @override
-  late final GeneratedColumn<String> terminalId = GeneratedColumn<String>(
-    'terminal_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES remote_terminals (terminal_id)',
-    ),
-  );
-  static const VerificationMeta _enviromentIdMeta = const VerificationMeta(
-    'enviromentId',
-  );
-  @override
-  late final GeneratedColumn<String> enviromentId = GeneratedColumn<String>(
-    'enviroment_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES enviroments (id)',
-    ),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [terminalId, enviromentId];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'remote_terminal_enviroments';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<RemoteTerminalEnviroment> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('terminal_id')) {
-      context.handle(
-        _terminalIdMeta,
-        terminalId.isAcceptableOrUnknown(data['terminal_id']!, _terminalIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_terminalIdMeta);
-    }
-    if (data.containsKey('enviroment_id')) {
-      context.handle(
-        _enviromentIdMeta,
-        enviromentId.isAcceptableOrUnknown(
-          data['enviroment_id']!,
-          _enviromentIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_enviromentIdMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {terminalId, enviromentId};
-  @override
-  RemoteTerminalEnviroment map(
-    Map<String, dynamic> data, {
-    String? tablePrefix,
-  }) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return RemoteTerminalEnviroment(
-      terminalId:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}terminal_id'],
-          )!,
-      enviromentId:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}enviroment_id'],
-          )!,
-    );
-  }
-
-  @override
-  $RemoteTerminalEnviromentsTable createAlias(String alias) {
-    return $RemoteTerminalEnviromentsTable(attachedDatabase, alias);
-  }
-}
-
-class RemoteTerminalEnviroment extends DataClass
-    implements Insertable<RemoteTerminalEnviroment> {
-  final String terminalId;
-  final String enviromentId;
-  const RemoteTerminalEnviroment({
-    required this.terminalId,
-    required this.enviromentId,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['terminal_id'] = Variable<String>(terminalId);
-    map['enviroment_id'] = Variable<String>(enviromentId);
-    return map;
-  }
-
-  RemoteTerminalEnviromentsCompanion toCompanion(bool nullToAbsent) {
-    return RemoteTerminalEnviromentsCompanion(
-      terminalId: Value(terminalId),
-      enviromentId: Value(enviromentId),
-    );
-  }
-
-  factory RemoteTerminalEnviroment.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return RemoteTerminalEnviroment(
-      terminalId: serializer.fromJson<String>(json['terminalId']),
-      enviromentId: serializer.fromJson<String>(json['enviromentId']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'terminalId': serializer.toJson<String>(terminalId),
-      'enviromentId': serializer.toJson<String>(enviromentId),
-    };
-  }
-
-  RemoteTerminalEnviroment copyWith({
-    String? terminalId,
-    String? enviromentId,
-  }) => RemoteTerminalEnviroment(
-    terminalId: terminalId ?? this.terminalId,
-    enviromentId: enviromentId ?? this.enviromentId,
-  );
-  RemoteTerminalEnviroment copyWithCompanion(
-    RemoteTerminalEnviromentsCompanion data,
-  ) {
-    return RemoteTerminalEnviroment(
-      terminalId:
-          data.terminalId.present ? data.terminalId.value : this.terminalId,
-      enviromentId:
-          data.enviromentId.present
-              ? data.enviromentId.value
-              : this.enviromentId,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('RemoteTerminalEnviroment(')
-          ..write('terminalId: $terminalId, ')
-          ..write('enviromentId: $enviromentId')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(terminalId, enviromentId);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is RemoteTerminalEnviroment &&
-          other.terminalId == this.terminalId &&
-          other.enviromentId == this.enviromentId);
-}
-
-class RemoteTerminalEnviromentsCompanion
-    extends UpdateCompanion<RemoteTerminalEnviroment> {
-  final Value<String> terminalId;
-  final Value<String> enviromentId;
-  final Value<int> rowid;
-  const RemoteTerminalEnviromentsCompanion({
-    this.terminalId = const Value.absent(),
-    this.enviromentId = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  RemoteTerminalEnviromentsCompanion.insert({
-    required String terminalId,
-    required String enviromentId,
-    this.rowid = const Value.absent(),
-  }) : terminalId = Value(terminalId),
-       enviromentId = Value(enviromentId);
-  static Insertable<RemoteTerminalEnviroment> custom({
-    Expression<String>? terminalId,
-    Expression<String>? enviromentId,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (terminalId != null) 'terminal_id': terminalId,
-      if (enviromentId != null) 'enviroment_id': enviromentId,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  RemoteTerminalEnviromentsCompanion copyWith({
-    Value<String>? terminalId,
-    Value<String>? enviromentId,
-    Value<int>? rowid,
-  }) {
-    return RemoteTerminalEnviromentsCompanion(
-      terminalId: terminalId ?? this.terminalId,
-      enviromentId: enviromentId ?? this.enviromentId,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (terminalId.present) {
-      map['terminal_id'] = Variable<String>(terminalId.value);
-    }
-    if (enviromentId.present) {
-      map['enviroment_id'] = Variable<String>(enviromentId.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('RemoteTerminalEnviromentsCompanion(')
-          ..write('terminalId: $terminalId, ')
-          ..write('enviromentId: $enviromentId, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2582,8 +2337,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $RemoteTerminalsTable remoteTerminals = $RemoteTerminalsTable(
     this,
   );
-  late final $RemoteTerminalEnviromentsTable remoteTerminalEnviroments =
-      $RemoteTerminalEnviromentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2595,7 +2348,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     products,
     recipeProducts,
     remoteTerminals,
-    remoteTerminalEnviroments,
   ];
 }
 
@@ -2654,34 +2406,6 @@ final class $$EnviromentsTableReferences
     ).filter((f) => f.enviromentId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_productsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<
-    $RemoteTerminalEnviromentsTable,
-    List<RemoteTerminalEnviroment>
-  >
-  _remoteTerminalEnviromentsRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.remoteTerminalEnviroments,
-        aliasName: $_aliasNameGenerator(
-          db.enviroments.id,
-          db.remoteTerminalEnviroments.enviromentId,
-        ),
-      );
-
-  $$RemoteTerminalEnviromentsTableProcessedTableManager
-  get remoteTerminalEnviromentsRefs {
-    final manager = $$RemoteTerminalEnviromentsTableTableManager(
-      $_db,
-      $_db.remoteTerminalEnviroments,
-    ).filter((f) => f.enviromentId.id.sqlEquals($_itemColumn<String>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _remoteTerminalEnviromentsRefsTable($_db),
-    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -2759,33 +2483,6 @@ class $$EnviromentsTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
-    return f(composer);
-  }
-
-  Expression<bool> remoteTerminalEnviromentsRefs(
-    Expression<bool> Function($$RemoteTerminalEnviromentsTableFilterComposer f)
-    f,
-  ) {
-    final $$RemoteTerminalEnviromentsTableFilterComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.remoteTerminalEnviroments,
-          getReferencedColumn: (t) => t.enviromentId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$RemoteTerminalEnviromentsTableFilterComposer(
-                $db: $db,
-                $table: $db.remoteTerminalEnviroments,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
     return f(composer);
   }
 }
@@ -2882,33 +2579,6 @@ class $$EnviromentsTableAnnotationComposer
     );
     return f(composer);
   }
-
-  Expression<T> remoteTerminalEnviromentsRefs<T extends Object>(
-    Expression<T> Function($$RemoteTerminalEnviromentsTableAnnotationComposer a)
-    f,
-  ) {
-    final $$RemoteTerminalEnviromentsTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.remoteTerminalEnviroments,
-          getReferencedColumn: (t) => t.enviromentId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$RemoteTerminalEnviromentsTableAnnotationComposer(
-                $db: $db,
-                $table: $db.remoteTerminalEnviroments,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
 }
 
 class $$EnviromentsTableTableManager
@@ -2924,11 +2594,7 @@ class $$EnviromentsTableTableManager
           $$EnviromentsTableUpdateCompanionBuilder,
           (Enviroment, $$EnviromentsTableReferences),
           Enviroment,
-          PrefetchHooks Function({
-            bool recipesRefs,
-            bool productsRefs,
-            bool remoteTerminalEnviromentsRefs,
-          })
+          PrefetchHooks Function({bool recipesRefs, bool productsRefs})
         > {
   $$EnviromentsTableTableManager(_$AppDatabase db, $EnviromentsTable table)
     : super(
@@ -2976,17 +2642,12 @@ class $$EnviromentsTableTableManager
                         ),
                       )
                       .toList(),
-          prefetchHooksCallback: ({
-            recipesRefs = false,
-            productsRefs = false,
-            remoteTerminalEnviromentsRefs = false,
-          }) {
+          prefetchHooksCallback: ({recipesRefs = false, productsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (recipesRefs) db.recipes,
                 if (productsRefs) db.products,
-                if (remoteTerminalEnviromentsRefs) db.remoteTerminalEnviroments,
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -3035,28 +2696,6 @@ class $$EnviromentsTableTableManager
                           ),
                       typedResults: items,
                     ),
-                  if (remoteTerminalEnviromentsRefs)
-                    await $_getPrefetchedData<
-                      Enviroment,
-                      $EnviromentsTable,
-                      RemoteTerminalEnviroment
-                    >(
-                      currentTable: table,
-                      referencedTable: $$EnviromentsTableReferences
-                          ._remoteTerminalEnviromentsRefsTable(db),
-                      managerFromTypedResult:
-                          (p0) =>
-                              $$EnviromentsTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).remoteTerminalEnviromentsRefs,
-                      referencedItemsForCurrentItem:
-                          (item, referencedItems) => referencedItems.where(
-                            (e) => e.enviromentId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
                 ];
               },
             );
@@ -3077,11 +2716,7 @@ typedef $$EnviromentsTableProcessedTableManager =
       $$EnviromentsTableUpdateCompanionBuilder,
       (Enviroment, $$EnviromentsTableReferences),
       Enviroment,
-      PrefetchHooks Function({
-        bool recipesRefs,
-        bool productsRefs,
-        bool remoteTerminalEnviromentsRefs,
-      })
+      PrefetchHooks Function({bool recipesRefs, bool productsRefs})
     >;
 typedef $$RecipesTableCreateCompanionBuilder =
     RecipesCompanion Function({
@@ -4855,48 +4490,6 @@ typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
-final class $$RemoteTerminalsTableReferences
-    extends
-        BaseReferences<_$AppDatabase, $RemoteTerminalsTable, RemoteTerminal> {
-  $$RemoteTerminalsTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static MultiTypedResultKey<
-    $RemoteTerminalEnviromentsTable,
-    List<RemoteTerminalEnviroment>
-  >
-  _remoteTerminalEnviromentsRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.remoteTerminalEnviroments,
-        aliasName: $_aliasNameGenerator(
-          db.remoteTerminals.terminalId,
-          db.remoteTerminalEnviroments.terminalId,
-        ),
-      );
-
-  $$RemoteTerminalEnviromentsTableProcessedTableManager
-  get remoteTerminalEnviromentsRefs {
-    final manager = $$RemoteTerminalEnviromentsTableTableManager(
-      $_db,
-      $_db.remoteTerminalEnviroments,
-    ).filter(
-      (f) => f.terminalId.terminalId.sqlEquals(
-        $_itemColumn<String>('terminal_id')!,
-      ),
-    );
-
-    final cache = $_typedResult.readTableOrNull(
-      _remoteTerminalEnviromentsRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
 class $$RemoteTerminalsTableFilterComposer
     extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
   $$RemoteTerminalsTableFilterComposer({
@@ -4935,33 +4528,6 @@ class $$RemoteTerminalsTableFilterComposer
     column: $table.isHttpClient,
     builder: (column) => ColumnFilters(column),
   );
-
-  Expression<bool> remoteTerminalEnviromentsRefs(
-    Expression<bool> Function($$RemoteTerminalEnviromentsTableFilterComposer f)
-    f,
-  ) {
-    final $$RemoteTerminalEnviromentsTableFilterComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.terminalId,
-          referencedTable: $db.remoteTerminalEnviroments,
-          getReferencedColumn: (t) => t.terminalId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$RemoteTerminalEnviromentsTableFilterComposer(
-                $db: $db,
-                $table: $db.remoteTerminalEnviroments,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
 }
 
 class $$RemoteTerminalsTableOrderingComposer
@@ -5036,33 +4602,6 @@ class $$RemoteTerminalsTableAnnotationComposer
     column: $table.isHttpClient,
     builder: (column) => column,
   );
-
-  Expression<T> remoteTerminalEnviromentsRefs<T extends Object>(
-    Expression<T> Function($$RemoteTerminalEnviromentsTableAnnotationComposer a)
-    f,
-  ) {
-    final $$RemoteTerminalEnviromentsTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.terminalId,
-          referencedTable: $db.remoteTerminalEnviroments,
-          getReferencedColumn: (t) => t.terminalId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$RemoteTerminalEnviromentsTableAnnotationComposer(
-                $db: $db,
-                $table: $db.remoteTerminalEnviroments,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
 }
 
 class $$RemoteTerminalsTableTableManager
@@ -5076,9 +4615,16 @@ class $$RemoteTerminalsTableTableManager
           $$RemoteTerminalsTableAnnotationComposer,
           $$RemoteTerminalsTableCreateCompanionBuilder,
           $$RemoteTerminalsTableUpdateCompanionBuilder,
-          (RemoteTerminal, $$RemoteTerminalsTableReferences),
+          (
+            RemoteTerminal,
+            BaseReferences<
+              _$AppDatabase,
+              $RemoteTerminalsTable,
+              RemoteTerminal
+            >,
+          ),
           RemoteTerminal,
-          PrefetchHooks Function({bool remoteTerminalEnviromentsRefs})
+          PrefetchHooks Function()
         > {
   $$RemoteTerminalsTableTableManager(
     _$AppDatabase db,
@@ -5142,45 +4688,11 @@ class $$RemoteTerminalsTableTableManager
                       .map(
                         (e) => (
                           e.readTable(table),
-                          $$RemoteTerminalsTableReferences(db, table, e),
+                          BaseReferences(db, table, e),
                         ),
                       )
                       .toList(),
-          prefetchHooksCallback: ({remoteTerminalEnviromentsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (remoteTerminalEnviromentsRefs) db.remoteTerminalEnviroments,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (remoteTerminalEnviromentsRefs)
-                    await $_getPrefetchedData<
-                      RemoteTerminal,
-                      $RemoteTerminalsTable,
-                      RemoteTerminalEnviroment
-                    >(
-                      currentTable: table,
-                      referencedTable: $$RemoteTerminalsTableReferences
-                          ._remoteTerminalEnviromentsRefsTable(db),
-                      managerFromTypedResult:
-                          (p0) =>
-                              $$RemoteTerminalsTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).remoteTerminalEnviromentsRefs,
-                      referencedItemsForCurrentItem:
-                          (item, referencedItems) => referencedItems.where(
-                            (e) => e.terminalId == item.terminalId,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
+          prefetchHooksCallback: null,
         ),
       );
 }
@@ -5195,397 +4707,12 @@ typedef $$RemoteTerminalsTableProcessedTableManager =
       $$RemoteTerminalsTableAnnotationComposer,
       $$RemoteTerminalsTableCreateCompanionBuilder,
       $$RemoteTerminalsTableUpdateCompanionBuilder,
-      (RemoteTerminal, $$RemoteTerminalsTableReferences),
+      (
+        RemoteTerminal,
+        BaseReferences<_$AppDatabase, $RemoteTerminalsTable, RemoteTerminal>,
+      ),
       RemoteTerminal,
-      PrefetchHooks Function({bool remoteTerminalEnviromentsRefs})
-    >;
-typedef $$RemoteTerminalEnviromentsTableCreateCompanionBuilder =
-    RemoteTerminalEnviromentsCompanion Function({
-      required String terminalId,
-      required String enviromentId,
-      Value<int> rowid,
-    });
-typedef $$RemoteTerminalEnviromentsTableUpdateCompanionBuilder =
-    RemoteTerminalEnviromentsCompanion Function({
-      Value<String> terminalId,
-      Value<String> enviromentId,
-      Value<int> rowid,
-    });
-
-final class $$RemoteTerminalEnviromentsTableReferences
-    extends
-        BaseReferences<
-          _$AppDatabase,
-          $RemoteTerminalEnviromentsTable,
-          RemoteTerminalEnviroment
-        > {
-  $$RemoteTerminalEnviromentsTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static $RemoteTerminalsTable _terminalIdTable(_$AppDatabase db) =>
-      db.remoteTerminals.createAlias(
-        $_aliasNameGenerator(
-          db.remoteTerminalEnviroments.terminalId,
-          db.remoteTerminals.terminalId,
-        ),
-      );
-
-  $$RemoteTerminalsTableProcessedTableManager get terminalId {
-    final $_column = $_itemColumn<String>('terminal_id')!;
-
-    final manager = $$RemoteTerminalsTableTableManager(
-      $_db,
-      $_db.remoteTerminals,
-    ).filter((f) => f.terminalId.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_terminalIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static $EnviromentsTable _enviromentIdTable(_$AppDatabase db) =>
-      db.enviroments.createAlias(
-        $_aliasNameGenerator(
-          db.remoteTerminalEnviroments.enviromentId,
-          db.enviroments.id,
-        ),
-      );
-
-  $$EnviromentsTableProcessedTableManager get enviromentId {
-    final $_column = $_itemColumn<String>('enviroment_id')!;
-
-    final manager = $$EnviromentsTableTableManager(
-      $_db,
-      $_db.enviroments,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_enviromentIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-}
-
-class $$RemoteTerminalEnviromentsTableFilterComposer
-    extends Composer<_$AppDatabase, $RemoteTerminalEnviromentsTable> {
-  $$RemoteTerminalEnviromentsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$RemoteTerminalsTableFilterComposer get terminalId {
-    final $$RemoteTerminalsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.terminalId,
-      referencedTable: $db.remoteTerminals,
-      getReferencedColumn: (t) => t.terminalId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$RemoteTerminalsTableFilterComposer(
-            $db: $db,
-            $table: $db.remoteTerminals,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$EnviromentsTableFilterComposer get enviromentId {
-    final $$EnviromentsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableFilterComposer(
-            $db: $db,
-            $table: $db.enviroments,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$RemoteTerminalEnviromentsTableOrderingComposer
-    extends Composer<_$AppDatabase, $RemoteTerminalEnviromentsTable> {
-  $$RemoteTerminalEnviromentsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$RemoteTerminalsTableOrderingComposer get terminalId {
-    final $$RemoteTerminalsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.terminalId,
-      referencedTable: $db.remoteTerminals,
-      getReferencedColumn: (t) => t.terminalId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$RemoteTerminalsTableOrderingComposer(
-            $db: $db,
-            $table: $db.remoteTerminals,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$EnviromentsTableOrderingComposer get enviromentId {
-    final $$EnviromentsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableOrderingComposer(
-            $db: $db,
-            $table: $db.enviroments,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$RemoteTerminalEnviromentsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $RemoteTerminalEnviromentsTable> {
-  $$RemoteTerminalEnviromentsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$RemoteTerminalsTableAnnotationComposer get terminalId {
-    final $$RemoteTerminalsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.terminalId,
-      referencedTable: $db.remoteTerminals,
-      getReferencedColumn: (t) => t.terminalId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$RemoteTerminalsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.remoteTerminals,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$EnviromentsTableAnnotationComposer get enviromentId {
-    final $$EnviromentsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.enviroments,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$RemoteTerminalEnviromentsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $RemoteTerminalEnviromentsTable,
-          RemoteTerminalEnviroment,
-          $$RemoteTerminalEnviromentsTableFilterComposer,
-          $$RemoteTerminalEnviromentsTableOrderingComposer,
-          $$RemoteTerminalEnviromentsTableAnnotationComposer,
-          $$RemoteTerminalEnviromentsTableCreateCompanionBuilder,
-          $$RemoteTerminalEnviromentsTableUpdateCompanionBuilder,
-          (
-            RemoteTerminalEnviroment,
-            $$RemoteTerminalEnviromentsTableReferences,
-          ),
-          RemoteTerminalEnviroment,
-          PrefetchHooks Function({bool terminalId, bool enviromentId})
-        > {
-  $$RemoteTerminalEnviromentsTableTableManager(
-    _$AppDatabase db,
-    $RemoteTerminalEnviromentsTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer:
-              () => $$RemoteTerminalEnviromentsTableFilterComposer(
-                $db: db,
-                $table: table,
-              ),
-          createOrderingComposer:
-              () => $$RemoteTerminalEnviromentsTableOrderingComposer(
-                $db: db,
-                $table: table,
-              ),
-          createComputedFieldComposer:
-              () => $$RemoteTerminalEnviromentsTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<String> terminalId = const Value.absent(),
-                Value<String> enviromentId = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => RemoteTerminalEnviromentsCompanion(
-                terminalId: terminalId,
-                enviromentId: enviromentId,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String terminalId,
-                required String enviromentId,
-                Value<int> rowid = const Value.absent(),
-              }) => RemoteTerminalEnviromentsCompanion.insert(
-                terminalId: terminalId,
-                enviromentId: enviromentId,
-                rowid: rowid,
-              ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable(table),
-                          $$RemoteTerminalEnviromentsTableReferences(
-                            db,
-                            table,
-                            e,
-                          ),
-                        ),
-                      )
-                      .toList(),
-          prefetchHooksCallback: ({terminalId = false, enviromentId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins: <
-                T extends TableManagerState<
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic
-                >
-              >(state) {
-                if (terminalId) {
-                  state =
-                      state.withJoin(
-                            currentTable: table,
-                            currentColumn: table.terminalId,
-                            referencedTable:
-                                $$RemoteTerminalEnviromentsTableReferences
-                                    ._terminalIdTable(db),
-                            referencedColumn:
-                                $$RemoteTerminalEnviromentsTableReferences
-                                    ._terminalIdTable(db)
-                                    .terminalId,
-                          )
-                          as T;
-                }
-                if (enviromentId) {
-                  state =
-                      state.withJoin(
-                            currentTable: table,
-                            currentColumn: table.enviromentId,
-                            referencedTable:
-                                $$RemoteTerminalEnviromentsTableReferences
-                                    ._enviromentIdTable(db),
-                            referencedColumn:
-                                $$RemoteTerminalEnviromentsTableReferences
-                                    ._enviromentIdTable(db)
-                                    .id,
-                          )
-                          as T;
-                }
-
-                return state;
-              },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$RemoteTerminalEnviromentsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $RemoteTerminalEnviromentsTable,
-      RemoteTerminalEnviroment,
-      $$RemoteTerminalEnviromentsTableFilterComposer,
-      $$RemoteTerminalEnviromentsTableOrderingComposer,
-      $$RemoteTerminalEnviromentsTableAnnotationComposer,
-      $$RemoteTerminalEnviromentsTableCreateCompanionBuilder,
-      $$RemoteTerminalEnviromentsTableUpdateCompanionBuilder,
-      (RemoteTerminalEnviroment, $$RemoteTerminalEnviromentsTableReferences),
-      RemoteTerminalEnviroment,
-      PrefetchHooks Function({bool terminalId, bool enviromentId})
+      PrefetchHooks Function()
     >;
 
 class $AppDatabaseManager {
@@ -5603,9 +4730,4 @@ class $AppDatabaseManager {
       $$RecipeProductsTableTableManager(_db, _db.recipeProducts);
   $$RemoteTerminalsTableTableManager get remoteTerminals =>
       $$RemoteTerminalsTableTableManager(_db, _db.remoteTerminals);
-  $$RemoteTerminalEnviromentsTableTableManager get remoteTerminalEnviroments =>
-      $$RemoteTerminalEnviromentsTableTableManager(
-        _db,
-        _db.remoteTerminalEnviroments,
-      );
 }

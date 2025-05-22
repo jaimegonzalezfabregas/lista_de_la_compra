@@ -27,7 +27,7 @@ class HttpServerStateProvider extends ChangeNotifier {
     return serverManager.isServerRunning();
   }
 
-  Future<void> tryStartServer(String enviromentId) async {
+  Future<void> tryStartServer() async {
     final prefs = await SharedPreferences.getInstance();
 
     String? localNick = prefs.getString('LocalNick');
@@ -37,7 +37,7 @@ class HttpServerStateProvider extends ChangeNotifier {
       return;
     }
 
-    serverManager.startServer(this, enviromentId, localNick);
+    serverManager.startServer(this, localNick);
 
     notifyListeners();
   }

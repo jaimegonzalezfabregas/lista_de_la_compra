@@ -6,8 +6,7 @@ import 'package:jhopping_list/UI/sync/remote_terminal_view.dart';
 import 'package:provider/provider.dart';
 
 class RemoteTerminalList extends StatelessWidget {
-  final String enviromentId;
-  const RemoteTerminalList(this.enviromentId, {super.key});
+  const RemoteTerminalList( {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class RemoteTerminalList extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Builder(
             builder: (context) {
-              var remoteTerminals = pairingProvider.getRemoteTerminals(enviromentId);
+              var remoteTerminals = pairingProvider.getRemoteTerminals();
 
               return Column(
                 children: [
@@ -64,7 +63,7 @@ class RemoteTerminalList extends StatelessWidget {
                                   IconButton(
                                     icon: Icon(Icons.delete),
                                     onPressed: () {
-                                      pairingProvider.deleteRemoteTerminalById(pairing.terminalId, enviromentId);
+                                      pairingProvider.deleteRemoteTerminalById(pairing.terminalId);
                                     },
                                   ),
                                 ],

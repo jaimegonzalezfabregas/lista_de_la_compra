@@ -8,9 +8,8 @@ import 'package:provider/provider.dart';
 
 class HTTPView extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
-  final String enviromentId;
 
-  const HTTPView(this.openConnectionManager, this.enviromentId, {super.key});
+  const HTTPView(this.openConnectionManager, {super.key});
 
   Widget serveControlls(BuildContext context) {
     HttpServerStateProvider serverStateProvider = context.watch();
@@ -33,7 +32,7 @@ class HTTPView extends StatelessWidget {
       case ServerStatus.stopped:
         return TextButton(
           onPressed: () async {
-            await serverStateProvider.tryStartServer(enviromentId);
+            await serverStateProvider.tryStartServer();
           },
           child: Text("Iniciar servidor"),
         );
@@ -47,7 +46,7 @@ class HTTPView extends StatelessWidget {
             Text("Error iniciando servidor: ${serverStateProvider.getServerError()}"),
             TextButton(
               onPressed: () async {
-                await serverStateProvider.tryStartServer(enviromentId);
+                await serverStateProvider.tryStartServer();
               },
               child: Text("Iniciar servidor"),
             ),
@@ -66,7 +65,7 @@ class HTTPView extends StatelessWidget {
       children: [
         Text("Dispositivos cercanos"),
 
-        NearbyServers(openConnectionManager, enviromentId),
+        NearbyServers(openConnectionManager),
 
         Text("Introducir direción manualmente"),
 
@@ -96,7 +95,7 @@ class HTTPView extends StatelessWidget {
 
             portTextController.text = port.toString();
 
-            openConnectionManager.tryConnectingToHttpServer(host, port, enviromentId);
+            openConnectionManager.tryConnectingToHttpServer(host, port);
           },
           child: Text("Conectar"),
         ),

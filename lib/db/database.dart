@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, RemoteTerminals, Enviroments, RemoteTerminalEnviroments])
+@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, RemoteTerminals, Enviroments])
 class AppDatabase extends _$AppDatabase {
   // After generating code, this class needs to define a `schemaVersion` getter
   // and a constructor telling drift where the database should be stored.

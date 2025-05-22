@@ -47,7 +47,7 @@ class _NearbyServers extends State<NearbyServers> {
                   subtitle: Text(service.host ?? "Sin host"),
                   trailing: IconButton(
                     onPressed: () {
-                      widget.openConnectionManager.tryConnectingToHttpServer(service.host!, service.port!, widget.enviromentId);
+                      widget.openConnectionManager.tryConnectingToHttpServer(service.host!, service.port!);
                     },
                     icon: Icon(Icons.add_link),
                   ),
@@ -61,9 +61,8 @@ class _NearbyServers extends State<NearbyServers> {
 
 class NearbyServers extends StatefulWidget {
   final OpenConnectionManager openConnectionManager;
-  final String enviromentId;
 
-  const NearbyServers(this.openConnectionManager, this.enviromentId, {super.key});
+  const NearbyServers(this.openConnectionManager,{super.key});
 
   @override
   State<StatefulWidget> createState() {

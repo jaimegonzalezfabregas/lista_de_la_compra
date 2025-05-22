@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/UI/maps/map_list.dart';
 import 'package:jhopping_list/UI/recipies/recipe_manager.dart';
 import 'package:jhopping_list/UI/products/simple_shopping_list.dart';
 import 'package:jhopping_list/UI/schedule/schedule_view.dart';
 import 'package:jhopping_list/UI/schedule/utils.dart';
 import 'package:jhopping_list/providers/enviroment_provider.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
-import 'package:jhopping_list/UI/sync/sync_view.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -53,8 +51,6 @@ class Home extends StatelessWidget {
             button("Lista de la compra", SimpleShoppinglist(enviromentId), context),
             button("Lista de Recetas", RecipeView(enviromentId), context),
             button("Agenda", ScheduleView(getCurrentWeek(), enviromentId), context),
-            button("Sincronización", SyncView(openConnectionManager, enviromentId), context),
-            button("Lista de Mapas", MapList(), context, disabled: true),
           ],
         ),
       ),

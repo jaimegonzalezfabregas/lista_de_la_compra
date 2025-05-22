@@ -8,9 +8,9 @@ import 'package:jhopping_list/UI/sync/past_pairings_widget.dart';
 import 'package:provider/provider.dart';
 
 class SyncView extends StatefulWidget {
-  final String enviromentId;
   final OpenConnectionManager openConnectionManager;
-  const SyncView(this.openConnectionManager, this.enviromentId, {super.key});
+
+  const SyncView(this.openConnectionManager, {super.key});
 
   @override
   State<SyncView> createState() => _SyncViewState();
@@ -80,8 +80,8 @@ class _SyncViewState extends State<SyncView> {
               ),
             ),
             Text("Emparejamientos pasados", style: Theme.of(context).textTheme.titleSmall),
-            RemoteTerminalList(widget.enviromentId),
-            HTTPView(widget.openConnectionManager, widget.enviromentId),
+            RemoteTerminalList(),
+            HTTPView(widget.openConnectionManager),
             // ExpansionTile(title: Text("Sincronización HTTP"), children: []),
             // ExpansionTile(title: Text("Sincronización MQTT"), children: []),
           ],

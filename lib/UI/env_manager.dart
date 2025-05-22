@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/UI/env_create.dart';
 import 'package:jhopping_list/UI/home.dart';
 import 'package:jhopping_list/UI/share_enviroment.dart';
+import 'package:jhopping_list/UI/sync/sync_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/enviroment_provider.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
@@ -123,6 +124,13 @@ class EnvSelect extends StatelessWidget {
                         },
                         child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text("Cargar entorno")]),
                       ),
+                        OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
+                        },
+                        child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text("Sincronización")]),
+                      ),
+
                     ],
                   ),
                 ],

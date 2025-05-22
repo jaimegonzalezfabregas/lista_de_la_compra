@@ -15,14 +15,14 @@ class HttpServerManager {
 
   HttpServerManager(this.pairingProvider, this.openConnectionManager);
 
-  Future<void> startServer(HttpServerStateProvider serverStateProvider, String enviromentId, String humanFriendlyIdentification) async {
+  Future<void> startServer(HttpServerStateProvider serverStateProvider,String humanFriendlyIdentification) async {
     if (_server != null) {
       await stopServer(serverStateProvider);
     }
 
     var handler = webSocketHandler((webSocket, x) async {
-      openConnectionManager.socketManage(webSocket, enviromentId, (terminalId, nick) {
-        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick, enviromentId);
+      openConnectionManager.socketManage(webSocket,  (terminalId, nick) {
+        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick);
       });
     });
 

@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
 
 class PairingProvider extends ChangeNotifier {
-  Future<void> addHttpServerToRemoteTerminal(String terminalId, String host, int port, String nick, String enviromentId) async {
+  Future<void> addHttpServerToRemoteTerminal(String terminalId, String host, int port, String nick) async {
     final database = AppDatabaseSingleton.instance;
-
-    await database
-        .into(database.remoteTerminalEnviroments)
-        .insert(RemoteTerminalEnviromentsCompanion(terminalId: Value(terminalId), enviromentId: Value(enviromentId)));
 
     await database
         .into(database.remoteTerminals)
@@ -25,12 +21,8 @@ class PairingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addHttpClientToRemoteTerminal(String terminalId, String nick, String enviromentId) async {
+  Future<void> addHttpClientToRemoteTerminal(String terminalId, String nick) async {
     final database = AppDatabaseSingleton.instance;
-
-    await database
-        .into(database.remoteTerminalEnviroments)
-        .insert(RemoteTerminalEnviromentsCompanion(terminalId: Value(terminalId), enviromentId: Value(enviromentId)));
 
     await database
         .into(database.remoteTerminals)
@@ -39,27 +31,18 @@ class PairingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<RemoteTerminal>> getRemoteTerminals(String enviromentId) async {
+  Future<List<RemoteTerminal>> getRemoteTerminals() async {
     final database = AppDatabaseSingleton.instance;
 
-    var query = database.select(database.remoteTerminals).join([
-      innerJoin(database.remoteTerminalEnviroments, database.remoteTerminalEnviroments.terminalId.equalsExp(database.remoteTerminals.terminalId)),
-    ]);
+    var query = database.select(database.remoteTerminals);
 
-    query.where(database.remoteTerminalEnviroments.enviromentId.equals(enviromentId));
-
-    return await query.map((u) => u.readTable(database.remoteTerminals)).get();
+    return await query.get();
   }
 
-  Future<void> deleteRemoteTerminalById(String terminalId, String enviromentId) async {
+  Future<void> deleteRemoteTerminalById(String terminalId) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.delete(database.remoteTerminalEnviroments)
-      ..where((table) => table.terminalId.equals(terminalId) & table.enviromentId.equals(enviromentId))).go();
-
-    if ((await (database.select(database.remoteTerminalEnviroments)..where((table) => table.terminalId.equals(terminalId))).get()).isEmpty) {
-      await (database.delete(database.remoteTerminals)..where((table) => table.terminalId.equals(terminalId))).go();
-    }
+    await (database.delete(database.remoteTerminals)..where((table) => table.terminalId.equals(terminalId))).go();
 
     notifyListeners();
   }
