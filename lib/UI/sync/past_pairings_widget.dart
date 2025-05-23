@@ -6,7 +6,7 @@ import 'package:jhopping_list/UI/sync/remote_terminal_view.dart';
 import 'package:provider/provider.dart';
 
 class RemoteTerminalList extends StatelessWidget {
-  const RemoteTerminalList( {super.key});
+  const RemoteTerminalList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,8 @@ class RemoteTerminalList extends StatelessWidget {
             builder: (context) {
               var remoteTerminals = pairingProvider.getRemoteTerminals();
 
-              return Column(
+              return ListView(
+                shrinkWrap: true,
                 children: [
                   FutureBuilder(
                     future: remoteTerminals,
@@ -44,26 +45,24 @@ class RemoteTerminalList extends StatelessWidget {
                             bool isOpen = openConnectionProvider.isConnected(pairing.terminalId);
 
                             return ListTile(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return RemoteTerminalView(pairing.terminalId);
+                                    },
+                                  ),
+                                );
+                              },
                               title: Row(children: [if (isOpen) Icon(Icons.link), if (!isOpen) Icon(Icons.link_off), Text(pairing.nick)]),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                    icon: Icon(Icons.arrow_outward),
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return RemoteTerminalView(pairing.terminalId);
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  IconButton(
                                     icon: Icon(Icons.delete),
                                     onPressed: () {
                                       pairingProvider.deleteRemoteTerminalById(pairing.terminalId);
+                                      openConnectionProvider.removeOpenConnection(pairing.terminalId);
                                     },
                                   ),
                                 ],

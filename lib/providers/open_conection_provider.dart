@@ -13,10 +13,23 @@ class OpenConnectionProvider extends ChangeNotifier {
     Function triggerSyncPull,
     Function triggerSyncPush,
     Function triggerHandshakePush,
+    Function abortConnection,
     List<Enviroment> enviromentList,
   ) {
-    _openConnections[terminalId] = OpenConnection(terminalId, nick, triggerSyncPull, triggerSyncPush, triggerHandshakePush, enviromentList);
+    _openConnections[terminalId] = OpenConnection(
+      terminalId,
+      nick,
+      triggerSyncPull,
+      triggerSyncPush,
+      triggerHandshakePush,
+      abortConnection,
+      enviromentList,
+    );
     notifyListeners();
+  }
+
+  void abortConnection(String terminalId) {
+    _openConnections[terminalId]?.abortConnection();
   }
 
   void removeOpenConnection(String terminalId) {
@@ -30,6 +43,4 @@ class OpenConnectionProvider extends ChangeNotifier {
   bool isConnected(String terminalId) {
     return _openConnections[terminalId] != null;
   }
-
-  
 }

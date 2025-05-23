@@ -52,10 +52,6 @@ class PairingProvider extends ChangeNotifier {
     return await (database.select(database.remoteTerminals)..where((table) => table.terminalId.equals(terminalId))).getSingle();
   }
 
-  Future<void> setAsEnviromentNotFound(String terminalId) async {
-    // TODO
-  }
-
   Future<void> setNickOf(String terminalId, String nick) async {
     final database = AppDatabaseSingleton.instance;
 

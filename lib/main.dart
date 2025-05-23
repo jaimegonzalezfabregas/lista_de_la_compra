@@ -44,6 +44,10 @@ class MyApp extends StatelessWidget {
 
     final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager);
 
+    (() async {
+      httpServerManager.startServer(httpServerStateProvider, await sharedPreferencesProvider.getLocalNick());
+    })();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => enviromentProvider),

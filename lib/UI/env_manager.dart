@@ -24,6 +24,8 @@ class EnvSelect extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
+              final _formKey = GlobalKey<FormState>();
+
               showDialog(
                 context: context,
                 builder: (context) {
@@ -31,7 +33,20 @@ class EnvSelect extends StatelessWidget {
                   textControler.text = env.name;
                   return AlertDialog(
                     title: Text("Cambiar nombre"),
-                    content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+                    content: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: 'Nombre'),
+                        controller: textControler,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return 'El nombre no puede estar vacío';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -41,8 +56,10 @@ class EnvSelect extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          enviromentProvider.setName(env.id, textControler.text.trim());
-                          Navigator.of(context).pop();
+                          if (_formKey.currentState!.validate()) {
+                            enviromentProvider.setName(env.id, textControler.text.trim());
+                            Navigator.of(context).pop();
+                          }
                         },
                         child: Text("Guardar"),
                       ),
@@ -73,6 +90,9 @@ class EnvSelect extends StatelessWidget {
           future: enviromentProvider.getEnviromentList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+               if (snapshot.data!.isEmpty) {
+                return Center(child: Text("Esta lista no tiene resultados"));
+              }
               return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, enviromentProvider, env)).toList());
             } else if (snapshot.hasError) {
               return Text("$snapshot");
@@ -134,6 +154,9 @@ class EnvSelect extends StatelessWidget {
           future: getPeerEnviromentList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return Center(child: Text("Esta lista no tiene resultados"));
+              }
               return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getRemoteListTile(context, enviromentProvider, env)).toList());
             } else if (snapshot.hasError) {
               return Text("$snapshot");
@@ -181,30 +204,33 @@ class EnvSelect extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(40.0),
 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Entornos locales"),
-            offlineEnviromentList(context),
-            Text("Entornos en maquinas sincronizadas"),
-
-            peerEnviromentList(context),
-
-            OutlinedButton(
-              onPressed: () {
-                createNewEnviromentPopup(context);
-              },
-              child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Crear entorno")]),
-            ),
-            SizedBox(height: 10),
-
-            OutlinedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
-              },
-              child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text("Sincronización")]),
-            ),
-          ],
+        child: Center(
+          child: ListView(
+            
+            shrinkWrap: true,
+            children: [
+              Text("Entornos locales"),
+              offlineEnviromentList(context),
+              Text("Entornos en maquinas sincronizadas"),
+          
+              peerEnviromentList(context),
+          
+              OutlinedButton(
+                onPressed: () {
+                  createNewEnviromentPopup(context);
+                },
+                child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Crear entorno")]),
+              ),
+              SizedBox(height: 10),
+          
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
+                },
+                child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text("Sincronización")]),
+              ),
+            ],
+          ),
         ),
       ),
     );

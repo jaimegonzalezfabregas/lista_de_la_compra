@@ -1,3 +1,4 @@
+import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -15,7 +16,9 @@ class SharedPreferencesProvider extends ChangeNotifier {
 
   Future<String> getLocalNick() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('LocalNick') ?? "Sin nick";
+    final deviceNames = DeviceMarketingNames();
+
+    return prefs.getString('LocalNick') ?? await deviceNames.getSingleName();
   }
 
   Future<void> setLocalNick(String nick) async {
@@ -25,5 +28,4 @@ class SharedPreferencesProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
 }

@@ -16,13 +16,13 @@ class HttpServerManager {
   HttpServerManager(this.pairingProvider, this.openConnectionManager); // TODO Turn server on as soon as posible
   // TODO detect client desconexion with ping
 
-  Future<void> startServer(HttpServerStateProvider serverStateProvider,String humanFriendlyIdentification) async {
+  Future<void> startServer(HttpServerStateProvider serverStateProvider, String localNick) async {
     if (_server != null) {
-      await stopServer(serverStateProvider);
+      return;
     }
 
     var handler = webSocketHandler((webSocket, x) async {
-      openConnectionManager.socketManage(webSocket,  (terminalId, nick) {
+      openConnectionManager.socketManage(webSocket, (terminalId, nick) {
         pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick);
       });
     });
@@ -41,7 +41,7 @@ class HttpServerManager {
       avahiRegistration = null;
     }
 
-    avahiRegistration = await register(Service(name: humanFriendlyIdentification, type: '_jhop._tcp', port: 4545));
+    avahiRegistration = await register(Service(name: localNick, type: '_jhop._tcp', port: 4545));
   }
 
   Future<void> stopServer(HttpServerStateProvider serverStateProvider) async {

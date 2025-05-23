@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:nsd/nsd.dart';
 
-class DiscoveredPear {}
+class DiscoveredPeer {}
 // TODO dedup by ip
 
 class _NearbyServers extends State<NearbyServers> {
@@ -36,10 +36,19 @@ class _NearbyServers extends State<NearbyServers> {
     if (discovery == null) {
       return Text("Comenzando busqueda");
     } else {
+
+      // TODO deduplicacion de servidores cercanos por IP 
+      // TODO no mostrar el servidor en el que estas al usuario
+
       if (discovery!.services.isEmpty) {
         return Text("Todavía no se han encontrado resultados");
       } else {
-        return Column(
+
+
+
+
+        return ListView(
+          shrinkWrap: true,
           children:
               discovery!.services.map((Service service) {
                 return ListTile(

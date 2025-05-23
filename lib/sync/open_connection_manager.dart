@@ -20,6 +20,7 @@ class OpenConnection {
   final Function cascadeTriggerSyncPull;
   final Function cascadeTriggerSyncPush;
   final Function cascadeTriggerHandshakePush;
+  final Function cascadeAbortConnection;
   final List<Enviroment> enviromentList;
 
   OpenConnection(
@@ -28,6 +29,7 @@ class OpenConnection {
     this.cascadeTriggerSyncPull,
     this.cascadeTriggerSyncPush,
     this.cascadeTriggerHandshakePush,
+    this.cascadeAbortConnection,
     this.enviromentList,
   );
 
@@ -47,6 +49,10 @@ class OpenConnection {
 
   void triggerHandshakePush() {
     cascadeTriggerHandshakePush();
+  }
+
+  void abortConnection() {
+    cascadeAbortConnection();
   }
 }
 
@@ -71,7 +77,6 @@ Future<void> syncItems(
 
         if (otherItem["deletedAt"] != null) {
           if (selfItem.deletedAt == null || selfItem.deletedAt > otherItem["deletedAt"]) {
-
             syncSetDeletedCallback(selfItem.id, otherItem["deletedAt"]);
           }
         }
@@ -79,7 +84,6 @@ Future<void> syncItems(
     }
 
     if (!found) {
-
       syncAddProductCallback(otherItem);
     }
   }
@@ -228,6 +232,7 @@ class OpenConnectionManager {
                 () async => await triggerSyncPull(),
                 () => send(jsonEncode({"type": "sync_push"})),
                 () async => send(jsonEncode(await getHandshake())),
+                () => (ws.sink.close(4001, "Errased Peer")),
                 envList,
               );
               triggerSyncPull();
@@ -260,10 +265,6 @@ class OpenConnectionManager {
               } else {
                 send(jsonEncode({"type": "send_state", "state": await getState(remoteEnviroment.id)}));
               }
-              break;
-
-            case "enviroment_not_found":
-              pairingProvider.setAsEnviromentNotFound(terminalId!);
               break;
 
             case "send_state":
