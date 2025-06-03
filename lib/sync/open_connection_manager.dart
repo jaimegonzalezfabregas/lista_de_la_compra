@@ -262,7 +262,7 @@ class OpenConnectionManager {
       }
     }
 
-    Timer? responsivenessTimeout;
+    Timer? responsivenessTimeout; // TODO fix ping duplication
 
     void declareUnresponsive() {
       print("connection with $nick was cut");
