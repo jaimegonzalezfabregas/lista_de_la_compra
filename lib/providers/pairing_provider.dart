@@ -47,19 +47,22 @@ class PairingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<RemoteTerminal> getRemoteTerminalById(String terminalId) async {
+  Future<RemoteTerminal?> getRemoteTerminalById(String terminalId) async {
     final database = AppDatabaseSingleton.instance;
-    return await (database.select(database.remoteTerminals)..where((table) => table.terminalId.equals(terminalId))).getSingle();
+    return await (database.select(database.remoteTerminals)..where((table) => table.terminalId.equals(terminalId))).getSingleOrNull();
   }
 
   Future<void> setNickOf(String terminalId, String nick) async {
     final database = AppDatabaseSingleton.instance;
 
-    var query = database.update(database.remoteTerminals);
-    query.where((tbl) => tbl.terminalId.equals(terminalId));
-    query.write(RemoteTerminalsCompanion(nick: Value(nick)));
+    String? oldNick = (await getRemoteTerminalById(terminalId))?.nick;
 
-    // TODO do not notify when no change was made
-    notifyListeners();
+    if (oldNick != nick) {
+      var query = database.update(database.remoteTerminals);
+      query.where((tbl) => tbl.terminalId.equals(terminalId));
+      query.write(RemoteTerminalsCompanion(nick: Value(nick)));
+
+      notifyListeners();
+    }
   }
 }

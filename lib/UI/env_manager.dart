@@ -24,7 +24,7 @@ class EnvSelect extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              final _formKey = GlobalKey<FormState>();
+              final formKey = GlobalKey<FormState>();
 
               showDialog(
                 context: context,
@@ -34,7 +34,7 @@ class EnvSelect extends StatelessWidget {
                   return AlertDialog(
                     title: Text("Cambiar nombre"),
                     content: Form(
-                      key: _formKey,
+                      key: formKey,
                       child: TextFormField(
                         decoration: InputDecoration(labelText: 'Nombre'),
                         controller: textControler,
@@ -56,7 +56,7 @@ class EnvSelect extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             enviromentProvider.setName(env.id, textControler.text.trim());
                             Navigator.of(context).pop();
                           }

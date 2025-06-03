@@ -14,7 +14,6 @@ class HttpServerManager {
   Registration? avahiRegistration;
 
   HttpServerManager(this.pairingProvider, this.openConnectionManager); // TODO Turn server on as soon as posible
-  // TODO detect client desconexion with ping
 
   Future<void> startServer(HttpServerStateProvider serverStateProvider, String localNick) async {
     if (_server != null) {

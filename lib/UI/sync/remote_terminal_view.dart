@@ -12,7 +12,7 @@ class RemoteTerminalView extends StatelessWidget {
   Widget build(BuildContext context) {
     final PairingProvider pairingProvider = context.watch();
 
-    Future<RemoteTerminal> pairingPromise = pairingProvider.getRemoteTerminalById(id);
+    Future<RemoteTerminal?> pairingPromise = pairingProvider.getRemoteTerminalById(id);
 
     return Scaffold(
       appBar: AppBar(

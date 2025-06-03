@@ -135,27 +135,29 @@ class RecipeProvider extends ChangeNotifier {
   Future setIngredientOfRecipeById(String recipeId, String productId, bool value) async {
     final database = AppDatabaseSingleton.instance;
 
-    Recipe recipe =
+    Recipe? recipe =
         await (database.select(database.recipes)
               ..where((table) => table.id.equals(recipeId))
               ..where((table) => table.deletedAt.isNull()))
-            .getSingle();
+            .getSingleOrNull();
 
-    if (value) {
-      await database
-          .into(database.recipeProducts)
-          .insert(
-            RecipeProductsCompanion(
-              recipeId: Value(recipeId),
-              productId: Value(productId),
-              amount: Value("como para un(a) ${recipe.name}"),
-              updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
-            ),
-          );
-    } else {
-      await (database.update(database.recipeProducts)..where(
-        (table) => table.recipeId.equals(recipeId) & table.productId.equals(productId),
-      )).write(RecipeProductsCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+    if (recipe != null) {
+      if (value) {
+        await database
+            .into(database.recipeProducts)
+            .insert(
+              RecipeProductsCompanion(
+                recipeId: Value(recipeId),
+                productId: Value(productId),
+                amount: Value("como para un(a) ${recipe.name}"),
+                updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+              ),
+            );
+      } else {
+        await (database.update(database.recipeProducts)..where(
+          (table) => table.recipeId.equals(recipeId) & table.productId.equals(productId),
+        )).write(RecipeProductsCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+      }
     }
 
     notifyListeners();
