@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/sync/open_connection.dart';
+import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/sync/open_connection.dart';
 
 class OpenConnectionProvider extends ChangeNotifier {
   final Map<String, OpenConnection> _openConnections = {};

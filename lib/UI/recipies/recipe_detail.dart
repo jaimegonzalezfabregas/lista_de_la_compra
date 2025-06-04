@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/UI/products/product_detail.dart';
-import 'package:jhopping_list/providers/product_provider.dart';
-import 'package:jhopping_list/UI/recipies/add_ingredient.dart';
-import 'package:jhopping_list/providers/recipe_provider.dart';
-import 'package:jhopping_list/UI/schedule/day_view.dart';
-import 'package:jhopping_list/UI/schedule/schedule_view.dart';
-import 'package:jhopping_list/providers/schedule_provider.dart';
-import 'package:jhopping_list/UI/schedule/utils.dart';
-import 'package:jhopping_list/UI/common/loading_box.dart';
+import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/UI/products/product_detail.dart';
+import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
+import 'package:lista_de_la_compra/providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
+import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
+import 'package:lista_de_la_compra/providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/UI/schedule/utils.dart';
+import 'package:lista_de_la_compra/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class Ingredients extends StatelessWidget {

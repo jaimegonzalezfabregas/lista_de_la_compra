@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "jhopping_list" "\0"
+            VALUE "FileDescription", "lista_de_la_compra" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "jhopping_list" "\0"
+            VALUE "InternalName", "lista_de_la_compra" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "jhopping_list.exe" "\0"
-            VALUE "ProductName", "jhopping_list" "\0"
+            VALUE "OriginalFilename", "lista_de_la_compra.exe" "\0"
+            VALUE "ProductName", "lista_de_la_compra" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

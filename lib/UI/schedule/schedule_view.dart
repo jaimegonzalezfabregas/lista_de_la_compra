@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/UI/schedule/day_view.dart';
-import 'package:jhopping_list/UI/schedule/utils.dart';
+import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
+import 'package:lista_de_la_compra/UI/schedule/utils.dart';
 
 class _ScheduleView extends State<ScheduleViewContents> {
   late int currentWeek;

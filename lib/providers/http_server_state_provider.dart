@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/sync/http_server_manager.dart';
+import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum ServerStatus { running, stopped, turningOn, turningOff, error }

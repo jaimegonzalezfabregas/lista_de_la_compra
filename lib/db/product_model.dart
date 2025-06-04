@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:jhopping_list/db/enviroments.dart';
+import 'package:lista_de_la_compra/db/enviroments.dart';
 import 'package:uuid/uuid.dart';
 
 class Products extends Table {

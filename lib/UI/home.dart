@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/UI/recipies/recipe_manager.dart';
-import 'package:jhopping_list/UI/products/simple_shopping_list.dart';
-import 'package:jhopping_list/UI/schedule/schedule_view.dart';
-import 'package:jhopping_list/UI/schedule/utils.dart';
-import 'package:jhopping_list/providers/enviroment_provider.dart';
-import 'package:jhopping_list/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra/UI/recipies/recipe_manager.dart';
+import 'package:lista_de_la_compra/UI/products/simple_shopping_list.dart';
+import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
+import 'package:lista_de_la_compra/UI/schedule/utils.dart';
+import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {

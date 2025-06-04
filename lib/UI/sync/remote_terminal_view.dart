@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/providers/open_conection_provider.dart';
-import 'package:jhopping_list/providers/pairing_provider.dart';
-import 'package:jhopping_list/sync/open_connection.dart';
+import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
+import 'package:lista_de_la_compra/providers/pairing_provider.dart';
+import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:provider/provider.dart';
 
 class RemoteTerminalView extends StatelessWidget {

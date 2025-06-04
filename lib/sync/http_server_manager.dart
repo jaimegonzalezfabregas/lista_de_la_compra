@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:jhopping_list/providers/http_server_state_provider.dart';
-import 'package:jhopping_list/providers/pairing_provider.dart';
-import 'package:jhopping_list/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra/providers/pairing_provider.dart';
+import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 import 'package:nsd/nsd.dart';

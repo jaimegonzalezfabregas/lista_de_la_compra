@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:nsd/nsd.dart';
 
 class DiscoveredPeer {}

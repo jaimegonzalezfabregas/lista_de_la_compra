@@ -4,15 +4,15 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
-import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/providers/enviroment_provider.dart';
-import 'package:jhopping_list/providers/open_conection_provider.dart';
-import 'package:jhopping_list/providers/pairing_provider.dart';
-import 'package:jhopping_list/providers/product_provider.dart';
-import 'package:jhopping_list/providers/recipe_provider.dart';
-import 'package:jhopping_list/providers/schedule_provider.dart';
-import 'package:jhopping_list/providers/shared_preferences_provider.dart';
-import 'package:jhopping_list/sync/open_connection.dart';
+import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
+import 'package:lista_de_la_compra/providers/pairing_provider.dart';
+import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 Future<void> syncItems(

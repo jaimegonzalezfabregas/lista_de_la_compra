@@ -1,4 +1,4 @@
-# jhopping_list
+# lista_de_la_compra
 
 A new Flutter project.
 

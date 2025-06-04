@@ -1,5 +1,5 @@
 
-import 'package:jhopping_list/db/database.dart';
+import 'package:lista_de_la_compra/db/database.dart';
 
 class OpenConnection {
   final String terminalId;

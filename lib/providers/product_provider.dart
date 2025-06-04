@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/db/database.dart';
+import 'package:lista_de_la_compra/db/database.dart';
 
 class ProductProvider extends ChangeNotifier {
   Future addProduct(String name, bool needed, String enviromentId) async {

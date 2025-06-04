@@ -1,9 +1,9 @@
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/UI/sync/nearby_servers.dart';
-import 'package:jhopping_list/providers/http_server_state_provider.dart';
-import 'package:jhopping_list/UI/sync/ip_list_view.dart';
-import 'package:jhopping_list/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra/UI/sync/nearby_servers.dart';
+import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra/UI/sync/ip_list_view.dart';
+import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 class HTTPView extends StatelessWidget {

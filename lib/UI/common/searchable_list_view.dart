@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/UI/common/search_scorer.dart';
+import 'package:lista_de_la_compra/UI/common/search_scorer.dart';
 
 class _SearchableListview<T> extends State<Searchablelistview<T>> {
   String filter = "";

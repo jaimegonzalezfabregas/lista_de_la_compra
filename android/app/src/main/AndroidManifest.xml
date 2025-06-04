@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="jhopping_list"
+        android:label="lista_de_la_compra"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

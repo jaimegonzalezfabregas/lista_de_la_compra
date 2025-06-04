@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/UI/home.dart';
-import 'package:jhopping_list/UI/sync/sync_view.dart';
-import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/providers/enviroment_provider.dart';
-import 'package:jhopping_list/providers/open_conection_provider.dart';
-import 'package:jhopping_list/sync/open_connection.dart';
-import 'package:jhopping_list/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra/UI/home.dart';
+import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
+import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
+import 'package:lista_de_la_compra/sync/open_connection.dart';
+import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 class EnvSelect extends StatelessWidget {

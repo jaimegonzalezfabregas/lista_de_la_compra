@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jhopping_list/UI/common/searchable_list_view.dart';
-import 'package:jhopping_list/UI/products/common.dart';
-import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/providers/product_provider.dart';
-import 'package:jhopping_list/UI/recipies/recipe_detail.dart';
-import 'package:jhopping_list/providers/recipe_provider.dart';
-import 'package:jhopping_list/UI/common/loading_box.dart';
-import 'package:jhopping_list/providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
+import 'package:lista_de_la_compra/UI/products/common.dart';
+import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/UI/recipies/recipe_detail.dart';
+import 'package:lista_de_la_compra/providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/UI/common/loading_box.dart';
+import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 // todo

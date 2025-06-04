@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:jhopping_list/db/enviroments.dart';
-import 'package:jhopping_list/db/remote_terminals_model.dart';
-import 'package:jhopping_list/db/product_model.dart';
-import 'package:jhopping_list/db/recipe_model.dart';
-import 'package:jhopping_list/db/schedule.dart';
+import 'package:lista_de_la_compra/db/enviroments.dart';
+import 'package:lista_de_la_compra/db/remote_terminals_model.dart';
+import 'package:lista_de_la_compra/db/product_model.dart';
+import 'package:lista_de_la_compra/db/recipe_model.dart';
+import 'package:lista_de_la_compra/db/schedule.dart';
 import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';

@@ -1,6 +1,6 @@
 {
-    "name": "jhopping_list",
-    "short_name": "jhopping_list",
+    "name": "lista_de_la_compra",
+    "short_name": "lista_de_la_compra",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
