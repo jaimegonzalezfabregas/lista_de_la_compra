@@ -13,7 +13,7 @@ class HttpServerManager {
   final OpenConnectionManager openConnectionManager;
   Registration? avahiRegistration;
 
-  HttpServerManager(this.pairingProvider, this.openConnectionManager); // TODO Turn server on as soon as posible
+  HttpServerManager(this.pairingProvider, this.openConnectionManager);
 
   Future<void> startServer(HttpServerStateProvider serverStateProvider, String localNick) async {
     if (_server != null) {

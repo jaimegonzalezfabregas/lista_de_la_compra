@@ -12,49 +12,8 @@ import 'package:jhopping_list/providers/product_provider.dart';
 import 'package:jhopping_list/providers/recipe_provider.dart';
 import 'package:jhopping_list/providers/schedule_provider.dart';
 import 'package:jhopping_list/providers/shared_preferences_provider.dart';
+import 'package:jhopping_list/sync/open_connection.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
-class OpenConnection {
-  final String terminalId;
-  String nick;
-  final Function cascadeTriggerSyncPull;
-  final Function cascadeTriggerSyncPush;
-  final Function cascadeTriggerHandshakePush;
-  final Function cascadeAbortConnection;
-  final List<Enviroment> enviromentList;
-
-  OpenConnection(
-    this.terminalId,
-    this.nick,
-    this.cascadeTriggerSyncPull,
-    this.cascadeTriggerSyncPush,
-    this.cascadeTriggerHandshakePush,
-    this.cascadeAbortConnection,
-    this.enviromentList,
-  );
-
-  void triggerSyncPull() {
-    // print("triggering sync with $nick");
-    cascadeTriggerSyncPull();
-  }
-
-  void triggerSyncPush() {
-    // print("triggering syncwithme with $nick");
-    cascadeTriggerSyncPush();
-  }
-
-  void setNick(String nick) {
-    this.nick = nick;
-  }
-
-  void triggerHandshakePush() {
-    cascadeTriggerHandshakePush();
-  }
-
-  void abortConnection() {
-    cascadeAbortConnection();
-  }
-}
 
 Future<void> syncItems(
   List<dynamic> otherItems,
@@ -98,10 +57,13 @@ class OpenConnectionManager {
   final SharedPreferencesProvider sharedPreferencesProvider;
   final EnviromentProvider enviromentProvider;
 
-  void tryConnectingToHttpServer(String host, int port) {
+  Future<void> tryConnectingToHttpServer(String host, int port) async {
     var textUrl = "ws://$host:$port";
+
     try {
       WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(textUrl));
+
+      await channel.ready;
 
       socketManage(channel, (terminalId, nick) {
         pairingProvider.addHttpServerToRemoteTerminal(terminalId, host, port, nick);
@@ -112,20 +74,42 @@ class OpenConnectionManager {
   }
 
   void triggerSyncPull() async {
-    for (OpenConnection conection in openConnectionProvider.openConnections) {
+    for (OpenConnection conection in openConnectionProvider.openConnections.values) {
       conection.triggerSyncPull();
     }
   }
 
   void triggerSyncPush() async {
-    for (var openConnection in openConnectionProvider.openConnections) {
+    for (var openConnection in openConnectionProvider.openConnections.values) {
       openConnection.triggerSyncPush();
     }
   }
 
   void triggerHandshakePush() async {
-    for (var openConnection in openConnectionProvider.openConnections) {
+    for (var openConnection in openConnectionProvider.openConnections.values) {
       openConnection.triggerHandshakePush();
+    }
+  }
+
+  Future<void> connectionRound() async {
+    List<Future<void>> connectionFutures = [];
+    for (var peer in await pairingProvider.getRemoteTerminals()) {
+      if (openConnectionProvider.isConnected(peer.terminalId)) {
+        continue;
+      }
+
+      if (peer.httpHost != null && peer.httpPort != null) {
+        connectionFutures.add(tryConnectingToHttpServer(peer.httpHost!, peer.httpPort!));
+      }
+    }
+    await Future.wait(connectionFutures);
+  }
+
+  void connectionRoundLoop() async {
+    // TODO toggle this cyclic routine
+    while (true) {
+      await connectionRound();
+      await Future.delayed(Duration(seconds: 2));
     }
   }
 
@@ -142,24 +126,14 @@ class OpenConnectionManager {
     //   triggerSyncPull();
     // });
 
-    Timer.periodic(const Duration(seconds: 2), (timer) async {
-      for (var peer in await pairingProvider.getRemoteTerminals()) {
-        if (openConnectionProvider.isConnected(peer.terminalId)) {
-          continue;
-        }
-
-        if (peer.httpHost != null && peer.httpPort != null) {
-          tryConnectingToHttpServer(peer.httpHost!, peer.httpPort!);
-        }
-      }
-    });
-
     productProvider.addListener(triggerSyncPush);
     recipeProvider.addListener(triggerSyncPush);
     scheduleProvider.addListener(triggerSyncPush);
 
     enviromentProvider.addListener(triggerHandshakePush);
     sharedPreferencesProvider.addListener(triggerHandshakePush);
+
+    connectionRoundLoop();
   }
 
   Future<Map<String, dynamic>> getState(String enviromentId) async {
@@ -172,6 +146,10 @@ class OpenConnectionManager {
       "products_recipies": await recipeProvider.getSyncRecipeProductList(enviromentId),
       "schedule": await scheduleProvider.getSyncEntryList(enviromentId),
     };
+  }
+
+  Map<String, dynamic> getPing() {
+    return {"type": "ping", "nonce": math.Random().nextInt(1000), "ping_t": DateTime.now().millisecondsSinceEpoch};
   }
 
   Future<String> getStateDigest(int salt, String enviromentId) async {
@@ -262,98 +240,104 @@ class OpenConnectionManager {
       }
     }
 
-    Timer? responsivenessTimeout; // TODO fix ping duplication
-
-    void declareUnresponsive() {
-      print("connection with $nick was cut");
-      if (terminalId != null) {
-        openConnectionProvider.removeOpenConnection(terminalId!);
-      }
-    }
+    Timer? responsivenessTimeout;
 
     void checkResponsiveness() {
-      send(jsonEncode({"type": "ping"}));
       responsivenessTimeout?.cancel();
-      responsivenessTimeout = Timer(Duration(seconds: 1), declareUnresponsive);
+      responsivenessTimeout = Timer(Duration(seconds: 10), () => ws.sink.close());
+      send(jsonEncode(getPing()));
     }
 
-    ws.stream.listen((message) async {
-      if (message is String) {
-        Map<String, dynamic> data = jsonDecode(message);
+    ws.stream.listen(
+      (message) async {
+        if (message is String) {
+          Map<String, dynamic> data = jsonDecode(message);
 
-        print("recieved from $nick: $data");
+          // print("recieved from $nick: $data");
 
-        switch (data["type"]) {
-          case "ping":
-            send(jsonEncode({"type": "pong"}));
-            break;
-          case "pong":
-            responsivenessTimeout?.cancel();
-            responsivenessTimeout = Timer(Duration(seconds: 1), checkResponsiveness);
-
-            break;
-          case "handshake":
-            terminalId = data["id"];
-            nick = data["nick"];
-
-            pairingProvider.setNickOf(data["id"], data["nick"]);
-
-            afterHandshakeCb(terminalId!, nick!);
-
-            List<Enviroment> envList = [];
-
-            for (var jsonEnv in data["env_list"]) {
-              envList.add(Enviroment.fromJson(jsonEnv));
-            }
-
-            openConnectionProvider.addOpenConnection(
-              terminalId!,
-              nick!,
-              () async => await triggerSyncPull(),
-              () => send(jsonEncode({"type": "sync_push"})),
-              () async => send(jsonEncode(await getHandshake())),
-              () => (ws.sink.close(4001, "Errased Peer")),
-              envList,
-            );
-            triggerSyncPull();
-
-            checkResponsiveness();
-            break;
-
-          case "sync_push":
-            triggerSyncPull();
-
-            break;
-
-          case "send_digest":
-            Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
-            Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
-            if (currentEnviroment == null) {
+          switch (data["type"]) {
+            case "ping":
+              send(jsonEncode({"type": "pong", "nonce": data["nonce"], "ping_t": data["ping_t"], "pong_t": DateTime.now().millisecondsSinceEpoch}));
               break;
-            }
-
-            if (currentEnviroment.updatedAt < remoteEnviroment.updatedAt) {
-              if (currentEnviroment.name != remoteEnviroment.name) {
-                enviromentProvider.setName(currentEnviroment.id, remoteEnviroment.name);
+            case "pong":
+              responsivenessTimeout?.cancel();
+              responsivenessTimeout = Timer(Duration(seconds: 1), checkResponsiveness);
+              num latency = DateTime.now().millisecondsSinceEpoch - data["ping_t"];
+              if (terminalId != null) {
+                openConnectionProvider.setLatency(terminalId!, latency);
               }
-            }
 
-            String ownDigest = await getStateDigest(data["salt"], remoteEnviroment.id);
+              break;
+            case "handshake":
+              terminalId = data["id"];
+              nick = data["nick"];
 
-            if (data["digest"] == ownDigest) {
-              send(jsonEncode({"type": "sync_up_to_date"}));
-            } else {
-              send(jsonEncode({"type": "send_state", "state": await getState(remoteEnviroment.id)}));
-            }
-            break;
+              pairingProvider.setNickOf(data["id"], data["nick"]);
 
-          case "send_state":
-            recieveState(data);
+              afterHandshakeCb(terminalId!, nick!);
 
-            break;
+              List<Enviroment> envList = [];
+
+              for (var jsonEnv in data["env_list"]) {
+                envList.add(Enviroment.fromJson(jsonEnv));
+              }
+
+              openConnectionProvider.addOpenConnection(
+                terminalId!,
+                nick!,
+                () async => await triggerSyncPull(),
+                () => send(jsonEncode({"type": "sync_push"})),
+                () async => send(jsonEncode(await getHandshake())),
+                () => (ws.sink.close(4001, "Errased Peer")),
+                envList,
+              );
+              triggerSyncPull();
+
+              responsivenessTimeout?.cancel();
+              checkResponsiveness();
+              break;
+
+            case "sync_push":
+              triggerSyncPull();
+
+              break;
+
+            case "send_digest":
+              Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
+              Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
+              if (currentEnviroment == null) {
+                break;
+              }
+
+              if (currentEnviroment.updatedAt < remoteEnviroment.updatedAt) {
+                if (currentEnviroment.name != remoteEnviroment.name) {
+                  enviromentProvider.setName(currentEnviroment.id, remoteEnviroment.name);
+                }
+              }
+
+              String ownDigest = await getStateDigest(data["salt"], remoteEnviroment.id);
+
+              if (data["digest"] == ownDigest) {
+                send(jsonEncode({"type": "sync_up_to_date"}));
+              } else {
+                send(jsonEncode({"type": "send_state", "state": await getState(remoteEnviroment.id)}));
+              }
+              break;
+
+            case "send_state":
+              recieveState(data);
+
+              break;
+          }
         }
-      }
-    }, onDone: declareUnresponsive);
+      },
+      onDone: () {
+        responsivenessTimeout?.cancel();
+        if (terminalId != null) {
+          openConnectionProvider.removeOpenConnection(terminalId!);
+        }
+      },
+    );
 
     send(jsonEncode(await getHandshake()));
   }

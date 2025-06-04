@@ -42,8 +42,6 @@ class ChooseRecipe extends StatelessWidget {
           }
           var recipeList = snapshot.data!;
 
-          // TODO make searcheable list ordered by selected recipes
-
           return Searchablelistview(
             elements: recipeList,
             elementToListTile: (recipe, tag) {

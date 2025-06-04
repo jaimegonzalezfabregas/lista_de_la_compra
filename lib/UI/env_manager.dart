@@ -4,10 +4,9 @@ import 'package:jhopping_list/UI/sync/sync_view.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/enviroment_provider.dart';
 import 'package:jhopping_list/providers/open_conection_provider.dart';
+import 'package:jhopping_list/sync/open_connection.dart';
 import 'package:jhopping_list/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
-
-// TODO el nombre del env no se pasa a terminales nuevos
 
 class EnvSelect extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
@@ -133,7 +132,7 @@ class EnvSelect extends StatelessWidget {
     Future<Iterable<Enviroment>> getPeerEnviromentList() async {
       Map<String, Enviroment> remoteEnviroments = {};
 
-      for (OpenConnection openConnection in openConnectionProvider.openConnections) {
+      for (OpenConnection openConnection in openConnectionProvider.openConnections.values) {
         for (Enviroment remoteEnviroment in openConnection.enviromentList) {
           if (await enviromentProvider.getEnviromentById(remoteEnviroment.id) != null) {
             continue;

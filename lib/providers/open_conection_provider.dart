@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
-import 'package:jhopping_list/sync/open_connection_manager.dart';
+import 'package:jhopping_list/sync/open_connection.dart';
 
 class OpenConnectionProvider extends ChangeNotifier {
   final Map<String, OpenConnection> _openConnections = {};
 
-  Iterable<OpenConnection> get openConnections => _openConnections.values;
+  Map<String, OpenConnection> get openConnections => _openConnections;
 
   void addOpenConnection(
     String terminalId,
@@ -38,6 +38,11 @@ class OpenConnectionProvider extends ChangeNotifier {
       _openConnections.remove(terminalId);
       notifyListeners();
     }
+  }
+
+  void setLatency(String terminalId, num latency) {
+    _openConnections[terminalId]?.latency = latency;
+    notifyListeners();
   }
 
   bool isConnected(String terminalId) {

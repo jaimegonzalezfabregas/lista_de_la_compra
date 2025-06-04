@@ -19,7 +19,7 @@ class AddIngredient extends StatelessWidget {
     var ingredientsFuture = recipeProvider.getProductsOfRecipeById(recipeId);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Selecionar ingredientes"), backgroundColor: Theme.of(context).colorScheme.surfaceContainer),
+      appBar: AppBar(title: Text("Seleccionar ingredientes"), backgroundColor: Theme.of(context).colorScheme.surfaceContainer),
       floatingActionButton: ElevatedButton(
         onPressed: () {
           Navigator.pop(context);

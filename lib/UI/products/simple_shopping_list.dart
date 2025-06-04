@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/UI/common/searchable_list_view.dart';
+import 'package:jhopping_list/UI/products/common.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/product_provider.dart';
 import 'package:jhopping_list/UI/products/product_detail.dart';
@@ -30,29 +31,11 @@ class ProductListDisplay extends StatelessWidget {
           return Searchablelistview<Product>(
             elements: products,
             elementToListTile: (Product p, RichText tag) {
-              var amountPromise = scheduleProvider.getFutureRecipesWithProduct(p.id);
 
               return ListTile(
                 title: tag,
                 onTap: () => productProvider.setProductNeededness(p.id, !p.needed),
-                subtitle: FutureBuilder(
-                  future: amountPromise,
-                  builder: (context, amountSnapshot) {
-                    if (!amountSnapshot.hasData) {
-                      return Text("Cargando...");
-                    }
-
-                    var recipes = amountSnapshot.data!;
-
-                    if (recipes.isEmpty) {
-                      return SizedBox.shrink();
-                    }
-
-                    var amounts = recipes.map((recipe) => recipe.amount).join(" + r");
-
-                    return Text(amounts);
-                  },
-                ),
+                subtitle: getNeededAmount(scheduleProvider, p.id),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -82,7 +65,6 @@ class ProductListDisplay extends StatelessWidget {
         },
       );
     } catch (e) {
-      print(e);
       return Text("$e", textScaler: TextScaler.linear(0.7),);
     }
   }

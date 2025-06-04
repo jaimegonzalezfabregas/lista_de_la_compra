@@ -8,7 +8,8 @@ class ScheduleProvider extends ChangeNotifier {
   Future<void> addEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;
 
-    database
+
+    await database
         .into(database.scheduleEntries)
         .insert(
           ScheduleEntriesCompanion(
@@ -19,13 +20,14 @@ class ScheduleProvider extends ChangeNotifier {
           ),
         );
 
+
     notifyListeners();
   }
 
   Future<void> syncAddEntry(Map<String, dynamic> serializedScheduleEntry) async {
     final database = AppDatabaseSingleton.instance;
 
-    database
+    await database
         .into(database.scheduleEntries)
         .insert(
           ScheduleEntriesCompanion(
@@ -109,7 +111,7 @@ class ScheduleProvider extends ChangeNotifier {
     final database = AppDatabaseSingleton.instance;
 
     var query = database.select(database.scheduleEntries).join([
-      innerJoin(database.recipes, database.recipes.id.equalsExp(database.scheduleEntries.id)),
+      innerJoin(database.recipes, database.recipes.id.equalsExp(database.scheduleEntries.recipeId)),
     ]);
 
     query.where(database.recipes.enviromentId.equals(enviromentId));

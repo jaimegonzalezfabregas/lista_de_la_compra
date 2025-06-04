@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/UI/common/searchable_list_view.dart';
+import 'package:jhopping_list/UI/products/common.dart';
 import 'package:jhopping_list/db/database.dart';
 import 'package:jhopping_list/providers/product_provider.dart';
 import 'package:jhopping_list/UI/recipies/recipe_detail.dart';
 import 'package:jhopping_list/providers/recipe_provider.dart';
 import 'package:jhopping_list/UI/common/loading_box.dart';
+import 'package:jhopping_list/providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 // todo
@@ -39,7 +41,6 @@ class ProductDetail extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LoadingBox();
-          // return Text("$snapshot"); // TODO
         }
 
         return Padding(
@@ -73,6 +74,8 @@ class ProductDetail extends StatelessWidget {
       },
     );
 
+    ScheduleProvider scheduleProvider = context.watch();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -82,10 +85,43 @@ class ProductDetail extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: Row(children: [Text("Eliminar"), SizedBox(width: 8), Icon(Icons.delete)]),
+                  child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text("Eliminar")]),
                   onTap: () {
                     Navigator.pop(context);
                     productProvider.deleteProductById(productId);
+                  },
+                ),
+                PopupMenuItem(
+                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text("Editar nombre")]),
+                  onTap: () {
+                    TextEditingController textControler = TextEditingController();
+                    productFuture.then((Product? p) {
+                      textControler.text = p!.name;
+                    });
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Editar nombre"),
+                          content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancelar"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                productProvider.setProductName(productId, textControler.text);
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Guardar"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ];
@@ -110,41 +146,16 @@ class ProductDetail extends StatelessWidget {
         child: ListView(
           shrinkWrap: true,
           children: [
-            Text("Producto", style: Theme.of(context).textTheme.titleSmall),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Nombre del producto'),
-                          controller: textEditingController,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          var product = (await productFuture);
-
-                          if (product != null) {
-                            productProvider.setProductName(productId, textEditingController.text);
-                          } else {
-                            // TODO
-                          }
-                        },
-                        child: Text("Guardar"),
-                      ),
-                    ],
-                  ),
-
+                  getNeededAmount(scheduleProvider,productId)!,
                   TextButton(
                     onPressed: () async {
                       var product = (await productFuture);
                       if (product != null) {
                         productProvider.setProductNeededness(productId, !product.needed);
-                      } else {
-                        // TODO
                       }
                     },
                     child: FutureBuilder(
@@ -152,8 +163,8 @@ class ProductDetail extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.hasData && snapshot.data != null) {
                           return Text(snapshot.data!.needed ? "Marcar como comprado" : "Marcar como por comprar");
-                        } else {
-                          return Text("Error"); // TODO
+                        }else{
+                          return Text("Cargando...");
                         }
                       },
                     ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jhopping_list/db/database.dart';
+import 'package:jhopping_list/providers/open_conection_provider.dart';
 import 'package:jhopping_list/providers/pairing_provider.dart';
+import 'package:jhopping_list/sync/open_connection.dart';
 import 'package:provider/provider.dart';
 
 class RemoteTerminalView extends StatelessWidget {
@@ -11,8 +13,9 @@ class RemoteTerminalView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PairingProvider pairingProvider = context.watch();
+    final OpenConnectionProvider openConnectionProvider = context.watch();
 
-    Future<RemoteTerminal?> pairingPromise = pairingProvider.getRemoteTerminalById(id);
+    Future<RemoteTerminal?> pairingFuture = pairingProvider.getRemoteTerminalById(id);
 
     return Scaffold(
       appBar: AppBar(
@@ -20,12 +23,15 @@ class RemoteTerminalView extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
       body: FutureBuilder(
-        future: pairingPromise,
+        future: pairingFuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
-          final pairing = snapshot.data!;
+          final RemoteTerminal pairing = snapshot.data!;
+          final OpenConnection? connection = openConnectionProvider.openConnections[pairing.terminalId];
+
+          Widget? connectionWidget = connection == null ? Text("No establecida") : Text("Establecida (${connection.latency}ms)");
 
           return Padding(
             padding: const EdgeInsets.all(20.0),
@@ -43,6 +49,9 @@ class RemoteTerminalView extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                Text("Estado de la conexión"),
+                Padding(padding: const EdgeInsets.all(8), child: connectionWidget),
               ],
             ),
           );

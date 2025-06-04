@@ -3,9 +3,11 @@ import 'package:jhopping_list/UI/schedule/day_view.dart';
 import 'package:jhopping_list/UI/schedule/utils.dart';
 
 class _ScheduleView extends State<ScheduleViewContents> {
-  int currentWeek;
+  late int currentWeek;
 
-  _ScheduleView(this.currentWeek);
+  _ScheduleView() {
+    currentWeek = widget.initialWeek;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,7 @@ class ScheduleViewContents extends StatefulWidget {
   const ScheduleViewContents(this.initialWeek, this.enviromentId, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _ScheduleView(initialWeek);
+  State<StatefulWidget> createState() => _ScheduleView();
 }
 
 class ScheduleView extends StatelessWidget {

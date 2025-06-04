@@ -211,5 +211,10 @@ class RecipeProvider extends ChangeNotifier {
     return await query.get();
   }
 
-  // TODO change recipe name
+  Future<void> setRecipeName(String recipeId, String newName) async {
+    final database = AppDatabaseSingleton.instance;
+    await (database.update(database.recipes)..where((table) => table.id.equals(recipeId))).write(RecipesCompanion(name: Value(newName)));
+
+    notifyListeners();
+  }
 }

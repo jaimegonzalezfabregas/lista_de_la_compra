@@ -223,13 +223,22 @@ class _PlannedDatesState extends State<PlannedDates> {
                             children: [
                               IconButton(
                                 onPressed: () async {
-                                  Recipe? recipe = await recipeProvider.getRecipeById(widget.recipeId);
+                                  Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(widget.recipeId);
 
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return ScheduleView(entry.week, recipe!.enviromentId);
+                                        return FutureBuilder(
+                                          future: recipeFuture,
+                                          builder: (context, snapshot) {
+                                            if (!snapshot.hasData) {
+                                              return LoadingBox();
+                                            }
+
+                                            return ScheduleView(entry.week, snapshot.data!.enviromentId);
+                                          },
+                                        );
                                       },
                                     ),
                                   );
@@ -265,6 +274,7 @@ class RecipeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RecipeProvider appState = context.watch();
+    RecipeProvider recipeProvider = context.watch();
 
     Future<Recipe?> recipeFuture = appState.getRecipeById(recipeId);
 
@@ -276,10 +286,43 @@ class RecipeDetail extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: Row(children: [Text("Eliminar"), SizedBox(width: 8), Icon(Icons.delete)]),
+                  child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text("Eliminar")]),
                   onTap: () {
                     Navigator.pop(context);
                     appState.deleteRecipeById(recipeId);
+                  },
+                ),
+                PopupMenuItem(
+                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text("Editar nombre")]),
+                  onTap: () {
+                    TextEditingController textControler = TextEditingController();
+                    recipeFuture.then((Recipe? p) {
+                      textControler.text = p!.name;
+                    });
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Editar nombre"),
+                          content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancelar"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                recipeProvider.setRecipeName(recipeId, textControler.text);
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Guardar"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ];
