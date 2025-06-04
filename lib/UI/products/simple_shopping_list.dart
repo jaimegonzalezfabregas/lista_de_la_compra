@@ -28,6 +28,8 @@ class ProductListDisplay extends StatelessWidget {
           }
           var products = snapshot.data!.where(filter).toList();
 
+          // TODO ordenar por ultima modificación primero
+
           return Searchablelistview<Product>(
             elements: products,
             elementToListTile: (Product p, RichText tag) {
