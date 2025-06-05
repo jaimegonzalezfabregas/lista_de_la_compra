@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/UI/export/export_view.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_manager.dart';
 import 'package:lista_de_la_compra/UI/products/simple_shopping_list.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
@@ -51,6 +52,7 @@ class Home extends StatelessWidget {
             button("Lista de la compra", SimpleShoppinglist(enviromentId), context),
             button("Lista de Recetas", RecipeView(enviromentId), context),
             button("Agenda", ScheduleView(getCurrentWeek(), enviromentId), context),
+            button("Exportar", ExportView(enviromentId), context),
           ],
         ),
       ),

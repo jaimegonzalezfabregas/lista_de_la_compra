@@ -118,6 +118,7 @@ class ScheduleProvider extends ChangeNotifier {
     query.where(database.scheduleEntries.week.equals(week));
     query.where(database.scheduleEntries.day.equals(day));
     query.where(database.scheduleEntries.deletedAt.isNull());
+    query.where(database.recipes.deletedAt.isNull());
 
     return await (query.map((row) => row.readTable(database.scheduleEntries))).get();
   }

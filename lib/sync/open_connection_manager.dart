@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/enviroment_serializer.dart';
 import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
 import 'package:lista_de_la_compra/providers/pairing_provider.dart';
@@ -136,24 +137,14 @@ class OpenConnectionManager {
     connectionRoundLoop();
   }
 
-  Future<Map<String, dynamic>> getState(String enviromentId) async {
-    Enviroment enviroment = (await enviromentProvider.getEnviromentById(enviromentId))!;
-
-    return {
-      "enviroment": enviroment,
-      "products": await productProvider.getSyncProductList(enviromentId),
-      "recipes": await recipeProvider.getSyncRecipeList(enviromentId),
-      "products_recipies": await recipeProvider.getSyncRecipeProductList(enviromentId),
-      "schedule": await scheduleProvider.getSyncEntryList(enviromentId),
-    };
-  }
-
   Map<String, dynamic> getPing() {
     return {"type": "ping", "nonce": math.Random().nextInt(1000), "ping_t": DateTime.now().millisecondsSinceEpoch};
   }
 
   Future<String> getStateDigest(int salt, String enviromentId) async {
-    Uint8List bytes = utf8.encode(jsonEncode(await getState(enviromentId))); // data being hashed
+    Uint8List bytes = utf8.encode(
+      jsonEncode(await serializeEnviroment(enviromentId, enviromentProvider, productProvider, recipeProvider, scheduleProvider)),
+    ); // data being hashed
     var saltedBytes = bytes + utf8.encode(salt.toString());
     return sha512256.convert(saltedBytes).toString();
   }
@@ -320,7 +311,12 @@ class OpenConnectionManager {
               if (data["digest"] == ownDigest) {
                 send(jsonEncode({"type": "sync_up_to_date"}));
               } else {
-                send(jsonEncode({"type": "send_state", "state": await getState(remoteEnviroment.id)}));
+                send(
+                  jsonEncode({
+                    "type": "send_state",
+                    "state": await serializeEnviroment(remoteEnviroment.id, enviromentProvider, productProvider, recipeProvider, scheduleProvider),
+                  }),
+                );
               }
               break;
 

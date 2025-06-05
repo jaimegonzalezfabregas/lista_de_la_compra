@@ -58,11 +58,13 @@ dependencies:
   shelf_web_socket: ^3.0.0
   web_socket_channel: ^3.0.3
   crypto: ^3.0.6
-  flutter_zxing: ^2.0.0
   nsd: ^4.0.3
-  permission_handler: ^12.0.0+1
+  # permission_handler: ^12.0.0+1
   device_marketing_names: ^1.1.0
   shelf: ^1.4.2
+  share_plus: ^11.0.0
+  file_picker: ^10.1.9
+  intl: ^0.20.2
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15

@@ -12,7 +12,7 @@ class RecipeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RecipeProvider state = context.watch();
+    RecipeProvider recipeProvider = context.watch();
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +20,7 @@ class RecipeView extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
       body: FutureBuilder(
-        future: state.getDisplayRecipeList(enviromentId),
+        future: recipeProvider.getDisplayRecipeList(enviromentId),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return LoadingBox();
@@ -40,7 +40,7 @@ class RecipeView extends StatelessWidget {
               );
             },
             newElement: (String name) {
-              state.addRecipe(name, enviromentId);
+              recipeProvider.addRecipe(name, enviromentId);
             },
           );
         },

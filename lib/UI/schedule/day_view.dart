@@ -133,6 +133,10 @@ class DayView extends StatelessWidget {
                                               if (!ingredientSnapshot.hasData) {
                                                 return LoadingBox();
                                               }
+                                              if (ingredientSnapshot.data!.isEmpty) {
+                                                return Center(child: Text("Esta receta no tiene ingredientes"));
+                                              }
+
                                               return Column(
                                                 children:
                                                     ingredientSnapshot.data!.map((ingredient) {

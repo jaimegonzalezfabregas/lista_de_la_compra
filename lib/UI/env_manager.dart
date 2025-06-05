@@ -89,7 +89,7 @@ class EnvSelect extends StatelessWidget {
           future: enviromentProvider.getEnviromentList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-               if (snapshot.data!.isEmpty) {
+              if (snapshot.data!.isEmpty) {
                 return Center(child: Text("Esta lista no tiene resultados"));
               }
               return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, enviromentProvider, env)).toList());
@@ -106,9 +106,6 @@ class EnvSelect extends StatelessWidget {
 
   Widget getRemoteListTile(BuildContext context, EnviromentProvider enviromentProvider, Enviroment env) {
     return ListTile(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env.id, openConnectionManager)));
-      },
       title: Text(env.name),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -205,15 +202,17 @@ class EnvSelect extends StatelessWidget {
 
         child: Center(
           child: ListView(
-            
             shrinkWrap: true,
             children: [
-              Text("Entornos locales"),
+              Text("Entornos disponibles sin conexión"),
               offlineEnviromentList(context),
-              Text("Entornos en maquinas sincronizadas"),
-          
+              SizedBox(height: 10),
+
+              Text("Entornos en otras máquinas"),
+
               peerEnviromentList(context),
-          
+              SizedBox(height: 10),
+
               OutlinedButton(
                 onPressed: () {
                   createNewEnviromentPopup(context);
@@ -221,7 +220,7 @@ class EnvSelect extends StatelessWidget {
                 child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Crear entorno")]),
               ),
               SizedBox(height: 10),
-          
+
               OutlinedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));

@@ -44,6 +44,9 @@ class ChooseRecipe extends StatelessWidget {
 
           return Searchablelistview(
             elements: recipeList,
+            newElement: (String name) {
+              recipeProvider.addRecipe(name, enviromentId);
+            },
             elementToListTile: (recipe, tag) {
               return ListTile(
                 title: tag,
