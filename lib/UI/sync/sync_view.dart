@@ -36,7 +36,7 @@ class _SyncViewState extends State<SyncView> {
               padding: const EdgeInsets.all(8.0),
               child: Builder(
                 builder: (context) {
-                  var sharedPreferencesProvider = context.watch<SharedPreferencesProvider>();
+                  SharedPreferencesProvider sharedPreferencesProvider = context.watch();
                   var textControler = TextEditingController();
 
                   sharedPreferencesProvider.getLocalNick().then((String? value) {

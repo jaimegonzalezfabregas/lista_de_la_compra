@@ -65,6 +65,7 @@ dependencies:
   share_plus: ^11.0.0
   file_picker: ^10.1.9
   intl: ^0.20.2
+  collection: ^1.19.1
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15

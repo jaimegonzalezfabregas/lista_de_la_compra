@@ -11,11 +11,6 @@ class _ScheduleView extends State<ScheduleViewContents> {
   Widget build(BuildContext context) {
     DateTime startOfWeekTime = getStartOfWeek(currentWeek);
 
-    List<Widget> days = [];
-    for (var dayI = 0; dayI < 7; dayI++) {
-      days.add(DayView(currentWeek, dayI, startOfWeekTime, widget.enviromentId));
-    }
-
     List<Widget> head = [];
 
     if (currentWeek > getCurrentWeek()) {
@@ -74,7 +69,13 @@ class _ScheduleView extends State<ScheduleViewContents> {
             ],
           ),
         ),
-        Expanded(child: ListView(children: days)),
+        Expanded(
+          child: ListView.separated(
+            itemCount: 7,
+            itemBuilder: (context, index) => DayView(currentWeek, index, startOfWeekTime, widget.enviromentId),
+            separatorBuilder: (context, index) => Divider(),
+          ),
+        ),
       ],
     );
   }

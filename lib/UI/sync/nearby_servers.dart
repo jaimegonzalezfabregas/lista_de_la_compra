@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:nsd/nsd.dart';
+import 'package:provider/provider.dart';
+
+import 'package:collection/collection.dart';
 
 class DiscoveredPeer {}
 
@@ -29,40 +35,65 @@ class _NearbyServers extends State<NearbyServers> {
     discovery?.removeListener(notifyUpdate);
   }
 
+  Future<(Iterable<Service>, List<Service>)> getDedupedServices(SharedPreferencesProvider sharedPreferencesProvider) async {
+    var allServices = discovery!.services;
+    List<NetworkInterface> interfaces = await NetworkInterface.list();
+    List<InternetAddress> selfAddresses = interfaces.map((e) => e.addresses).flattenedToList;
+
+    Map<String, Service> dedupedByHostServices = {};
+    List<Service> discarded = [];
+    for (var service in allServices) {
+      String? host = service.host;
+      
+      bool isSelf = service.addresses!.toSet().intersection(selfAddresses.toSet()).isEmpty;
+
+      if (host != null && !dedupedByHostServices.containsKey(service.host) && isSelf) {
+        dedupedByHostServices[host] = service;
+      } else {
+        discarded.add(service);
+      }
+    }
+
+    return (dedupedByHostServices.values, discarded);
+  }
+
   @override
   Widget build(BuildContext context) {
+    SharedPreferencesProvider sharedPreferencesProvider = context.watch();
+
     if (discovery == null) {
       return Text("Comenzando busqueda");
     } else {
-      // TODO no mostrar el servidor en el que estas al usuario
+      Future<(Iterable<Service>, List<Service>)> dedupedServices = getDedupedServices(sharedPreferencesProvider);
 
       if (discovery!.services.isEmpty) {
         return Text("Todavía no se han encontrado resultados");
       } else {
-        var allServices = discovery!.services;
+        return FutureBuilder(
+          future: dedupedServices,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Text("Cargando...");
+            }
 
-        Map<String, Service> dedupedByHostServices = {};
-        for (var service in allServices) {
-          String? host = service.host;
-          if (host != null && !dedupedByHostServices.containsKey(service.host)) {
-            dedupedByHostServices[host] = service;
-          }
-        }
+            var (Iterable<Service> selected, List<Service> discarded) = snapshot.data!;
 
-        var children = dedupedByHostServices.values.map((Service service) {
-          return ListTile(
-            title: Text(service.name ?? "Sin nombre"),
-            subtitle: Text(service.host ?? "Sin host"),
-            trailing: IconButton(
-              onPressed: () {
-                widget.openConnectionManager.tryConnectingToHttpServer(service.host!, service.port!);
-              },
-              icon: Icon(Icons.add_link),
-            ),
-          );
-        });
+            var children = selected.map((Service service) {
+              return ListTile(
+                title: Text(service.name ?? "Sin nombre"),
+                subtitle: Text(service.host ?? "Sin host"),
+                trailing: IconButton(
+                  onPressed: () {
+                    widget.openConnectionManager.tryConnectingToHttpServer(service.host!, service.port!);
+                  },
+                  icon: Icon(Icons.add_link),
+                ),
+              );
+            });
 
-        return ListView(shrinkWrap: true, children: children.toList());
+            return ListView(shrinkWrap: true, children: children.toList());
+          },
+        );
       }
     }
   }

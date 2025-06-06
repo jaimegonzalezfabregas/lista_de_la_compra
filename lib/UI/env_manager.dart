@@ -1,9 +1,16 @@
+import 'dart:convert';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/home.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/enviroment_serializer.dart';
 import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
+import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -194,8 +201,36 @@ class EnvSelect extends StatelessWidget {
     );
   }
 
+  void importNewEnviroment(
+    BuildContext context,
+    EnviromentProvider enviromentProvider,
+    ProductProvider productProvider,
+    RecipeProvider recipeProvider,
+    ScheduleProvider scheduleProvider,
+  ) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(withData: true);
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      final Map<String, dynamic> serializedState = jsonDecode(utf8.decode(file.bytes!.toList()));
+
+      Enviroment remoteEnviroment = Enviroment.fromJson(serializedState["enviroment"]);
+      Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
+      if (currentEnviroment == null) {
+        enviromentProvider.addEnviroment(remoteEnviroment);
+      }
+
+      recieveState(serializedState, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    EnviromentProvider enviromentProvider = context.watch();
+    ProductProvider productProvider = context.watch();
+    RecipeProvider recipeProvider = context.watch();
+    ScheduleProvider scheduleProvider = context.watch();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(40.0),
@@ -218,6 +253,14 @@ class EnvSelect extends StatelessWidget {
                   createNewEnviromentPopup(context);
                 },
                 child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Crear entorno")]),
+              ),
+              SizedBox(height: 10),
+
+              OutlinedButton(
+                onPressed: () {
+                  importNewEnviroment(context, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
+                },
+                child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Importar entorno")]),
               ),
               SizedBox(height: 10),
 
