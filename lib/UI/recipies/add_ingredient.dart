@@ -16,16 +16,24 @@ class AddIngredient extends StatelessWidget {
     ProductProvider productProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
-    var ingredientsFuture = recipeProvider.getProductsOfRecipeById(recipeId);
+    Future<List<(RecipeProduct, Product)>> ingredientsFuture = recipeProvider.getProductsOfRecipeById(recipeId);
+    Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(recipeId);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Seleccionar ingredientes"), backgroundColor: Theme.of(context).colorScheme.surfaceContainer),
-      floatingActionButton: ElevatedButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text("Hecho"),
+      appBar: AppBar(
+        title: Text("Seleccionar Ingredientes"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
+
       body: FutureBuilder(
         future: recipeProvider
             .getRecipeById(recipeId)
@@ -34,9 +42,9 @@ class AddIngredient extends StatelessWidget {
           if (!snapshot.hasData) {
             return LoadingBox();
           }
-
+          final List<Product> products = snapshot.data!;
           return Searchablelistview<Product>(
-            elements: snapshot.data!,
+            elements: products,
             elementToTag: (Product p) => p.name,
             elementToListTile: (Product product, tag) {
               return ListTile(
@@ -45,8 +53,10 @@ class AddIngredient extends StatelessWidget {
                   future: ingredientsFuture,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      final List<(RecipeProduct, Product)> recipeProducts = snapshot.data!;
+
                       return Checkbox(
-                        value: snapshot.data!.any((ingredient) => ingredient.$2.id == product.id),
+                        value: recipeProducts.any((ingredient) => ingredient.$2.id == product.id),
                         onChanged: (value) {
                           recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true);
                         },
@@ -57,6 +67,11 @@ class AddIngredient extends StatelessWidget {
                   },
                 ),
               );
+            },
+            newElement: (String name) async {
+              String productId = await productProvider.addProduct(name, false, (await recipeFuture)!.enviromentId);
+
+              recipeProvider.setIngredientOfRecipeById(recipeId, productId, true);
             },
           );
         },

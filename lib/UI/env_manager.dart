@@ -241,12 +241,12 @@ class EnvSelect extends StatelessWidget {
             children: [
               Text("Entornos disponibles sin conexión"),
               offlineEnviromentList(context),
-              SizedBox(height: 10),
+              SizedBox(height: 30),
 
               Text("Entornos en otras máquinas"),
 
               peerEnviromentList(context),
-              SizedBox(height: 10),
+              SizedBox(height: 30),
 
               OutlinedButton(
                 onPressed: () {
@@ -260,7 +260,7 @@ class EnvSelect extends StatelessWidget {
                 onPressed: () {
                   importNewEnviroment(context, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
                 },
-                child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Importar entorno")]),
+                child: Row(children: [Icon(Icons.file_copy), SizedBox(width: 8), Text("Importar entorno")]),
               ),
               SizedBox(height: 10),
 
@@ -270,6 +270,7 @@ class EnvSelect extends StatelessWidget {
                 },
                 child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text("Sincronización")]),
               ),
+
             ],
           ),
         ),

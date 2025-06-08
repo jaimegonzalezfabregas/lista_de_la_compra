@@ -42,7 +42,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
           0,
           ListTile(
             title: ElevatedButton(
-              child: Text("Add \"$filter\""),
+              child: Text("Añadir \"$filter\""),
               onPressed: () {
                 widget.newElement!(filter);
                 setState(() {

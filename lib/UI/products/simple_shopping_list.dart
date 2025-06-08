@@ -36,7 +36,6 @@ class ProductListDisplay extends StatelessWidget {
 
               return ListTile(
                 title: tag,
-                onTap: () => productProvider.setProductNeededness(p.id, !p.needed),
                 subtitle: getNeededAmount(scheduleProvider, p.id),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,

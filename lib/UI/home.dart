@@ -13,14 +13,14 @@ class Home extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
   const Home(this.enviromentId, this.openConnectionManager, {super.key});
 
-  Widget button(String lable, Widget page, BuildContext context, {bool disabled = false}) {
+  Widget button(String lable, IconData icon, Widget page, BuildContext context, {bool disabled = false}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
           onPressed: disabled ? null : () => {Navigator.push(context, MaterialPageRoute(builder: (context) => page))},
-          child: Text(lable),
+          child: Row(children: [Icon(icon), SizedBox(width: 30), Text(lable)]),
         ),
       ),
     );
@@ -30,7 +30,9 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     EnviromentProvider enviromentProvider = context.watch();
     return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: FutureBuilder(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        title: FutureBuilder(
           future: enviromentProvider.getEnviromentById(enviromentId),
           builder: (context, snapshot) {
             String envName = "Cargando...";
@@ -44,15 +46,16 @@ class Home extends StatelessWidget {
 
             return Text("Home ($envName)");
           },
-        ),),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            button("Lista de la compra", SimpleShoppinglist(enviromentId), context),
-            button("Lista de Recetas", RecipeView(enviromentId), context),
-            button("Agenda", ScheduleView(getCurrentWeek(), enviromentId), context),
-            button("Exportar", ExportView(enviromentId), context),
+            button("Lista de la compra", Icons.list, SimpleShoppinglist(enviromentId), context),
+            button("Lista de Recetas", Icons.book, RecipeView(enviromentId), context),
+            button("Agenda", Icons.calendar_month, ScheduleView(getCurrentWeek(), enviromentId), context),
+            button("Exportar", Icons.share, ExportView(enviromentId), context),
           ],
         ),
       ),

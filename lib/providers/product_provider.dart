@@ -1,15 +1,19 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductProvider extends ChangeNotifier {
-  Future addProduct(String name, bool needed, String enviromentId) async {
+  Future<String> addProduct(String name, bool needed, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
+
+    String id = Uuid().v7();
 
     database
         .into(database.products)
         .insert(
           ProductsCompanion(
+            id : Value(id),
             name: Value(name),
             needed: Value(needed),
             enviromentId: Value(enviromentId),
@@ -17,6 +21,8 @@ class ProductProvider extends ChangeNotifier {
           ),
         );
     notifyListeners();
+
+    return id;
   }
 
   Future<void> syncAddProduct(Map<String, dynamic> serializedProduct) async {
