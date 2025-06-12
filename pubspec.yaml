@@ -67,6 +67,7 @@ dependencies:
   intl: ^0.20.2
   collection: ^1.19.1
   fluttertoast: ^8.2.12
+  flutter_show_when_locked: ^1.0.0
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15

@@ -96,6 +96,7 @@ class ScheduleView extends StatelessWidget {
 
   const ScheduleView(this.initialWeek, this.enviromentId, {super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

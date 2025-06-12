@@ -326,6 +326,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.28"
+  flutter_show_when_locked:
+    dependency: "direct main"
+    description:
+      name: flutter_show_when_locked
+      sha256: c2c8c7a013a05de4e8e9e3740d98589ce3fb1cda7b8c22bd4e9db096b8096e79
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
