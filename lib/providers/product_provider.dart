@@ -3,11 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:uuid/uuid.dart';
 
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
+  }
+}
+
 class ProductProvider extends ChangeNotifier {
-  Future<String> addProduct(String name, bool needed, String enviromentId) async {
+  Future<String> addProduct(String rawName, bool needed, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
     String id = Uuid().v7();
+
+    String name = rawName.trim().capitalize();
 
     database
         .into(database.products)
