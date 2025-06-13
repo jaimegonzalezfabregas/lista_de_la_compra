@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
@@ -24,12 +25,7 @@ class Ingredients extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Checkbox(
-            value: product.needed,
-            onChanged: (value) {
-              productProvider.setProductNeededness(product.id, value!);
-            },
-          ),
+          NeededCheckbox(product.id),
           IconButton(
             onPressed: () {
               TextEditingController textEditingController = TextEditingController();

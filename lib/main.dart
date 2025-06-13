@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
 import 'package:lista_de_la_compra/UI/env_manager.dart';
 import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
@@ -47,6 +48,12 @@ class MyApp extends StatelessWidget {
     (() async {
       httpServerManager.startServer(httpServerStateProvider, await sharedPreferencesProvider.getLocalNick());
     })();
+
+    AppLifecycleListener(
+      onShow: () {
+        FlutterShowWhenLocked().show();
+      },
+    );
 
     return MultiProvider(
       providers: [

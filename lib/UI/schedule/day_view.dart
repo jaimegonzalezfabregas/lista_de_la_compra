@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_detail.dart';
@@ -146,12 +147,7 @@ class DayView extends StatelessWidget {
                                                       return ListTile(
                                                         title: Text(product.name),
                                                         subtitle: Text(recipeProduct.amount),
-                                                        trailing: Checkbox(
-                                                          value: product.needed,
-                                                          onChanged: (value) {
-                                                            productProvider.setProductNeededness(product.id, value!);
-                                                          },
-                                                        ),
+                                                        trailing: NeededCheckbox(product.id),
                                                       );
                                                     }).toList(),
                                               );
