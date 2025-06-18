@@ -1,66 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/UI/export/export_view.dart';
+import 'package:lista_de_la_compra/UI/Actions/actionIndex.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_manager.dart';
 import 'package:lista_de_la_compra/UI/products/simple_shopping_list.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
 import 'package:lista_de_la_compra/UI/schedule/utils.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
-import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   final String enviromentId;
   final OpenConnectionManager openConnectionManager;
+
   const Home(this.enviromentId, this.openConnectionManager, {super.key});
 
-  Widget button(String lable, IconData icon, Widget page, BuildContext context, {bool disabled = false}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          onPressed: disabled ? null : () => {Navigator.push(context, MaterialPageRoute(builder: (context) => page))},
-          child: Row(children: [Icon(icon), SizedBox(width: 30), Text(lable)]),
-        ),
-      ),
-    );
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _pages.add(SimpleShoppinglist(widget.enviromentId));
+    _pages.add(RecipeView(widget.enviromentId));
+    _pages.add(ScheduleView(getCurrentWeek(), widget.enviromentId));
+    _pages.add(Actionindex(widget.enviromentId, widget.openConnectionManager));
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLoc = AppLocalizations.of(context)!;
-
-    EnviromentProvider enviromentProvider = context.watch();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        title: FutureBuilder(
-          future: enviromentProvider.getEnviromentById(enviromentId),
-          builder: (context, snapshot) {
-            String envName = "Cargando...";
-            if (snapshot.hasData) {
-              envName = snapshot.data!.name;
-            }
-
-            if (snapshot.hasError) {
-              envName = "error!";
-            }
-
-            return Text("${appLoc.home} ($envName)");
-          },
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            button(appLoc.shoppingList, Icons.list, SimpleShoppinglist(enviromentId), context),
-            button(appLoc.recipeList, Icons.book, RecipeView(enviromentId), context),
-            button(appLoc.agenda, Icons.calendar_month, ScheduleView(getCurrentWeek(), enviromentId), context),
-            button(appLoc.export, Icons.share, ExportView(enviromentId), context),
-          ],
-        ),
+    
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: appLoc.shoppingList, backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: appLoc.recipeList, backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: appLoc.agenda, backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: appLoc.actions, backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,        
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

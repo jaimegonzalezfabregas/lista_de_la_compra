@@ -28,4 +28,21 @@ class SharedPreferencesProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> setSelectedEnviroment(String enviromentId) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString("selectedEnviroment", enviromentId);
+    notifyListeners();
+  }
+
+  Future<void> clearSelectedEnviroment() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("selectedEnviroment");
+    notifyListeners();
+  }
+
+  Future<String?> getSelectedEnviroment() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("selectedEnviroment");
+  }
 }

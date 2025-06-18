@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/UI/home.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/enviroment_serializer.dart';
@@ -12,6 +11,7 @@ import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +20,62 @@ class EnvSelect extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
   const EnvSelect(this.openConnectionManager, {super.key});
 
-  Widget getOfflineListTile(BuildContext context, EnviromentProvider enviromentProvider, Enviroment env) {
-        final AppLocalizations appLoc =  AppLocalizations.of(context)!;
+  void showEditEnviromentDialog(BuildContext context, EnviromentProvider enviromentProvider, Enviroment env) {
+    final formKey = GlobalKey<FormState>();
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
+    showDialog(
+      context: context,
+      builder: (context) {
+        TextEditingController textControler = TextEditingController();
+        textControler.text = env.name;
+        return AlertDialog(
+          title: Text(appLoc.changeName),
+          content: Form(
+            key: formKey,
+            child: TextFormField(
+              decoration: InputDecoration(labelText: appLoc.name),
+              controller: textControler,
+              validator: (text) {
+                if (text == null || text.isEmpty) {
+                  return appLoc.theNameCantBeEmpty;
+                }
+                return null;
+              },
+            ),
+          ),
+
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(appLoc.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  enviromentProvider.setName(env.id, textControler.text.trim());
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(appLoc.save),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget getOfflineListTile(
+    BuildContext context,
+    EnviromentProvider enviromentProvider,
+    Enviroment env,
+    SharedPreferencesProvider sharedPreferencesProvider,
+  ) {
     return ListTile(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env.id, openConnectionManager)));
+        sharedPreferencesProvider.setSelectedEnviroment(env.id);
       },
       title: Text(env.name),
       trailing: Row(
@@ -33,49 +83,7 @@ class EnvSelect extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              final formKey = GlobalKey<FormState>();
-
-              showDialog(
-                context: context,
-                builder: (context) {
-                  TextEditingController textControler = TextEditingController();
-                  textControler.text = env.name;
-                  return AlertDialog(
-                    title: Text(appLoc.changeName),
-                    content: Form(
-                      key: formKey,
-                      child: TextFormField(
-                        decoration: InputDecoration(labelText: appLoc.name),
-                        controller: textControler,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return  appLoc.theNameCantBeEmpty;
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(appLoc.cancel),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            enviromentProvider.setName(env.id, textControler.text.trim());
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        child: Text(appLoc.save),
-                      ),
-                    ],
-                  );
-                },
-              );
+              showEditEnviromentDialog(context, enviromentProvider, env);
             },
             icon: Icon(Icons.edit),
           ),
@@ -92,7 +100,9 @@ class EnvSelect extends StatelessWidget {
   }
 
   Widget offlineEnviromentList(BuildContext context) {
-    final AppLocalizations appLoc =  AppLocalizations.of(context)!;
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+    SharedPreferencesProvider sharedPreferencesProvider = context.watch();
+
 
     return Builder(
       builder: (context) {
@@ -104,7 +114,7 @@ class EnvSelect extends StatelessWidget {
               if (snapshot.data!.isEmpty) {
                 return Center(child: Text(appLoc.thisListHasNoResults));
               }
-              return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, enviromentProvider, env)).toList());
+              return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, enviromentProvider, env,sharedPreferencesProvider)).toList());
             } else if (snapshot.hasError) {
               return Text("$snapshot");
             } else {
@@ -135,7 +145,7 @@ class EnvSelect extends StatelessWidget {
   }
 
   Widget peerEnviromentList(BuildContext context) {
-        final AppLocalizations appLoc = AppLocalizations.of(context)!;
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     EnviromentProvider enviromentProvider = context.watch();
     OpenConnectionProvider openConnectionProvider = context.watch();
@@ -180,7 +190,7 @@ class EnvSelect extends StatelessWidget {
   }
 
   void createNewEnviromentPopup(BuildContext context) {
-      final  AppLocalizations appLoc =  AppLocalizations.of(context)!;
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
@@ -240,7 +250,7 @@ class EnvSelect extends StatelessWidget {
     ProductProvider productProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
     ScheduleProvider scheduleProvider = context.watch();
-     final   AppLocalizations appLoc =  AppLocalizations.of(context)!;
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Padding(
@@ -281,7 +291,6 @@ class EnvSelect extends StatelessWidget {
                 },
                 child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text(appLoc.syncronization)]),
               ),
-
             ],
           ),
         ),
