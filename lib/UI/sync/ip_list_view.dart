@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 
 class IpListView extends StatefulWidget {
   const IpListView({super.key});
@@ -13,6 +14,8 @@ class IpListView extends StatefulWidget {
 class _IpListViewState extends State<IpListView> {
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     var ips = NetworkInterface.list();
 
     return FutureBuilder(
@@ -30,18 +33,16 @@ class _IpListViewState extends State<IpListView> {
                     trailing: IconButton(
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: address.address));
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text("Dirección IP (${address.address}) copiada al portapapeles")));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(appLoc.ipCopied(address.address))));
                       },
                       icon: Icon(Icons.copy),
                     ),
                   ),
-              TextButton(onPressed: () => setState(() {}), child: Text("Refrescar IPs")),
+              TextButton(onPressed: () => setState(() {}), child: Text(appLoc.ipRefresh)),
             ],
           );
         }
-        return Text("Cargando direcciones IP...");
+        return Text(appLoc.loadingIps);
       },
     );
   }

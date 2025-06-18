@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
 import 'package:lista_de_la_compra/UI/schedule/utils.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 
 class _ScheduleView extends State<ScheduleViewContents> {
   late int currentWeek;
@@ -99,9 +100,11 @@ class ScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Agenda", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+        title: Text(appLoc.planner, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
       body: ScheduleViewContents(initialWeek, enviromentId),

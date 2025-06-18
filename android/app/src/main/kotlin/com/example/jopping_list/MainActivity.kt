@@ -1,4 +1,4 @@
-package com.example.lista_de_la_compra
+package com.jaimegonzalezfabregas.shoppinglistandplanner
 
 import io.flutter.embedding.android.FlutterActivity
 

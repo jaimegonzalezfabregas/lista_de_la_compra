@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/utils.dart';
-import 'package:lista_de_la_compra/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class Ingredients extends StatelessWidget {
@@ -17,6 +16,8 @@ class Ingredients extends StatelessWidget {
   const Ingredients(this.recipeId, {super.key});
 
   ListTile ingredientEntry(RecipeProduct ingredient, Product product, RecipeProvider recipeProvider, BuildContext context) {
+        final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     ProductProvider productProvider = context.watch();
 
     return ListTile(
@@ -34,13 +35,13 @@ class Ingredients extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   Widget cancelButton = TextButton(
-                    child: Text("Cancelar"),
+                    child: Text(appLoc.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   );
                   Widget continueButton = ElevatedButton(
-                    child: Text("Guardar"),
+                    child: Text(appLoc.save),
                     onPressed: () {
                       recipeProvider.setIngredientAmountOfRecipeById(recipeId, ingredient.productId, textEditingController.text);
                       Navigator.of(context).pop();
@@ -48,7 +49,7 @@ class Ingredients extends StatelessWidget {
                   );
 
                   return AlertDialog(
-                    title: Text("Introduce la cantidad"),
+                    title: Text(appLoc.inputTheAmount),
                     content: TextField(controller: textEditingController),
                     actions: [cancelButton, continueButton],
                   );
@@ -82,6 +83,8 @@ class Ingredients extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     RecipeProvider recipeProvider = context.watch();
     context.watch<ProductProvider>();
 
@@ -91,7 +94,7 @@ class Ingredients extends StatelessWidget {
       future: ingredients,
       builder: (context, AsyncSnapshot<List<(RecipeProduct, Product)>> snapshot) {
         if (!snapshot.hasData) {
-          return LoadingBox();
+          return Text(appLoc.loading);
         }
 
         return Padding(
@@ -113,7 +116,7 @@ class Ingredients extends StatelessWidget {
                 else
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Text("Todavía no se han añadido ingredientes"))),
+                    child: Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Text(appLoc.noIngredientsYet))),
                   ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -133,7 +136,7 @@ class Ingredients extends StatelessWidget {
                       children: [
                         Icon(Icons.add),
                         SizedBox(width: 8),
-                        Text("Añadir ingredientes", style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                        Text(appLoc.addIngredients, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
                       ],
                     ),
                   ),
@@ -160,6 +163,8 @@ class _PlannedDatesState extends State<PlannedDates> {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     ScheduleProvider scheduleRecipeProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
@@ -177,7 +182,7 @@ class _PlannedDatesState extends State<PlannedDates> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Mostrar fechas pasadas"),
+                  Text(appLoc.showPastDates),
                   Checkbox(
                     value: showPast,
                     onChanged: (value) {
@@ -195,7 +200,7 @@ class _PlannedDatesState extends State<PlannedDates> {
               future: dates,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return LoadingBox();
+                  return Text(appLoc.loading);
                 }
 
                 return snapshot.data!.isNotEmpty
@@ -210,8 +215,10 @@ class _PlannedDatesState extends State<PlannedDates> {
 
                         DateTime date = weekAndDayToDateTime(entry.week, entry.day);
 
+                  
+
                         return ListTile(
-                          title: Text("${date.day} de ${months[date.month]} de ${date.year}"),
+                          title: Text(appLoc.formatDate(date)),
 
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -229,7 +236,7 @@ class _PlannedDatesState extends State<PlannedDates> {
                                           future: recipeFuture,
                                           builder: (context, snapshot) {
                                             if (!snapshot.hasData) {
-                                              return LoadingBox();
+                                              return Text(appLoc.loading);
                                             }
 
                                             return ScheduleView(entry.week, snapshot.data!.enviromentId);
@@ -252,7 +259,7 @@ class _PlannedDatesState extends State<PlannedDates> {
                         );
                       },
                     )
-                    : Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Center(child: Text("No hay fechas planificadas"))));
+                    : Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Center(child: Text(appLoc.noPlannedDates))));
               },
             ),
           ],
@@ -269,6 +276,7 @@ class RecipeDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
     RecipeProvider appState = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
@@ -282,14 +290,14 @@ class RecipeDetail extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text("Eliminar")]),
+                  child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text(appLoc.delete)]),
                   onTap: () {
                     Navigator.pop(context);
                     appState.deleteRecipeById(recipeId);
                   },
                 ),
                 PopupMenuItem(
-                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text("Editar nombre")]),
+                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text(appLoc.editName)]),
                   onTap: () {
                     TextEditingController textControler = TextEditingController();
                     recipeFuture.then((Recipe? p) {
@@ -299,21 +307,21 @@ class RecipeDetail extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text("Editar nombre"),
-                          content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+                          title: Text(appLoc.changeName),
+                          content: TextField(decoration: InputDecoration(labelText: appLoc.name), controller: textControler),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text("Cancelar"),
+                              child: Text(appLoc.cancel),
                             ),
                             TextButton(
                               onPressed: () {
                                 recipeProvider.setRecipeName(recipeId, textControler.text);
                                 Navigator.of(context).pop();
                               },
-                              child: Text("Guardar"),
+                              child: Text(appLoc.save),
                             ),
                           ],
                         );
@@ -330,10 +338,10 @@ class RecipeDetail extends StatelessWidget {
           future: recipeFuture,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return LoadingBox();
+              return Text(appLoc.loading);
             }
             if (snapshot.data == null) {
-              return Text("Error", style: TextStyle(color: Theme.of(context).colorScheme.onSurface));
+              return Text(appLoc.error, style: TextStyle(color: Theme.of(context).colorScheme.onSurface));
             }
 
             var recipe = snapshot.data!;
@@ -348,10 +356,10 @@ class RecipeDetail extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text("Ingredientes", style: Theme.of(context).textTheme.titleSmall),
+              child: Text(appLoc.ingredients, style: Theme.of(context).textTheme.titleSmall),
             ),
             Ingredients(recipeId),
-            Padding(padding: const EdgeInsets.symmetric(horizontal: 15.0), child: Text("Fechas", style: Theme.of(context).textTheme.titleSmall)),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: 15.0), child: Text(appLoc.dates, style: Theme.of(context).textTheme.titleSmall)),
             PlannedDates(recipeId),
           ],
         ),

@@ -1,7 +1,7 @@
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +35,7 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLoc = AppLocalizations.of(context)!;
     ProductProvider productProvider = context.watch();
 
     return AnimatedBuilder(
@@ -48,17 +49,16 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
               if (snapshot.hasData) {
                 return Text(snapshot.data!.name);
               }
-              return Text("Producto");
+              return Text(appLoc.product);
             },
           ),
-
-          Text(" marcado como ${widget.oldNeededness ? "necesario" : "comprado"}. "),
+          if (widget.oldNeededness) Text(appLoc.markAsNeeded) else Text(appLoc.markAsBought),
           TextButton(
             onPressed: () {
               productProvider.setProductNeededness(widget.productId, widget.oldNeededness);
               widget.fToast.removeCustomToast();
             },
-            child: Text("Deshacer"),
+            child: Text(appLoc.undo),
           ),
         ],
       ),
@@ -94,6 +94,7 @@ class NeededCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
     final FToast fToast = FToast();
 
     fToast.init(context);
@@ -104,16 +105,15 @@ class NeededCheckbox extends StatelessWidget {
       future: productProvider.getProductById(productId),
       builder: (context, asyncSnapshot) {
         if (!asyncSnapshot.hasData) {
-          return Text("cargando...");
+          return Text(appLoc.loading);
         }
 
         Product p = asyncSnapshot.data!;
 
-        return Wrap(
-          direction: Axis.vertical,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: -15,
+        return Row(
           children: [
+            if (!p.needed) Text(appLoc.toBuy),
+
             Checkbox(
               value: p.needed,
               onChanged: (bool? x) {
@@ -121,8 +121,6 @@ class NeededCheckbox extends StatelessWidget {
                 showUndoToast(fToast, p.id, !x);
               },
             ),
-
-            if (p.needed) const Text("Tenemos") else const Text("Comprar"),
           ],
         );
       },

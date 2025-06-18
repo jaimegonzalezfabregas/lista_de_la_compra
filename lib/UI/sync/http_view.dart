@@ -1,6 +1,7 @@
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/sync/nearby_servers.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra/UI/sync/ip_list_view.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
@@ -12,6 +13,8 @@ class HTTPView extends StatelessWidget {
   const HTTPView(this.openConnectionManager, {super.key});
 
   Widget serveControlls(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     HttpServerStateProvider serverStateProvider = context.watch();
 
     switch (serverStateProvider.getServerStatus()) {
@@ -19,13 +22,13 @@ class HTTPView extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("A continuación se listan las IPs en las que está disponible el dispositivo local"),
+            Text(appLoc.localDeviceAvailableIPs), // Replaced hardcoded string
             IpListView(),
             TextButton(
               onPressed: () async {
                 await serverStateProvider.stopServer();
               },
-              child: Text("Detener servidor"),
+              child: Text(appLoc.stopServer), // Replaced hardcoded string
             ),
           ],
         );
@@ -34,21 +37,21 @@ class HTTPView extends StatelessWidget {
           onPressed: () async {
             await serverStateProvider.tryStartServer();
           },
-          child: Text("Iniciar servidor"),
+          child: Text(appLoc.startServer), // Replaced hardcoded string
         );
       case ServerStatus.turningOn:
-        return Text("Iniciando servidor...");
+        return Text(appLoc.startingServer); // Replaced hardcoded string
       case ServerStatus.turningOff:
-        return Text("Deteniendo servidor...");
+        return Text(appLoc.stoppingServer); // Replaced hardcoded string
       case ServerStatus.error:
         return Column(
           children: [
-            Text("Error iniciando servidor: ${serverStateProvider.getServerError()}"),
+            Text("${appLoc.errorStartingServer}: ${serverStateProvider.getServerError()}"), // Replaced hardcoded string
             TextButton(
               onPressed: () async {
                 await serverStateProvider.tryStartServer();
               },
-              child: Text("Iniciar servidor"),
+              child: Text(appLoc.startServer), // Replaced hardcoded string
             ),
           ],
         );
@@ -56,6 +59,8 @@ class HTTPView extends StatelessWidget {
   }
 
   Widget clientControlls(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     TextEditingController hostTextController = TextEditingController();
     TextEditingController portTextController = TextEditingController();
 
@@ -63,15 +68,18 @@ class HTTPView extends StatelessWidget {
 
     return Column(
       children: [
-        Text("Dispositivos cercanos"),
+        Text(appLoc.nearbyDevices), // Replaced hardcoded string
 
         NearbyServers(openConnectionManager),
 
-        Text("Introducir direción manualmente"),
+        Text(appLoc.enterAddressManually), // Replaced hardcoded string
 
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextField(controller: hostTextController, decoration: InputDecoration(labelText: "Dirección remota", border: OutlineInputBorder())),
+          child: TextField(
+            controller: hostTextController,
+            decoration: InputDecoration(labelText: appLoc.remoteAddress, border: OutlineInputBorder()),
+          ), // Replaced hardcoded string
         ),
 
         Padding(
@@ -79,7 +87,7 @@ class HTTPView extends StatelessWidget {
           child: TextField(
             keyboardType: TextInputType.numberWithOptions(),
             controller: portTextController,
-            decoration: InputDecoration(labelText: "Puerto remoto (4545)", border: OutlineInputBorder()),
+            decoration: InputDecoration(labelText: "${appLoc.remotePort} (4545)", border: OutlineInputBorder()), // Replaced hardcoded string
           ),
         ),
 
@@ -87,7 +95,7 @@ class HTTPView extends StatelessWidget {
           onPressed: () async {
             var host = hostTextController.text;
             if (host.isEmpty) {
-              toast.showSnackBar(SnackBar(content: Text("Error: la dirección remota no puede estar vacía")));
+              toast.showSnackBar(SnackBar(content: Text(appLoc.errorEmptyRemoteAddress))); // Replaced hardcoded string
               return;
             }
 
@@ -97,7 +105,7 @@ class HTTPView extends StatelessWidget {
 
             openConnectionManager.tryConnectingToHttpServer(host, port);
           },
-          child: Text("Conectar"),
+          child: Text(appLoc.connect), // Replaced hardcoded string
         ),
       ],
     );
@@ -105,6 +113,8 @@ class HTTPView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     Widget putInsideContainer(Widget child) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -120,7 +130,7 @@ class HTTPView extends StatelessWidget {
       length: 2,
       child: Column(
         children: [
-          const TabBar(tabs: [Tab(text: "Servidor"), Tab(text: "Cliente")]),
+          TabBar(tabs: [Tab(text: appLoc.server), Tab(text: appLoc.client)]),
           ContentSizeTabBarView(children: [serveControlls(context), clientControlls(context)].map(putInsideContainer).toList()),
         ],
       ),
