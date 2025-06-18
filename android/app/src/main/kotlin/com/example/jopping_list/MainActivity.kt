@@ -1,4 +1,4 @@
-package com.jaimegonzalezfabregas.shoppinglistandplanner
+package com.jaimegonzalezfabregas.shoppinglist
 
 import io.flutter.embedding.android.FlutterActivity
 

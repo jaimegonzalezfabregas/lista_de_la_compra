@@ -58,7 +58,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
                 }),
           ),
         ),
-        Expanded(child: ListView(children: items, controller: scrollController)),
+        Expanded(child: ListView(controller: scrollController, children: items)),
       ],
     );
   }
