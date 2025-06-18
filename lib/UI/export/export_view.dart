@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/enviroment_serializer.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
@@ -20,6 +21,7 @@ class ExportView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
     EnviromentProvider enviromentProvider = context.watch();
     ProductProvider productProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
@@ -31,11 +33,11 @@ class ExportView extends StatelessWidget {
 
     final Future fileName = enviromentProvider
         .getEnviromentById(enviromentId)
-        .then((Enviroment? env) => "${(env?.name) ?? "error"}_${formatter.format(now)}_export.json");
+        .then((Enviroment? env) => "${(env?.name) ?? appLoc.error}_${formatter.format(now)}_export.json");
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Exportar entorno", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+        title: Text(appLoc.exportEnviroment, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
       body: Center(
@@ -45,12 +47,12 @@ class ExportView extends StatelessWidget {
             OutlinedButton(
               onPressed: () async {
                 FilePicker.platform.saveFile(
-                  dialogTitle: 'Save Your File to desired location',
+                  dialogTitle: appLoc.saveFileToYourDesiredLocation,
                   fileName: await fileName,
                   bytes: utf8.encode(jsonEncode(await serialized)),
                 );
               },
-              child: Text("Descargar a archivo"),
+              child: Text(appLoc.downloadToFile),
             ),
             OutlinedButton(
               onPressed: () async {
@@ -68,7 +70,7 @@ class ExportView extends StatelessWidget {
                   ),
                 );
               },
-              child: Text("Enviar"),
+              child: Text(appLoc.send),
             ),
           ],
         ),

@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   
-  provider: ^6.1.2
+  provider: ^6.1.5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -64,11 +64,12 @@ dependencies:
   shelf: ^1.4.2
   share_plus: ^11.0.0
   file_picker: ^10.1.9
-  intl: ^0.20.2
+  intl: any
   collection: ^1.19.1
   fluttertoast: ^8.2.12
   flutter_show_when_locked: ^1.0.0
-  animated_toggle_switch: ^0.8.5
+  flutter_localizations:
+    sdk: flutter
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15
@@ -93,6 +94,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

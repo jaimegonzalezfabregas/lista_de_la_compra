@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class ChooseRecipe extends StatelessWidget {
@@ -15,6 +15,7 @@ class ChooseRecipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
     ScheduleProvider scheduleProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
@@ -22,7 +23,7 @@ class ChooseRecipe extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Seleccionar receta"),
+        title: Text(appLoc.selectRecipe),
         actions: [
           IconButton(
             icon: Icon(Icons.check),
@@ -38,7 +39,7 @@ class ChooseRecipe extends StatelessWidget {
 
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return LoadingBox();
+            return Text(appLoc.loading);
           }
           var recipeList = snapshot.data!;
 

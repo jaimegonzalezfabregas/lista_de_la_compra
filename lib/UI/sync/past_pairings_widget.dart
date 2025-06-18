@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
 import 'package:lista_de_la_compra/providers/pairing_provider.dart';
 import 'package:lista_de_la_compra/UI/sync/remote_terminal_view.dart';
@@ -10,6 +11,8 @@ class RemoteTerminalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     PairingProvider pairingProvider = context.watch();
     OpenConnectionProvider openConnectionProvider = context.watch();
 
@@ -33,7 +36,7 @@ class RemoteTerminalList extends StatelessWidget {
                         var pairings = snapshot.data!;
 
                         if (pairings.isEmpty) {
-                          return Center(child: Text("No hay emparejamientos pasados con Servidores HTTP"));
+                          return Center(child: Text(appLoc.noPairings));
                         }
 
                         return ListView.builder(
@@ -72,9 +75,9 @@ class RemoteTerminalList extends StatelessWidget {
                         );
                       }
                       if (snapshot.hasError) {
-                        return Text("Error! :( ${snapshot.error}");
+                        return Text("${snapshot.error}");
                       }
-                      return Text("Cargando...");
+                      return Text(appLoc.loading);
                     },
                   ),
                 ],

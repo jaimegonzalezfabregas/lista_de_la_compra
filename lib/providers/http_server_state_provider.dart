@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum ServerStatus { running, stopped, turningOn, turningOff, error }
 
 class HttpServerStateProvider extends ChangeNotifier {
   HttpServerManager serverManager;
+  SharedPreferencesProvider sharedPreferencesProvider;
 
-  HttpServerStateProvider(this.serverManager);
+
+  HttpServerStateProvider(this.serverManager, this.sharedPreferencesProvider);
 
   ServerStatus status = ServerStatus.stopped;
   String statusError = "Error desconocido";
@@ -28,16 +30,9 @@ class HttpServerStateProvider extends ChangeNotifier {
   }
 
   Future<void> tryStartServer() async {
-    final prefs = await SharedPreferences.getInstance();
 
-    String? localNick = prefs.getString('LocalNick');
 
-    if (localNick == null) {
-      setServerStatus(ServerStatus.error, error: "Introduzca un nick");
-      return;
-    }
-
-    serverManager.startServer(this, localNick);
+    serverManager.startServer(this, await sharedPreferencesProvider.getLocalNick());
 
     notifyListeners();
   }

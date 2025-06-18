@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 class AddIngredient extends StatelessWidget {
@@ -13,6 +13,8 @@ class AddIngredient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     ProductProvider productProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
@@ -21,7 +23,7 @@ class AddIngredient extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Seleccionar Ingredientes"),
+        title: Text(appLoc.selectIngredients),
         actions: [
           IconButton(
             icon: Icon(Icons.check),
@@ -40,7 +42,7 @@ class AddIngredient extends StatelessWidget {
             .then((Recipe? recipe) async => recipe == null ? null : await productProvider.getDisplayProductList(recipe.enviromentId)),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return LoadingBox();
+            return Text(appLoc.loading);
           }
           final List<Product> products = snapshot.data!;
           return Searchablelistview<Product>(

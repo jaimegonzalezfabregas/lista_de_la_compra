@@ -12,6 +12,7 @@ import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
+import 'l10n/app_localizations.dart';
 
 Future main() async {
   runApp(MyApp());
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
 
     final HttpServerManager httpServerManager = HttpServerManager(pairingProvider, openConnectionManager);
 
-    final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager);
+    final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
 
     (() async {
       httpServerManager.startServer(httpServerStateProvider, await sharedPreferencesProvider.getLocalNick());
@@ -67,6 +68,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => httpServerStateProvider),
       ],
       child: MaterialApp(
+         localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         title: 'Jhopping List',
         theme: ThemeData(
           useMaterial3: true,

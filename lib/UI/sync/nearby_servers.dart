@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:nsd/nsd.dart';
@@ -44,7 +45,7 @@ class _NearbyServers extends State<NearbyServers> {
     List<Service> discarded = [];
     for (var service in allServices) {
       String? host = service.host;
-      
+
       bool isSelf = service.addresses!.toSet().intersection(selfAddresses.toSet()).isEmpty;
 
       if (host != null && !dedupedByHostServices.containsKey(service.host) && isSelf) {
@@ -59,29 +60,30 @@ class _NearbyServers extends State<NearbyServers> {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
     SharedPreferencesProvider sharedPreferencesProvider = context.watch();
 
     if (discovery == null) {
-      return Text("Comenzando busqueda");
+      return Text(appLoc.scanStarted);
     } else {
       Future<(Iterable<Service>, List<Service>)> dedupedServices = getDedupedServices(sharedPreferencesProvider);
 
       if (discovery!.services.isEmpty) {
-        return Text("Todavía no se han encontrado resultados");
+        return Text(appLoc.noResultsYet);
       } else {
         return FutureBuilder(
           future: dedupedServices,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Text("Cargando...");
+              return Text(appLoc.loading);
             }
 
             var (Iterable<Service> selected, List<Service> discarded) = snapshot.data!;
 
             var children = selected.map((Service service) {
               return ListTile(
-                title: Text(service.name ?? "Sin nombre"),
-                subtitle: Text(service.host ?? "Sin host"),
+                title: Text(service.name ?? appLoc.noName),
+                subtitle: Text(service.host ?? appLoc.noHost),
                 trailing: IconButton(
                   onPressed: () {
                     widget.openConnectionManager.tryConnectingToHttpServer(service.host!, service.port!);

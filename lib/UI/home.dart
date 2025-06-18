@@ -4,6 +4,7 @@ import 'package:lista_de_la_compra/UI/recipies/recipe_manager.dart';
 import 'package:lista_de_la_compra/UI/products/simple_shopping_list.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
 import 'package:lista_de_la_compra/UI/schedule/utils.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     EnviromentProvider enviromentProvider = context.watch();
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +47,7 @@ class Home extends StatelessWidget {
               envName = "error!";
             }
 
-            return Text("Home ($envName)");
+            return Text("${appLoc.home} ($envName)");
           },
         ),
       ),
@@ -52,10 +55,10 @@ class Home extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            button("Lista de la compra", Icons.list, SimpleShoppinglist(enviromentId), context),
-            button("Lista de Recetas", Icons.book, RecipeView(enviromentId), context),
-            button("Agenda", Icons.calendar_month, ScheduleView(getCurrentWeek(), enviromentId), context),
-            button("Exportar", Icons.share, ExportView(enviromentId), context),
+            button(appLoc.shoppingList, Icons.list, SimpleShoppinglist(enviromentId), context),
+            button(appLoc.recipeList, Icons.book, RecipeView(enviromentId), context),
+            button(appLoc.agenda, Icons.calendar_month, ScheduleView(getCurrentWeek(), enviromentId), context),
+            button(appLoc.export, Icons.share, ExportView(enviromentId), context),
           ],
         ),
       ),

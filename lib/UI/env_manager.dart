@@ -6,6 +6,7 @@ import 'package:lista_de_la_compra/UI/home.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/enviroment_serializer.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
@@ -20,6 +21,8 @@ class EnvSelect extends StatelessWidget {
   const EnvSelect(this.openConnectionManager, {super.key});
 
   Widget getOfflineListTile(BuildContext context, EnviromentProvider enviromentProvider, Enviroment env) {
+        final AppLocalizations appLoc =  AppLocalizations.of(context)!;
+
     return ListTile(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => Home(env.id, openConnectionManager)));
@@ -38,15 +41,15 @@ class EnvSelect extends StatelessWidget {
                   TextEditingController textControler = TextEditingController();
                   textControler.text = env.name;
                   return AlertDialog(
-                    title: Text("Cambiar nombre"),
+                    title: Text(appLoc.changeName),
                     content: Form(
                       key: formKey,
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Nombre'),
+                        decoration: InputDecoration(labelText: appLoc.name),
                         controller: textControler,
                         validator: (text) {
                           if (text == null || text.isEmpty) {
-                            return 'El nombre no puede estar vacío';
+                            return  appLoc.theNameCantBeEmpty;
                           }
                           return null;
                         },
@@ -58,7 +61,7 @@ class EnvSelect extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Cancelar"),
+                        child: Text(appLoc.cancel),
                       ),
                       TextButton(
                         onPressed: () {
@@ -67,7 +70,7 @@ class EnvSelect extends StatelessWidget {
                             Navigator.of(context).pop();
                           }
                         },
-                        child: Text("Guardar"),
+                        child: Text(appLoc.save),
                       ),
                     ],
                   );
@@ -89,6 +92,8 @@ class EnvSelect extends StatelessWidget {
   }
 
   Widget offlineEnviromentList(BuildContext context) {
+    final AppLocalizations appLoc =  AppLocalizations.of(context)!;
+
     return Builder(
       builder: (context) {
         EnviromentProvider enviromentProvider = context.watch();
@@ -97,13 +102,13 @@ class EnvSelect extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
-                return Center(child: Text("Esta lista no tiene resultados"));
+                return Center(child: Text(appLoc.thisListHasNoResults));
               }
               return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, enviromentProvider, env)).toList());
             } else if (snapshot.hasError) {
               return Text("$snapshot");
             } else {
-              return Text("Cargando...");
+              return Text(appLoc.loading);
             }
           },
         );
@@ -130,6 +135,8 @@ class EnvSelect extends StatelessWidget {
   }
 
   Widget peerEnviromentList(BuildContext context) {
+        final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     EnviromentProvider enviromentProvider = context.watch();
     OpenConnectionProvider openConnectionProvider = context.watch();
 
@@ -158,13 +165,13 @@ class EnvSelect extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
-                return Center(child: Text("Esta lista no tiene resultados"));
+                return Center(child: Text(appLoc.thisListHasNoResults));
               }
               return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getRemoteListTile(context, enviromentProvider, env)).toList());
             } else if (snapshot.hasError) {
               return Text("$snapshot");
             } else {
-              return Text("Cargando...");
+              return Text(appLoc.loading);
             }
           },
         );
@@ -173,19 +180,21 @@ class EnvSelect extends StatelessWidget {
   }
 
   void createNewEnviromentPopup(BuildContext context) {
+      final  AppLocalizations appLoc =  AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       builder: (context) {
         TextEditingController textControler = TextEditingController();
         return AlertDialog(
-          title: Text("Crear entorno"),
-          content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+          title: Text(appLoc.createEnviroment),
+          content: TextField(decoration: InputDecoration(labelText: appLoc.name), controller: textControler),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancelar"),
+              child: Text(appLoc.cancel),
             ),
             TextButton(
               onPressed: () {
@@ -193,7 +202,7 @@ class EnvSelect extends StatelessWidget {
                 enviromentProvider.addEmptyEnviroment(textControler.text);
                 Navigator.of(context).pop();
               },
-              child: Text("Guardar"),
+              child: Text(appLoc.save),
             ),
           ],
         );
@@ -231,6 +240,8 @@ class EnvSelect extends StatelessWidget {
     ProductProvider productProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
     ScheduleProvider scheduleProvider = context.watch();
+     final   AppLocalizations appLoc =  AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(40.0),
@@ -239,11 +250,11 @@ class EnvSelect extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Text("Entornos disponibles sin conexión"),
+              Text(appLoc.aviableEnviromentsWithoutConnection),
               offlineEnviromentList(context),
               SizedBox(height: 30),
 
-              Text("Entornos en otras máquinas"),
+              Text(appLoc.enviromentsOnOtherMachines),
 
               peerEnviromentList(context),
               SizedBox(height: 30),
@@ -252,7 +263,7 @@ class EnvSelect extends StatelessWidget {
                 onPressed: () {
                   createNewEnviromentPopup(context);
                 },
-                child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text("Crear entorno")]),
+                child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text(appLoc.createEnviroment)]),
               ),
               SizedBox(height: 10),
 
@@ -260,7 +271,7 @@ class EnvSelect extends StatelessWidget {
                 onPressed: () {
                   importNewEnviroment(context, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
                 },
-                child: Row(children: [Icon(Icons.file_copy), SizedBox(width: 8), Text("Importar entorno")]),
+                child: Row(children: [Icon(Icons.file_copy), SizedBox(width: 8), Text(appLoc.importEnviroment)]),
               ),
               SizedBox(height: 10),
 
@@ -268,7 +279,7 @@ class EnvSelect extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
                 },
-                child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text("Sincronización")]),
+                child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text(appLoc.syncronization)]),
               ),
 
             ],

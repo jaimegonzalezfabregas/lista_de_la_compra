@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_detail.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/choose_recipe.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/UI/common/loading_box.dart';
 import 'package:provider/provider.dart';
 
 const List<String> weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
@@ -35,6 +35,8 @@ class DayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     ScheduleProvider scheduleProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
 
@@ -79,7 +81,7 @@ class DayView extends StatelessWidget {
                   future: (() => scheduleProvider.getEntries(week, day, enviromentId))(),
                   builder: (context, entrySnapshot) {
                     if (!entrySnapshot.hasData) {
-                      return LoadingBox();
+                      return Text(appLoc.loading);
                     }
                     return Column(
                       children:
@@ -89,10 +91,10 @@ class DayView extends StatelessWidget {
 
                               builder: (context, recipeSnapshot) {
                                 if (!recipeSnapshot.hasData) {
-                                  return LoadingBox();
+                                  return Text(appLoc.loading);
                                 }
                                 if (recipeSnapshot.data == null) {
-                                  return Text("Error");
+                                  return Text(appLoc.error);
                                 }
 
                                 return ExpansionTile(
@@ -132,10 +134,10 @@ class DayView extends StatelessWidget {
                                             builder: (constext, ingredientSnapshot) {
                                               var productProvider = context.watch<ProductProvider>();
                                               if (!ingredientSnapshot.hasData) {
-                                                return LoadingBox();
+                                                return Text(appLoc.loading);
                                               }
                                               if (ingredientSnapshot.data!.isEmpty) {
-                                                return Center(child: Text("Esta receta no tiene ingredientes"));
+                                                return Center(child: Text(appLoc.recipeWithoutIngredients));
                                               }
 
                                               return Column(

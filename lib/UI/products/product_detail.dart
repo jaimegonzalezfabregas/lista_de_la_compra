@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/products/common.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_detail.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/UI/common/loading_box.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +20,7 @@ class ProductDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
     ProductProvider productProvider = context.watch();
 
     var productFuture = productProvider.getProductById(productId);
@@ -40,7 +41,7 @@ class ProductDetail extends StatelessWidget {
       future: recepiesFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return LoadingBox();
+          return Text(appLoc.loading);
         }
 
         return Padding(
@@ -85,14 +86,14 @@ class ProductDetail extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text("Eliminar")]),
+                  child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text(appLoc.delete)]),
                   onTap: () {
                     Navigator.pop(context);
                     productProvider.deleteProductById(productId);
                   },
                 ),
                 PopupMenuItem(
-                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text("Editar nombre")]),
+                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text(appLoc.editName)]),
                   onTap: () {
                     TextEditingController textControler = TextEditingController();
                     productFuture.then((Product? p) {
@@ -102,21 +103,21 @@ class ProductDetail extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text("Editar nombre"),
-                          content: TextField(decoration: InputDecoration(labelText: "Nombre"), controller: textControler),
+                          title: Text(appLoc.editName),
+                          content: TextField(decoration: InputDecoration(labelText: appLoc.name), controller: textControler),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text("Cancelar"),
+                              child: Text(appLoc.cancel),
                             ),
                             TextButton(
                               onPressed: () {
                                 productProvider.setProductName(productId, textControler.text);
                                 Navigator.of(context).pop();
                               },
-                              child: Text("Guardar"),
+                              child: Text(appLoc.save),
                             ),
                           ],
                         );
@@ -135,9 +136,9 @@ class ProductDetail extends StatelessWidget {
               return Text(snapshot.data!.name);
             }
             if (snapshot.hasError) {
-              return Text("Error! :(");
+              return Text("$snapshot");
             }
-            return Text("Cargando...");
+            return Text(appLoc.loading);
           },
         ),
       ),
@@ -150,7 +151,7 @@ class ProductDetail extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  getNeededAmount(scheduleProvider,productId)!,
+                  getNeededAmount(scheduleProvider, productId)!,
                   TextButton(
                     onPressed: () async {
                       var product = (await productFuture);
@@ -162,9 +163,9 @@ class ProductDetail extends StatelessWidget {
                       future: productFuture,
                       builder: (context, snapshot) {
                         if (snapshot.hasData && snapshot.data != null) {
-                          return Text(snapshot.data!.needed ? "Marcar como comprado" : "Marcar como por comprar");
-                        }else{
-                          return Text("Cargando...");
+                          return Text(snapshot.data!.needed ? appLoc.setAsBought : appLoc.setAsNeeded);
+                        } else {
+                          return Text(appLoc.loading);
                         }
                       },
                     ),
@@ -173,10 +174,9 @@ class ProductDetail extends StatelessWidget {
               ),
             ),
 
-            Text("Recetas", style: Theme.of(context).textTheme.titleSmall),
+            Text(appLoc.recipeList, style: Theme.of(context).textTheme.titleSmall),
 
-            SizedBox(height: 200, child: recipeList),
-            Text("Mapas", style: Theme.of(context).textTheme.titleSmall),
+            SizedBox(height: 500, child: recipeList),
           ],
         ),
       ),
