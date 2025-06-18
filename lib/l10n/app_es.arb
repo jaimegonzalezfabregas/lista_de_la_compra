@@ -41,10 +41,9 @@
     "noName": "Sin nombre",
     "noHost": "Sin host",
     "error": "Error",
-    "exportEnviroment": "Exportar entorno",
     "saveFileToYourDesiredLocation": "Guardar archivo en la ubicación deseada",
-    "downloadToFile": "Descargar a archivo",
-    "send": "Enviar",
+    "exportToFile": "Exportar a archivo",
+    "sendExport": "Exportar y enviar",
     "localDeviceAvailableIPs": "A continuación se listan las IPs en las que está disponible el dispositivo local",
     "stopServer": "Detener servidor",
     "startServer": "Iniciar servidor",
@@ -86,5 +85,7 @@
             }
         }
     },
-    "search": "Buscar"
+    "search": "Buscar",
+    "switchEnviroment": "Cambiar entorno",
+    "actions": "Aciones"
 }

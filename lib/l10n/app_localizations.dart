@@ -350,29 +350,23 @@ abstract class AppLocalizations {
   /// **'Error'**
   String get error;
 
-  /// No description provided for @exportEnviroment.
-  ///
-  /// In en, this message translates to:
-  /// **'Export environment'**
-  String get exportEnviroment;
-
   /// No description provided for @saveFileToYourDesiredLocation.
   ///
   /// In en, this message translates to:
   /// **'Save file to your desired location'**
   String get saveFileToYourDesiredLocation;
 
-  /// No description provided for @downloadToFile.
+  /// No description provided for @exportToFile.
   ///
   /// In en, this message translates to:
-  /// **'Download to file'**
-  String get downloadToFile;
+  /// **'Export to file'**
+  String get exportToFile;
 
-  /// No description provided for @send.
+  /// No description provided for @sendExport.
   ///
   /// In en, this message translates to:
-  /// **'Send'**
-  String get send;
+  /// **'Export and send'**
+  String get sendExport;
 
   /// No description provided for @localDeviceAvailableIPs.
   ///
@@ -577,6 +571,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search'**
   String get search;
+
+  /// No description provided for @switchEnviroment.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch enviroment'**
+  String get switchEnviroment;
+
+  /// No description provided for @actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get actions;
 }
 
 class _AppLocalizationsDelegate

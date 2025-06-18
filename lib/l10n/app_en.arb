@@ -41,10 +41,9 @@
   "noName": "No name",
   "noHost": "No host",
   "error": "Error",
-  "exportEnviroment": "Export environment",
   "saveFileToYourDesiredLocation": "Save file to your desired location",
-  "downloadToFile": "Download to file",
-  "send": "Send",
+  "exportToFile": "Export to file",
+  "sendExport": "Export and send",
   "localDeviceAvailableIPs": "The current device is aviable on the following IPs",
   "stopServer": "Stop server",
   "startServer": "Start server",
@@ -86,5 +85,7 @@
       }
     }
   },
-  "search": "Search"
+  "search": "Search",
+  "switchEnviroment": "Switch enviroment",
+  "actions": "Actions"
 }

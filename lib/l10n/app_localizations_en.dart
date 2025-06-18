@@ -136,17 +136,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error => 'Error';
 
   @override
-  String get exportEnviroment => 'Export environment';
-
-  @override
   String get saveFileToYourDesiredLocation =>
       'Save file to your desired location';
 
   @override
-  String get downloadToFile => 'Download to file';
+  String get exportToFile => 'Export to file';
 
   @override
-  String get send => 'Send';
+  String get sendExport => 'Export and send';
 
   @override
   String get localDeviceAvailableIPs =>
@@ -255,4 +252,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search => 'Search';
+
+  @override
+  String get switchEnviroment => 'Switch enviroment';
+
+  @override
+  String get actions => 'Actions';
 }

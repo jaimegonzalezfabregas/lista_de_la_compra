@@ -14,10 +14,10 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 // ignore: must_be_immutable
-class ExportView extends StatelessWidget {
+class ExporControls extends StatelessWidget {
   String enviromentId;
 
-  ExportView(this.enviromentId, {super.key});
+  ExporControls(this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,46 +35,37 @@ class ExportView extends StatelessWidget {
         .getEnviromentById(enviromentId)
         .then((Enviroment? env) => "${(env?.name) ?? appLoc.error}_${formatter.format(now)}_export.json");
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(appLoc.exportEnviroment, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OutlinedButton(
-              onPressed: () async {
-                FilePicker.platform.saveFile(
-                  dialogTitle: appLoc.saveFileToYourDesiredLocation,
-                  fileName: await fileName,
-                  bytes: utf8.encode(jsonEncode(await serialized)),
-                );
-              },
-              child: Text(appLoc.downloadToFile),
-            ),
-            OutlinedButton(
-              onPressed: () async {
-                await SharePlus.instance.share(
-                  ShareParams(
-                    files: [
-                      XFile.fromData(
-                        utf8.encode(jsonEncode(await serialized)),
-                        // name: fileName, // Notice, how setting the name here does not work.
-                        mimeType: 'text/plain',
-                      ),
-                    ],
-                    fileNameOverrides: [await fileName],
-                    downloadFallbackEnabled: true,
-                  ),
-                );
-              },
-              child: Text(appLoc.send),
-            ),
-          ],
+    return Column(
+      children: [
+        OutlinedButton(
+          onPressed: () async {
+            FilePicker.platform.saveFile(
+              dialogTitle: appLoc.saveFileToYourDesiredLocation,
+              fileName: await fileName,
+              bytes: utf8.encode(jsonEncode(await serialized)),
+            );
+          },
+          child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text(appLoc.exportToFile)]),
         ),
-      ),
+        OutlinedButton(
+          onPressed: () async {
+            await SharePlus.instance.share(
+              ShareParams(
+                files: [
+                  XFile.fromData(
+                    utf8.encode(jsonEncode(await serialized)),
+                    // name: fileName, // Notice, how setting the name here does not work.
+                    mimeType: 'text/plain',
+                  ),
+                ],
+                fileNameOverrides: [await fileName],
+                downloadFallbackEnabled: true,
+              ),
+            );
+          },
+          child: Row(children: [Icon(Icons.share), SizedBox(width: 8), Text(appLoc.sendExport)]),
+        ),
+      ],
     );
   }
 }
