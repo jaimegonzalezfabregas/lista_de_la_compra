@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:uuid/uuid.dart';
 
 class RecipeProvider extends ChangeNotifier {
   Future<Recipe?> getRecipeById(String id) async {
@@ -110,13 +111,24 @@ class RecipeProvider extends ChangeNotifier {
         .get();
   }
 
-  Future addRecipe(String name, String enviromentId) async {
+  Future<String> addRecipe(String name, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
+
+    final String id = Uuid().v7();
 
     database
         .into(database.recipes)
-        .insert(RecipesCompanion(name: Value(name), enviromentId: Value(enviromentId), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+        .insert(
+          RecipesCompanion(
+            id: Value(id),
+            name: Value(name),
+            enviromentId: Value(enviromentId),
+            updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+          ),
+        );
     notifyListeners();
+
+    return id;
   }
 
   Future<List<(RecipeProduct, Product)>> getProductsOfRecipeById(String recipeId) async {
