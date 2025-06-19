@@ -30,10 +30,6 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
               child: Text("${appLoc.add} \"$filter\""),
               onPressed: () {
                 widget.newElement!(filter);
-                setState(() {
-                  filter = "";
-                  _textEditingController.text = "";
-                });
               },
             ),
           ),
