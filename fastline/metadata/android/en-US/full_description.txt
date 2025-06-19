@@ -1,0 +1,3 @@
+A shopping list app with integrated meal planning.
+
+Local syncing between devices allows coordination between users.

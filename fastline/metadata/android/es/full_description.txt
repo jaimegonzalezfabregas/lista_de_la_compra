@@ -1,0 +1,3 @@
+Lista de la compra con planificacion de comidas integradas.
+
+La sincronización local permite que diferentes usuarios colaboren.
