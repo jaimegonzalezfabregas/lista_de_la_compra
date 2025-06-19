@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
         title: 'Jhopping List',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 25, 0, 255), brightness: MediaQuery.platformBrightnessOf(context)),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(220, 138, 221, 1), brightness: MediaQuery.platformBrightnessOf(context)),
         ),
         home: SelectedEnviromentFork(openConnectionManager),
       ),

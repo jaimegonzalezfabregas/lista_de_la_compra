@@ -65,7 +65,7 @@
   "ingredients": "Ingredients",
   "dates": "Dates",
   "buy": "Buy",
-  "all": "Todo",
+  "all": "Everything",
   "httpClient": "HTTP Client",
   "httpServer": "HTTP Server",
   "selectIngredients": "Select ingredients",
@@ -77,7 +77,7 @@
   "planner": "Planner",
   "ipCopied": "IP Address ({address}) copied to clipboard",
   "formatDate": "{date}",
-  "@date": {
+  "@formatDate": {
     "placeholders": {
       "date": {
         "type": "DateTime",

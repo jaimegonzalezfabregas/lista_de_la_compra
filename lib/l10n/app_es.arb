@@ -77,7 +77,7 @@
     "planner": "Planificador",
     "ipCopied": "Dirección IP ({address}) copiada al portapapeles",
     "formatDate": "{date}",
-    "@date": {
+    "@formatDate": {
         "placeholders": {
             "date": {
                 "type": "DateTime",
