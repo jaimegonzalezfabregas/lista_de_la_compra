@@ -211,7 +211,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get buy => 'Buy';
 
   @override
-  String get all => 'Todo';
+  String get all => 'Everything';
 
   @override
   String get httpClient => 'HTTP Client';
@@ -246,8 +246,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String formatDate(Object date) {
-    return '$date';
+  String formatDate(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return '$dateString';
   }
 
   @override

@@ -497,7 +497,7 @@ abstract class AppLocalizations {
   /// No description provided for @all.
   ///
   /// In en, this message translates to:
-  /// **'Todo'**
+  /// **'Everything'**
   String get all;
 
   /// No description provided for @httpClient.
@@ -564,7 +564,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{date}'**
-  String formatDate(Object date);
+  String formatDate(DateTime date);
 
   /// No description provided for @search.
   ///

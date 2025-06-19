@@ -247,8 +247,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String formatDate(Object date) {
-    return '$date';
+  String formatDate(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return '$dateString';
   }
 
   @override

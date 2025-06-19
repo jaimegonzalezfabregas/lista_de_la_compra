@@ -70,6 +70,7 @@ dependencies:
   flutter_show_when_locked: ^1.0.0
   flutter_localizations:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15

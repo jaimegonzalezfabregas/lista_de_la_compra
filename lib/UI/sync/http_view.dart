@@ -22,13 +22,13 @@ class HTTPView extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(appLoc.localDeviceAvailableIPs), // Replaced hardcoded string
+            Text(appLoc.localDeviceAvailableIPs), 
             IpListView(),
             TextButton(
               onPressed: () async {
                 await serverStateProvider.stopServer();
               },
-              child: Text(appLoc.stopServer), // Replaced hardcoded string
+              child: Text(appLoc.stopServer), 
             ),
           ],
         );
@@ -37,21 +37,21 @@ class HTTPView extends StatelessWidget {
           onPressed: () async {
             await serverStateProvider.tryStartServer();
           },
-          child: Text(appLoc.startServer), // Replaced hardcoded string
+          child: Text(appLoc.startServer), 
         );
       case ServerStatus.turningOn:
-        return Text(appLoc.startingServer); // Replaced hardcoded string
+        return Text(appLoc.startingServer); 
       case ServerStatus.turningOff:
-        return Text(appLoc.stoppingServer); // Replaced hardcoded string
+        return Text(appLoc.stoppingServer); 
       case ServerStatus.error:
         return Column(
           children: [
-            Text("${appLoc.errorStartingServer}: ${serverStateProvider.getServerError()}"), // Replaced hardcoded string
+            Text("${appLoc.errorStartingServer}: ${serverStateProvider.getServerError()}"), 
             TextButton(
               onPressed: () async {
                 await serverStateProvider.tryStartServer();
               },
-              child: Text(appLoc.startServer), // Replaced hardcoded string
+              child: Text(appLoc.startServer), 
             ),
           ],
         );
@@ -68,18 +68,18 @@ class HTTPView extends StatelessWidget {
 
     return Column(
       children: [
-        Text(appLoc.nearbyDevices), // Replaced hardcoded string
+        Text(appLoc.nearbyDevices), 
 
         NearbyServers(openConnectionManager),
 
-        Text(appLoc.enterAddressManually), // Replaced hardcoded string
+        Text(appLoc.enterAddressManually), 
 
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             controller: hostTextController,
             decoration: InputDecoration(labelText: appLoc.remoteAddress, border: OutlineInputBorder()),
-          ), // Replaced hardcoded string
+          ), 
         ),
 
         Padding(
@@ -87,7 +87,7 @@ class HTTPView extends StatelessWidget {
           child: TextField(
             keyboardType: TextInputType.numberWithOptions(),
             controller: portTextController,
-            decoration: InputDecoration(labelText: "${appLoc.remotePort} (4545)", border: OutlineInputBorder()), // Replaced hardcoded string
+            decoration: InputDecoration(labelText: "${appLoc.remotePort} (4545)", border: OutlineInputBorder()), 
           ),
         ),
 
@@ -95,7 +95,7 @@ class HTTPView extends StatelessWidget {
           onPressed: () async {
             var host = hostTextController.text;
             if (host.isEmpty) {
-              toast.showSnackBar(SnackBar(content: Text(appLoc.errorEmptyRemoteAddress))); // Replaced hardcoded string
+              toast.showSnackBar(SnackBar(content: Text(appLoc.errorEmptyRemoteAddress))); 
               return;
             }
 
@@ -105,7 +105,7 @@ class HTTPView extends StatelessWidget {
 
             openConnectionManager.tryConnectingToHttpServer(host, port);
           },
-          child: Text(appLoc.connect), // Replaced hardcoded string
+          child: Text(appLoc.connect), 
         ),
       ],
     );
