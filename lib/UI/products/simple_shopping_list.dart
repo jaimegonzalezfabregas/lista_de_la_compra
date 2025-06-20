@@ -30,10 +30,12 @@ class ProductListDisplay extends StatelessWidget {
           if (!snapshot.hasData) {
             return Text(appLoc.loading);
           }
-          var products = snapshot.data!.where(filter).toList();
+          var allProducts = snapshot.data!;
+          var products = allProducts.where(filter).toList();
 
           return Searchablelistview<Product>(
             elements: products,
+            searchElements: allProducts,
             elementToListTile: (Product p, RichText tag) {
               return ListTile(
                 title: tag,
@@ -88,7 +90,12 @@ class SimpleShoppinglist extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
 
-          bottom: TabBar(tabs: [Tab(icon: Icon(Icons.shopping_cart), child: Text(appLoc.buy)), Tab(icon: Icon(Icons.list), child: Text(appLoc.all))]),
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.shopping_cart), child: Text(appLoc.buy)),
+              Tab(icon: Icon(Icons.list), child: Text(appLoc.all)),
+            ],
+          ),
           title: Text(appLoc.shoppingList),
         ),
         body: TabBarView(children: [ProductListDisplay(false, (p) => !p.needed, enviromentId), ProductListDisplay(true, (_) => true, enviromentId)]),

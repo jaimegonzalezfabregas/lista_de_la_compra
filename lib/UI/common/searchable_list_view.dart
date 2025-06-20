@@ -14,12 +14,25 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
 
     var filterScorer = SearchScorer(filter);
 
-    widget.elements.sort((T a, T b) {
-      return widget.elementToTag(a).toLowerCase().compareTo(widget.elementToTag(b).toLowerCase());
-    });
-    widget.elements.sort((a, b) => filterScorer.getScore(widget.elementToTag(b)) - filterScorer.getScore(widget.elementToTag(a)));
+    late List<T> showElements;
 
-    var items = widget.elements.map((e) => widget.elementToListTile(e, filterScorer.getMatching(widget.elementToTag(e), context))).toList();
+    if (filter != "") {
+      final List<T>? searchElms = widget.searchElements;
+      if (searchElms == null) {
+        showElements = widget.elements;
+      } else {
+        showElements = searchElms;
+      }
+
+      showElements.sort((a, b) => filterScorer.getScore(widget.elementToTag(b)) - filterScorer.getScore(widget.elementToTag(a)));
+    } else {
+      widget.elements.sort((T a, T b) {
+        return widget.elementToTag(a).toLowerCase().compareTo(widget.elementToTag(b).toLowerCase());
+      });
+
+      showElements = widget.elements;
+    }
+    List<ListTile> items = showElements.map((e) => widget.elementToListTile(e, filterScorer.getMatching(widget.elementToTag(e), context))).toList();
 
     if (widget.newElement != null) {
       if (filter != "" && !widget.elements.map(widget.elementToTag).any((tag) => tag == filter)) {
@@ -45,16 +58,17 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
           child: TextField(
             decoration: InputDecoration(border: OutlineInputBorder(), labelText: appLoc.search),
             controller: _textEditingController,
-            onChanged:
-                (value) => setState(() {
-                  filter = value;
-                  if (value != "") {
-                    scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Easing.emphasizedAccelerate);
-                  }
-                }),
+            onChanged: (value) => setState(() {
+              filter = value;
+              if (value != "") {
+                scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Easing.emphasizedAccelerate);
+              }
+            }),
           ),
         ),
-        Expanded(child: ListView(controller: scrollController, children: items)),
+        Expanded(
+          child: ListView(controller: scrollController, children: items),
+        ),
       ],
     );
   }
@@ -62,6 +76,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
 
 class Searchablelistview<T> extends StatefulWidget {
   final List<T> elements;
+  final List<T>? searchElements;
   final ListTile Function(T, RichText) elementToListTile;
   final String Function(T) elementToTag;
   final void Function(String)? newElement;
@@ -73,6 +88,7 @@ class Searchablelistview<T> extends StatefulWidget {
     required this.elementToTag,
     this.elementToSubtitle,
     this.newElement,
+    this.searchElements,
     super.key,
   });
 
