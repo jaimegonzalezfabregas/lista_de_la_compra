@@ -560,12 +560,6 @@ abstract class AppLocalizations {
   /// **'IP Address ({address}) copied to clipboard'**
   String ipCopied(Object address);
 
-  /// No description provided for @formatDate.
-  ///
-  /// In en, this message translates to:
-  /// **'{date}'**
-  String formatDate(DateTime date);
-
   /// No description provided for @search.
   ///
   /// In en, this message translates to:
@@ -583,6 +577,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Actions'**
   String get actions;
+
+  /// No description provided for @editAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit amount'**
+  String get editAmount;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
+
+  /// No description provided for @enoughForA.
+  ///
+  /// In en, this message translates to:
+  /// **'Como para un(a)'**
+  String get enoughForA;
 }
 
 class _AppLocalizationsDelegate

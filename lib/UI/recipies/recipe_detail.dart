@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
@@ -16,7 +17,7 @@ class Ingredients extends StatelessWidget {
   const Ingredients(this.recipeId, {super.key});
 
   ListTile ingredientEntry(RecipeProduct ingredient, Product product, RecipeProvider recipeProvider, BuildContext context) {
-        final AppLocalizations appLoc = AppLocalizations.of(context)!;
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     ProductProvider productProvider = context.watch();
 
@@ -27,54 +28,63 @@ class Ingredients extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           NeededCheckbox(product.id),
-          IconButton(
-            onPressed: () {
-              TextEditingController textEditingController = TextEditingController();
-              textEditingController.text = ingredient.amount;
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  Widget cancelButton = TextButton(
-                    child: Text(appLoc.cancel),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  );
-                  Widget continueButton = ElevatedButton(
-                    child: Text(appLoc.save),
-                    onPressed: () {
-                      recipeProvider.setIngredientAmountOfRecipeById(recipeId, ingredient.productId, textEditingController.text);
-                      Navigator.of(context).pop();
-                    },
-                  );
 
-                  return AlertDialog(
-                    title: Text(appLoc.inputTheAmount),
-                    content: TextField(controller: textEditingController),
-                    actions: [cancelButton, continueButton],
-                  );
-                },
-              );
-            },
-            icon: Icon(Icons.edit),
-          ),
-          IconButton(
-            icon: Icon(Icons.arrow_outward),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return ProductDetail(ingredient.productId);
+          PopupMenuButton<String>(
+            onSelected: (s) {},
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  onTap: () {
+                    TextEditingController textEditingController = TextEditingController();
+                    textEditingController.text = ingredient.amount;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Widget cancelButton = TextButton(
+                          child: Text(appLoc.cancel),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        );
+                        Widget continueButton = ElevatedButton(
+                          child: Text(appLoc.save),
+                          onPressed: () {
+                            recipeProvider.setIngredientAmountOfRecipeById(recipeId, ingredient.productId, textEditingController.text);
+                            Navigator.of(context).pop();
+                          },
+                        );
+
+                        return AlertDialog(
+                          title: Text(appLoc.inputTheAmount),
+                          content: TextField(controller: textEditingController),
+                          actions: [cancelButton, continueButton],
+                        );
+                      },
+                    );
+                  },
+                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text(appLoc.editAmount)]),
+                ),
+                PopupMenuItem(
+                  child: Row(children: [Icon(Icons.arrow_outward), SizedBox(width: 8), Text(appLoc.details)]),
+
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ProductDetail(ingredient.productId);
+                        },
+                      ),
+                    );
                   },
                 ),
-              );
+                PopupMenuItem(
+                  onTap: () {
+                    recipeProvider.setIngredientOfRecipeById(recipeId, ingredient.productId, false, appLoc);
+                  },
+                  child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text(appLoc.delete)]),
+                ),
+              ];
             },
-          ),
-          IconButton(
-            onPressed: () {
-              recipeProvider.setIngredientOfRecipeById(recipeId, ingredient.productId, false);
-            },
-            icon: Icon(Icons.delete),
           ),
         ],
       ),
@@ -116,7 +126,10 @@ class Ingredients extends StatelessWidget {
                 else
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Text(appLoc.noIngredientsYet))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(child: Text(appLoc.noIngredientsYet)),
+                    ),
                   ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -205,61 +218,62 @@ class _PlannedDatesState extends State<PlannedDates> {
 
                 return snapshot.data!.isNotEmpty
                     ? ListView.separated(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
 
-                      separatorBuilder: (context, index) => Divider(),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        var entry = snapshot.data![index];
+                        separatorBuilder: (context, index) => Divider(),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          var entry = snapshot.data![index];
 
-                        DateTime date = weekAndDayToDateTime(entry.week, entry.day);
+                          DateTime date = weekAndDayToDateTime(entry.week, entry.day);
 
-                  
+                          return ListTile(
+                            title: Text(DateFormat('yMMMd').format(date)),
 
-                        return ListTile(
-                          title: Text(appLoc.formatDate(date)),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
 
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: () async {
+                                    Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(widget.recipeId);
 
-                            children: [
-                              IconButton(
-                                onPressed: () async {
-                                  Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(widget.recipeId);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return FutureBuilder(
+                                            future: recipeFuture,
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return Text(appLoc.loading);
+                                              }
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return FutureBuilder(
-                                          future: recipeFuture,
-                                          builder: (context, snapshot) {
-                                            if (!snapshot.hasData) {
-                                              return Text(appLoc.loading);
-                                            }
-
-                                            return ScheduleView(entry.week, snapshot.data!.enviromentId);
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                                icon: Icon(Icons.arrow_outward),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  scheduleRecipeProvider.removeEntryById(entry.id);
-                                },
-                                icon: Icon(Icons.delete),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    )
-                    : Padding(padding: const EdgeInsets.all(8.0), child: Center(child: Center(child: Text(appLoc.noPlannedDates))));
+                                              return ScheduleView(entry.week, snapshot.data!.enviromentId);
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(Icons.arrow_outward),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    scheduleRecipeProvider.removeEntryById(entry.id);
+                                  },
+                                  icon: Icon(Icons.delete),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(child: Center(child: Text(appLoc.noPlannedDates))),
+                      );
               },
             ),
           ],
@@ -308,7 +322,10 @@ class RecipeDetail extends StatelessWidget {
                       builder: (context) {
                         return AlertDialog(
                           title: Text(appLoc.changeName),
-                          content: TextField(decoration: InputDecoration(labelText: appLoc.name), controller: textControler),
+                          content: TextField(
+                            decoration: InputDecoration(labelText: appLoc.name),
+                            controller: textControler,
+                          ),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -359,7 +376,10 @@ class RecipeDetail extends StatelessWidget {
               child: Text(appLoc.ingredients, style: Theme.of(context).textTheme.titleSmall),
             ),
             Ingredients(recipeId),
-            Padding(padding: const EdgeInsets.symmetric(horizontal: 15.0), child: Text(appLoc.dates, style: Theme.of(context).textTheme.titleSmall)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(appLoc.dates, style: Theme.of(context).textTheme.titleSmall),
+            ),
             PlannedDates(recipeId),
           ],
         ),

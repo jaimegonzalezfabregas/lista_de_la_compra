@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
@@ -8,23 +9,6 @@ import 'package:lista_de_la_compra/providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/choose_recipe.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
-
-const List<String> weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-const List<String> months = [
-  "",
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Juilo",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
 
 class DayView extends StatelessWidget {
   final int week;
@@ -54,7 +38,7 @@ class DayView extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "${weekDays[day]} ${dayTime.day}",
+                  "${DateFormat('EEEE').format(dayTime)} ${dayTime.day}",
                   style: TextStyle(color: isToday ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface),
                 ),
               ),
@@ -84,85 +68,83 @@ class DayView extends StatelessWidget {
                       return Text(appLoc.loading);
                     }
                     return Column(
-                      children:
-                          entrySnapshot.data!.map((ScheduleEntry entry) {
-                            return FutureBuilder(
-                              future: recipeProvider.getRecipeById(entry.recipeId),
+                      children: entrySnapshot.data!.map((ScheduleEntry entry) {
+                        return FutureBuilder(
+                          future: recipeProvider.getRecipeById(entry.recipeId),
 
-                              builder: (context, recipeSnapshot) {
-                                if (!recipeSnapshot.hasData) {
-                                  return Text(appLoc.loading);
-                                }
-                                if (recipeSnapshot.data == null) {
-                                  return Text(appLoc.error);
-                                }
+                          builder: (context, recipeSnapshot) {
+                            if (!recipeSnapshot.hasData) {
+                              return Text(appLoc.loading);
+                            }
+                            if (recipeSnapshot.data == null) {
+                              return Text(appLoc.error);
+                            }
 
-                                return ExpansionTile(
-                                  title: Row(
-                                    children: [
-                                      Expanded(child: Text(recipeSnapshot.data!.name)),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () {
-                                          scheduleProvider.removeEntryById(entry.id);
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.arrow_outward),
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return RecipeDetail(recipeSnapshot.data!.id);
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
+                            return ExpansionTile(
+                              title: Row(
+                                children: [
+                                  Expanded(child: Text(recipeSnapshot.data!.name)),
+                                  IconButton(
+                                    icon: Icon(Icons.delete),
+                                    onPressed: () {
+                                      scheduleProvider.removeEntryById(entry.id);
+                                    },
                                   ),
+                                  IconButton(
+                                    icon: Icon(Icons.arrow_outward),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return RecipeDetail(recipeSnapshot.data!.id);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
 
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Builder(
-                                        builder: (context) {
-                                          var ingredients = recipeProvider.getProductsOfRecipeById(entry.recipeId);
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Builder(
+                                    builder: (context) {
+                                      var ingredients = recipeProvider.getProductsOfRecipeById(entry.recipeId);
 
-                                          return FutureBuilder(
-                                            future: ingredients,
-                                            builder: (constext, ingredientSnapshot) {
-                                              var productProvider = context.watch<ProductProvider>();
-                                              if (!ingredientSnapshot.hasData) {
-                                                return Text(appLoc.loading);
-                                              }
-                                              if (ingredientSnapshot.data!.isEmpty) {
-                                                return Center(child: Text(appLoc.recipeWithoutIngredients));
-                                              }
+                                      return FutureBuilder(
+                                        future: ingredients,
+                                        builder: (constext, ingredientSnapshot) {
+                                          var productProvider = context.watch<ProductProvider>();
+                                          if (!ingredientSnapshot.hasData) {
+                                            return Text(appLoc.loading);
+                                          }
+                                          if (ingredientSnapshot.data!.isEmpty) {
+                                            return Center(child: Text(appLoc.recipeWithoutIngredients));
+                                          }
 
-                                              return Column(
-                                                children:
-                                                    ingredientSnapshot.data!.map((ingredient) {
-                                                      var product = ingredient.$2;
-                                                      var recipeProduct = ingredient.$1;
+                                          return Column(
+                                            children: ingredientSnapshot.data!.map((ingredient) {
+                                              var product = ingredient.$2;
+                                              var recipeProduct = ingredient.$1;
 
-                                                      return ListTile(
-                                                        title: Text(product.name),
-                                                        subtitle: Text(recipeProduct.amount),
-                                                        trailing: NeededCheckbox(product.id),
-                                                      );
-                                                    }).toList(),
+                                              return ListTile(
+                                                title: Text(product.name),
+                                                subtitle: Text(recipeProduct.amount),
+                                                trailing: NeededCheckbox(product.id),
                                               );
-                                            },
+                                            }).toList(),
                                           );
                                         },
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             );
-                          }).toList(),
+                          },
+                        );
+                      }).toList(),
                     );
                   },
                 ),

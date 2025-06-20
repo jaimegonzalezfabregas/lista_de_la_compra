@@ -247,14 +247,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String formatDate(DateTime date) {
-    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
-    final String dateString = dateDateFormat.format(date);
-
-    return '$dateString';
-  }
-
-  @override
   String get search => 'Buscar';
 
   @override
@@ -262,4 +254,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get actions => 'Aciones';
+
+  @override
+  String get editAmount => 'Cambiar cantidad';
+
+  @override
+  String get details => 'Detalles';
+
+  @override
+  String get enoughForA => 'Enough for a';
 }

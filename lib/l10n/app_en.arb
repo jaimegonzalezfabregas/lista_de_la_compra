@@ -76,16 +76,10 @@
   "ipRefresh": "Refresh IPs",
   "planner": "Planner",
   "ipCopied": "IP Address ({address}) copied to clipboard",
-  "formatDate": "{date}",
-  "@formatDate": {
-    "placeholders": {
-      "date": {
-        "type": "DateTime",
-        "format": "yMMMd"
-      }
-    }
-  },
   "search": "Search",
   "switchEnviroment": "Switch enviroment",
-  "actions": "Actions"
+  "actions": "Actions",
+  "editAmount": "Edit amount",
+  "details": "Details",
+  "enoughForA": "Como para un(a)"
 }

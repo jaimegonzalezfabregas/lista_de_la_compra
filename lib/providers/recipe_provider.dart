@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:uuid/uuid.dart';
 
 class RecipeProvider extends ChangeNotifier {
@@ -144,7 +145,7 @@ class RecipeProvider extends ChangeNotifier {
     return await query.map((row) => (row.readTable(database.recipeProducts), row.readTable(database.products))).get();
   }
 
-  Future setIngredientOfRecipeById(String recipeId, String productId, bool value) async {
+  Future setIngredientOfRecipeById(String recipeId, String productId, bool value, AppLocalizations appLoc) async {
     final database = AppDatabaseSingleton.instance;
 
     Recipe? recipe =
@@ -161,7 +162,7 @@ class RecipeProvider extends ChangeNotifier {
               RecipeProductsCompanion(
                 recipeId: Value(recipeId),
                 productId: Value(productId),
-                amount: Value("como para un(a) ${recipe.name}"),
+                amount: Value("${appLoc.enoughForA} ${recipe.name}"),
                 updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
               ),
             );

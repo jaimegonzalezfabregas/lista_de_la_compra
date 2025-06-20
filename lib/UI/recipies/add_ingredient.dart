@@ -60,7 +60,7 @@ class AddIngredient extends StatelessWidget {
                       return Checkbox(
                         value: recipeProducts.any((ingredient) => ingredient.$2.id == product.id),
                         onChanged: (value) {
-                          recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true);
+                          recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true, appLoc);
                         },
                       );
                     } else {
@@ -73,7 +73,7 @@ class AddIngredient extends StatelessWidget {
             newElement: (String name) async {
               String productId = await productProvider.addProduct(name, false, (await recipeFuture)!.enviromentId);
 
-              recipeProvider.setIngredientOfRecipeById(recipeId, productId, true);
+              recipeProvider.setIngredientOfRecipeById(recipeId, productId, true, appLoc);
             },
           );
         },

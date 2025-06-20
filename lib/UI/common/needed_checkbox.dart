@@ -101,29 +101,31 @@ class NeededCheckbox extends StatelessWidget {
 
     ProductProvider productProvider = context.watch();
 
-    return FutureBuilder(
-      future: productProvider.getProductById(productId),
-      builder: (context, asyncSnapshot) {
-        if (!asyncSnapshot.hasData) {
-          return Text(appLoc.loading);
-        }
-
-        Product p = asyncSnapshot.data!;
-
-        return Row(
-          children: [
-            if (!p.needed) Text(appLoc.toBuy),
-
-            Checkbox(
-              value: p.needed,
-              onChanged: (bool? x) {
-                productProvider.setProductNeededness(p.id, x!);
-                showUndoToast(fToast, p.id, !x);
-              },
-            ),
-          ],
-        );
-      },
+    return SizedBox(
+      child: FutureBuilder(
+        future: productProvider.getProductById(productId),
+        builder: (context, asyncSnapshot) {
+          if (!asyncSnapshot.hasData) {
+            return Text(appLoc.loading);
+          }
+      
+          Product p = asyncSnapshot.data!;
+      
+          return Row(
+            children: [
+              if (!p.needed) Text(appLoc.toBuy),
+      
+              Checkbox(
+                value: p.needed,
+                onChanged: (bool? x) {
+                  productProvider.setProductNeededness(p.id, x!);
+                  showUndoToast(fToast, p.id, !x);
+                },
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

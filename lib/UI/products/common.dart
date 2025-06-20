@@ -17,7 +17,7 @@ Widget? getNeededAmount(ScheduleProvider scheduleProvider, String productId) {
         return SizedBox.shrink();
       }
 
-      var amounts = recipes.map((recipe) => recipe.amount).join(" + r");
+      var amounts = recipes.map((recipe) => recipe.amount).join(" + ");
 
       return Text(amounts);
     },
