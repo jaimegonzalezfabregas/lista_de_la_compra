@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
 import 'package:lista_de_la_compra/UI/schedule/utils.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
@@ -27,7 +28,7 @@ class _ScheduleView extends State<ScheduleViewContents> {
       );
     }
 
-    head.add(Center(child: Text("${startOfWeekTime.day} de ${months[startOfWeekTime.month]} de ${startOfWeekTime.year}")));
+    head.add(Center(child: Text(DateFormat('yMMMd').format(startOfWeekTime))));
 
     if (currentWeek < getCurrentWeek()) {
       head.add(

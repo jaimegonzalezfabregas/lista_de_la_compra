@@ -76,16 +76,10 @@
     "ipRefresh": "Actualizar IPs",
     "planner": "Planificador",
     "ipCopied": "Dirección IP ({address}) copiada al portapapeles",
-    "formatDate": "{date}",
-    "@formatDate": {
-        "placeholders": {
-            "date": {
-                "type": "DateTime",
-                "format": "yMMMd"
-            }
-        }
-    },
     "search": "Buscar",
     "switchEnviroment": "Cambiar entorno",
-    "actions": "Aciones"
+    "actions": "Aciones",
+    "editAmount": "Cambiar cantidad",
+    "details": "Detalles",
+    "enoughForA": "Enough for a"
 }

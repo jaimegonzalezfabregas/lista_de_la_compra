@@ -33,6 +33,7 @@ class HttpServerManager {
 
       serverStateProvider.setServerStatus(ServerStatus.running);
     } catch (e) {
+      _server = null;
       serverStateProvider.setServerStatus(ServerStatus.error, error: "Error al iniciar el servidor: $e");
     }
     if (avahiRegistration != null) {
