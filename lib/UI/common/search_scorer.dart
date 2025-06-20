@@ -32,6 +32,8 @@ class SearchScorer {
     return score;
   }
 
+  // TODO improve fuzzy search
+
   RichText getMatching(String data, BuildContext context) {
     List<TextSpan> children = [];
 

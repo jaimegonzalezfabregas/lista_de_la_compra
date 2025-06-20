@@ -17,8 +17,6 @@ class SyncView extends StatefulWidget {
   State<SyncView> createState() => _SyncViewState();
 }
 
-// TODO unusable because new "needed prdcuct checkbox"
-
 class _SyncViewState extends State<SyncView> {
   HttpServer? server;
 

@@ -10,6 +10,8 @@ import 'package:lista_de_la_compra/UI/schedule/choose_recipe.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
+// TODO Mark recipies as fullfilled
+
 class DayView extends StatelessWidget {
   final int week;
   final int day;
@@ -128,11 +130,30 @@ class DayView extends StatelessWidget {
                                               var product = ingredient.$2;
                                               var recipeProduct = ingredient.$1;
 
-                                              return ListTile(
-                                                title: Text(product.name),
-                                                subtitle: Text(recipeProduct.amount),
-                                                trailing: NeededCheckbox(product.id),
+                                              return Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(product.name),
+                                                        Text(
+                                                          recipeProduct.amount,
+                                                          textScaler: TextScaler.linear(0.9),
+                                                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  NeededCheckbox(product.id),
+                                                ],
                                               );
+
+                                              // return ListTile(
+                                              //   title: Text(product.name),
+                                              //   subtitle: Text(recipeProduct.amount),
+                                              //   trailing: NeededCheckbox(product.id),
+                                              // );
                                             }).toList(),
                                           );
                                         },
