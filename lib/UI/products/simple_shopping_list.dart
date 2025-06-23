@@ -10,68 +10,51 @@ import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProductListDisplay extends StatelessWidget {
-  final bool Function(Product) filter;
-  final bool defaultNeeded;
+  final List<Product> products;
+  final bool buyList;
   final String enviromentId;
 
-  const ProductListDisplay(this.defaultNeeded, this.filter, this.enviromentId, {super.key});
+  const ProductListDisplay(this.products, this.buyList, this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations appLoc = AppLocalizations.of(context)!;
-
-    ProductProvider productProvider = context.watch();
     ScheduleProvider scheduleProvider = context.watch();
+    final ProductProvider productProvider = context.watch<ProductProvider>();
 
-    try {
-      return FutureBuilder(
-        future: productProvider.getDisplayProductList(enviromentId),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Text(appLoc.loading);
-          }
-          var allProducts = snapshot.data!;
-          var products = allProducts.where(filter).toList();
+    var filteredProducts = buyList ? products.where((e) => !e.needed).toList() : products;
 
-          return Searchablelistview<Product>(
-            elements: products,
-            searchElements: allProducts,
-            elementToListTile: (Product p, RichText tag) {
-              return ListTile(
-                title: tag,
-                subtitle: getNeededAmount(scheduleProvider, p.id),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    NeededCheckbox(p.id),
-
-                    IconButton(
-                      icon: const Icon(Icons.arrow_outward),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail(p.id)));
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-            elementToTag: (Product p) => p.name,
-            newElement: (String name) async {
-              var allProducts = await productProvider.getDisplayProductList(enviromentId);
-              if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
-                var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
-
-                productProvider.setProductNeededness(referenced.id, defaultNeeded);
-              } else {
-                productProvider.addProduct(name, defaultNeeded, enviromentId);
-              }
-            },
-          );
-        },
-      );
-    } catch (e) {
-      return Text("$e", textScaler: TextScaler.linear(0.7));
-    }
+    return Searchablelistview<Product>(
+      elements: filteredProducts,
+      searchElements: products,
+      elementToListTile: (Product p, RichText tag) {
+        return ListTile(
+          title: tag,
+          subtitle: getNeededAmount(scheduleProvider, p.id),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              NeededCheckbox(p.id, delay: buyList ? Duration(milliseconds: 200) : null),
+              IconButton(
+                icon: const Icon(Icons.arrow_outward),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail(p.id)));
+                },
+              ),
+            ],
+          ),
+        );
+      },
+      elementToTag: (Product p) => p.name,
+      newElement: (String name) async {
+        var allProducts = await productProvider.getDisplayProductList(enviromentId);
+        if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
+          var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
+          productProvider.setProductNeededness(referenced.id, buyList);
+        } else {
+          productProvider.addProduct(name, buyList, enviromentId);
+        }
+      },
+    );
   }
 }
 
@@ -82,6 +65,7 @@ class SimpleShoppinglist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
+    final ProductProvider productProvider = context.watch<ProductProvider>();
 
     return DefaultTabController(
       length: 2,
@@ -89,7 +73,6 @@ class SimpleShoppinglist extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.shopping_cart), child: Text(appLoc.buy)),
@@ -98,7 +81,17 @@ class SimpleShoppinglist extends StatelessWidget {
           ),
           title: Text(appLoc.shoppingList),
         ),
-        body: TabBarView(children: [ProductListDisplay(false, (p) => !p.needed, enviromentId), ProductListDisplay(true, (_) => true, enviromentId)]),
+        body: FutureBuilder<List<Product>>(
+          future: productProvider.getDisplayProductList(enviromentId),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
+            var allProducts = snapshot.data!;
+
+            return TabBarView(children: [ProductListDisplay(allProducts, true, enviromentId), ProductListDisplay(allProducts, false, enviromentId)]);
+          },
+        ),
       ),
     );
   }
