@@ -71,7 +71,7 @@
     "selectIngredients": "Seleccionar ingredientes",
     "recipeWithoutIngredients": "Esta receta no tiene ingredientes",
     "noPlannedDates": "No hay fechas planificadas",
-    "noPairings": "No hay emparejamientos anteriores con servidores http",
+    "noHTTPPairings": "No hay emparejamientos anteriores con servidores http",
     "loadingIps": "Cargando direcciones IP",
     "ipRefresh": "Actualizar IPs",
     "planner": "Planificador",
@@ -81,5 +81,8 @@
     "actions": "Aciones",
     "editAmount": "Cambiar cantidad",
     "details": "Detalles",
-    "enoughForA": "Enough for a"
+    "enoughForA": "Como para un(a)",
+    "knownServers": "Servidores conocidos",
+    "noOpenConnection": "Sin conexiones establecidas",
+    "neverConnected": "Nunca conectado"
 }

@@ -229,7 +229,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noPlannedDates => 'No hay fechas planificadas';
 
   @override
-  String get noPairings =>
+  String get noHTTPPairings =>
       'No hay emparejamientos anteriores con servidores http';
 
   @override
@@ -262,5 +262,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get details => 'Detalles';
 
   @override
-  String get enoughForA => 'Enough for a';
+  String get enoughForA => 'Como para un(a)';
+
+  @override
+  String get knownServers => 'Servidores conocidos';
+
+  @override
+  String get noOpenConnection => 'Sin conexiones establecidas';
+
+  @override
+  String get neverConnected => 'Nunca conectado';
 }

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
+import 'package:uuid/uuid.dart';
 
 class OpenConnectionProvider extends ChangeNotifier {
   final Map<String, OpenConnection> _openConnections = {};
 
   Map<String, OpenConnection> get openConnections => _openConnections;
 
-  void addOpenConnection(
+  String addOpenConnection(
     String terminalId,
+    String? connectionSourceId,
     String nick,
     Function triggerSyncPull,
     Function triggerSyncPush,
@@ -16,7 +18,10 @@ class OpenConnectionProvider extends ChangeNotifier {
     Function abortConnection,
     List<Enviroment> enviromentList,
   ) {
-    _openConnections[terminalId] = OpenConnection(
+    String id = Uuid().v7();
+    _openConnections[id] = OpenConnection(
+      id,
+      connectionSourceId,
       terminalId,
       nick,
       triggerSyncPull,
@@ -26,26 +31,23 @@ class OpenConnectionProvider extends ChangeNotifier {
       enviromentList,
     );
     notifyListeners();
+    return id;
   }
 
-  void abortConnection(String terminalId) {
-    _openConnections[terminalId]?.abortConnection();
+  void abortConnection(String id) {
+    _openConnections[id]?.abortConnection();
   }
 
-  void removeOpenConnection(String terminalId) {
-    final connection = _openConnections[terminalId];
+  void removeOpenConnection(String id) {
+    final connection = _openConnections[id];
     if (connection != null) {
-      _openConnections.remove(terminalId);
+      _openConnections.remove(id);
       notifyListeners();
     }
   }
 
-  void setLatency(String terminalId, num latency) {
-    _openConnections[terminalId]?.latency = latency;
+  void setLatency(String id, num latency) {
+    _openConnections[id]?.latency = latency;
     notifyListeners();
-  }
-
-  bool isConnected(String terminalId) {
-    return _openConnections[terminalId] != null;
   }
 }
