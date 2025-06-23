@@ -4,7 +4,7 @@ import 'package:lista_de_la_compra/UI/selected_enviroment_fork.dart';
 import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
-import 'package:lista_de_la_compra/providers/pairing_provider.dart';
+import 'package:lista_de_la_compra/providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
@@ -28,12 +28,12 @@ class MyApp extends StatelessWidget {
     final RecipeProvider recipeProvider = RecipeProvider();
     final ProductProvider productProvider = ProductProvider();
     final ScheduleProvider scheduleProvider = ScheduleProvider();
-    final PairingProvider pairingProvider = PairingProvider();
+    final HttpServerProvider httpServerProvider = HttpServerProvider();
     final SharedPreferencesProvider sharedPreferencesProvider = SharedPreferencesProvider();
     final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
-      pairingProvider,
+      httpServerProvider,
       openConnectionProvider,
       productProvider,
       recipeProvider,
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       enviromentProvider,
     );
 
-    final HttpServerManager httpServerManager = HttpServerManager(pairingProvider, openConnectionManager);
+    final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
 
     final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
 
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => recipeProvider),
         ChangeNotifierProvider(create: (_) => productProvider),
         ChangeNotifierProvider(create: (_) => scheduleProvider),
-        ChangeNotifierProvider(create: (_) => pairingProvider),
+        ChangeNotifierProvider(create: (_) => httpServerProvider),
         ChangeNotifierProvider(create: (_) => sharedPreferencesProvider),
         ChangeNotifierProvider(create: (_) => openConnectionProvider),
         ChangeNotifierProvider(create: (_) => httpServerStateProvider),

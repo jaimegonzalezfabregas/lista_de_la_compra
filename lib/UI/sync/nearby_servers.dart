@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
+import 'package:lista_de_la_compra/providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:nsd/nsd.dart';
@@ -62,6 +63,7 @@ class _NearbyServers extends State<NearbyServers> {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
     SharedPreferencesProvider sharedPreferencesProvider = context.watch();
+    HttpServerProvider httpServerProvider = context.watch();
 
     if (discovery == null) {
       return Text(appLoc.scanStarted);
@@ -86,7 +88,7 @@ class _NearbyServers extends State<NearbyServers> {
                 subtitle: Text(service.host ?? appLoc.noHost),
                 trailing: IconButton(
                   onPressed: () {
-                    widget.openConnectionManager.tryConnectingToHttpServer(service.host!, service.port!);
+                    httpServerProvider.addHttpServer(service.host!, service.port!);
                   },
                   icon: Icon(Icons.add_link),
                 ),

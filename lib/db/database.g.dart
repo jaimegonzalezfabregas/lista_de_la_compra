@@ -1882,31 +1882,21 @@ class RecipeProductsCompanion extends UpdateCompanion<RecipeProduct> {
   }
 }
 
-class $RemoteTerminalsTable extends RemoteTerminals
-    with TableInfo<$RemoteTerminalsTable, RemoteTerminal> {
+class $HttpServerTable extends HttpServer
+    with TableInfo<$HttpServerTable, HttpServerData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $RemoteTerminalsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _terminalIdMeta = const VerificationMeta(
-    'terminalId',
-  );
+  $HttpServerTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> terminalId = GeneratedColumn<String>(
-    'terminal_id',
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _nickMeta = const VerificationMeta('nick');
-  @override
-  late final GeneratedColumn<String> nick = GeneratedColumn<String>(
-    'nick',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    clientDefault: () => Uuid().v7(),
   );
   static const VerificationMeta _httpHostMeta = const VerificationMeta(
     'httpHost',
@@ -1915,9 +1905,9 @@ class $RemoteTerminalsTable extends RemoteTerminals
   late final GeneratedColumn<String> httpHost = GeneratedColumn<String>(
     'http_host',
     aliasedName,
-    true,
+    false,
     type: DriftSqlType.string,
-    requiredDuringInsert: false,
+    requiredDuringInsert: true,
   );
   static const VerificationMeta _httpPortMeta = const VerificationMeta(
     'httpPort',
@@ -1926,358 +1916,242 @@ class $RemoteTerminalsTable extends RemoteTerminals
   late final GeneratedColumn<int> httpPort = GeneratedColumn<int>(
     'http_port',
     aliasedName,
-    true,
+    false,
     type: DriftSqlType.int,
-    requiredDuringInsert: false,
+    requiredDuringInsert: true,
   );
-  static const VerificationMeta _isHttpServerMeta = const VerificationMeta(
-    'isHttpServer',
-  );
+  static const VerificationMeta _nickMeta = const VerificationMeta('nick');
   @override
-  late final GeneratedColumn<bool> isHttpServer = GeneratedColumn<bool>(
-    'is_http_server',
+  late final GeneratedColumn<String> nick = GeneratedColumn<String>(
+    'nick',
     aliasedName,
-    false,
-    type: DriftSqlType.bool,
+    true,
+    type: DriftSqlType.string,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_http_server" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  static const VerificationMeta _isHttpClientMeta = const VerificationMeta(
-    'isHttpClient',
   );
   @override
-  late final GeneratedColumn<bool> isHttpClient = GeneratedColumn<bool>(
-    'is_http_client',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_http_client" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    terminalId,
-    nick,
-    httpHost,
-    httpPort,
-    isHttpServer,
-    isHttpClient,
-  ];
+  List<GeneratedColumn> get $columns => [id, httpHost, httpPort, nick];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'remote_terminals';
+  static const String $name = 'http_server';
   @override
   VerificationContext validateIntegrity(
-    Insertable<RemoteTerminal> instance, {
+    Insertable<HttpServerData> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('terminal_id')) {
-      context.handle(
-        _terminalIdMeta,
-        terminalId.isAcceptableOrUnknown(data['terminal_id']!, _terminalIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_terminalIdMeta);
-    }
-    if (data.containsKey('nick')) {
-      context.handle(
-        _nickMeta,
-        nick.isAcceptableOrUnknown(data['nick']!, _nickMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nickMeta);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('http_host')) {
       context.handle(
         _httpHostMeta,
         httpHost.isAcceptableOrUnknown(data['http_host']!, _httpHostMeta),
       );
+    } else if (isInserting) {
+      context.missing(_httpHostMeta);
     }
     if (data.containsKey('http_port')) {
       context.handle(
         _httpPortMeta,
         httpPort.isAcceptableOrUnknown(data['http_port']!, _httpPortMeta),
       );
+    } else if (isInserting) {
+      context.missing(_httpPortMeta);
     }
-    if (data.containsKey('is_http_server')) {
+    if (data.containsKey('nick')) {
       context.handle(
-        _isHttpServerMeta,
-        isHttpServer.isAcceptableOrUnknown(
-          data['is_http_server']!,
-          _isHttpServerMeta,
-        ),
-      );
-    }
-    if (data.containsKey('is_http_client')) {
-      context.handle(
-        _isHttpClientMeta,
-        isHttpClient.isAcceptableOrUnknown(
-          data['is_http_client']!,
-          _isHttpClientMeta,
-        ),
+        _nickMeta,
+        nick.isAcceptableOrUnknown(data['nick']!, _nickMeta),
       );
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {terminalId};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  RemoteTerminal map(Map<String, dynamic> data, {String? tablePrefix}) {
+  HttpServerData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return RemoteTerminal(
-      terminalId:
+    return HttpServerData(
+      id:
           attachedDatabase.typeMapping.read(
             DriftSqlType.string,
-            data['${effectivePrefix}terminal_id'],
+            data['${effectivePrefix}id'],
           )!,
-      nick:
+      httpHost:
           attachedDatabase.typeMapping.read(
             DriftSqlType.string,
-            data['${effectivePrefix}nick'],
+            data['${effectivePrefix}http_host'],
           )!,
-      httpHost: attachedDatabase.typeMapping.read(
+      httpPort:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.int,
+            data['${effectivePrefix}http_port'],
+          )!,
+      nick: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}http_host'],
+        data['${effectivePrefix}nick'],
       ),
-      httpPort: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}http_port'],
-      ),
-      isHttpServer:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.bool,
-            data['${effectivePrefix}is_http_server'],
-          )!,
-      isHttpClient:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.bool,
-            data['${effectivePrefix}is_http_client'],
-          )!,
     );
   }
 
   @override
-  $RemoteTerminalsTable createAlias(String alias) {
-    return $RemoteTerminalsTable(attachedDatabase, alias);
+  $HttpServerTable createAlias(String alias) {
+    return $HttpServerTable(attachedDatabase, alias);
   }
 }
 
-class RemoteTerminal extends DataClass implements Insertable<RemoteTerminal> {
-  final String terminalId;
-  final String nick;
-  final String? httpHost;
-  final int? httpPort;
-  final bool isHttpServer;
-  final bool isHttpClient;
-  const RemoteTerminal({
-    required this.terminalId,
-    required this.nick,
-    this.httpHost,
-    this.httpPort,
-    required this.isHttpServer,
-    required this.isHttpClient,
+class HttpServerData extends DataClass implements Insertable<HttpServerData> {
+  final String id;
+  final String httpHost;
+  final int httpPort;
+  final String? nick;
+  const HttpServerData({
+    required this.id,
+    required this.httpHost,
+    required this.httpPort,
+    this.nick,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['terminal_id'] = Variable<String>(terminalId);
-    map['nick'] = Variable<String>(nick);
-    if (!nullToAbsent || httpHost != null) {
-      map['http_host'] = Variable<String>(httpHost);
+    map['id'] = Variable<String>(id);
+    map['http_host'] = Variable<String>(httpHost);
+    map['http_port'] = Variable<int>(httpPort);
+    if (!nullToAbsent || nick != null) {
+      map['nick'] = Variable<String>(nick);
     }
-    if (!nullToAbsent || httpPort != null) {
-      map['http_port'] = Variable<int>(httpPort);
-    }
-    map['is_http_server'] = Variable<bool>(isHttpServer);
-    map['is_http_client'] = Variable<bool>(isHttpClient);
     return map;
   }
 
-  RemoteTerminalsCompanion toCompanion(bool nullToAbsent) {
-    return RemoteTerminalsCompanion(
-      terminalId: Value(terminalId),
-      nick: Value(nick),
-      httpHost:
-          httpHost == null && nullToAbsent
-              ? const Value.absent()
-              : Value(httpHost),
-      httpPort:
-          httpPort == null && nullToAbsent
-              ? const Value.absent()
-              : Value(httpPort),
-      isHttpServer: Value(isHttpServer),
-      isHttpClient: Value(isHttpClient),
+  HttpServerCompanion toCompanion(bool nullToAbsent) {
+    return HttpServerCompanion(
+      id: Value(id),
+      httpHost: Value(httpHost),
+      httpPort: Value(httpPort),
+      nick: nick == null && nullToAbsent ? const Value.absent() : Value(nick),
     );
   }
 
-  factory RemoteTerminal.fromJson(
+  factory HttpServerData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return RemoteTerminal(
-      terminalId: serializer.fromJson<String>(json['terminalId']),
-      nick: serializer.fromJson<String>(json['nick']),
-      httpHost: serializer.fromJson<String?>(json['httpHost']),
-      httpPort: serializer.fromJson<int?>(json['httpPort']),
-      isHttpServer: serializer.fromJson<bool>(json['isHttpServer']),
-      isHttpClient: serializer.fromJson<bool>(json['isHttpClient']),
+    return HttpServerData(
+      id: serializer.fromJson<String>(json['id']),
+      httpHost: serializer.fromJson<String>(json['httpHost']),
+      httpPort: serializer.fromJson<int>(json['httpPort']),
+      nick: serializer.fromJson<String?>(json['nick']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'terminalId': serializer.toJson<String>(terminalId),
-      'nick': serializer.toJson<String>(nick),
-      'httpHost': serializer.toJson<String?>(httpHost),
-      'httpPort': serializer.toJson<int?>(httpPort),
-      'isHttpServer': serializer.toJson<bool>(isHttpServer),
-      'isHttpClient': serializer.toJson<bool>(isHttpClient),
+      'id': serializer.toJson<String>(id),
+      'httpHost': serializer.toJson<String>(httpHost),
+      'httpPort': serializer.toJson<int>(httpPort),
+      'nick': serializer.toJson<String?>(nick),
     };
   }
 
-  RemoteTerminal copyWith({
-    String? terminalId,
-    String? nick,
-    Value<String?> httpHost = const Value.absent(),
-    Value<int?> httpPort = const Value.absent(),
-    bool? isHttpServer,
-    bool? isHttpClient,
-  }) => RemoteTerminal(
-    terminalId: terminalId ?? this.terminalId,
-    nick: nick ?? this.nick,
-    httpHost: httpHost.present ? httpHost.value : this.httpHost,
-    httpPort: httpPort.present ? httpPort.value : this.httpPort,
-    isHttpServer: isHttpServer ?? this.isHttpServer,
-    isHttpClient: isHttpClient ?? this.isHttpClient,
+  HttpServerData copyWith({
+    String? id,
+    String? httpHost,
+    int? httpPort,
+    Value<String?> nick = const Value.absent(),
+  }) => HttpServerData(
+    id: id ?? this.id,
+    httpHost: httpHost ?? this.httpHost,
+    httpPort: httpPort ?? this.httpPort,
+    nick: nick.present ? nick.value : this.nick,
   );
-  RemoteTerminal copyWithCompanion(RemoteTerminalsCompanion data) {
-    return RemoteTerminal(
-      terminalId:
-          data.terminalId.present ? data.terminalId.value : this.terminalId,
-      nick: data.nick.present ? data.nick.value : this.nick,
+  HttpServerData copyWithCompanion(HttpServerCompanion data) {
+    return HttpServerData(
+      id: data.id.present ? data.id.value : this.id,
       httpHost: data.httpHost.present ? data.httpHost.value : this.httpHost,
       httpPort: data.httpPort.present ? data.httpPort.value : this.httpPort,
-      isHttpServer:
-          data.isHttpServer.present
-              ? data.isHttpServer.value
-              : this.isHttpServer,
-      isHttpClient:
-          data.isHttpClient.present
-              ? data.isHttpClient.value
-              : this.isHttpClient,
+      nick: data.nick.present ? data.nick.value : this.nick,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('RemoteTerminal(')
-          ..write('terminalId: $terminalId, ')
-          ..write('nick: $nick, ')
+    return (StringBuffer('HttpServerData(')
+          ..write('id: $id, ')
           ..write('httpHost: $httpHost, ')
           ..write('httpPort: $httpPort, ')
-          ..write('isHttpServer: $isHttpServer, ')
-          ..write('isHttpClient: $isHttpClient')
+          ..write('nick: $nick')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-    terminalId,
-    nick,
-    httpHost,
-    httpPort,
-    isHttpServer,
-    isHttpClient,
-  );
+  int get hashCode => Object.hash(id, httpHost, httpPort, nick);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is RemoteTerminal &&
-          other.terminalId == this.terminalId &&
-          other.nick == this.nick &&
+      (other is HttpServerData &&
+          other.id == this.id &&
           other.httpHost == this.httpHost &&
           other.httpPort == this.httpPort &&
-          other.isHttpServer == this.isHttpServer &&
-          other.isHttpClient == this.isHttpClient);
+          other.nick == this.nick);
 }
 
-class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
-  final Value<String> terminalId;
-  final Value<String> nick;
-  final Value<String?> httpHost;
-  final Value<int?> httpPort;
-  final Value<bool> isHttpServer;
-  final Value<bool> isHttpClient;
+class HttpServerCompanion extends UpdateCompanion<HttpServerData> {
+  final Value<String> id;
+  final Value<String> httpHost;
+  final Value<int> httpPort;
+  final Value<String?> nick;
   final Value<int> rowid;
-  const RemoteTerminalsCompanion({
-    this.terminalId = const Value.absent(),
-    this.nick = const Value.absent(),
+  const HttpServerCompanion({
+    this.id = const Value.absent(),
     this.httpHost = const Value.absent(),
     this.httpPort = const Value.absent(),
-    this.isHttpServer = const Value.absent(),
-    this.isHttpClient = const Value.absent(),
+    this.nick = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  RemoteTerminalsCompanion.insert({
-    required String terminalId,
-    required String nick,
-    this.httpHost = const Value.absent(),
-    this.httpPort = const Value.absent(),
-    this.isHttpServer = const Value.absent(),
-    this.isHttpClient = const Value.absent(),
+  HttpServerCompanion.insert({
+    this.id = const Value.absent(),
+    required String httpHost,
+    required int httpPort,
+    this.nick = const Value.absent(),
     this.rowid = const Value.absent(),
-  }) : terminalId = Value(terminalId),
-       nick = Value(nick);
-  static Insertable<RemoteTerminal> custom({
-    Expression<String>? terminalId,
-    Expression<String>? nick,
+  }) : httpHost = Value(httpHost),
+       httpPort = Value(httpPort);
+  static Insertable<HttpServerData> custom({
+    Expression<String>? id,
     Expression<String>? httpHost,
     Expression<int>? httpPort,
-    Expression<bool>? isHttpServer,
-    Expression<bool>? isHttpClient,
+    Expression<String>? nick,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (terminalId != null) 'terminal_id': terminalId,
-      if (nick != null) 'nick': nick,
+      if (id != null) 'id': id,
       if (httpHost != null) 'http_host': httpHost,
       if (httpPort != null) 'http_port': httpPort,
-      if (isHttpServer != null) 'is_http_server': isHttpServer,
-      if (isHttpClient != null) 'is_http_client': isHttpClient,
+      if (nick != null) 'nick': nick,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  RemoteTerminalsCompanion copyWith({
-    Value<String>? terminalId,
-    Value<String>? nick,
-    Value<String?>? httpHost,
-    Value<int?>? httpPort,
-    Value<bool>? isHttpServer,
-    Value<bool>? isHttpClient,
+  HttpServerCompanion copyWith({
+    Value<String>? id,
+    Value<String>? httpHost,
+    Value<int>? httpPort,
+    Value<String?>? nick,
     Value<int>? rowid,
   }) {
-    return RemoteTerminalsCompanion(
-      terminalId: terminalId ?? this.terminalId,
-      nick: nick ?? this.nick,
+    return HttpServerCompanion(
+      id: id ?? this.id,
       httpHost: httpHost ?? this.httpHost,
       httpPort: httpPort ?? this.httpPort,
-      isHttpServer: isHttpServer ?? this.isHttpServer,
-      isHttpClient: isHttpClient ?? this.isHttpClient,
+      nick: nick ?? this.nick,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2285,11 +2159,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (terminalId.present) {
-      map['terminal_id'] = Variable<String>(terminalId.value);
-    }
-    if (nick.present) {
-      map['nick'] = Variable<String>(nick.value);
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
     }
     if (httpHost.present) {
       map['http_host'] = Variable<String>(httpHost.value);
@@ -2297,11 +2168,8 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
     if (httpPort.present) {
       map['http_port'] = Variable<int>(httpPort.value);
     }
-    if (isHttpServer.present) {
-      map['is_http_server'] = Variable<bool>(isHttpServer.value);
-    }
-    if (isHttpClient.present) {
-      map['is_http_client'] = Variable<bool>(isHttpClient.value);
+    if (nick.present) {
+      map['nick'] = Variable<String>(nick.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -2311,13 +2179,11 @@ class RemoteTerminalsCompanion extends UpdateCompanion<RemoteTerminal> {
 
   @override
   String toString() {
-    return (StringBuffer('RemoteTerminalsCompanion(')
-          ..write('terminalId: $terminalId, ')
-          ..write('nick: $nick, ')
+    return (StringBuffer('HttpServerCompanion(')
+          ..write('id: $id, ')
           ..write('httpHost: $httpHost, ')
           ..write('httpPort: $httpPort, ')
-          ..write('isHttpServer: $isHttpServer, ')
-          ..write('isHttpClient: $isHttpClient, ')
+          ..write('nick: $nick, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2334,9 +2200,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $ProductsTable products = $ProductsTable(this);
   late final $RecipeProductsTable recipeProducts = $RecipeProductsTable(this);
-  late final $RemoteTerminalsTable remoteTerminals = $RemoteTerminalsTable(
-    this,
-  );
+  late final $HttpServerTable httpServer = $HttpServerTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2347,7 +2211,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     scheduleEntries,
     products,
     recipeProducts,
-    remoteTerminals,
+    httpServer,
   ];
 }
 
@@ -4469,43 +4333,34 @@ typedef $$RecipeProductsTableProcessedTableManager =
       RecipeProduct,
       PrefetchHooks Function({bool recipeId, bool productId})
     >;
-typedef $$RemoteTerminalsTableCreateCompanionBuilder =
-    RemoteTerminalsCompanion Function({
-      required String terminalId,
-      required String nick,
-      Value<String?> httpHost,
-      Value<int?> httpPort,
-      Value<bool> isHttpServer,
-      Value<bool> isHttpClient,
+typedef $$HttpServerTableCreateCompanionBuilder =
+    HttpServerCompanion Function({
+      Value<String> id,
+      required String httpHost,
+      required int httpPort,
+      Value<String?> nick,
       Value<int> rowid,
     });
-typedef $$RemoteTerminalsTableUpdateCompanionBuilder =
-    RemoteTerminalsCompanion Function({
-      Value<String> terminalId,
-      Value<String> nick,
-      Value<String?> httpHost,
-      Value<int?> httpPort,
-      Value<bool> isHttpServer,
-      Value<bool> isHttpClient,
+typedef $$HttpServerTableUpdateCompanionBuilder =
+    HttpServerCompanion Function({
+      Value<String> id,
+      Value<String> httpHost,
+      Value<int> httpPort,
+      Value<String?> nick,
       Value<int> rowid,
     });
 
-class $$RemoteTerminalsTableFilterComposer
-    extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
-  $$RemoteTerminalsTableFilterComposer({
+class $$HttpServerTableFilterComposer
+    extends Composer<_$AppDatabase, $HttpServerTable> {
+  $$HttpServerTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get terminalId => $composableBuilder(
-    column: $table.terminalId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get nick => $composableBuilder(
-    column: $table.nick,
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4519,33 +4374,23 @@ class $$RemoteTerminalsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<bool> get isHttpServer => $composableBuilder(
-    column: $table.isHttpServer,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get isHttpClient => $composableBuilder(
-    column: $table.isHttpClient,
+  ColumnFilters<String> get nick => $composableBuilder(
+    column: $table.nick,
     builder: (column) => ColumnFilters(column),
   );
 }
 
-class $$RemoteTerminalsTableOrderingComposer
-    extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
-  $$RemoteTerminalsTableOrderingComposer({
+class $$HttpServerTableOrderingComposer
+    extends Composer<_$AppDatabase, $HttpServerTable> {
+  $$HttpServerTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get terminalId => $composableBuilder(
-    column: $table.terminalId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get nick => $composableBuilder(
-    column: $table.nick,
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -4559,33 +4404,23 @@ class $$RemoteTerminalsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<bool> get isHttpServer => $composableBuilder(
-    column: $table.isHttpServer,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get isHttpClient => $composableBuilder(
-    column: $table.isHttpClient,
+  ColumnOrderings<String> get nick => $composableBuilder(
+    column: $table.nick,
     builder: (column) => ColumnOrderings(column),
   );
 }
 
-class $$RemoteTerminalsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $RemoteTerminalsTable> {
-  $$RemoteTerminalsTableAnnotationComposer({
+class $$HttpServerTableAnnotationComposer
+    extends Composer<_$AppDatabase, $HttpServerTable> {
+  $$HttpServerTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get terminalId => $composableBuilder(
-    column: $table.terminalId,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get nick =>
-      $composableBuilder(column: $table.nick, builder: (column) => column);
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get httpHost =>
       $composableBuilder(column: $table.httpHost, builder: (column) => column);
@@ -4593,93 +4428,65 @@ class $$RemoteTerminalsTableAnnotationComposer
   GeneratedColumn<int> get httpPort =>
       $composableBuilder(column: $table.httpPort, builder: (column) => column);
 
-  GeneratedColumn<bool> get isHttpServer => $composableBuilder(
-    column: $table.isHttpServer,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<bool> get isHttpClient => $composableBuilder(
-    column: $table.isHttpClient,
-    builder: (column) => column,
-  );
+  GeneratedColumn<String> get nick =>
+      $composableBuilder(column: $table.nick, builder: (column) => column);
 }
 
-class $$RemoteTerminalsTableTableManager
+class $$HttpServerTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $RemoteTerminalsTable,
-          RemoteTerminal,
-          $$RemoteTerminalsTableFilterComposer,
-          $$RemoteTerminalsTableOrderingComposer,
-          $$RemoteTerminalsTableAnnotationComposer,
-          $$RemoteTerminalsTableCreateCompanionBuilder,
-          $$RemoteTerminalsTableUpdateCompanionBuilder,
+          $HttpServerTable,
+          HttpServerData,
+          $$HttpServerTableFilterComposer,
+          $$HttpServerTableOrderingComposer,
+          $$HttpServerTableAnnotationComposer,
+          $$HttpServerTableCreateCompanionBuilder,
+          $$HttpServerTableUpdateCompanionBuilder,
           (
-            RemoteTerminal,
-            BaseReferences<
-              _$AppDatabase,
-              $RemoteTerminalsTable,
-              RemoteTerminal
-            >,
+            HttpServerData,
+            BaseReferences<_$AppDatabase, $HttpServerTable, HttpServerData>,
           ),
-          RemoteTerminal,
+          HttpServerData,
           PrefetchHooks Function()
         > {
-  $$RemoteTerminalsTableTableManager(
-    _$AppDatabase db,
-    $RemoteTerminalsTable table,
-  ) : super(
+  $$HttpServerTableTableManager(_$AppDatabase db, $HttpServerTable table)
+    : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer:
-              () =>
-                  $$RemoteTerminalsTableFilterComposer($db: db, $table: table),
+              () => $$HttpServerTableFilterComposer($db: db, $table: table),
           createOrderingComposer:
-              () => $$RemoteTerminalsTableOrderingComposer(
-                $db: db,
-                $table: table,
-              ),
+              () => $$HttpServerTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer:
-              () => $$RemoteTerminalsTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
+              () => $$HttpServerTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<String> terminalId = const Value.absent(),
-                Value<String> nick = const Value.absent(),
-                Value<String?> httpHost = const Value.absent(),
-                Value<int?> httpPort = const Value.absent(),
-                Value<bool> isHttpServer = const Value.absent(),
-                Value<bool> isHttpClient = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> httpHost = const Value.absent(),
+                Value<int> httpPort = const Value.absent(),
+                Value<String?> nick = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => RemoteTerminalsCompanion(
-                terminalId: terminalId,
-                nick: nick,
+              }) => HttpServerCompanion(
+                id: id,
                 httpHost: httpHost,
                 httpPort: httpPort,
-                isHttpServer: isHttpServer,
-                isHttpClient: isHttpClient,
+                nick: nick,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                required String terminalId,
-                required String nick,
-                Value<String?> httpHost = const Value.absent(),
-                Value<int?> httpPort = const Value.absent(),
-                Value<bool> isHttpServer = const Value.absent(),
-                Value<bool> isHttpClient = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                required String httpHost,
+                required int httpPort,
+                Value<String?> nick = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
-              }) => RemoteTerminalsCompanion.insert(
-                terminalId: terminalId,
-                nick: nick,
+              }) => HttpServerCompanion.insert(
+                id: id,
                 httpHost: httpHost,
                 httpPort: httpPort,
-                isHttpServer: isHttpServer,
-                isHttpClient: isHttpClient,
+                nick: nick,
                 rowid: rowid,
               ),
           withReferenceMapper:
@@ -4697,21 +4504,21 @@ class $$RemoteTerminalsTableTableManager
       );
 }
 
-typedef $$RemoteTerminalsTableProcessedTableManager =
+typedef $$HttpServerTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $RemoteTerminalsTable,
-      RemoteTerminal,
-      $$RemoteTerminalsTableFilterComposer,
-      $$RemoteTerminalsTableOrderingComposer,
-      $$RemoteTerminalsTableAnnotationComposer,
-      $$RemoteTerminalsTableCreateCompanionBuilder,
-      $$RemoteTerminalsTableUpdateCompanionBuilder,
+      $HttpServerTable,
+      HttpServerData,
+      $$HttpServerTableFilterComposer,
+      $$HttpServerTableOrderingComposer,
+      $$HttpServerTableAnnotationComposer,
+      $$HttpServerTableCreateCompanionBuilder,
+      $$HttpServerTableUpdateCompanionBuilder,
       (
-        RemoteTerminal,
-        BaseReferences<_$AppDatabase, $RemoteTerminalsTable, RemoteTerminal>,
+        HttpServerData,
+        BaseReferences<_$AppDatabase, $HttpServerTable, HttpServerData>,
       ),
-      RemoteTerminal,
+      HttpServerData,
       PrefetchHooks Function()
     >;
 
@@ -4728,6 +4535,6 @@ class $AppDatabaseManager {
       $$ProductsTableTableManager(_db, _db.products);
   $$RecipeProductsTableTableManager get recipeProducts =>
       $$RecipeProductsTableTableManager(_db, _db.recipeProducts);
-  $$RemoteTerminalsTableTableManager get remoteTerminals =>
-      $$RemoteTerminalsTableTableManager(_db, _db.remoteTerminals);
+  $$HttpServerTableTableManager get httpServer =>
+      $$HttpServerTableTableManager(_db, _db.httpServer);
 }

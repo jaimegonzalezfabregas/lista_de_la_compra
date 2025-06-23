@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
-import 'package:lista_de_la_compra/providers/pairing_provider.dart';
+import 'package:lista_de_la_compra/providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
@@ -9,11 +9,11 @@ import 'package:nsd/nsd.dart';
 
 class HttpServerManager {
   HttpServer? _server;
-  final PairingProvider pairingProvider;
+  final HttpServerProvider httpServerProvider;
   final OpenConnectionManager openConnectionManager;
   Registration? avahiRegistration;
 
-  HttpServerManager(this.pairingProvider, this.openConnectionManager);
+  HttpServerManager(this.httpServerProvider, this.openConnectionManager);
 
   Future<void> startServer(HttpServerStateProvider serverStateProvider, String localNick) async {
     if (_server != null) {
@@ -21,9 +21,7 @@ class HttpServerManager {
     }
 
     var handler = webSocketHandler((webSocket, x) async {
-      openConnectionManager.socketManage(webSocket, (terminalId, nick) {
-        pairingProvider.addHttpClientToRemoteTerminal(terminalId, nick);
-      });
+      openConnectionManager.socketManage(webSocket, null);
     });
 
     serverStateProvider.setServerStatus(ServerStatus.turningOn);
