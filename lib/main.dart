@@ -9,6 +9,7 @@ import 'package:lista_de_la_compra/providers/product_provider.dart';
 import 'package:lista_de_la_compra/providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/providers/schedule_provider.dart';
 import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/sync/http_client_manager.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
+    final HttpClientManager httpClientManager = HttpClientManager(openConnectionProvider, openConnectionManager, httpServerProvider);
 
     final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
 
@@ -68,9 +70,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => httpServerStateProvider),
       ],
       child: MaterialApp(
-         localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        title: 'Jhopping List',
+        onGenerateTitle: (context) {
+          AppLocalizations appLoc = AppLocalizations.of(context)!;
+          return appLoc.appTitle;
+        },
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(220, 138, 221, 1), brightness: MediaQuery.platformBrightnessOf(context)),

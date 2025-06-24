@@ -85,15 +85,6 @@ class HTTPView extends StatelessWidget {
           ),
         ),
 
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            keyboardType: TextInputType.numberWithOptions(),
-            controller: portTextController,
-            decoration: InputDecoration(labelText: "${appLoc.remotePort} (4545)", border: OutlineInputBorder()),
-          ),
-        ),
-
         TextButton(
           onPressed: () async {
             var host = hostTextController.text;
@@ -102,9 +93,7 @@ class HTTPView extends StatelessWidget {
               return;
             }
 
-            int port = int.tryParse(portTextController.text) ?? 4545;
-
-            httpServerProvider.addHttpServer(host, port);
+            httpServerProvider.addHttpServer(host, 4545);
           },
           child: Text(appLoc.connect),
         ),

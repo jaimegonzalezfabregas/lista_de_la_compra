@@ -9,6 +9,9 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get appTitle => 'Lista de la compra';
+
+  @override
   String get changeName => 'Cambiar nombre';
 
   @override

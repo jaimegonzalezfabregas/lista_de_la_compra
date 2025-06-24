@@ -40,10 +40,11 @@ class OpenConnectionsList extends StatelessWidget {
 
                           return ListTile(
                             title: Row(children: [Icon(Icons.link), Text(openConnection.nick)]),
+                            subtitle: Text(openConnection.userNote),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text("(${openConnection.latency}ms)"),
+                                if (openConnection.latency != null) Text("(${openConnection.latency}ms)"),
                                 IconButton(
                                   icon: Icon(Icons.delete),
                                   onPressed: () {

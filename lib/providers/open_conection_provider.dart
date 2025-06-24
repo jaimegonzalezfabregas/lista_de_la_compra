@@ -17,6 +17,7 @@ class OpenConnectionProvider extends ChangeNotifier {
     Function triggerHandshakePush,
     Function abortConnection,
     List<Enviroment> enviromentList,
+    String userNote
   ) {
     String id = Uuid().v7();
     _openConnections[id] = OpenConnection(
@@ -29,17 +30,16 @@ class OpenConnectionProvider extends ChangeNotifier {
       triggerHandshakePush,
       abortConnection,
       enviromentList,
+      userNote
     );
     notifyListeners();
     return id;
   }
 
-  void abortConnection(String id) {
-    _openConnections[id]?.abortConnection();
-  }
-
   void removeOpenConnection(String id) {
     final connection = _openConnections[id];
+        connection?.abortConnection();
+
     if (connection != null) {
       _openConnections.remove(id);
       notifyListeners();
@@ -48,6 +48,11 @@ class OpenConnectionProvider extends ChangeNotifier {
 
   void setLatency(String id, num latency) {
     _openConnections[id]?.latency = latency;
+    notifyListeners();
+  }
+
+  void setNick(String id, String nick) {
+    _openConnections[id]?.nick = nick;
     notifyListeners();
   }
 }

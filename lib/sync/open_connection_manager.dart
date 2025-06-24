@@ -25,24 +25,6 @@ class OpenConnectionManager {
   final SharedPreferencesProvider sharedPreferencesProvider;
   final EnviromentProvider enviromentProvider;
 
-  Future<void> tryConnectingToHttpServer(String httpServerId, String host, int port) async {
-    var textUrl = "ws://$host:$port";
-
-    try {
-      WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(textUrl));
-
-      await channel.ready;
-
-      socketManage(
-        channel,
-        httpServerId,
-        afterHandshakeNickCb: (String nick) {
-          httpServerProvider.setNick(httpServerId, nick);
-        },
-      );
-    } catch (e) {}
-  }
-
   void triggerSyncPull() async {
     for (OpenConnection conection in openConnectionProvider.openConnections.values) {
       conection.triggerSyncPull();
@@ -61,28 +43,6 @@ class OpenConnectionManager {
     }
   }
 
-  Future<void> connectionRound() async {
-    List<Future<void>> connectionFutures = [];
-    for (var httpServer in await httpServerProvider.getHttpServers()) {
-      if (openConnectionProvider.openConnections.containsKey(httpServer.id)) {
-        continue;
-      }
-
-      if (httpServer.httpHost != null && httpServer.httpPort != null) {
-        connectionFutures.add(tryConnectingToHttpServer(httpServer.id, httpServer.httpHost!, httpServer.httpPort!));
-      }
-    }
-    await Future.wait(connectionFutures);
-  }
-
-  void connectionRoundLoop() async {
-    // TODO toggle this cyclic routine
-    while (true) {
-      await connectionRound();
-      await Future.delayed(Duration(seconds: 2));
-    }
-  }
-
   OpenConnectionManager(
     this.httpServerProvider,
     this.openConnectionProvider,
@@ -92,18 +52,12 @@ class OpenConnectionManager {
     this.sharedPreferencesProvider,
     this.enviromentProvider,
   ) {
-    // Timer.periodic(const Duration(seconds: 60), (timer) {
-    //   triggerSyncPull();
-    // });
-
     productProvider.addListener(triggerSyncPush);
     recipeProvider.addListener(triggerSyncPush);
     scheduleProvider.addListener(triggerSyncPush);
 
     enviromentProvider.addListener(triggerHandshakePush);
     sharedPreferencesProvider.addListener(triggerHandshakePush);
-
-    connectionRoundLoop();
   }
 
   Map<String, dynamic> getPing() {
@@ -127,7 +81,9 @@ class OpenConnectionManager {
     };
   }
 
-  void socketManage(WebSocketChannel ws, String? connectionSourceId, {Function(String)? afterHandshakeNickCb}) async {
+  void socketManage(WebSocketChannel ws, String? connectionSourceId, String userNote, {Function(String)? afterHandshakeNickCb}) async {
+    print("socketManage ");
+
     String? terminalId;
     String? openConnectionId;
     String? nick;
@@ -185,16 +141,22 @@ class OpenConnectionManager {
                 envList.add(Enviroment.fromJson(jsonEnv));
               }
 
-              openConnectionId = openConnectionProvider.addOpenConnection(
-                terminalId!,
-                connectionSourceId,
-                nick!,
-                () async => await triggerSyncPull(),
-                () => send(jsonEncode({"type": "sync_push"})),
-                () async => send(jsonEncode(await getHandshake())),
-                () => (ws.sink.close(4001, "Errased Peer")),
-                envList,
-              );
+              if (openConnectionId == null) {
+                openConnectionId = openConnectionProvider.addOpenConnection(
+                  terminalId!,
+                  connectionSourceId,
+                  nick!,
+                  () async => await triggerSyncPull(),
+                  () => send(jsonEncode({"type": "sync_push"})),
+                  () async => send(jsonEncode(await getHandshake())),
+                  () => (ws.sink.close(4001, "Errased Peer")),
+                  envList,
+                  userNote,
+                );
+              } else {
+                openConnectionProvider.setNick(openConnectionId!, nick!);
+              }
+
               triggerSyncPull();
 
               responsivenessTimeout?.cancel();
@@ -241,6 +203,7 @@ class OpenConnectionManager {
         }
       },
       onDone: () {
+        print("ondone");
         responsivenessTimeout?.cancel();
         if (openConnectionId != null) {
           openConnectionProvider.removeOpenConnection(openConnectionId!);

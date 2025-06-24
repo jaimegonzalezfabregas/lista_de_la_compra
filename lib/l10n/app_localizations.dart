@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('es'),
   ];
 
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping List'**
+  String get appTitle;
+
   /// No description provided for @changeName.
   ///
   /// In en, this message translates to:
