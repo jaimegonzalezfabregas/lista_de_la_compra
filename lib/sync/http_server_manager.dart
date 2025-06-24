@@ -21,7 +21,7 @@ class HttpServerManager {
     }
 
     var handler = webSocketHandler((webSocket, x) async {
-      openConnectionManager.socketManage(webSocket, null);
+      openConnectionManager.socketManage(webSocket, null, "Client HTTP");
     });
 
     serverStateProvider.setServerStatus(ServerStatus.turningOn);
@@ -34,12 +34,17 @@ class HttpServerManager {
       _server = null;
       serverStateProvider.setServerStatus(ServerStatus.error, error: "Error al iniciar el servidor: $e");
     }
-    if (avahiRegistration != null) {
-      await unregister(avahiRegistration!);
-      avahiRegistration = null;
-    }
 
-    avahiRegistration = await register(Service(name: localNick, type: '_jhop._tcp', port: 4545));
+    try {
+      if (avahiRegistration != null) {
+        await unregister(avahiRegistration!);
+        avahiRegistration = null;
+      }
+
+      avahiRegistration = await register(Service(name: localNick, type: '_jhop._tcp', port: 4545));
+    } catch (e) {
+      print("no mdns on this platform");
+    }
   }
 
   Future<void> stopServer(HttpServerStateProvider serverStateProvider) async {

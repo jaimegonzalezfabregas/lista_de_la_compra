@@ -10,6 +10,7 @@ class OpenConnection {
   final Function cascadeTriggerHandshakePush;
   final Function cascadeAbortConnection;
   final List<Enviroment> enviromentList;
+  final String userNote;
 
   num? latency;
 
@@ -23,6 +24,7 @@ class OpenConnection {
     this.cascadeTriggerHandshakePush,
     this.cascadeAbortConnection,
     this.enviromentList,
+    this.userNote,
   );
 
   void triggerSyncPull() {
