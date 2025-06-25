@@ -5,6 +5,8 @@ import 'package:lista_de_la_compra/providers/http_server_provider.dart';
 import 'package:provider/provider.dart';
 
 class HTTPKnownServers extends StatelessWidget {
+  const HTTPKnownServers({super.key});
+
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;

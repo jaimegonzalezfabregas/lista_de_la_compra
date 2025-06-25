@@ -135,7 +135,7 @@ class _NeededCheckboxState extends State<NeededCheckbox> {
                     displayedValue = x!;
                   });
 
-                  final Duration? delay = this.widget.delay;
+                  final Duration? delay = widget.delay;
                   if (delay != null) {
                     await Future.delayed(delay);
                   }
