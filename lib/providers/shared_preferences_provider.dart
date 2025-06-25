@@ -18,9 +18,9 @@ class SharedPreferencesProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final deviceNames = DeviceMarketingNames();
 
-    var stored_name = prefs.getString('LocalNick');
-    if(stored_name != null){
-      return stored_name;
+    var storedName = prefs.getString('LocalNick');
+    if(storedName != null){
+      return storedName;
     }else{
       try{
         return  await deviceNames.getSingleName();
