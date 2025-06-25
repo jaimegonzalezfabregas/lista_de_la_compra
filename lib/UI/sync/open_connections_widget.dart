@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
+import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:provider/provider.dart';
 

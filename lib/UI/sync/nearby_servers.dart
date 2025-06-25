@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:nsd/nsd.dart';
 import 'package:provider/provider.dart';
@@ -85,10 +85,10 @@ class _NearbyServers extends State<NearbyServers> {
             var children = selected.map((Service service) {
               return ListTile(
                 title: Text(service.name ?? appLoc.noName),
-                subtitle: Text(service.host ?? appLoc.noHost),
+                subtitle: Text(service.addresses?[0].address ?? appLoc.noHost),
                 trailing: IconButton(
                   onPressed: () {
-                    httpServerProvider.addHttpServer(service.host!, service.port!);
+                    httpServerProvider.addHttpServer(service.addresses![0].address, service.port!);
                   },
                   icon: Icon(Icons.add_link),
                 ),
