@@ -106,7 +106,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noNick => 'Sin apodo';
 
   @override
-  String get pastPairings => 'Emparejamientos anteriores';
+  String get pairings => 'Emparejamientos';
 
   @override
   String get connectionType => 'Tipo de conexión';

@@ -290,11 +290,11 @@ abstract class AppLocalizations {
   /// **'No nick'**
   String get noNick;
 
-  /// No description provided for @pastPairings.
+  /// No description provided for @pairings.
   ///
   /// In en, this message translates to:
-  /// **'Past pairings'**
-  String get pastPairings;
+  /// **'Pairings'**
+  String get pairings;
 
   /// No description provided for @connectionType.
   ///

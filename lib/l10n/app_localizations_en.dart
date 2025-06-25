@@ -106,7 +106,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noNick => 'No nick';
 
   @override
-  String get pastPairings => 'Past pairings';
+  String get pairings => 'Pairings';
 
   @override
   String get connectionType => 'Connection type';
