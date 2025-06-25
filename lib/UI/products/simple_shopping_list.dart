@@ -4,9 +4,9 @@ import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/products/common.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
-import 'package:lista_de_la_compra/providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProductListDisplay extends StatelessWidget {

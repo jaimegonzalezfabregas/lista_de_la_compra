@@ -6,13 +6,13 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/enviroment_serializer.dart';
-import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
-import 'package:lista_de_la_compra/providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/providers/product_provider.dart';
-import 'package:lista_de_la_compra/providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -81,7 +81,13 @@ class OpenConnectionManager {
     };
   }
 
-  void socketManage(WebSocketChannel ws, String? connectionSourceId, String userNote, {Function(String)? afterHandshakeNickCb}) async {
+  void socketManage(
+    WebSocketChannel ws,
+    String? connectionSourceId,
+    String userNote, {
+    Function(String)? afterHandshakeNickCb,
+    Function? abortCb,
+  }) async {
     print("socketManage ");
 
     String? terminalId;
@@ -108,11 +114,10 @@ class OpenConnectionManager {
     }
 
     ws.stream.listen(
+
       (message) async {
         if (message is String) {
           Map<String, dynamic> data = jsonDecode(message);
-
-          // print("recieved from $nick: $data");
 
           switch (data["type"]) {
             case "ping":
@@ -123,7 +128,7 @@ class OpenConnectionManager {
               responsivenessTimeout = Timer(Duration(seconds: 1), checkResponsiveness);
               num latency = DateTime.now().millisecondsSinceEpoch - data["ping_t"];
               if (terminalId != null) {
-                openConnectionProvider.setLatency(terminalId!, latency);
+                openConnectionProvider.setLatency(openConnectionId!, latency);
               }
 
               break;

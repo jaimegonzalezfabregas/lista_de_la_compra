@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
 import 'package:lista_de_la_compra/UI/selected_enviroment_fork.dart';
-import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
-import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
-import 'package:lista_de_la_compra/providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/providers/product_provider.dart';
-import 'package:lista_de_la_compra/providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra/sync/http_client_manager.dart';
+import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra/sync/http_client_service.dart';
+import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
-    final HttpClientManager httpClientManager = HttpClientManager(openConnectionProvider, openConnectionManager, httpServerProvider);
+    final HttpClientService httpClientService = HttpClientService(openConnectionProvider, openConnectionManager, httpServerProvider);
 
     final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
 
@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => sharedPreferencesProvider),
         ChangeNotifierProvider(create: (_) => openConnectionProvider),
         ChangeNotifierProvider(create: (_) => httpServerStateProvider),
+        ChangeNotifierProvider(create: (_) => httpClientService),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,

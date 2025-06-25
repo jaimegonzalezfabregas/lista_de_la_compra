@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/UI/sync/http/http_view.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:lista_de_la_compra/UI/sync/open_connections_widget.dart';
@@ -88,7 +88,7 @@ class _SyncViewState extends State<SyncView> {
                 },
               ),
             ),
-            Text(appLoc.pastPairings, style: Theme.of(context).textTheme.titleSmall),
+            Text(appLoc.pairings, style: Theme.of(context).textTheme.titleSmall),
             OpenConnectionsList(),
             HTTPView(widget.openConnectionManager),
           ],

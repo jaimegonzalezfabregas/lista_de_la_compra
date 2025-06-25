@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 
 enum ServerStatus { running, stopped, turningOn, turningOff, error }

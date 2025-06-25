@@ -1,23 +1,45 @@
 import 'dart:async';
 
-import 'package:lista_de_la_compra/providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class HttpClientManager {
+class HttpClientService extends ChangeNotifier {
   final OpenConnectionProvider openConnectionProvider;
   final OpenConnectionManager openConnectionManager;
   final HttpServerProvider httpServerProvider;
 
+  Set<String> runningAttempts = {};
+
   Future<void> tryConnectingToHttpServer(String httpServerId, String host, int port) async {
+    if (runningAttempts.contains(httpServerId)) {
+      return;
+    }
+
+    runningAttempts.add(httpServerId);
+    notifyListeners();
+
     var textUrl = "ws://$host:$port";
     Completer<void> completer = Completer<void>();
     try {
       WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(textUrl));
 
-      await channel.ready;
+      var timeout = false;
+
+      await channel.ready.timeout(
+        Duration(seconds: 3),
+        onTimeout: () {
+          timeout = true;
+        },
+      );
+      if (timeout) {
+        print("timeout");
+
+        throw "a";
+      }
 
       openConnectionManager.socketManage(
         channel,
@@ -31,17 +53,24 @@ class HttpClientManager {
         },
       );
       await completer.future;
-    } catch (e) {}
+    } catch (e) {
+      print("$e");
+    }
+
+    runningAttempts.remove(httpServerId);
+    notifyListeners();
   }
 
   Future<void> connectionRound() async {
     List<Future<void>> connectionFutures = [];
     for (var httpServer in await httpServerProvider.getHttpServers()) {
-      if (openConnectionProvider.openConnections.values.any((OpenConnection c) => c.connectionSourceId == httpServer.id)) {
+      if (openConnectionProvider.anyOpenConnectionOfSource(httpServer.id)) {
         continue;
       }
-      connectionFutures.add(tryConnectingToHttpServer(httpServer.id, httpServer.httpHost, httpServer.httpPort));
+      Future<void> connectionAttempt = tryConnectingToHttpServer(httpServer.id, httpServer.httpHost, httpServer.httpPort);
+      connectionFutures.add(connectionAttempt);
     }
+
     await Future.wait(connectionFutures);
   }
 
@@ -53,7 +82,7 @@ class HttpClientManager {
     }
   }
 
-  HttpClientManager(this.openConnectionProvider, this.openConnectionManager, this.httpServerProvider) {
+  HttpClientService(this.openConnectionProvider, this.openConnectionManager, this.httpServerProvider) {
     connectionRoundLoop();
   }
 }

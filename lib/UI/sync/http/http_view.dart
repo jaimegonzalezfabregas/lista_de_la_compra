@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/sync/http/known_servers.dart';
 import 'package:lista_de_la_compra/UI/sync/nearby_servers.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra/UI/sync/ip_list_view.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +65,6 @@ class HTTPView extends StatelessWidget {
     final HttpServerProvider httpServerProvider = context.watch();
 
     TextEditingController hostTextController = TextEditingController();
-    TextEditingController portTextController = TextEditingController();
 
     var toast = ScaffoldMessenger.of(context);
 
