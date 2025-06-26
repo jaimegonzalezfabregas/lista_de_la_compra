@@ -1,8 +1,10 @@
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/UI/sync/http/known_servers.dart';
 import 'package:lista_de_la_compra/UI/sync/nearby_servers.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra/UI/sync/ip_list_view.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +24,13 @@ class HTTPView extends StatelessWidget {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(appLoc.localDeviceAvailableIPs), 
+            Text(appLoc.localDeviceAvailableIPs),
             IpListView(),
             TextButton(
               onPressed: () async {
                 await serverStateProvider.stopServer();
               },
-              child: Text(appLoc.stopServer), 
+              child: Text(appLoc.stopServer),
             ),
           ],
         );
@@ -37,21 +39,21 @@ class HTTPView extends StatelessWidget {
           onPressed: () async {
             await serverStateProvider.tryStartServer();
           },
-          child: Text(appLoc.startServer), 
+          child: Text(appLoc.startServer),
         );
       case ServerStatus.turningOn:
-        return Text(appLoc.startingServer); 
+        return Text(appLoc.startingServer);
       case ServerStatus.turningOff:
-        return Text(appLoc.stoppingServer); 
+        return Text(appLoc.stoppingServer);
       case ServerStatus.error:
         return Column(
           children: [
-            Text("${appLoc.errorStartingServer}: ${serverStateProvider.getServerError()}"), 
+            Text("${appLoc.errorStartingServer}: ${serverStateProvider.getServerError()}"),
             TextButton(
               onPressed: () async {
                 await serverStateProvider.tryStartServer();
               },
-              child: Text(appLoc.startServer), 
+              child: Text(appLoc.startServer),
             ),
           ],
         );
@@ -60,34 +62,25 @@ class HTTPView extends StatelessWidget {
 
   Widget clientControlls(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
+    final HttpServerProvider httpServerProvider = context.watch();
 
     TextEditingController hostTextController = TextEditingController();
-    TextEditingController portTextController = TextEditingController();
 
     var toast = ScaffoldMessenger.of(context);
 
     return Column(
       children: [
-        Text(appLoc.nearbyDevices), 
+        Text(appLoc.nearbyDevices),
 
         NearbyServers(openConnectionManager),
 
-        Text(appLoc.enterAddressManually), 
+        Text(appLoc.enterAddressManually),
 
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             controller: hostTextController,
             decoration: InputDecoration(labelText: appLoc.remoteAddress, border: OutlineInputBorder()),
-          ), 
-        ),
-
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            keyboardType: TextInputType.numberWithOptions(),
-            controller: portTextController,
-            decoration: InputDecoration(labelText: "${appLoc.remotePort} (4545)", border: OutlineInputBorder()), 
           ),
         ),
 
@@ -95,18 +88,18 @@ class HTTPView extends StatelessWidget {
           onPressed: () async {
             var host = hostTextController.text;
             if (host.isEmpty) {
-              toast.showSnackBar(SnackBar(content: Text(appLoc.errorEmptyRemoteAddress))); 
+              toast.showSnackBar(SnackBar(content: Text(appLoc.errorEmptyRemoteAddress)));
               return;
             }
 
-            var port = int.tryParse(portTextController.text) ?? 4545;
-
-            portTextController.text = port.toString();
-
-            openConnectionManager.tryConnectingToHttpServer(host, port);
+            httpServerProvider.addHttpServer(host, 4545);
           },
-          child: Text(appLoc.connect), 
+          child: Text(appLoc.connect),
         ),
+
+        Text(appLoc.knownServers),
+
+        HTTPKnownServers(),
       ],
     );
   }
@@ -130,7 +123,12 @@ class HTTPView extends StatelessWidget {
       length: 2,
       child: Column(
         children: [
-          TabBar(tabs: [Tab(text: appLoc.server), Tab(text: appLoc.client)]),
+          TabBar(
+            tabs: [
+              Tab(text: appLoc.server),
+              Tab(text: appLoc.client),
+            ],
+          ),
           ContentSizeTabBarView(children: [serveControlls(context), clientControlls(context)].map(putInsideContainer).toList()),
         ],
       ),

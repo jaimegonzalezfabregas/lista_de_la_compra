@@ -1,4 +1,5 @@
 {
+  "appTitle": "Shopping List",
   "changeName": "Change Name",
   "changeNick": "Change Nick",
   "name": "Name",
@@ -30,7 +31,7 @@
   "selectRecipe": "Select recipe",
   "add": "Añadir",
   "noNick": "No nick",
-  "pastPairings": "Past pairings",
+  "pairings": "Pairings",
   "connectionType": "Connection type",
   "notStablished": "not Stablished",
   "stablished": "Stablished",
@@ -71,7 +72,7 @@
   "selectIngredients": "Select ingredients",
   "recipeWithoutIngredients": "This recipe has no ingredients",
   "noPlannedDates": "No planned dates",
-  "noPairings": "There are no past pairings with http servers",
+  "noHTTPPairings": "There are no past pairings with http servers",
   "loadingIps": "Loading IP addresses",
   "ipRefresh": "Refresh IPs",
   "planner": "Planner",
@@ -81,5 +82,8 @@
   "actions": "Actions",
   "editAmount": "Edit amount",
   "details": "Details",
-  "enoughForA": "Como para un(a)"
+  "enoughForA": "Enough for a",
+  "knownServers": "Known servers",
+  "noOpenConnection": "No open connections",
+  "neverConnected": "Never connected"
 }

@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:lista_de_la_compra/db/enviroments.dart';
-import 'package:lista_de_la_compra/db/remote_terminals_model.dart';
+import 'package:lista_de_la_compra/db/http_server_model.dart';
 import 'package:lista_de_la_compra/db/product_model.dart';
 import 'package:lista_de_la_compra/db/recipe_model.dart';
 import 'package:lista_de_la_compra/db/schedule.dart';
@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, RemoteTerminals, Enviroments])
+@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, HttpServer, Enviroments])
 class AppDatabase extends _$AppDatabase {
   // After generating code, this class needs to define a `schemaVersion` getter
   // and a constructor telling drift where the database should be stored.

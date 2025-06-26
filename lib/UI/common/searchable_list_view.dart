@@ -56,7 +56,9 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            decoration: InputDecoration(border: OutlineInputBorder(), labelText: appLoc.search),
+            decoration: InputDecoration(border: OutlineInputBorder(), labelText: appLoc.search, suffixIcon: 
+            IconButton(onPressed: _textEditingController.clear, icon: Icon(Icons.clear)),
+            ),
             controller: _textEditingController,
             onChanged: (value) => setState(() {
               filter = value;

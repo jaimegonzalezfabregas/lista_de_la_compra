@@ -9,6 +9,9 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get appTitle => 'Lista de la compra';
+
+  @override
   String get changeName => 'Cambiar nombre';
 
   @override
@@ -103,7 +106,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noNick => 'Sin apodo';
 
   @override
-  String get pastPairings => 'Emparejamientos anteriores';
+  String get pairings => 'Emparejamientos';
 
   @override
   String get connectionType => 'Tipo de conexión';
@@ -229,7 +232,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noPlannedDates => 'No hay fechas planificadas';
 
   @override
-  String get noPairings =>
+  String get noHTTPPairings =>
       'No hay emparejamientos anteriores con servidores http';
 
   @override
@@ -262,5 +265,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get details => 'Detalles';
 
   @override
-  String get enoughForA => 'Enough for a';
+  String get enoughForA => 'Como para un(a)';
+
+  @override
+  String get knownServers => 'Servidores conocidos';
+
+  @override
+  String get noOpenConnection => 'Sin conexiones establecidas';
+
+  @override
+  String get neverConnected => 'Nunca conectado';
 }

@@ -9,6 +9,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get appTitle => 'Shopping List';
+
+  @override
   String get changeName => 'Change Name';
 
   @override
@@ -103,7 +106,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noNick => 'No nick';
 
   @override
-  String get pastPairings => 'Past pairings';
+  String get pairings => 'Pairings';
 
   @override
   String get connectionType => 'Connection type';
@@ -229,7 +232,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noPlannedDates => 'No planned dates';
 
   @override
-  String get noPairings => 'There are no past pairings with http servers';
+  String get noHTTPPairings => 'There are no past pairings with http servers';
 
   @override
   String get loadingIps => 'Loading IP addresses';
@@ -261,5 +264,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get details => 'Details';
 
   @override
-  String get enoughForA => 'Como para un(a)';
+  String get enoughForA => 'Enough for a';
+
+  @override
+  String get knownServers => 'Known servers';
+
+  @override
+  String get noOpenConnection => 'No open connections';
+
+  @override
+  String get neverConnected => 'Never connected';
 }

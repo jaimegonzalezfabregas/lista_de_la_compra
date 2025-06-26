@@ -1,5 +1,6 @@
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -18,12 +19,15 @@ class SharedPreferencesProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final deviceNames = DeviceMarketingNames();
 
-    try {
-      return prefs.getString('LocalNick') ?? await deviceNames.getSingleName();
-    }
-    catch( err ){
-      // Some platforms doesn't support DeviceMarketingNames
-      return "no-i18n-name";
+    var storedName = prefs.getString('LocalNick');
+    if(storedName != null){
+      return storedName;
+    }else{
+      try{
+        return  await deviceNames.getSingleName();
+      }catch(e){
+        return "...";
+      }
     }
   }
 

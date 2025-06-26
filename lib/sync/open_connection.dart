@@ -1,7 +1,8 @@
-
 import 'package:lista_de_la_compra/db/database.dart';
 
 class OpenConnection {
+  final String id;
+  final String? connectionSourceId;
   final String terminalId;
   String nick;
   final Function cascadeTriggerSyncPull;
@@ -9,10 +10,13 @@ class OpenConnection {
   final Function cascadeTriggerHandshakePush;
   final Function cascadeAbortConnection;
   final List<Enviroment> enviromentList;
+  final String userNote;
 
   num? latency;
 
   OpenConnection(
+    this.id,
+    this.connectionSourceId,
     this.terminalId,
     this.nick,
     this.cascadeTriggerSyncPull,
@@ -20,6 +24,7 @@ class OpenConnection {
     this.cascadeTriggerHandshakePush,
     this.cascadeAbortConnection,
     this.enviromentList,
+    this.userNote,
   );
 
   void triggerSyncPull() {

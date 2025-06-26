@@ -6,41 +6,24 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/enviroment_serializer.dart';
-import 'package:lista_de_la_compra/providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/providers/open_conection_provider.dart';
-import 'package:lista_de_la_compra/providers/pairing_provider.dart';
-import 'package:lista_de_la_compra/providers/product_provider.dart';
-import 'package:lista_de_la_compra/providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
+import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-
-
 
 class OpenConnectionManager {
   final ProductProvider productProvider;
   final RecipeProvider recipeProvider;
   final ScheduleProvider scheduleProvider;
-  final PairingProvider pairingProvider;
+  final HttpServerProvider httpServerProvider;
   final OpenConnectionProvider openConnectionProvider;
   final SharedPreferencesProvider sharedPreferencesProvider;
   final EnviromentProvider enviromentProvider;
-
-  Future<void> tryConnectingToHttpServer(String host, int port) async {
-    var textUrl = "ws://$host:$port";
-
-    try {
-      WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(textUrl));
-
-      await channel.ready;
-
-      socketManage(channel, (terminalId, nick) {
-        pairingProvider.addHttpServerToRemoteTerminal(terminalId, host, port, nick);
-      });
-    } catch (e) {
-    }
-  }
 
   void triggerSyncPull() async {
     for (OpenConnection conection in openConnectionProvider.openConnections.values) {
@@ -60,30 +43,8 @@ class OpenConnectionManager {
     }
   }
 
-  Future<void> connectionRound() async {
-    List<Future<void>> connectionFutures = [];
-    for (var peer in await pairingProvider.getRemoteTerminals()) {
-      if (openConnectionProvider.isConnected(peer.terminalId)) {
-        continue;
-      }
-
-      if (peer.httpHost != null && peer.httpPort != null) {
-        connectionFutures.add(tryConnectingToHttpServer(peer.httpHost!, peer.httpPort!));
-      }
-    }
-    await Future.wait(connectionFutures);
-  }
-
-  void connectionRoundLoop() async {
-    // TODO toggle this cyclic routine
-    while (true) {
-      await connectionRound();
-      await Future.delayed(Duration(seconds: 2));
-    }
-  }
-
   OpenConnectionManager(
-    this.pairingProvider,
+    this.httpServerProvider,
     this.openConnectionProvider,
     this.productProvider,
     this.recipeProvider,
@@ -91,18 +52,12 @@ class OpenConnectionManager {
     this.sharedPreferencesProvider,
     this.enviromentProvider,
   ) {
-    // Timer.periodic(const Duration(seconds: 60), (timer) {
-    //   triggerSyncPull();
-    // });
-
     productProvider.addListener(triggerSyncPush);
     recipeProvider.addListener(triggerSyncPush);
     scheduleProvider.addListener(triggerSyncPush);
 
     enviromentProvider.addListener(triggerHandshakePush);
     sharedPreferencesProvider.addListener(triggerHandshakePush);
-
-    connectionRoundLoop();
   }
 
   Map<String, dynamic> getPing() {
@@ -126,10 +81,17 @@ class OpenConnectionManager {
     };
   }
 
-  
+  void socketManage(
+    WebSocketChannel ws,
+    String? connectionSourceId,
+    String userNote, {
+    Function(String)? afterHandshakeNickCb,
+    Function? abortCb,
+  }) async {
+    print("socketManage ");
 
-  void socketManage(WebSocketChannel ws, Function(String, String) afterHandshakeCb) async {
     String? terminalId;
+    String? openConnectionId;
     String? nick;
 
     void send(msg) {
@@ -152,11 +114,10 @@ class OpenConnectionManager {
     }
 
     ws.stream.listen(
+
       (message) async {
         if (message is String) {
           Map<String, dynamic> data = jsonDecode(message);
-
-          // print("recieved from $nick: $data");
 
           switch (data["type"]) {
             case "ping":
@@ -167,7 +128,7 @@ class OpenConnectionManager {
               responsivenessTimeout = Timer(Duration(seconds: 1), checkResponsiveness);
               num latency = DateTime.now().millisecondsSinceEpoch - data["ping_t"];
               if (terminalId != null) {
-                openConnectionProvider.setLatency(terminalId!, latency);
+                openConnectionProvider.setLatency(openConnectionId!, latency);
               }
 
               break;
@@ -175,9 +136,9 @@ class OpenConnectionManager {
               terminalId = data["id"];
               nick = data["nick"];
 
-              pairingProvider.setNickOf(data["id"], data["nick"]);
-
-              afterHandshakeCb(terminalId!, nick!);
+              if (afterHandshakeNickCb != null && nick != null) {
+                afterHandshakeNickCb(nick!);
+              }
 
               List<Enviroment> envList = [];
 
@@ -185,15 +146,22 @@ class OpenConnectionManager {
                 envList.add(Enviroment.fromJson(jsonEnv));
               }
 
-              openConnectionProvider.addOpenConnection(
-                terminalId!,
-                nick!,
-                () async => await triggerSyncPull(),
-                () => send(jsonEncode({"type": "sync_push"})),
-                () async => send(jsonEncode(await getHandshake())),
-                () => (ws.sink.close(4001, "Errased Peer")),
-                envList,
-              );
+              if (openConnectionId == null) {
+                openConnectionId = openConnectionProvider.addOpenConnection(
+                  terminalId!,
+                  connectionSourceId,
+                  nick!,
+                  () async => await triggerSyncPull(),
+                  () => send(jsonEncode({"type": "sync_push"})),
+                  () async => send(jsonEncode(await getHandshake())),
+                  () => (ws.sink.close(4001, "Errased Peer")),
+                  envList,
+                  userNote,
+                );
+              } else {
+                openConnectionProvider.setNick(openConnectionId!, nick!);
+              }
+
               triggerSyncPull();
 
               responsivenessTimeout?.cancel();
@@ -240,9 +208,10 @@ class OpenConnectionManager {
         }
       },
       onDone: () {
+        print("ondone");
         responsivenessTimeout?.cancel();
-        if (terminalId != null) {
-          openConnectionProvider.removeOpenConnection(terminalId!);
+        if (openConnectionId != null) {
+          openConnectionProvider.removeOpenConnection(openConnectionId!);
         }
       },
     );

@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('es'),
   ];
 
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping List'**
+  String get appTitle;
+
   /// No description provided for @changeName.
   ///
   /// In en, this message translates to:
@@ -284,11 +290,11 @@ abstract class AppLocalizations {
   /// **'No nick'**
   String get noNick;
 
-  /// No description provided for @pastPairings.
+  /// No description provided for @pairings.
   ///
   /// In en, this message translates to:
-  /// **'Past pairings'**
-  String get pastPairings;
+  /// **'Pairings'**
+  String get pairings;
 
   /// No description provided for @connectionType.
   ///
@@ -530,11 +536,11 @@ abstract class AppLocalizations {
   /// **'No planned dates'**
   String get noPlannedDates;
 
-  /// No description provided for @noPairings.
+  /// No description provided for @noHTTPPairings.
   ///
   /// In en, this message translates to:
   /// **'There are no past pairings with http servers'**
-  String get noPairings;
+  String get noHTTPPairings;
 
   /// No description provided for @loadingIps.
   ///
@@ -593,8 +599,26 @@ abstract class AppLocalizations {
   /// No description provided for @enoughForA.
   ///
   /// In en, this message translates to:
-  /// **'Como para un(a)'**
+  /// **'Enough for a'**
   String get enoughForA;
+
+  /// No description provided for @knownServers.
+  ///
+  /// In en, this message translates to:
+  /// **'Known servers'**
+  String get knownServers;
+
+  /// No description provided for @noOpenConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'No open connections'**
+  String get noOpenConnection;
+
+  /// No description provided for @neverConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Never connected'**
+  String get neverConnected;
 }
 
 class _AppLocalizationsDelegate

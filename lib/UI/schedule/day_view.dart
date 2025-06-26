@@ -3,11 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_detail.dart';
-import 'package:lista_de_la_compra/providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/choose_recipe.dart';
-import 'package:lista_de_la_compra/providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 // TODO Mark recipies as fullfilled
@@ -19,12 +19,68 @@ class DayView extends StatelessWidget {
   final DateTime startOfWeekTime;
   const DayView(this.week, this.day, this.startOfWeekTime, this.enviromentId, {super.key});
 
+  Widget expansionContents(AppLocalizations appLoc, RecipeProvider recipeProvider, ProductProvider productProvider, ScheduleEntry entry) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Builder(
+        builder: (context) {
+          var ingredients = recipeProvider.getProductsOfRecipeById(entry.recipeId);
+
+          return FutureBuilder(
+            future: ingredients,
+            builder: (constext, ingredientSnapshot) {
+              if (!ingredientSnapshot.hasData) {
+                return Text(appLoc.loading);
+              }
+              if (ingredientSnapshot.data!.isEmpty) {
+                return Center(child: Text(appLoc.recipeWithoutIngredients));
+              }
+
+              return Column(
+                children: ingredientSnapshot.data!.map((ingredient) {
+                  var product = ingredient.$2;
+                  var recipeProduct = ingredient.$1;
+
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(product.name),
+                            Text(
+                              recipeProduct.amount,
+                              textScaler: TextScaler.linear(0.9),
+                              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                            ),
+                          ],
+                        ),
+                      ),
+                      NeededCheckbox(product.id),
+                    ],
+                  );
+
+                  // return ListTile(
+                  //   title: Text(product.name),
+                  //   subtitle: Text(recipeProduct.amount),
+                  //   trailing: NeededCheckbox(product.id),
+                  // );
+                }).toList(),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     ScheduleProvider scheduleProvider = context.watch();
     RecipeProvider recipeProvider = context.watch();
+    ProductProvider productProvider = context.watch();
 
     var dayTime = startOfWeekTime.add(Duration(hours: 24 * day));
     var currentDatetime = DateTime.now();
@@ -107,61 +163,7 @@ class DayView extends StatelessWidget {
                                 ],
                               ),
 
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Builder(
-                                    builder: (context) {
-                                      var ingredients = recipeProvider.getProductsOfRecipeById(entry.recipeId);
-
-                                      return FutureBuilder(
-                                        future: ingredients,
-                                        builder: (constext, ingredientSnapshot) {
-                                          var productProvider = context.watch<ProductProvider>();
-                                          if (!ingredientSnapshot.hasData) {
-                                            return Text(appLoc.loading);
-                                          }
-                                          if (ingredientSnapshot.data!.isEmpty) {
-                                            return Center(child: Text(appLoc.recipeWithoutIngredients));
-                                          }
-
-                                          return Column(
-                                            children: ingredientSnapshot.data!.map((ingredient) {
-                                              var product = ingredient.$2;
-                                              var recipeProduct = ingredient.$1;
-
-                                              return Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(product.name),
-                                                        Text(
-                                                          recipeProduct.amount,
-                                                          textScaler: TextScaler.linear(0.9),
-                                                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  NeededCheckbox(product.id),
-                                                ],
-                                              );
-
-                                              // return ListTile(
-                                              //   title: Text(product.name),
-                                              //   subtitle: Text(recipeProduct.amount),
-                                              //   trailing: NeededCheckbox(product.id),
-                                              // );
-                                            }).toList(),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
+                              children: [expansionContents(appLoc, recipeProvider, productProvider, entry)],
                             );
                           },
                         );
