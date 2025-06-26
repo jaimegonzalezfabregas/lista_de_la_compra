@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/env_manager.dart';
 import 'package:lista_de_la_compra/UI/home.dart';
-import 'package:lista_de_la_compra/providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:provider/provider.dart';
 
-final Duration undoDuration = const Duration(seconds: 4);
+final Duration undoDuration = const Duration(seconds: 2);
 
 class UndoToast extends StatefulWidget {
   final String productId;
@@ -84,13 +84,26 @@ Future<void> showUndoToast(FToast fToast, String productId, bool oldNeededness) 
   fToast.removeCustomToast();
   fToast.removeQueuedCustomToasts();
 
-  fToast.showToast(child: UndoToast(productId, oldNeededness, fToast), gravity: ToastGravity.BOTTOM, toastDuration: undoDuration);
+  fToast.showToast(
+    child: UndoToast(productId, oldNeededness, fToast), 
+  gravity: ToastGravity.TOP, 
+  toastDuration: undoDuration
+  
+  );
 }
 
-class NeededCheckbox extends StatelessWidget {
+class NeededCheckbox extends StatefulWidget {
   final String productId;
+  final Duration? delay;
 
-  const NeededCheckbox(this.productId, {super.key});
+  const NeededCheckbox(this.productId, {super.key, this.delay});
+
+  @override
+  State<NeededCheckbox> createState() => _NeededCheckboxState();
+}
+
+class _NeededCheckboxState extends State<NeededCheckbox> {
+  bool? displayedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -103,23 +116,32 @@ class NeededCheckbox extends StatelessWidget {
 
     return SizedBox(
       child: FutureBuilder(
-        future: productProvider.getProductById(productId),
+        future: productProvider.getProductById(widget.productId),
         builder: (context, asyncSnapshot) {
           if (!asyncSnapshot.hasData) {
             return Text(appLoc.loading);
           }
-      
+
           Product p = asyncSnapshot.data!;
-      
+
           return Row(
             children: [
-              if (!p.needed) Text(appLoc.toBuy),
-      
+              if (!(displayedValue ?? p.needed)) Text(appLoc.toBuy),
+
               Checkbox(
-                value: p.needed,
-                onChanged: (bool? x) {
+                value: displayedValue ?? p.needed,
+                onChanged: (bool? x) async {
+                  setState(() {
+                    displayedValue = x!;
+                  });
+
+                  final Duration? delay = widget.delay;
+                  if (delay != null) {
+                    await Future.delayed(delay);
+                  }
                   productProvider.setProductNeededness(p.id, x!);
                   showUndoToast(fToast, p.id, !x);
+                  displayedValue = null;
                 },
               ),
             ],

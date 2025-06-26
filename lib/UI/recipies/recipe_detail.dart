@@ -4,11 +4,11 @@ import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/providers/product_provider.dart';
+import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
-import 'package:lista_de_la_compra/providers/recipe_provider.dart';
+import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
-import 'package:lista_de_la_compra/providers/schedule_provider.dart';
+import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/utils.dart';
 import 'package:provider/provider.dart';
 
