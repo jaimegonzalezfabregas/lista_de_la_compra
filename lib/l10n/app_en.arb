@@ -85,5 +85,6 @@
   "enoughForA": "Enough for a",
   "knownServers": "Known servers",
   "noOpenConnection": "No open connections",
-  "neverConnected": "Never connected"
+  "neverConnected": "Never connected",
+  "fallbackLocalNick": "this-device"
 }
