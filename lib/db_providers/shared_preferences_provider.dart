@@ -5,6 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class SharedPreferencesProvider extends ChangeNotifier {
+
+  BuildContext context;
+
+  SharedPreferencesProvider(BuildContext theContext) : context = theContext;
+
   Future<String> getTerminalId() async {
     final prefs = await SharedPreferences.getInstance();
     var ret = prefs.getString('TerminalId');
@@ -26,7 +31,14 @@ class SharedPreferencesProvider extends ChangeNotifier {
       try{
         return  await deviceNames.getSingleName();
       }catch(e){
-        return "...";
+        var nonLocalizedName = "this-device";
+        if( context.mounted ) {
+          return AppLocalizations.of(context)?.fallbackLocalNick ?? nonLocalizedName;
+        }
+        else{
+          return nonLocalizedName;
+    }
+
       }
     }
   }

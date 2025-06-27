@@ -619,6 +619,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Never connected'**
   String get neverConnected;
+
+  /// No description provided for @fallbackLocalNick.
+  ///
+  /// In en, this message translates to:
+  /// **'this-device'**
+  String get fallbackLocalNick;
 }
 
 class _AppLocalizationsDelegate
