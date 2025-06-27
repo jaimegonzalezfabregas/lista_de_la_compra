@@ -85,5 +85,6 @@
     "enoughForA": "Como para un(a)",
     "knownServers": "Servidores conocidos",
     "noOpenConnection": "Sin conexiones establecidas",
-    "neverConnected": "Nunca conectado"
+    "neverConnected": "Nunca conectado",
+    "fallbackLocalNick": "este-dispositivo"
 }
