@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
-import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
