@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
     final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
-      httpServerProvider,
       openConnectionProvider,
       productProvider,
       recipeProvider,
