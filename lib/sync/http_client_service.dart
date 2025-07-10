@@ -35,9 +35,7 @@ class HttpClientService extends ChangeNotifier {
         },
       );
       if (timeout) {
-        print("timeout");
-
-        throw "a";
+        throw "socket connection timeout";
       }
 
       openConnectionManager.socketManage(
@@ -53,7 +51,7 @@ class HttpClientService extends ChangeNotifier {
       );
       await completer.future;
     } catch (e) {
-      print("$e");
+      // print("error: $e");
     }
 
     runningAttempts.remove(httpServerId);

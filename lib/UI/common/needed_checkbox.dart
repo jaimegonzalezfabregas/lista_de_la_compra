@@ -126,21 +126,21 @@ class _NeededCheckboxState extends State<NeededCheckbox> {
 
           return Row(
             children: [
-              if (!(displayedValue ?? p.needed)) Text(appLoc.toBuy),
+              if (!(displayedValue ?? !p.needed)) Text(appLoc.toBuy),
 
               Checkbox(
-                value: displayedValue ?? p.needed,
-                onChanged: (bool? x) async {
+                value: displayedValue ?? !p.needed,
+                onChanged: (bool? notNeeded) async {
                   setState(() {
-                    displayedValue = x!;
+                    displayedValue = notNeeded!;
                   });
 
                   final Duration? delay = widget.delay;
                   if (delay != null) {
                     await Future.delayed(delay);
                   }
-                  productProvider.setProductNeededness(p.id, x!);
-                  showUndoToast(fToast, p.id, !x);
+                  productProvider.setProductNeededness(p.id, !notNeeded!);
+                  showUndoToast(fToast, p.id, notNeeded);
                   displayedValue = null;
                 },
               ),

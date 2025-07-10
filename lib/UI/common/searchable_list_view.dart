@@ -24,7 +24,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
         showElements = searchElms;
       }
 
-      showElements.sort((a, b) => filterScorer.getScore(widget.elementToTag(b)) - filterScorer.getScore(widget.elementToTag(a)));
+      showElements.sort((a, b) => ((filterScorer.getScore(widget.elementToTag(b)) - filterScorer.getScore(widget.elementToTag(a))) * 1000).floor());
     } else {
       widget.elements.sort((T a, T b) {
         return widget.elementToTag(a).toLowerCase().compareTo(widget.elementToTag(b).toLowerCase());
@@ -51,21 +51,33 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
     }
     ScrollController scrollController = ScrollController();
 
+    void onChanged(value) {
+      setState(() {
+        filter = value;
+        if (value != "") {
+          scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Easing.emphasizedAccelerate);
+        }
+      });
+    }
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            decoration: InputDecoration(border: OutlineInputBorder(), labelText: appLoc.search, suffixIcon: 
-            IconButton(onPressed: _textEditingController.clear, icon: Icon(Icons.clear)),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: appLoc.search,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _textEditingController.clear();
+                  onChanged("");
+                },
+                icon: Icon(Icons.clear),
+              ),
             ),
             controller: _textEditingController,
-            onChanged: (value) => setState(() {
-              filter = value;
-              if (value != "") {
-                scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Easing.emphasizedAccelerate);
-              }
-            }),
+            onChanged: onChanged,
           ),
         ),
         Expanded(

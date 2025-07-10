@@ -22,14 +22,14 @@ class SearchScorer {
     }
   }
 
-  int getScore(String data) {
+  double getScore(String data) {
     int score = 0;
 
     _engine(filter, data, (_) {
       score++;
     }, (_) {});
 
-    return score;
+    return score / data.length;
   }
 
   // TODO improve fuzzy search
