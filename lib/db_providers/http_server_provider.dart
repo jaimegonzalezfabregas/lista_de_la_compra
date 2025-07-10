@@ -1,4 +1,3 @@
-
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
@@ -7,8 +6,11 @@ class HttpServerProvider extends ChangeNotifier {
   Future<void> addHttpServer(String host, int port) async {
     final database = AppDatabaseSingleton.instance;
 
-    await database.into(database.httpServer).insertOnConflictUpdate(HttpServerCompanion(httpHost: Value(host), httpPort: Value(port)));
-
+    if (!(await getHttpServers()).any((s) {
+      return s.httpHost == host && s.httpPort == port;
+    })) {
+      await database.into(database.httpServer).insertOnConflictUpdate(HttpServerCompanion(httpHost: Value(host), httpPort: Value(port)));
+    }
     notifyListeners();
   }
 

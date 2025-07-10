@@ -11,17 +11,17 @@ import 'package:provider/provider.dart';
 
 class ProductListDisplay extends StatelessWidget {
   final List<Product> products;
-  final bool buyList;
+  final bool isNeededList;
   final String enviromentId;
 
-  const ProductListDisplay(this.products, this.buyList, this.enviromentId, {super.key});
+  const ProductListDisplay(this.products, this.isNeededList, this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
     ScheduleProvider scheduleProvider = context.watch();
     final ProductProvider productProvider = context.watch<ProductProvider>();
 
-    var filteredProducts = buyList ? products.where((e) => !e.needed).toList() : products;
+    var filteredProducts = isNeededList ? products.where((e) => e.needed).toList() : products;
 
     return Searchablelistview<Product>(
       elements: filteredProducts,
@@ -33,7 +33,7 @@ class ProductListDisplay extends StatelessWidget {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              NeededCheckbox(p.id, delay: buyList ? Duration(milliseconds: 200) : null),
+              NeededCheckbox(p.id, delay: isNeededList ? Duration(milliseconds: 200) : null),
               IconButton(
                 icon: const Icon(Icons.arrow_outward),
                 onPressed: () {
@@ -49,9 +49,9 @@ class ProductListDisplay extends StatelessWidget {
         var allProducts = await productProvider.getDisplayProductList(enviromentId);
         if (allProducts.any((e) => e.name.toLowerCase() == name.toLowerCase())) {
           var referenced = allProducts.firstWhere((e) => e.name.toLowerCase() == name.toLowerCase());
-          productProvider.setProductNeededness(referenced.id, buyList);
+          productProvider.setProductNeededness(referenced.id, isNeededList);
         } else {
-          productProvider.addProduct(name, buyList, enviromentId);
+          productProvider.addProduct(name, isNeededList, enviromentId);
         }
       },
     );

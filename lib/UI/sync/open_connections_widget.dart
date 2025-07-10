@@ -21,44 +21,35 @@ class OpenConnectionsList extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Builder(
             builder: (context) {
-              return ListView(
+              List<OpenConnection> openConnections = openConnectionProvider.openConnections.values.toList();
+          
+              if (openConnections.isEmpty) {
+                return Center(child: Text(appLoc.noOpenConnection));
+              }
+          
+              return ListView.builder(
                 shrinkWrap: true,
-                children: [
-                  Builder(
-                    builder: (context) {
-                      List<OpenConnection> openConnections = openConnectionProvider.openConnections.values.toList();
-
-                      if (openConnections.isEmpty) {
-                        return Center(child: Text(appLoc.noOpenConnection));
-                      }
-
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: openConnections.length,
-                        itemBuilder: (context, index) {
-                          OpenConnection openConnection = openConnections[index];
-
-                          return ListTile(
-                            title: Row(children: [Icon(Icons.link), Text(openConnection.nick)]),
-                            subtitle: Text(openConnection.userNote),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (openConnection.latency != null) Text("(${openConnection.latency}ms)"),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    openConnectionProvider.removeOpenConnection(openConnection.id);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
+                itemCount: openConnections.length,
+                itemBuilder: (context, index) {
+                  OpenConnection openConnection = openConnections[index];
+          
+                  return ListTile(
+                    title: Row(children: [Icon(Icons.link), Text(openConnection.nick)]),
+                    subtitle: Text(openConnection.userNote),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (openConnection.latency != null) Text("(${openConnection.latency}ms)"),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            openConnectionProvider.removeOpenConnection(openConnection.id);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
               );
             },
           ),
