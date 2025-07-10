@@ -623,7 +623,7 @@ abstract class AppLocalizations {
   /// No description provided for @fallbackLocalNick.
   ///
   /// In en, this message translates to:
-  /// **'this-device'**
+  /// **'unnamed-device'**
   String get fallbackLocalNick;
 }
 

@@ -31,7 +31,7 @@ class SharedPreferencesProvider extends ChangeNotifier {
       try{
         return  await deviceNames.getSingleName();
       }catch(e){
-        var nonLocalizedName = "this-device";
+        var nonLocalizedName = "unnamed-device";
         if( context.mounted ) {
           return AppLocalizations.of(context)?.fallbackLocalNick ?? nonLocalizedName;
         }
