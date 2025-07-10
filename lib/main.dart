@@ -30,11 +30,10 @@ class MyApp extends StatelessWidget {
     final ProductProvider productProvider = ProductProvider();
     final ScheduleProvider scheduleProvider = ScheduleProvider();
     final HttpServerProvider httpServerProvider = HttpServerProvider();
-    final SharedPreferencesProvider sharedPreferencesProvider = SharedPreferencesProvider();
+    final SharedPreferencesProvider sharedPreferencesProvider = SharedPreferencesProvider(context);
     final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
-      httpServerProvider,
       openConnectionProvider,
       productProvider,
       recipeProvider,

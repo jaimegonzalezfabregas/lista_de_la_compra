@@ -20,7 +20,6 @@ class OpenConnectionManager {
   final ProductProvider productProvider;
   final RecipeProvider recipeProvider;
   final ScheduleProvider scheduleProvider;
-  final HttpServerProvider httpServerProvider;
   final OpenConnectionProvider openConnectionProvider;
   final SharedPreferencesProvider sharedPreferencesProvider;
   final EnviromentProvider enviromentProvider;
@@ -44,7 +43,6 @@ class OpenConnectionManager {
   }
 
   OpenConnectionManager(
-    this.httpServerProvider,
     this.openConnectionProvider,
     this.productProvider,
     this.recipeProvider,

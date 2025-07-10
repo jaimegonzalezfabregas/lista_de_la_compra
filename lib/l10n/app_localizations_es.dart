@@ -275,4 +275,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get neverConnected => 'Nunca conectado';
+
+  @override
+  String get fallbackLocalNick => 'este-dispositivo';
 }
