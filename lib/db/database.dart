@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:lista_de_la_compra/db/enviroments.dart';
@@ -5,6 +7,7 @@ import 'package:lista_de_la_compra/db/http_server_model.dart';
 import 'package:lista_de_la_compra/db/product_model.dart';
 import 'package:lista_de_la_compra/db/recipe_model.dart';
 import 'package:lista_de_la_compra/db/schedule.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 part 'database.g.dart';
@@ -20,7 +23,29 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 
   static QueryExecutor _openConnection() {
-    return driftDatabase(name: 'persistence', native: const DriftNativeOptions());
+
+
+
+    return driftDatabase(
+      name: 'persistence',
+      native: DriftNativeOptions(
+
+        databaseDirectory: () async { 
+          try{
+            return await getApplicationDocumentsDirectory();
+          }catch(err){
+            return  "~/.lista_de_la_compra/db/";
+          }
+         },
+        tempDirectoryPath: () async {
+          try {
+            return await getTemporaryDirectory().then((d) => d.path);
+          } catch (err) {
+            return "~/.lista_de_la_compra/tmp/";
+          }
+        },
+      ),
+    );
   }
 }
 

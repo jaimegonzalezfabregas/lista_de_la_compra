@@ -9,10 +9,10 @@ final Duration undoDuration = const Duration(seconds: 2);
 
 class UndoToast extends StatefulWidget {
   final String productId;
-  final bool oldNeededness;
+  final bool neededness;
   final FToast fToast;
 
-  const UndoToast(this.productId, this.oldNeededness, this.fToast, {super.key});
+  const UndoToast(this.productId, this.neededness, this.fToast, {super.key});
 
   @override
   State<UndoToast> createState() => _UndoToastState();
@@ -52,10 +52,10 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
               return Text(appLoc.product);
             },
           ),
-          if (widget.oldNeededness) Text(appLoc.markAsNeeded) else Text(appLoc.markAsBought),
+          if (widget.neededness) Text(appLoc.markAsNeeded) else Text(appLoc.markAsBought),
           TextButton(
             onPressed: () {
-              productProvider.setProductNeededness(widget.productId, widget.oldNeededness);
+              productProvider.setProductNeededness(widget.productId, widget.neededness);
               widget.fToast.removeCustomToast();
             },
             child: Text(appLoc.undo),
@@ -140,7 +140,7 @@ class _NeededCheckboxState extends State<NeededCheckbox> {
                     await Future.delayed(delay);
                   }
                   productProvider.setProductNeededness(p.id, !notNeeded!);
-                  showUndoToast(fToast, p.id, notNeeded);
+                  showUndoToast(fToast, p.id, !notNeeded);
                   displayedValue = null;
                 },
               ),

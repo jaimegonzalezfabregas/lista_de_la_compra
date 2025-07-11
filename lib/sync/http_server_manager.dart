@@ -29,6 +29,8 @@ class HttpServerManager {
     try {
       _server = await shelf_io.serve(handler, InternetAddress.anyIPv4, 4545);
 
+      print("the server is now running on ${InternetAddress.anyIPv4}:4545");
+
       serverStateProvider.setServerStatus(ServerStatus.running);
     } catch (e) {
       _server = null;

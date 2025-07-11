@@ -34,10 +34,10 @@ class EnviromentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addEnviroment(Enviroment env) async {
+  Future<void> upsertEnviroment(Enviroment env) async {
     final database = AppDatabaseSingleton.instance;
 
-    await database.into(database.enviroments).insert(env);
+    await database.into(database.enviroments).insertOnConflictUpdate(env);
     notifyListeners();
   }
 

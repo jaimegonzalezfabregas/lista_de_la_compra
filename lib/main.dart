@@ -3,13 +3,14 @@ import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
 import 'package:lista_de_la_compra/UI/selected_enviroment_fork.dart';
 import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_client_service.dart';
 import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
 import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
     final ProductProvider productProvider = ProductProvider();
     final ScheduleProvider scheduleProvider = ScheduleProvider();
     final HttpServerProvider httpServerProvider = HttpServerProvider();
-    final SharedPreferencesProvider sharedPreferencesProvider = SharedPreferencesProvider(context);
+    final SharedPreferencesProvider sharedPreferencesProvider = PersistantSharedPreferencesProvider(context);
     final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
     final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
 
     (() async {
-      httpServerManager.startServer(httpServerStateProvider, await sharedPreferencesProvider.getLocalNick());
+      httpServerStateProvider.tryStartServer();
     })();
 
     AppLifecycleListener(
