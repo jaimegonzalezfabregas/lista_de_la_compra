@@ -4,12 +4,10 @@ name: "Fastline_check"
 on:
   pull_request:
     branches:
-      - dev
-      - test
+      - master
   push:
     branches:
-      - dev
-      - test
+      - master
 
 jobs:  
   build:  
