@@ -1,5 +1,5 @@
 
-name: "Build"
+name: "Fastline_check"
 
 on:
   pull_request:
