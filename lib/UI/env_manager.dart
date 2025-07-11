@@ -7,11 +7,11 @@ import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/enviroment_serializer.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
 import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -134,7 +134,7 @@ class EnvSelect extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              enviromentProvider.addEnviroment(env);
+              enviromentProvider.upsertEnviroment(env);
               openConnectionManager.triggerSyncPull();
             },
             icon: Icon(Icons.download),
@@ -237,7 +237,7 @@ class EnvSelect extends StatelessWidget {
       Enviroment remoteEnviroment = Enviroment.fromJson(serializedState["enviroment"]);
       Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
       if (currentEnviroment == null) {
-        enviromentProvider.addEnviroment(remoteEnviroment);
+        enviromentProvider.upsertEnviroment(remoteEnviroment);
       }
 
       recieveState(serializedState, enviromentProvider, productProvider, recipeProvider, scheduleProvider);

@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 class OpenConnectionProvider extends ChangeNotifier {
   final Map<String, OpenConnection> _openConnections = {};
 
+
   Map<String, OpenConnection> get openConnections => _openConnections;
 
   String addOpenConnection(
@@ -32,6 +33,10 @@ class OpenConnectionProvider extends ChangeNotifier {
       enviromentList,
       userNote,
     );
+
+  
+
+
     notifyListeners();
     return id;
   }

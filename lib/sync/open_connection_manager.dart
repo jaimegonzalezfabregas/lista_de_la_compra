@@ -7,12 +7,11 @@ import 'package:crypto/crypto.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/enviroment_serializer.dart';
 import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
-import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -23,6 +22,8 @@ class OpenConnectionManager {
   final OpenConnectionProvider openConnectionProvider;
   final SharedPreferencesProvider sharedPreferencesProvider;
   final EnviromentProvider enviromentProvider;
+
+  final bool downloadAllEnviroments;
 
   void triggerSyncPull() async {
     for (OpenConnection conection in openConnectionProvider.openConnections.values) {
@@ -48,8 +49,9 @@ class OpenConnectionManager {
     this.recipeProvider,
     this.scheduleProvider,
     this.sharedPreferencesProvider,
-    this.enviromentProvider,
-  ) {
+    this.enviromentProvider, {
+    this.downloadAllEnviroments = false,
+  }) {
     productProvider.addListener(triggerSyncPush);
     recipeProvider.addListener(triggerSyncPush);
     scheduleProvider.addListener(triggerSyncPush);
@@ -86,7 +88,7 @@ class OpenConnectionManager {
     Function(String)? afterHandshakeNickCb,
     Function? abortCb,
   }) async {
-    print("socketManage ");
+    print("socketManage");
 
     String? terminalId;
     String? openConnectionId;
@@ -112,7 +114,6 @@ class OpenConnectionManager {
     }
 
     ws.stream.listen(
-
       (message) async {
         if (message is String) {
           Map<String, dynamic> data = jsonDecode(message);
@@ -158,6 +159,14 @@ class OpenConnectionManager {
                 );
               } else {
                 openConnectionProvider.setNick(openConnectionId!, nick!);
+              }
+
+              if (downloadAllEnviroments) {
+
+
+                for (var env in envList) {
+                  enviromentProvider.upsertEnviroment(env);
+                }
               }
 
               triggerSyncPull();
