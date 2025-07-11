@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class SharedPreferencesProvider extends ChangeNotifier {
-
+ 
   BuildContext context;
 
   SharedPreferencesProvider(BuildContext theContext) : context = theContext;
