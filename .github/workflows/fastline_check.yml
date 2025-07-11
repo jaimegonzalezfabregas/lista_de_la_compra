@@ -16,5 +16,7 @@ jobs:
     name: Check form
     runs-on: ubuntu-latest 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Validate Fastlane Supply Metadata
       uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2.1.0
