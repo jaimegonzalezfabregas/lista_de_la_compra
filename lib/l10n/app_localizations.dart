@@ -281,7 +281,7 @@ abstract class AppLocalizations {
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
-  /// **'Añadir'**
+  /// **'Add'**
   String get add;
 
   /// No description provided for @noNick.
@@ -305,7 +305,7 @@ abstract class AppLocalizations {
   /// No description provided for @notStablished.
   ///
   /// In en, this message translates to:
-  /// **'not Stablished'**
+  /// **'Not stablished'**
   String get notStablished;
 
   /// No description provided for @stablished.

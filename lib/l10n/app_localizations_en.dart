@@ -100,7 +100,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectRecipe => 'Select recipe';
 
   @override
-  String get add => 'Añadir';
+  String get add => 'Add';
 
   @override
   String get noNick => 'No nick';
@@ -112,7 +112,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connectionType => 'Connection type';
 
   @override
-  String get notStablished => 'not Stablished';
+  String get notStablished => 'Not stablished';
 
   @override
   String get stablished => 'Stablished';
