@@ -29,6 +29,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  lista_de_la_compra_http_server:
+    path: ./packages/lista_de_la_compra_http_server
+
   flutter:
     sdk: flutter
   

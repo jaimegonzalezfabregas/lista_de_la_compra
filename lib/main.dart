@@ -12,10 +12,12 @@ import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:lista_de_la_compra/db_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 
 Future main() async {
+  unPaquete();
   runApp(MyApp());
 }
 
