@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/Actions/export_controls.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class Actionindex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    final SharedPreferencesProvider sharedPreferencesProvider = context.watch();
+    final SharedPreferencesProvider sharedPreferencesProvider = context.watch<PersistantSharedPreferencesProvider>();
 
     return Scaffold(
       appBar: AppBar(

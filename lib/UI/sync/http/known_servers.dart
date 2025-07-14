@@ -11,11 +11,11 @@ class HTTPKnownServers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HttpClientService httpClientService = context.watch();
+    final HttpClientService httpClientService = context.watch<FlutterHttpClientService>();
 
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    HttpServerProvider httpServerProvider = context.watch();
-    OpenConnectionProvider openConnectionProvider = context.watch();
+    HttpServerProvider httpServerProvider = context.watch<FlutterHttpServerProvider>();
+    OpenConnectionProvider openConnectionProvider = context.watch<FlutterOpenConnectionProvider>();
 
     return FutureBuilder(
       future: httpServerProvider.getHttpServers(),

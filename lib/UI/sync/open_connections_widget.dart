@@ -11,7 +11,7 @@ class OpenConnectionsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    OpenConnectionProvider openConnectionProvider = context.watch();
+    OpenConnectionProvider openConnectionProvider = context.watch<FlutterOpenConnectionProvider>();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

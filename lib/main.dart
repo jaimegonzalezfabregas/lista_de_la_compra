@@ -13,6 +13,7 @@ import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:lista_de_la_compra/sync/http_server_manager.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 
@@ -26,13 +27,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final EnviromentProvider enviromentProvider = EnviromentProvider();
-    final RecipeProvider recipeProvider = RecipeProvider();
-    final ProductProvider productProvider = ProductProvider();
-    final ScheduleProvider scheduleProvider = ScheduleProvider();
-    final HttpServerProvider httpServerProvider = HttpServerProvider();
-    final SharedPreferencesProvider sharedPreferencesProvider = PersistantSharedPreferencesProvider(context);
-    final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider();
+    final FlutterEnviromentProvider enviromentProvider = FlutterEnviromentProvider();
+    final FlutterRecipeProvider recipeProvider = FlutterRecipeProvider();
+    final FlutterProductProvider productProvider = FlutterProductProvider();
+    final FlutterScheduleProvider scheduleProvider = FlutterScheduleProvider();
+    final FlutterHttpServerProvider httpServerProvider = FlutterHttpServerProvider();
+    final PersistantSharedPreferencesProvider sharedPreferencesProvider = PersistantSharedPreferencesProvider(context);
+    final FlutterOpenConnectionProvider openConnectionProvider = FlutterOpenConnectionProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
@@ -44,9 +45,9 @@ class MyApp extends StatelessWidget {
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
-    final HttpClientService httpClientService = HttpClientService(openConnectionProvider, openConnectionManager, httpServerProvider);
+    final FlutterHttpClientService httpClientService = FlutterHttpClientService(openConnectionProvider, openConnectionManager, httpServerProvider);
 
-    final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
+    final FlutterHttpServerStateProvider httpServerStateProvider = FlutterHttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
 
     (() async {
       httpServerStateProvider.tryStartServer();
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         FlutterShowWhenLocked().show();
       },
     );
+
 
     return MultiProvider(
       providers: [

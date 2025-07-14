@@ -19,7 +19,6 @@ class HttpServerManager {
     if (_server != null) {
       return;
     }
-
     var handler = webSocketHandler((webSocket, x) async {
       openConnectionManager.socketManage(webSocket, null, "Client HTTP");
     });

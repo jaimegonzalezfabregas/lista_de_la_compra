@@ -509,6 +509,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+  lista_de_la_compra_http_server:
+    dependency: "direct main"
+    description:
+      path: "packages/lista_de_la_compra_http_server"
+      relative: true
+    source: path
+    version: "1.0.0"
   logging:
     dependency: transitive
     description:

@@ -14,7 +14,7 @@ class RecipeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    RecipeProvider recipeProvider = context.watch();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     return Scaffold(
       appBar: AppBar(

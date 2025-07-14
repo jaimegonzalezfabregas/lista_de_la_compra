@@ -18,8 +18,8 @@ class ProductListDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScheduleProvider scheduleProvider = context.watch();
-    final ProductProvider productProvider = context.watch<ProductProvider>();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    final ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     var filteredProducts = isNeededList ? products.where((e) => e.needed).toList() : products;
 
@@ -65,7 +65,7 @@ class SimpleShoppinglist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    final ProductProvider productProvider = context.watch<ProductProvider>();
+    final ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return DefaultTabController(
       length: 2,

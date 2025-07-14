@@ -34,6 +34,8 @@ dependencies:
   
   provider: 6.1.5
 
+  lista_de_la_compra_http_server:
+    path: ./packages/lista_de_la_compra_http_server
 
 
   cupertino_icons: 1.0.8

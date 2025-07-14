@@ -4,9 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
 import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class HttpClientService extends ChangeNotifier {
+
+class FlutterHttpClientService extends HttpClientService with ChangeNotifier {
+  FlutterHttpClientService(super.openConnectionProvider, super.openConnectionManager, super.httpServerProvider);
+}
+
+class RamHttpClientService extends HttpClientService with VoidEventSourceMixin {
+  RamHttpClientService(super.openConnectionProvider, super.openConnectionManager, super.httpServerProvider);
+}
+
+
+abstract class HttpClientService  implements VoidEventSource{
   final OpenConnectionProvider openConnectionProvider;
   final OpenConnectionManager openConnectionManager;
   final HttpServerProvider httpServerProvider;

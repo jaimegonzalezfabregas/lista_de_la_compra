@@ -15,8 +15,8 @@ class AddIngredient extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    ProductProvider productProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     Future<List<(RecipeProduct, Product)>> ingredientsFuture = recipeProvider.getProductsOfRecipeById(recipeId);
     Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(recipeId);

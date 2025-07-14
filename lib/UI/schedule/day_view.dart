@@ -78,9 +78,9 @@ class DayView extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    ScheduleProvider scheduleProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
-    ProductProvider productProvider = context.watch();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     var dayTime = startOfWeekTime.add(Duration(hours: 24 * day));
     var currentDatetime = DateTime.now();
