@@ -22,10 +22,10 @@ class ExporControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    EnviromentProvider enviromentProvider = context.watch();
-    ProductProvider productProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
-    ScheduleProvider scheduleProvider = context.watch();
+    EnviromentProvider enviromentProvider = context.watch<FlutterEnviromentProvider>();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
 
     final Future serialized = serializeEnviroment(enviromentId, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
     final DateTime now = DateTime.now();

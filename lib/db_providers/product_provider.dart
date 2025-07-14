@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 import 'package:uuid/uuid.dart';
 
 extension StringExtension on String {
@@ -9,7 +10,12 @@ extension StringExtension on String {
   }
 }
 
-class ProductProvider extends ChangeNotifier {
+class FlutterProductProvider extends ProductProvider with ChangeNotifier{}
+
+class RamProductProvider extends ProductProvider with VoidEventSourceMixin {}
+
+
+abstract class ProductProvider  implements VoidEventSource{
   Future<String> addProduct(String rawName, bool needed, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 

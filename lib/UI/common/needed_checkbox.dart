@@ -36,7 +36,7 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLoc = AppLocalizations.of(context)!;
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return AnimatedBuilder(
       animation: _controller,
@@ -112,7 +112,7 @@ class _NeededCheckboxState extends State<NeededCheckbox> {
 
     fToast.init(context);
 
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return SizedBox(
       child: FutureBuilder(

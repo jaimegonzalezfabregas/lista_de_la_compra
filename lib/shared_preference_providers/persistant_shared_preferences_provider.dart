@@ -5,7 +5,7 @@ import 'package:lista_de_la_compra/shared_preference_providers/shared_preference
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-class PersistantSharedPreferencesProvider extends SharedPreferencesProvider {
+class PersistantSharedPreferencesProvider extends SharedPreferencesProvider with ChangeNotifier{
   BuildContext? context;
 
   PersistantSharedPreferencesProvider(this.context);

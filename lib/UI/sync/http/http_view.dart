@@ -17,7 +17,7 @@ class HTTPView extends StatelessWidget {
   Widget serveControlls(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    HttpServerStateProvider serverStateProvider = context.watch();
+    HttpServerStateProvider serverStateProvider = context.watch<FlutterHttpServerStateProvider>();
 
     switch (serverStateProvider.getServerStatus()) {
       case ServerStatus.running:
@@ -62,7 +62,7 @@ class HTTPView extends StatelessWidget {
 
   Widget clientControlls(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    final HttpServerProvider httpServerProvider = context.watch();
+    final HttpServerProvider httpServerProvider = context.watch<FlutterHttpServerProvider>();
 
     TextEditingController hostTextController = TextEditingController();
 

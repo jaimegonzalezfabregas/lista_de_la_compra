@@ -16,8 +16,8 @@ class ChooseRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    ScheduleProvider scheduleProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     Future<List<ScheduleEntry>> scheduleList = scheduleProvider.getEntries(week, day, enviromentId);
 

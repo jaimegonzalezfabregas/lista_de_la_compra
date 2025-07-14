@@ -19,7 +19,7 @@ class Ingredients extends StatelessWidget {
   ListTile ingredientEntry(RecipeProduct ingredient, Product product, RecipeProvider recipeProvider, BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return ListTile(
       title: Text(product.name),
@@ -95,8 +95,8 @@ class Ingredients extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    RecipeProvider recipeProvider = context.watch();
-    context.watch<ProductProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
+    var _ = context.watch<FlutterProductProvider>();
 
     var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
 
@@ -178,8 +178,8 @@ class _PlannedDatesState extends State<PlannedDates> {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    ScheduleProvider scheduleRecipeProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
+    ScheduleProvider scheduleRecipeProvider = context.watch<FlutterScheduleProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     Future<List<ScheduleEntry>> dates = scheduleRecipeProvider.getEntriesForRecipe(widget.recipeId, showPast);
 
@@ -291,8 +291,8 @@ class RecipeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    RecipeProvider appState = context.watch();
-    RecipeProvider recipeProvider = context.watch();
+    RecipeProvider appState = context.watch<FlutterRecipeProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>(); // TODO: DOS VECES EL MISMO PROVIDER?
 
     Future<Recipe?> recipeFuture = appState.getRecipeById(recipeId);
 

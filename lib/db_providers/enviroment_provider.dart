@@ -1,8 +1,17 @@
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 
-class EnviromentProvider extends ChangeNotifier {
+class FlutterEnviromentProvider extends EnviromentProvider with ChangeNotifier {
+
+}
+
+class RamEnviromentProvider extends EnviromentProvider with VoidEventSourceMixin {
+}
+
+
+abstract class EnviromentProvider  implements VoidEventSource{
   Future<Enviroment?> getEnviromentById(String id) async {
     final database = AppDatabaseSingleton.instance;
 

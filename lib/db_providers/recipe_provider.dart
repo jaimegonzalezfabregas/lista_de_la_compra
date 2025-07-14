@@ -2,9 +2,16 @@ import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
+import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 import 'package:uuid/uuid.dart';
 
-class RecipeProvider extends ChangeNotifier {
+
+class FlutterRecipeProvider extends RecipeProvider with ChangeNotifier{}
+
+class RamFlutterRecipeProvider extends RecipeProvider with VoidEventSourceMixin {
+}
+
+abstract class RecipeProvider  implements VoidEventSource{
   Future<Recipe?> getRecipeById(String id) async {
     final database = AppDatabaseSingleton.instance;
 

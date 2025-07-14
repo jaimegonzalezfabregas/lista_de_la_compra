@@ -21,7 +21,7 @@ class ProductDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     var productFuture = productProvider.getProductById(productId);
 
@@ -33,7 +33,7 @@ class ProductDetail extends StatelessWidget {
       }
     })();
 
-    RecipeProvider recipeProvider = context.watch();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     var recepiesFuture = recipeProvider.getRecepiesOfProductById(productId);
 
@@ -75,7 +75,7 @@ class ProductDetail extends StatelessWidget {
       },
     );
 
-    ScheduleProvider scheduleProvider = context.watch();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
 
     return Scaffold(
       appBar: AppBar(
