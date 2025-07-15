@@ -9,7 +9,7 @@ import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
 import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
 import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/UI/schedule/utils.dart';
+import 'package:lista_de_la_compra_http_server/utils.dart';
 import 'package:provider/provider.dart';
 
 class Ingredients extends StatelessWidget {
@@ -79,7 +79,7 @@ class Ingredients extends StatelessWidget {
                 ),
                 PopupMenuItem(
                   onTap: () {
-                    recipeProvider.setIngredientOfRecipeById(recipeId, ingredient.productId, false, appLoc);
+                    recipeProvider.setIngredientOfRecipeById(recipeId, ingredient.productId, false, appLoc.enoughForA);
                   },
                   child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text(appLoc.delete)]),
                 ),
