@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
-import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
+import 'package:nsd/nsd.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
-import 'package:nsd/nsd.dart';
+
+import '../db_providers/http_server_provider.dart';
+import '../db_providers/http_server_state_provider.dart';
+import 'open_connection_manager.dart';
 
 class HttpServerManager {
   HttpServer? _server;

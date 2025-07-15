@@ -1,8 +1,9 @@
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+
+import '../../lista_de_la_compra_http_server.dart';
+import '../db/database.dart';
+import '../db_providers/product_provider.dart';
+import '../db_providers/recipe_provider.dart';
+import '../db_providers/schedule_provider.dart';
 
 Future<Map<String, dynamic>> serializeEnviroment(
   String enviromentId,

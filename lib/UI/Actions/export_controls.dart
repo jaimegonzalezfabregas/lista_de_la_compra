@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/enviroment_serializer.dart';
+import 'package:lista_de_la_compra_http_server/src/sync/enviroment_serializer.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/db_providers/product_provider.dart';

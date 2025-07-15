@@ -1,5 +1,9 @@
-import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
+
+
+
+
+import '../../lista_de_la_compra_http_server.dart';
+import './shared_preferences_provider.dart';
 
 class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEventSourceMixin {
   @override

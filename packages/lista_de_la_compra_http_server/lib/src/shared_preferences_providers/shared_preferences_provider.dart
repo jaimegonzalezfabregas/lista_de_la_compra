@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 
 abstract class SharedPreferencesProvider {
   Future<String> getTerminalId() ;

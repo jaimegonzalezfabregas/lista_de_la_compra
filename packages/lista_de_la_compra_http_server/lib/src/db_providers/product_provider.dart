@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../lista_de_la_compra_http_server.dart';
+import '../db/database.dart';
 
 extension StringExtension on String {
   String capitalize() {
@@ -10,7 +10,6 @@ extension StringExtension on String {
   }
 }
 
-class FlutterProductProvider extends ProductProvider with ChangeNotifier{}
 
 class RamProductProvider extends ProductProvider with VoidEventSourceMixin {}
 
