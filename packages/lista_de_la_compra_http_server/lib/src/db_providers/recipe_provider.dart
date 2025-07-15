@@ -149,7 +149,7 @@ abstract class RecipeProvider  implements VoidEventSource{
     return await query.map((row) => (row.readTable(database.recipeProducts), row.readTable(database.products))).get();
   }
 
-  Future setIngredientOfRecipeById(String recipeId, String productId, bool value, AppLocalizations appLoc) async {
+  Future setIngredientOfRecipeById(String recipeId, String productId, bool value, String enoughForA) async {
     final database = AppDatabaseSingleton.instance;
 
     Recipe? recipe =
@@ -166,7 +166,7 @@ abstract class RecipeProvider  implements VoidEventSource{
               RecipeProductsCompanion(
                 recipeId: Value(recipeId),
                 productId: Value(productId),
-                amount: Value("${appLoc.enoughForA} ${recipe.name}"),
+                amount: Value("${enoughForA} ${recipe.name}"),
                 updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
               ),
             );
