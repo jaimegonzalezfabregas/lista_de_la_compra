@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 class FlutterRecipeProvider extends RecipeProvider with ChangeNotifier{}
 
-class RamFlutterRecipeProvider extends RecipeProvider with VoidEventSourceMixin {
+class RamRecipeProvider extends RecipeProvider with VoidEventSourceMixin {
 }
 
 abstract class RecipeProvider  implements VoidEventSource{

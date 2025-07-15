@@ -1,4 +1,4 @@
-import 'package:flutter_test/flutter_test.dart' hide test;
+eimport 'package:flutter_test/flutter_test.dart' hide test;
 import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/ram_shared_preferences_provider.dart';
@@ -17,13 +17,13 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     // TODO shared preferences set nick
 
-    final EnviromentProvider enviromentProvider = EnviromentProvider();
-    final RecipeProvider recipeProvider = RecipeProvider();
-    final ProductProvider productProvider = ProductProvider();
-    final ScheduleProvider scheduleProvider = ScheduleProvider();
-    final HttpServerProvider httpServerProvider = HttpServerProvider();
+    final EnviromentProvider enviromentProvider = RamEnviromentProvider();
+    final RecipeProvider recipeProvider = RamRecipeProvider();
+    final ProductProvider productProvider = RamProductProvider();
+    final ScheduleProvider scheduleProvider = RamScheduleProvider();
+    final HttpServerProvider httpServerProvider = RamHttpServerProvider();
     final SharedPreferencesProvider sharedPreferencesProvider = RamSharedPreferencesProvider();
-    final OpenConnectionProvider openConnectionProvider = OpenConnectionProvider();
+    final OpenConnectionProvider openConnectionProvider = RamOpenConnectionProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
@@ -39,7 +39,7 @@ void main() {
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
 
-    final HttpServerStateProvider httpServerStateProvider = HttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
+    final HttpServerStateProvider httpServerStateProvider = RamHttpServerStateProvider(httpServerManager, sharedPreferencesProvider);
 
     httpServerStateProvider.tryStartServer();
 
