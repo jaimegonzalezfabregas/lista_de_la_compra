@@ -1,7 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:lista_de_la_compra/db/enviroments.dart';
-import 'package:lista_de_la_compra/db/product_model.dart';
+import 'package:lista_de_la_compra_http_server/src/db/product_model.dart';
 import 'package:uuid/uuid.dart';
+
+import 'enviroments.dart';
 
 class Recipes extends Table {
   TextColumn get id => text().clientDefault(() => Uuid().v7())();

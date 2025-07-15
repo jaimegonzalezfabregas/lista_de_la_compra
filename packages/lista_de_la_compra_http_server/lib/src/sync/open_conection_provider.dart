@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 import 'package:uuid/uuid.dart';
 
-class FlutterOpenConnectionProvider extends OpenConnectionProvider with ChangeNotifier {}
+import '../db/database.dart';
+import 'open_connection.dart';
+
 
 class RamOpenConnectionProvider extends OpenConnectionProvider with VoidEventSourceMixin {}
 

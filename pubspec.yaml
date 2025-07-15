@@ -40,7 +40,6 @@ dependencies:
 
   cupertino_icons: 1.0.8
   modals: 1.0.0+1
-  drift: 2.26.0
   drift_flutter: 0.2.4
 
   path_provider: 2.1.5
@@ -54,7 +53,6 @@ dependencies:
   shelf_web_socket: 3.0.0
   web_socket_channel: 3.0.3
   crypto: 3.0.6
-  nsd: 4.0.3
   device_marketing_names: 1.1.0
   shelf: 1.4.2
   share_plus: 11.0.0

@@ -1,11 +1,9 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/UI/schedule/utils.dart';
 import 'package:lista_de_la_compra_http_server/lista_de_la_compra_http_server.dart';
 
+import '../db/database.dart';
 
-class FlutterScheduleProvider extends ScheduleProvider with ChangeNotifier {}
+
 
 class RamScheduleProvider extends ScheduleProvider with VoidEventSourceMixin {}
 
