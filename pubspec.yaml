@@ -44,8 +44,7 @@ dependencies:
 
   path_provider: 2.1.5
   path: 1.9.1
-  sqlite3: 2.7.6
-  sqlite3_flutter_libs: 0.5.34 
+  sqlite3_flutter_libs: 0.5.34
   uuid: 4.5.1
   shared_preferences: 2.5.3
   contentsize_tabbarview: 0.0.2
