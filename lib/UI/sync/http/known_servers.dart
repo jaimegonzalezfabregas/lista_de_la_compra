@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra_http_server/src/db/database.dart';
+import '../../../../packages/lista_de_la_compra_backend/lib/src/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/http_server_provider.dart';
+import '../../../../packages/lista_de_la_compra_backend/lib/src/db_providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/sync/http_client_service.dart';
-import 'package:lista_de_la_compra_http_server/src/sync/open_conection_provider.dart';
+import '../../../../packages/lista_de_la_compra_backend/lib/src/sync/open_conection_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../flutter_providers/flutter_providers.dart';

@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library;
 
-export '/src/lista_de_la_compra_http_server_base.dart';
+export 'src/lista_de_la_compra_http_server_base.dart';
 
 // TODO: Export any libraries intended for clients of this package.

@@ -1,17 +1,17 @@
 
 
-import 'package:lista_de_la_compra_http_server/src/db_providers/enviroment_provider.dart';
+import 'src/db_providers/enviroment_provider.dart';
 
-import '/lista_de_la_compra_http_server.dart';
-import '/src/db_providers/http_server_provider.dart';
-import '/src/db_providers/http_server_state_provider.dart';
-import '/src/db_providers/product_provider.dart';
-import '/src/db_providers/recipe_provider.dart';
-import '/src/db_providers/schedule_provider.dart';
-import '/src/shared_preferences_providers/ram_shared_preferences_provider.dart';
-import '/src/sync/http_server_manager.dart';
-import '/src/sync/open_conection_provider.dart';
-import '/src/sync/open_connection_manager.dart';
+import 'lista_de_la_compra_http_server.dart';
+import 'src/db_providers/http_server_provider.dart';
+import 'src/db_providers/http_server_state_provider.dart';
+import 'src/db_providers/product_provider.dart';
+import 'src/db_providers/recipe_provider.dart';
+import 'src/db_providers/schedule_provider.dart';
+import 'src/shared_preferences_providers/ram_shared_preferences_provider.dart';
+import 'src/sync/http_server_manager.dart';
+import 'src/sync/open_conection_provider.dart';
+import 'src/sync/open_connection_manager.dart';
 
 
 Future main() async {

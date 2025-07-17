@@ -1,8 +1,8 @@
 eimport 'package:flutter_test/flutter_test.dart' hide test;
 import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
 import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/shared_preferences_providers/ram_shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/shared_preferences_providers/shared_preferences_provider.dart';
+import '../packages/lista_de_la_compra_backend/lib/src/shared_preferences_providers/ram_shared_preferences_provider.dart';
+import '../packages/lista_de_la_compra_backend/lib/src/shared_preferences_providers/shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
 import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/db_providers/product_provider.dart';
