@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
-import 'package:lista_de_la_compra_http_server/src/utils.dart';
+import '../../../packages/lista_de_la_compra_backend/lib/src/utils.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 
 class _ScheduleView extends State<ScheduleViewContents> {

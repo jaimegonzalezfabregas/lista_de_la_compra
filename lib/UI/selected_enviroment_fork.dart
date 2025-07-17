@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/env_manager.dart';
 import 'package:lista_de_la_compra/UI/home.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/shared_preferences_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/sync/open_connection_manager.dart';
+import '../../packages/lista_de_la_compra_backend/lib/src/shared_preferences_providers/shared_preferences_provider.dart';
+import '../../packages/lista_de_la_compra_backend/lib/src/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
 class SelectedEnviromentFork extends StatelessWidget {
