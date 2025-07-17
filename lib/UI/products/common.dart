@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_http_server/src/db/database.dart';
+import 'package:lista_de_la_compra_http_server/src/db_providers/schedule_provider.dart';
 
 Widget? getNeededAmount(ScheduleProvider scheduleProvider, String productId) {
   var amountFuture = scheduleProvider.getFutureRecipesWithProduct(productId);

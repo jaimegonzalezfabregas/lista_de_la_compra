@@ -1,6 +1,7 @@
 
 import '../../lista_de_la_compra_http_server.dart';
 import '../db/database.dart';
+import '../db_providers/enviroment_provider.dart';
 import '../db_providers/product_provider.dart';
 import '../db_providers/recipe_provider.dart';
 import '../db_providers/schedule_provider.dart';
@@ -38,12 +39,14 @@ Future<void> syncItems(
 
         if (selfItem.deletedAt == null && otherItem["deletedAt"] == null) {
           if (selfItem.updatedAt < otherItem["updatedAt"]) {
+            print("Override: ${selfItem.toString()}");
             syncOverideCallback(selfItem.id, otherItem);
           }
         }
 
         if (otherItem["deletedAt"] != null) {
           if (selfItem.deletedAt == null || selfItem.deletedAt > otherItem["deletedAt"]) {
+            print("Deleted: ${selfItem.toString()}");
             syncSetDeletedCallback(selfItem.id, otherItem["deletedAt"]);
           }
         }
@@ -51,6 +54,7 @@ Future<void> syncItems(
     }
 
     if (!found) {
+      print("Added: ${otherItem.toString()}");
       syncAddProductCallback(otherItem);
     }
   }

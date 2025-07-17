@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import './recipe_model.dart';
+import 'recipe_model.dart';
 import 'package:uuid/uuid.dart';
 
 class ScheduleEntries extends Table {

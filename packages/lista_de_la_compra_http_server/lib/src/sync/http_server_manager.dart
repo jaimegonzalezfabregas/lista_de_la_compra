@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:nsd/nsd.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_web_socket/shelf_web_socket.dart';
 
@@ -12,7 +11,8 @@ class HttpServerManager {
   HttpServer? _server;
   final HttpServerProvider httpServerProvider;
   final OpenConnectionManager openConnectionManager;
-  Registration? avahiRegistration;
+
+  // TODO: MOVE NDS FOR AVAHI REGISTRATION
 
   HttpServerManager(this.httpServerProvider, this.openConnectionManager);
 
@@ -37,25 +37,11 @@ class HttpServerManager {
       serverStateProvider.setServerStatus(ServerStatus.error, error: "Error al iniciar el servidor: $e");
     }
 
-    try {
-      if (avahiRegistration != null) {
-        await unregister(avahiRegistration!);
-        avahiRegistration = null;
-      }
-
-      avahiRegistration = await register(Service(name: localNick, type: '_jhop._tcp', port: 4545));
-    } catch (e) {
-      print("no mdns on this platform");
-    }
   }
 
   Future<void> stopServer(HttpServerStateProvider serverStateProvider) async {
     serverStateProvider.setServerStatus(ServerStatus.turningOff);
 
-    if (avahiRegistration != null) {
-      await unregister(avahiRegistration!);
-      avahiRegistration = null;
-    }
     await _server?.close();
     _server = null;
     serverStateProvider.setServerStatus(ServerStatus.stopped);

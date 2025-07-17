@@ -57,6 +57,7 @@ dependencies:
   share_plus: 11.0.0
   file_picker: 10.1.9
   intl: 0.20.2
+  nsd: any
   collection: 1.19.1
   fluttertoast: 8.2.12
   flutter_show_when_locked: 1.0.0
