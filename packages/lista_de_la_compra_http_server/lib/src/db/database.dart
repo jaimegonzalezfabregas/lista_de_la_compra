@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:drift/native.dart';
+import 'package:path_provider/path_provider.dart';
+
 import './schedule.dart';
 import './product_model.dart';
 import './recipe_model.dart';
@@ -18,11 +21,8 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
-
+/*
   static QueryExecutor _openConnection() {
-
-
-
     return driftDatabase(
       name: 'persistence',
       native: DriftNativeOptions(
@@ -44,6 +44,14 @@ class AppDatabase extends _$AppDatabase {
       ),
     );
   }
+ */
+
+  static QueryExecutor _openConnection() {
+    return NativeDatabase.createInBackground(File('/home/alvaro/repos/lista_de_la_compra/~/.lista_de_la_compra/db/persistence.sqlite'));
+  }
+
+
+
 }
 
 class AppDatabaseSingleton {
