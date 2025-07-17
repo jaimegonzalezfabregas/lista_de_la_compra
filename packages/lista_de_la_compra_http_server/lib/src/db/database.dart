@@ -21,8 +21,10 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 
+  // TODO: _openConnection() en flutter era distinto, abstraer o unificar
+  
   static QueryExecutor _openConnection() {
-    return NativeDatabase.createInBackground(File('/home/alvaro/repos/lista_de_la_compra/~/.lista_de_la_compra/db/persistence.sqlite'));
+    return NativeDatabase.createInBackground(File('./~/.lista_de_la_compra/db/persistence.sqlite'));
   }
 }
 
