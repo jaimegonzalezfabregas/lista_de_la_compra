@@ -3,9 +3,9 @@ import 'package:lista_de_la_compra/UI/Actions/actionIndex.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_manager.dart';
 import 'package:lista_de_la_compra/UI/products/simple_shopping_list.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
-import 'package:lista_de_la_compra_http_server/utils.dart';
+import 'package:lista_de_la_compra_http_server/src/utils.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra_http_server/src/sync/open_connection_manager.dart';
 
 class Home extends StatefulWidget {
   final String enviromentId;

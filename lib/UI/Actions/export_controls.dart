@@ -3,15 +3,17 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra_http_server/src/db/database.dart';
 import 'package:lista_de_la_compra_http_server/src/sync/enviroment_serializer.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_http_server/src/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra_http_server/src/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra_http_server/src/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra_http_server/src/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../../flutter_providers/flutter_providers.dart';
 
 // ignore: must_be_immutable
 class ExporControls extends StatelessWidget {

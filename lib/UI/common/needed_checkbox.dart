@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra_http_server/src/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra_http_server/src/db_providers/product_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../flutter_providers/flutter_providers.dart';
 
 final Duration undoDuration = const Duration(seconds: 2);
 
