@@ -17,6 +17,16 @@ class FlutterHttpServerProvider extends HttpServerProvider with ChangeNotifier{}
 
 class FlutterHttpServerStateProvider extends HttpServerStateProvider with ChangeNotifier{
   FlutterHttpServerStateProvider(super.serverManager, super.sharedPreferencesProvider);
+
+  @override
+  Future<void> tryStartServer() {
+    tryStartMdns();
+    return super.tryStartServer();
+  }
+
+  Future<void> tryStartMdns() {
+
+  }
 }
 
 class FlutterProductProvider extends ProductProvider with ChangeNotifier{}
