@@ -1,7 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../lista_de_la_compra_backend.dart';
+import '../db/database.dart';
 
 extension StringExtension on String {
   String capitalize() {
@@ -9,7 +10,11 @@ extension StringExtension on String {
   }
 }
 
-class ProductProvider extends ChangeNotifier {
+
+class RamProductProvider extends ProductProvider with VoidEventSourceMixin {}
+
+
+abstract class ProductProvider  implements VoidEventSource{
   Future<String> addProduct(String rawName, bool needed, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 

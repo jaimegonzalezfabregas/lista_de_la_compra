@@ -1,11 +1,11 @@
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
+import '/l10n/app_localizations.dart';
+import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-class PersistantSharedPreferencesProvider extends SharedPreferencesProvider {
+class PersistantSharedPreferencesProvider extends SharedPreferencesProvider with ChangeNotifier{
   BuildContext? context;
 
   PersistantSharedPreferencesProvider(this.context);

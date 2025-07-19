@@ -1,8 +1,15 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
 
-class HttpServerProvider extends ChangeNotifier {
+import '../../lista_de_la_compra_backend.dart';
+import '../db/database.dart';
+
+
+
+class RamHttpServerProvider extends HttpServerProvider with VoidEventSourceMixin {}
+
+
+
+abstract class HttpServerProvider  implements VoidEventSource{
   Future<void> addHttpServer(String host, int port) async {
     final database = AppDatabaseSingleton.instance;
 

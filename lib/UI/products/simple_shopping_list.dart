@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/products/common.dart';
-import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra_backend/src/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../flutter_providers/flutter_providers.dart';
 
 class ProductListDisplay extends StatelessWidget {
   final List<Product> products;
@@ -18,8 +20,8 @@ class ProductListDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScheduleProvider scheduleProvider = context.watch();
-    final ProductProvider productProvider = context.watch<ProductProvider>();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    final ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     var filteredProducts = isNeededList ? products.where((e) => e.needed).toList() : products;
 
@@ -65,7 +67,7 @@ class SimpleShoppinglist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    final ProductProvider productProvider = context.watch<ProductProvider>();
+    final ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return DefaultTabController(
       length: 2,

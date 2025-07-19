@@ -1,6 +1,11 @@
-import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
 
-class RamSharedPreferencesProvider extends SharedPreferencesProvider {
+
+
+
+import '../../lista_de_la_compra_backend.dart';
+import 'shared_preferences_provider.dart';
+
+class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEventSourceMixin {
   @override
   Future<void> clearSelectedEnviroment() {
     throw UnimplementedError();

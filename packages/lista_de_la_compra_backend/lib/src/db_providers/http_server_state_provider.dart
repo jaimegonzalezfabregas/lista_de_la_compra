@@ -1,10 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra/sync/http_server_manager.dart';
+import '../../lista_de_la_compra_backend.dart';
+
+import '../shared_preferences_providers/shared_preferences_provider.dart';
+import '../sync/http_server_manager.dart';
 
 enum ServerStatus { running, stopped, turningOn, turningOff, error }
 
-class HttpServerStateProvider extends ChangeNotifier {
+class RamHttpServerStateProvider extends HttpServerStateProvider with VoidEventSourceMixin {
+  RamHttpServerStateProvider(super.serverManager, super.sharedPreferencesProvider);
+}
+
+
+abstract class HttpServerStateProvider implements VoidEventSource{
   HttpServerManager serverManager;
   SharedPreferencesProvider sharedPreferencesProvider;
 

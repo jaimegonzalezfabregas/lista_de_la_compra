@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lista_de_la_compra/db/database.dart';
+import 'package:lista_de_la_compra_backend/src/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../flutter_providers/flutter_providers.dart';
 
 final Duration undoDuration = const Duration(seconds: 2);
 
@@ -36,7 +38,7 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLoc = AppLocalizations.of(context)!;
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return AnimatedBuilder(
       animation: _controller,
@@ -112,7 +114,7 @@ class _NeededCheckboxState extends State<NeededCheckbox> {
 
     fToast.init(context);
 
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return SizedBox(
       child: FutureBuilder(

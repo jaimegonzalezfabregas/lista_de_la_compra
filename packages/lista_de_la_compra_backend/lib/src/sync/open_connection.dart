@@ -1,4 +1,5 @@
-import 'package:lista_de_la_compra/db/database.dart';
+
+import '../db/database.dart';
 
 class OpenConnection {
   final String id;

@@ -1067,7 +1067,6 @@ class $ProductsTable extends Products with TableInfo<$ProductsTable, Product> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _neededMeta = const VerificationMeta('needed');
   @override
