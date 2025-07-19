@@ -1,15 +1,15 @@
-eimport 'package:flutter_test/flutter_test.dart' hide test;
-import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/shared_preferences_providers/ram_shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/shared_preferences_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
-import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/sync/http_server_manager.dart';
-import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
+import 'package:flutter_test/flutter_test.dart' hide test;
+import 'package:lista_de_la_compra_backend/src/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/ram_shared_preferences_provider.dart';
+import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra_backend/src/sync/open_conection_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_backend/src/sync/http_server_manager.dart';
+import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
 import 'package:test/test.dart';
 
 void main() {

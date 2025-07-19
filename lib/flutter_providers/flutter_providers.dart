@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lista_de_la_compra_http_server/src/sync/open_conection_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/http_server_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/http_server_state_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_backend/src/sync/open_conection_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
 import 'package:nsd/nsd.dart';
 
 
