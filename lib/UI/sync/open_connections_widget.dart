@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import '../../../packages/lista_de_la_compra_backend/lib/src/sync/open_conection_provider.dart';
-import '../../../packages/lista_de_la_compra_backend/lib/src/sync/open_connection.dart';
+import 'package:lista_de_la_compra_backend/src/sync/open_conection_provider.dart';
+import 'package:lista_de_la_compra_backend/src/sync/open_connection.dart';
 import 'package:provider/provider.dart';
 
 import '../../flutter_providers/flutter_providers.dart';

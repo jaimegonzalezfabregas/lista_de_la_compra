@@ -1,4 +1,4 @@
-import '../../lista_de_la_compra_http_server.dart';
+import '../../lista_de_la_compra_backend.dart';
 
 import '../shared_preferences_providers/shared_preferences_provider.dart';
 import '../sync/http_server_manager.dart';
