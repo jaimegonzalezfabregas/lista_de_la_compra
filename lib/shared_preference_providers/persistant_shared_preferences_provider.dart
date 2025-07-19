@@ -1,7 +1,7 @@
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
 import '/l10n/app_localizations.dart';
-import '../../packages/lista_de_la_compra_backend/lib/src/shared_preferences_providers/shared_preferences_provider.dart';
+import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/shared_preferences_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 

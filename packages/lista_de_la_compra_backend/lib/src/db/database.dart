@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:drift/native.dart';
 import 'package:drift/drift.dart';
+import 'package:drift_flutter/drift_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'enviroments.dart';
 import 'http_server_model.dart';
 import 'product_model.dart';
 import 'recipe_model.dart';
 import 'schedule.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:io' show Platform;
 
 part 'database.g.dart';
 
@@ -22,12 +25,35 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 
   // TODO: _openConnection() en flutter era distinto, abstraer o unificar
-  
+
   static QueryExecutor _openConnection() {
-    return NativeDatabase.createInBackground(File('./~/.lista_de_la_compra/db/persistence.sqlite'));
+    // ignore: dead_code
+    if (Platform.isAndroid) {
+      return driftDatabase(
+        name: 'persistence',
+        native: DriftNativeOptions(
+          databaseDirectory: () async {
+            try {
+              return await getApplicationDocumentsDirectory();
+            } catch (err) {
+              return "~/.lista_de_la_compra/db/";
+            }
+          },
+          tempDirectoryPath: () async {
+            try {
+              return await getTemporaryDirectory().then((d) => d.path);
+            } catch (err) {
+              return "~/.lista_de_la_compra/tmp/";
+            }
+          },
+        ),
+      );
+    } else {
+      // TODO take from cli
+      return NativeDatabase.createInBackground(File('./persistence.sqlite'));
+    }
   }
 }
-
 
 class AppDatabaseSingleton {
   static final AppDatabase _instance = AppDatabase();

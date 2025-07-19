@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
-import '../../../packages/lista_de_la_compra_backend/lib/src/db/database.dart';
+import 'package:lista_de_la_compra_backend/src/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import '../../../packages/lista_de_la_compra_backend/lib/src/db_providers/recipe_provider.dart';
-import '../../../packages/lista_de_la_compra_backend/lib/src/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../flutter_providers/flutter_providers.dart';

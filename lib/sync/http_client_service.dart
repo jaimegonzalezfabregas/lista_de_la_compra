@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../../packages/lista_de_la_compra_backend/lib/src/db_providers/http_server_provider.dart';
-import '../../packages/lista_de_la_compra_backend/lib/src/sync/open_conection_provider.dart';
-import '../../packages/lista_de_la_compra_backend/lib/src/sync/open_connection_manager.dart';
-import '../../packages/lista_de_la_compra_backend/lib/lista_de_la_compra_http_server.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/http_server_provider.dart';
+import 'package:lista_de_la_compra_backend/src/sync/open_conection_provider.dart';
+import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 
