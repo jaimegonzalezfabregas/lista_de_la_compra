@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:drift/native.dart';
 import 'package:drift/drift.dart';
-import 'package:drift_flutter/drift_flutter.dart';
-import 'package:path_provider/path_provider.dart';
+// TODO: NO SE PUEDE PONER drift_flutter AQUI, NO HAY QUE PONER DEPENDENCIAS DE FLUTTER
+//import 'package:drift_flutter/drift_flutter.dart'; 
+// TODO: path_provider TAMBIEN ES DE FLUTTER
+//import 'package:path_provider/path_provider.dart';
 import 'enviroments.dart';
 import 'http_server_model.dart';
 import 'product_model.dart';
@@ -19,6 +21,8 @@ class AppDatabase extends _$AppDatabase {
   // After generating code, this class needs to define a `schemaVersion` getter
   // and a constructor telling drift where the database should be stored.
   // These are described in the getting started guide: https://drift.simonbinder.eu/setup/
+
+  // TODO: NO HACER EL MÉTODO _openConnection(), SINO PASAR EL QUERYEXECUTOR, PARA QUE NO HAYA DEPENDENCIAS DE FLUTTER
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
