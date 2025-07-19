@@ -12,8 +12,6 @@ class HttpServerManager {
   final HttpServerProvider httpServerProvider;
   final OpenConnectionManager openConnectionManager;
 
-  // TODO: MOVE NDS FOR AVAHI REGISTRATION
-
   HttpServerManager(this.httpServerProvider, this.openConnectionManager);
 
   Future<void> startServer(HttpServerStateProvider serverStateProvider, String localNick) async {
