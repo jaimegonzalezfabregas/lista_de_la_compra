@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
-import 'package:lista_de_la_compra_http_server/src/db/database.dart';
+import 'package:lista_de_la_compra_backend/src/db/database.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/product_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/recipe_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
-import 'package:lista_de_la_compra_http_server/src/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra_http_server/src/utils.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_backend/src/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../flutter_providers/flutter_providers.dart';

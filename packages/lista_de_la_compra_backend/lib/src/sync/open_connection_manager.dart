@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../../lista_de_la_compra_http_server.dart';
+import '../../lista_de_la_compra_backend.dart';
 import '../db/database.dart';
 import '../db_providers/enviroment_provider.dart';
 import '../db_providers/product_provider.dart';
