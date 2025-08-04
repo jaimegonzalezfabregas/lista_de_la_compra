@@ -52,7 +52,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get syncronization => 'Synchronisation';
 
   @override
-  String get loading => 'Chargement…';
+  String get loading => 'Chargement...';
 
   @override
   String get home => 'Accueil';
