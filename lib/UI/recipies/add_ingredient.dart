@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
-import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
 import 'package:provider/provider.dart';
+import '../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class AddIngredient extends StatelessWidget {
   final String recipeId;
@@ -15,8 +16,8 @@ class AddIngredient extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    ProductProvider productProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     Future<List<(RecipeProduct, Product)>> ingredientsFuture = recipeProvider.getProductsOfRecipeById(recipeId);
     Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(recipeId);
@@ -60,7 +61,7 @@ class AddIngredient extends StatelessWidget {
                       return Checkbox(
                         value: recipeProducts.any((ingredient) => ingredient.$2.id == product.id),
                         onChanged: (value) {
-                          recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true, appLoc);
+                          recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true, appLoc.enoughForA);
                         },
                       );
                     } else {
@@ -73,7 +74,7 @@ class AddIngredient extends StatelessWidget {
             newElement: (String name) async {
               String productId = await productProvider.addProduct(name, false, (await recipeFuture)!.enviromentId);
 
-              recipeProvider.setIngredientOfRecipeById(recipeId, productId, true, appLoc);
+              recipeProvider.setIngredientOfRecipeById(recipeId, productId, true, appLoc.enoughForA);
             },
           );
         },

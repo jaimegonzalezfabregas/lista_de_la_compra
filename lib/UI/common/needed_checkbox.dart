@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:provider/provider.dart';
+import '../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 final Duration undoDuration = const Duration(seconds: 2);
 
 class UndoToast extends StatefulWidget {
   final String productId;
-  final bool neededness;
+  final bool oldNeededness;
   final FToast fToast;
 
-  const UndoToast(this.productId, this.neededness, this.fToast, {super.key});
+  const UndoToast(this.productId, this.oldNeededness, this.fToast, {super.key});
 
   @override
   State<UndoToast> createState() => _UndoToastState();
@@ -36,7 +38,7 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     AppLocalizations appLoc = AppLocalizations.of(context)!;
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return AnimatedBuilder(
       animation: _controller,
@@ -52,10 +54,10 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
               return Text(appLoc.product);
             },
           ),
-          if (widget.neededness) Text(appLoc.markAsNeeded) else Text(appLoc.markAsBought),
+          if (widget.oldNeededness) Text(appLoc.markAsBought) else Text(appLoc.markAsNeeded),
           TextButton(
             onPressed: () {
-              productProvider.setProductNeededness(widget.productId, widget.neededness);
+              productProvider.setProductNeededness(widget.productId, widget.oldNeededness);
               widget.fToast.removeCustomToast();
             },
             child: Text(appLoc.undo),
@@ -112,7 +114,7 @@ class _NeededCheckboxState extends State<NeededCheckbox> {
 
     fToast.init(context);
 
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return SizedBox(
       child: FutureBuilder(
@@ -140,7 +142,7 @@ class _NeededCheckboxState extends State<NeededCheckbox> {
                     await Future.delayed(delay);
                   }
                   productProvider.setProductNeededness(p.id, !notNeeded!);
-                  showUndoToast(fToast, p.id, !notNeeded);
+                  showUndoToast(fToast, p.id, notNeeded);
                   displayedValue = null;
                 },
               ),

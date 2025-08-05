@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/products/common.dart';
-import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_detail.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
+import '../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 // todo
 // see history
@@ -21,7 +20,7 @@ class ProductDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    ProductProvider productProvider = context.watch();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     var productFuture = productProvider.getProductById(productId);
 
@@ -33,7 +32,7 @@ class ProductDetail extends StatelessWidget {
       }
     })();
 
-    RecipeProvider recipeProvider = context.watch();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     var recepiesFuture = recipeProvider.getRecepiesOfProductById(productId);
 
@@ -75,7 +74,7 @@ class ProductDetail extends StatelessWidget {
       },
     );
 
-    ScheduleProvider scheduleProvider = context.watch();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
 
     return Scaffold(
       appBar: AppBar(

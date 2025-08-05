@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/sync/open_connection.dart';
+import '../../lista_de_la_compra_backend.dart';
 import 'package:uuid/uuid.dart';
 
-class OpenConnectionProvider extends ChangeNotifier {
+class RamOpenConnectionProvider extends OpenConnectionProvider with VoidEventSourceMixin {}
+
+abstract class OpenConnectionProvider  implements VoidEventSource{
   final Map<String, OpenConnection> _openConnections = {};
 
 

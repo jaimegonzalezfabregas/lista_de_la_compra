@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/env_manager.dart';
 import 'package:lista_de_la_compra/UI/home.dart';
-import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class SelectedEnviromentFork extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
@@ -12,7 +14,7 @@ class SelectedEnviromentFork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SharedPreferencesProvider sharedPreferencesProvider = context.watch();
+    SharedPreferencesProvider sharedPreferencesProvider = context.watch<PersistantSharedPreferencesProvider>();
 
     return FutureBuilder(
       future: sharedPreferencesProvider.getSelectedEnviroment(),

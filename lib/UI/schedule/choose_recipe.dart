@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
-import 'package:lista_de_la_compra/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
+import '../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class ChooseRecipe extends StatelessWidget {
   final int week;
@@ -16,8 +17,8 @@ class ChooseRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    ScheduleProvider scheduleProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     Future<List<ScheduleEntry>> scheduleList = scheduleProvider.getEntries(week, day, enviromentId);
 
