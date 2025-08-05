@@ -2,7 +2,7 @@
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
-import 'package:lista_de_la_compra/UI/selected_enviroment_fork.dart';
+import 'package:lista_de_la_compra/UI/selected_environment_fork.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_client_service.dart';
 // import 'package:lista_de_la_compra_backend/src/sync/http_server_manager.dart';
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    final FlutterEnviromentProvider enviromentProvider = FlutterEnviromentProvider();
+    final FlutterEnvironmentProvider environmentProvider = FlutterEnvironmentProvider();
     final FlutterRecipeProvider recipeProvider = FlutterRecipeProvider();
     final FlutterProductProvider productProvider = FlutterProductProvider();
     final FlutterScheduleProvider scheduleProvider = FlutterScheduleProvider();
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
       recipeProvider,
       scheduleProvider,
       sharedPreferencesProvider,
-      enviromentProvider,
+      environmentProvider,
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => enviromentProvider),
+        ChangeNotifierProvider(create: (_) => environmentProvider),
         ChangeNotifierProvider(create: (_) => recipeProvider),
         ChangeNotifierProvider(create: (_) => productProvider),
         ChangeNotifierProvider(create: (_) => scheduleProvider),
@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(220, 138, 221, 1), brightness: MediaQuery.platformBrightnessOf(context)),
         ),
-        home: SelectedEnviromentFork(openConnectionManager),
+        home: SelectedEnvironmentFork(openConnectionManager),
       ),
     );
   }

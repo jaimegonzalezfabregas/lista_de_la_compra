@@ -17,7 +17,7 @@ abstract class OpenConnectionProvider  implements VoidEventSource{
     Function triggerSyncPush,
     Function triggerHandshakePush,
     Function abortConnection,
-    List<Enviroment> enviromentList,
+    List<Environment> environmentList,
     String userNote,
   ) {
     String id = Uuid().v7();
@@ -30,7 +30,7 @@ abstract class OpenConnectionProvider  implements VoidEventSource{
       triggerSyncPush,
       triggerHandshakePush,
       abortConnection,
-      enviromentList,
+      environmentList,
       userNote,
     );
 
