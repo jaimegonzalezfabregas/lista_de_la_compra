@@ -64,6 +64,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_launcher_icons: 0.14.4
+  characters: ^1.4.0
 dev_dependencies:
   drift_dev: ^2.26.0
   build_runner: ^2.4.15

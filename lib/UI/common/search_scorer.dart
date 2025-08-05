@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:characters/characters.dart';
 
 class SearchScorer {
   String filter;
 
   SearchScorer(this.filter);
 
-  void _engine(String filter, String data, onMatch, onSkipChar) {
-    while (filter.isNotEmpty && data.isNotEmpty) {
-      if (filter[0].toLowerCase() == data[0].toLowerCase()) {
-        onMatch(data[0]);
-        data = data.substring(1);
-        filter = filter.substring(1);
+  void _engine(String filter, String data, void Function(String) onMatch, void Function(String) onSkipSegment) {
+    Characters filterChars = filter.characters;
+    Characters dataChars = data.characters;
+
+    while (filterChars.isNotEmpty && dataChars.isNotEmpty) {
+      if (filterChars.first.toLowerCase() == dataChars.first.toLowerCase()) {
+        onMatch(dataChars.first);
+        filterChars = filterChars.skip(1);
       } else {
-        onSkipChar(data[0]);
-        data = data.substring(1);
+        onSkipSegment(dataChars.first);
       }
+      dataChars = dataChars.skip(1);
     }
-    while (data.isNotEmpty) {
-      onSkipChar(data[0]);
-      data = data.substring(1);
+    if (dataChars.isNotEmpty) {
+      onSkipSegment(dataChars.string);
     }
   }
 
@@ -29,7 +31,7 @@ class SearchScorer {
       score++;
     }, (_) {});
 
-    return score / data.length;
+    return score / (data.characters.length+1);
   }
 
   // TODO improve fuzzy search
@@ -44,7 +46,7 @@ class SearchScorer {
         children.add(
           TextSpan(
             text: c,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
           ),
         );
       },
@@ -54,10 +56,7 @@ class SearchScorer {
     );
 
     return RichText(
-      text: TextSpan(
-        style: Theme.of(context).textTheme.bodyLarge,
-        children: children,
-      ),
+      text: TextSpan(style: Theme.of(context).textTheme.bodyLarge, children: children),
     );
   }
 }
