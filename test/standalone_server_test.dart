@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart' hide test;
-import 'package:lista_de_la_compra_backend/src/db_providers/enviroment_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/environment_provider.dart';
 import 'package:lista_de_la_compra_backend/src/db_providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/ram_shared_preferences_provider.dart';
 import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/shared_preferences_provider.dart';
@@ -17,7 +17,7 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     // TODO shared preferences set nick
 
-    final EnviromentProvider enviromentProvider = RamEnviromentProvider();
+    final EnvironmentProvider environmentProvider = RamEnvironmentProvider();
     final RecipeProvider recipeProvider = RamRecipeProvider();
     final ProductProvider productProvider = RamProductProvider();
     final ScheduleProvider scheduleProvider = RamScheduleProvider();
@@ -31,9 +31,9 @@ void main() {
       recipeProvider,
       scheduleProvider,
       sharedPreferencesProvider,
-      enviromentProvider,
+      environmentProvider,
       
-      downloadAllEnviroments : true
+      downloadAllEnvironments : true
       
     );
 

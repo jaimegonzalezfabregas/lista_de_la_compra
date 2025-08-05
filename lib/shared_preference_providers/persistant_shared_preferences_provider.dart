@@ -55,22 +55,22 @@ class PersistantSharedPreferencesProvider extends SharedPreferencesProvider with
   }
 
   @override
-  Future<void> setSelectedEnviroment(String enviromentId) async {
+  Future<void> setSelectedEnvironment(String enviromentId) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString("selectedEnviroment", enviromentId);
+    prefs.setString("selectedEnvironment", enviromentId);
     notifyListeners();
   }
 
   @override
-  Future<void> clearSelectedEnviroment() async {
+  Future<void> clearSelectedEnvironment() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove("selectedEnviroment");
+    prefs.remove("selectedEnvironment");
     notifyListeners();
   }
 
   @override
-  Future<String?> getSelectedEnviroment() async {
+  Future<String?> getSelectedEnvironment() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("selectedEnviroment");
+    return prefs.getString("selectedEnvironment");
   }
 }

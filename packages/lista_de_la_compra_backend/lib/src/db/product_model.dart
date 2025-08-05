@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'enviroments.dart';
+import 'environments.dart';
 import 'package:uuid/uuid.dart';
 
 // TODO warn the user if 2 products have the same name

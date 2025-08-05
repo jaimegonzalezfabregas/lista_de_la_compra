@@ -7,25 +7,25 @@ import 'package:provider/provider.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 
-class SelectedEnviromentFork extends StatelessWidget {
+class SelectedEnvironmentFork extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
 
-  const SelectedEnviromentFork(this.openConnectionManager, {super.key});
+  const SelectedEnvironmentFork(this.openConnectionManager, {super.key});
 
   @override
   Widget build(BuildContext context) {
     SharedPreferencesProvider sharedPreferencesProvider = context.watch<PersistantSharedPreferencesProvider>();
 
     return FutureBuilder(
-      future: sharedPreferencesProvider.getSelectedEnviroment(),
+      future: sharedPreferencesProvider.getSelectedEnvironment(),
       builder: (context, asyncSnapshot) {
         if (asyncSnapshot.connectionState == ConnectionState.done) {
-          String? selectedEnviroment = asyncSnapshot.data;
+          String? selectedEnvironment = asyncSnapshot.data;
 
-          if (selectedEnviroment == null) {
+          if (selectedEnvironment == null) {
             return EnvSelect(openConnectionManager);
           } else {
-            return Home(selectedEnviroment, openConnectionManager);
+            return Home(selectedEnvironment, openConnectionManager);
           }
         }
         if (asyncSnapshot.hasError) {

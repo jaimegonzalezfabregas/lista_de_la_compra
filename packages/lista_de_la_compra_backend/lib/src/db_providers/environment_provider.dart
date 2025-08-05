@@ -3,18 +3,18 @@ import 'package:drift/drift.dart';
 import '../../lista_de_la_compra_backend.dart';
 
 
-class RamEnviromentProvider extends EnviromentProvider with VoidEventSourceMixin {
+class RamEnvironmentProvider extends EnvironmentProvider with VoidEventSourceMixin {
 }
 
 
-abstract class EnviromentProvider  implements VoidEventSource{
-  Future<Enviroment?> getEnviromentById(String id) async {
+abstract class EnvironmentProvider  implements VoidEventSource{
+  Future<Environment?> getEnvironmentById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.enviroments)..where((table) => table.id.equals(id))).getSingleOrNull();
   }
 
-  Future<List<Enviroment>> getEnviromentList() async {
+  Future<List<Environment>> getEnvironmentList() async {
     final database = AppDatabaseSingleton.instance;
 
     return await (database.select(database.enviroments)).get();
@@ -30,7 +30,7 @@ abstract class EnviromentProvider  implements VoidEventSource{
     notifyListeners();
   }
 
-  Future<void> addEmptyEnviroment(String name) async {
+  Future<void> addEmptyEnvironment(String name) async {
     final database = AppDatabaseSingleton.instance;
 
     await database
@@ -39,7 +39,7 @@ abstract class EnviromentProvider  implements VoidEventSource{
     notifyListeners();
   }
 
-  Future<void> upsertEnviroment(Enviroment env) async {
+  Future<void> upsertEnvironment(Environment env) async {
     final database = AppDatabaseSingleton.instance;
 
     await database.into(database.enviroments).insertOnConflictUpdate(env);

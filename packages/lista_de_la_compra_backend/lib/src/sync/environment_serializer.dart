@@ -1,21 +1,21 @@
 
 import '../db/database.dart';
-import '../db_providers/enviroment_provider.dart';
+import '../db_providers/environment_provider.dart';
 import '../db_providers/product_provider.dart';
 import '../db_providers/recipe_provider.dart';
 import '../db_providers/schedule_provider.dart';
 
-Future<Map<String, dynamic>> serializeEnviroment(
+Future<Map<String, dynamic>> serializeEnvironment(
   String enviromentId,
-  EnviromentProvider enviromentProvider,
+  EnvironmentProvider environmentProvider,
   ProductProvider productProvider,
   RecipeProvider recipeProvider,
   ScheduleProvider scheduleProvider,
 ) async {
-  Enviroment enviroment = (await enviromentProvider.getEnviromentById(enviromentId))!;
+  Environment environment = (await environmentProvider.getEnvironmentById(enviromentId))!;
 
   return {
-    "enviroment": enviroment,
+    "environment": environment,
     "products": await productProvider.getSyncProductList(enviromentId),
     "recipes": await recipeProvider.getSyncRecipeList(enviromentId),
     "products_recipies": await recipeProvider.getSyncRecipeProductList(enviromentId),
@@ -61,20 +61,20 @@ Future<void> syncItems(
 
 Future<void> recieveState(
   Map<String, dynamic> state,
-  EnviromentProvider enviromentProvider,
+  EnvironmentProvider environmentProvider,
   ProductProvider productProvider,
   RecipeProvider recipeProvider,
   ScheduleProvider scheduleProvider,
 ) async {
-  Enviroment remoteEnviroment = Enviroment.fromJson(state["enviroment"]);
-  Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
-  if (currentEnviroment == null) {
+  Environment remoteEnvironment = Environment.fromJson(state["environment"]);
+  Environment? currentEnvironment = await environmentProvider.getEnvironmentById(remoteEnvironment.id);
+  if (currentEnvironment == null) {
     return;
   }
 
-  if (currentEnviroment.updatedAt < remoteEnviroment.updatedAt) {
-    if (currentEnviroment.name != remoteEnviroment.name) {
-      enviromentProvider.setName(currentEnviroment.id, remoteEnviroment.name);
+  if (currentEnvironment.updatedAt < remoteEnvironment.updatedAt) {
+    if (currentEnvironment.name != remoteEnvironment.name) {
+      environmentProvider.setName(currentEnvironment.id, remoteEnvironment.name);
     }
   }
 
@@ -83,10 +83,10 @@ Future<void> recieveState(
   List<dynamic> otherProductsRecipies = state["products_recipies"]!;
   List<dynamic> otherSchedule = state["schedule"]!;
 
-  var selfProducts = productProvider.getSyncProductList(remoteEnviroment.id);
-  var selfRecipes = recipeProvider.getSyncRecipeList(remoteEnviroment.id);
-  var selfProductsRecipes = recipeProvider.getSyncRecipeProductList(remoteEnviroment.id);
-  var selfSchedule = scheduleProvider.getSyncEntryList(remoteEnviroment.id);
+  var selfProducts = productProvider.getSyncProductList(remoteEnvironment.id);
+  var selfRecipes = recipeProvider.getSyncRecipeList(remoteEnvironment.id);
+  var selfProductsRecipes = recipeProvider.getSyncRecipeProductList(remoteEnvironment.id);
+  var selfSchedule = scheduleProvider.getSyncEntryList(remoteEnvironment.id);
 
   await syncItems(
     otherProducts,
