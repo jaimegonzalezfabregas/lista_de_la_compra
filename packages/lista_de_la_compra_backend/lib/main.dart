@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:drift/native.dart';
 import 'package:lista_de_la_compra_backend/src/db/database.dart';
 
-import 'src/db_providers/enviroment_provider.dart';
+import 'src/db_providers/environment_provider.dart';
 
 import 'src/db_providers/http_server_provider.dart';
 import 'src/db_providers/http_server_state_provider.dart';
@@ -26,7 +26,7 @@ Future main() async {
     );
 
 
-  final enviromentProvider = RamEnviromentProvider();
+  final environmentProvider = RamEnvironmentProvider();
   final recipeProvider = RamRecipeProvider();
   final productProvider = RamProductProvider();
   final scheduleProvider = RamScheduleProvider();
@@ -40,9 +40,9 @@ Future main() async {
       recipeProvider,
       scheduleProvider,
       sharedPreferencesProvider,
-      enviromentProvider,
+      environmentProvider,
 
-      downloadAllEnviroments : true
+      downloadAllEnvironments : true
 
   );
 

@@ -36,17 +36,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get thisListHasNoResults => 'This list has no results';
 
   @override
-  String get createEnviroment => 'Create enviroment';
+  String get createEnvironment => 'Create environment';
 
   @override
-  String get aviableEnviromentsWithoutConnection =>
-      'Aviable enviroments without connection';
+  String get availableEnvironmentsWithoutConnection =>
+      'Available environments without connection';
 
   @override
-  String get enviromentsOnOtherMachines => 'Enviroments on other machines';
+  String get environmentsOnOtherMachines => 'Environments on other machines';
 
   @override
-  String get importEnviroment => 'Import enviroment';
+  String get importEnvironment => 'Import environment';
 
   @override
   String get syncronization => 'Syncronization';
@@ -150,7 +150,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get localDeviceAvailableIPs =>
-      'The current device is aviable on the following IPs';
+      'The current device is available on the following IPs';
 
   @override
   String get stopServer => 'Stop server';
@@ -252,7 +252,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search';
 
   @override
-  String get switchEnviroment => 'Switch enviroment';
+  String get switchEnvironment => 'Switch environment';
 
   @override
   String get actions => 'Actions';

@@ -5,9 +5,9 @@ abstract class SharedPreferencesProvider {
   Future<String> getLocalNick();
   Future<void> setLocalNick(String nick);
 
-  Future<void> setSelectedEnviroment(String enviromentId) ;
-  Future<void> clearSelectedEnviroment();
-  Future<String?> getSelectedEnviroment();
+  Future<void> setSelectedEnvironment(String enviromentId) ;
+  Future<void> clearSelectedEnvironment();
+  Future<String?> getSelectedEnvironment();
 
   void addListener( void Function() listener );
 }

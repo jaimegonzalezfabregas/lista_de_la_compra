@@ -7,7 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../lista_de_la_compra_backend.dart';
-import 'enviroment_serializer.dart';
+import 'environment_serializer.dart';
 
 class OpenConnectionManager {
   final ProductProvider productProvider;
@@ -15,9 +15,9 @@ class OpenConnectionManager {
   final ScheduleProvider scheduleProvider;
   final OpenConnectionProvider openConnectionProvider;
   final SharedPreferencesProvider sharedPreferencesProvider;
-  final EnviromentProvider enviromentProvider;
+  final EnvironmentProvider environmentProvider;
 
-  final bool downloadAllEnviroments;
+  final bool downloadAllEnvironments;
 
   void triggerSyncPull() async {
     for (OpenConnection conection in openConnectionProvider.openConnections.values) {
@@ -43,14 +43,14 @@ class OpenConnectionManager {
     this.recipeProvider,
     this.scheduleProvider,
     this.sharedPreferencesProvider,
-    this.enviromentProvider, {
-    this.downloadAllEnviroments = false,
+    this.environmentProvider, {
+    this.downloadAllEnvironments = false,
   }) {
     productProvider.addListener(triggerSyncPush);
     recipeProvider.addListener(triggerSyncPush);
     scheduleProvider.addListener(triggerSyncPush);
 
-    enviromentProvider.addListener(triggerHandshakePush);
+    environmentProvider.addListener(triggerHandshakePush);
     sharedPreferencesProvider.addListener(triggerHandshakePush);
   }
 
@@ -60,7 +60,7 @@ class OpenConnectionManager {
 
   Future<String> getStateDigest(int salt, String enviromentId) async {
     Uint8List bytes = utf8.encode(
-      jsonEncode(await serializeEnviroment(enviromentId, enviromentProvider, productProvider, recipeProvider, scheduleProvider)),
+      jsonEncode(await serializeEnvironment(enviromentId, environmentProvider, productProvider, recipeProvider, scheduleProvider)),
     ); // data being hashed
     var saltedBytes = bytes + utf8.encode(salt.toString());
     return sha512256.convert(saltedBytes).toString();
@@ -71,7 +71,7 @@ class OpenConnectionManager {
       "type": "handshake",
       "id": await sharedPreferencesProvider.getTerminalId(),
       "nick": await sharedPreferencesProvider.getLocalNick(),
-      "env_list": await enviromentProvider.getEnviromentList(),
+      "env_list": await environmentProvider.getEnvironmentList(),
     };
   }
 
@@ -93,9 +93,9 @@ class OpenConnectionManager {
     }
 
     Future<void> triggerSyncPull() async {
-      for (Enviroment env in await enviromentProvider.getEnviromentList()) {
+      for (Environment env in await environmentProvider.getEnvironmentList()) {
         int salt = math.Random().nextInt(1000);
-        send(jsonEncode({"type": "send_digest", "salt": salt, "enviroment": env, "digest": await getStateDigest(salt, env.id)}));
+        send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
       }
     }
 
@@ -133,10 +133,10 @@ class OpenConnectionManager {
                 afterHandshakeNickCb(nick!);
               }
 
-              List<Enviroment> envList = [];
+              List<Environment> envList = [];
 
               for (var jsonEnv in data["env_list"]) {
-                envList.add(Enviroment.fromJson(jsonEnv));
+                envList.add(Environment.fromJson(jsonEnv));
               }
 
               if (openConnectionId == null) {
@@ -155,11 +155,11 @@ class OpenConnectionManager {
                 openConnectionProvider.setNick(openConnectionId!, nick!);
               }
 
-              if (downloadAllEnviroments) {
+              if (downloadAllEnvironments) {
 
 
                 for (var env in envList) {
-                  enviromentProvider.upsertEnviroment(env);
+                  environmentProvider.upsertEnvironment(env);
                 }
               }
 
@@ -175,19 +175,19 @@ class OpenConnectionManager {
               break;
 
             case "send_digest":
-              Enviroment remoteEnviroment = Enviroment.fromJson(data["enviroment"]);
-              Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
-              if (currentEnviroment == null) {
+              Environment remoteEnvironment = Environment.fromJson(data["environment"]);
+              Environment? currentEnvironment = await environmentProvider.getEnvironmentById(remoteEnvironment.id);
+              if (currentEnvironment == null) {
                 break;
               }
 
-              if (currentEnviroment.updatedAt < remoteEnviroment.updatedAt) {
-                if (currentEnviroment.name != remoteEnviroment.name) {
-                  enviromentProvider.setName(currentEnviroment.id, remoteEnviroment.name);
+              if (currentEnvironment.updatedAt < remoteEnvironment.updatedAt) {
+                if (currentEnvironment.name != remoteEnvironment.name) {
+                  environmentProvider.setName(currentEnvironment.id, remoteEnvironment.name);
                 }
               }
 
-              String ownDigest = await getStateDigest(data["salt"], remoteEnviroment.id);
+              String ownDigest = await getStateDigest(data["salt"], remoteEnvironment.id);
 
               if (data["digest"] == ownDigest) {
                 send(jsonEncode({"type": "sync_up_to_date"}));
@@ -195,14 +195,14 @@ class OpenConnectionManager {
                 send(
                   jsonEncode({
                     "type": "send_state",
-                    "state": await serializeEnviroment(remoteEnviroment.id, enviromentProvider, productProvider, recipeProvider, scheduleProvider),
+                    "state": await serializeEnvironment(remoteEnvironment.id, environmentProvider, productProvider, recipeProvider, scheduleProvider),
                   }),
                 );
               }
               break;
 
             case "send_state":
-              recieveState(data["state"], enviromentProvider, productProvider, recipeProvider, scheduleProvider);
+              recieveState(data["state"], environmentProvider, productProvider, recipeProvider, scheduleProvider);
 
               break;
           }

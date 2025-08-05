@@ -29,9 +29,9 @@ class ActionIndex extends StatelessWidget {
           children: [
 
             OutlinedButton(
-              child: Row(children: [Icon(Icons.swap_horiz), SizedBox(width: 8), Text(appLoc.switchEnviroment)]),
+              child: Row(children: [Icon(Icons.swap_horiz), SizedBox(width: 8), Text(appLoc.switchEnvironment)]),
               onPressed: () {
-                sharedPreferencesProvider.clearSelectedEnviroment();
+                sharedPreferencesProvider.clearSelectedEnvironment();
               },
             ),
 
