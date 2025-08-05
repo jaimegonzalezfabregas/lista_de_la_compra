@@ -1,13 +1,14 @@
 import 'package:contentsize_tabbarview/contentsize_tabbarview.dart';
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/UI/sync/http/known_servers.dart';
+import '../../../flutter_providers/flutter_providers.dart';
+import './known_servers.dart';
 import 'package:lista_de_la_compra/UI/sync/nearby_servers.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/http_server_provider.dart';
-import 'package:lista_de_la_compra/db_providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra/UI/sync/ip_list_view.dart';
-import 'package:lista_de_la_compra/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class HTTPView extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
@@ -17,7 +18,7 @@ class HTTPView extends StatelessWidget {
   Widget serveControlls(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    HttpServerStateProvider serverStateProvider = context.watch();
+    HttpServerStateProvider serverStateProvider = context.watch<FlutterHttpServerStateProvider>();
 
     switch (serverStateProvider.getServerStatus()) {
       case ServerStatus.running:
@@ -62,7 +63,7 @@ class HTTPView extends StatelessWidget {
 
   Widget clientControlls(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    final HttpServerProvider httpServerProvider = context.watch();
+    final HttpServerProvider httpServerProvider = context.watch<FlutterHttpServerProvider>();
 
     TextEditingController hostTextController = TextEditingController();
 

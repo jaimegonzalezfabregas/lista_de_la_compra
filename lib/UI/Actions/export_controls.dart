@@ -3,15 +3,12 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/enviroment_serializer.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 // ignore: must_be_immutable
 class ExporControls extends StatelessWidget {
@@ -22,10 +19,10 @@ class ExporControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    EnviromentProvider enviromentProvider = context.watch();
-    ProductProvider productProvider = context.watch();
-    RecipeProvider recipeProvider = context.watch();
-    ScheduleProvider scheduleProvider = context.watch();
+    EnviromentProvider enviromentProvider = context.watch<FlutterEnviromentProvider>();
+    ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
+    ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
 
     final Future serialized = serializeEnviroment(enviromentId, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
     final DateTime now = DateTime.now();

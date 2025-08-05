@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
-import 'package:lista_de_la_compra/sync/open_connection.dart';
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
+
+import '../../flutter_providers/flutter_providers.dart';
 
 class OpenConnectionsList extends StatelessWidget {
   const OpenConnectionsList({super.key});
@@ -11,7 +12,7 @@ class OpenConnectionsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    OpenConnectionProvider openConnectionProvider = context.watch();
+    OpenConnectionProvider openConnectionProvider = context.watch<FlutterOpenConnectionProvider>();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

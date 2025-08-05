@@ -1,10 +1,12 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/l10n/app_localizations.dart';
+import '../../lista_de_la_compra_backend.dart';
 import 'package:uuid/uuid.dart';
 
-class RecipeProvider extends ChangeNotifier {
+
+class RamRecipeProvider extends RecipeProvider with VoidEventSourceMixin {
+}
+
+abstract class RecipeProvider  implements VoidEventSource{
   Future<Recipe?> getRecipeById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
@@ -145,7 +147,7 @@ class RecipeProvider extends ChangeNotifier {
     return await query.map((row) => (row.readTable(database.recipeProducts), row.readTable(database.products))).get();
   }
 
-  Future setIngredientOfRecipeById(String recipeId, String productId, bool value, AppLocalizations appLoc) async {
+  Future setIngredientOfRecipeById(String recipeId, String productId, bool value, String enoughForA) async {
     final database = AppDatabaseSingleton.instance;
 
     Recipe? recipe =
@@ -162,7 +164,7 @@ class RecipeProvider extends ChangeNotifier {
               RecipeProductsCompanion(
                 recipeId: Value(recipeId),
                 productId: Value(productId),
-                amount: Value("${appLoc.enoughForA} ${recipe.name}"),
+                amount: Value("${enoughForA} ${recipe.name}"),
                 updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
               ),
             );

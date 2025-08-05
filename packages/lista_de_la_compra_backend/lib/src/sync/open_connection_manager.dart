@@ -4,16 +4,10 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/enviroment_serializer.dart';
-import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/shared_preference_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra/sync/open_conection_provider.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra/sync/open_connection.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import '../../lista_de_la_compra_backend.dart';
+import 'enviroment_serializer.dart';
 
 class OpenConnectionManager {
   final ProductProvider productProvider;

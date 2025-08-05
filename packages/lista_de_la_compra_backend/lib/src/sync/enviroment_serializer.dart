@@ -1,8 +1,9 @@
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/db_providers/enviroment_provider.dart';
-import 'package:lista_de_la_compra/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/db_providers/schedule_provider.dart';
+
+import '../db/database.dart';
+import '../db_providers/enviroment_provider.dart';
+import '../db_providers/product_provider.dart';
+import '../db_providers/recipe_provider.dart';
+import '../db_providers/schedule_provider.dart';
 
 Future<Map<String, dynamic>> serializeEnviroment(
   String enviromentId,
@@ -37,12 +38,14 @@ Future<void> syncItems(
 
         if (selfItem.deletedAt == null && otherItem["deletedAt"] == null) {
           if (selfItem.updatedAt < otherItem["updatedAt"]) {
+            print("Override: ${selfItem.toString()}");
             syncOverideCallback(selfItem.id, otherItem);
           }
         }
 
         if (otherItem["deletedAt"] != null) {
           if (selfItem.deletedAt == null || selfItem.deletedAt > otherItem["deletedAt"]) {
+            print("Deleted: ${selfItem.toString()}");
             syncSetDeletedCallback(selfItem.id, otherItem["deletedAt"]);
           }
         }
@@ -50,6 +53,7 @@ Future<void> syncItems(
     }
 
     if (!found) {
+      print("Added: ${otherItem.toString()}");
       syncAddProductCallback(otherItem);
     }
   }

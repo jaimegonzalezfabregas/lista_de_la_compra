@@ -1,9 +1,10 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/db/database.dart';
-import 'package:lista_de_la_compra/UI/schedule/utils.dart';
+import '../../lista_de_la_compra_backend.dart';
 
-class ScheduleProvider extends ChangeNotifier {
+class RamScheduleProvider extends ScheduleProvider with VoidEventSourceMixin {}
+
+
+abstract class ScheduleProvider  implements VoidEventSource {
   // Adds a new schedule entry.
   Future<void> addEntry(int week, int day, String recipeId) async {
     final database = AppDatabaseSingleton.instance;

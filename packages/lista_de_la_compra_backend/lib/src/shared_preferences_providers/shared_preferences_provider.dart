@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 
-abstract class SharedPreferencesProvider extends ChangeNotifier {
+abstract class SharedPreferencesProvider {
   Future<String> getTerminalId() ;
 
   Future<String> getLocalNick();
@@ -9,4 +8,7 @@ abstract class SharedPreferencesProvider extends ChangeNotifier {
   Future<void> setSelectedEnviroment(String enviromentId) ;
   Future<void> clearSelectedEnviroment();
   Future<String?> getSelectedEnviroment();
+
+  void addListener( void Function() listener );
 }
+
