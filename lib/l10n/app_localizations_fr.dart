@@ -43,7 +43,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Environnements disponibles hors connexion';
 
   @override
-  String get enviromentsOnOtherMachines => 'Environnements sur d\'autres machines';
+  String get enviromentsOnOtherMachines =>
+      'Environnements sur d\'autres machines';
 
   @override
   String get importEnviroment => 'Importer un environnement';
@@ -226,13 +227,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get selectIngredients => 'Sélectionner des ingrédients';
 
   @override
-  String get recipeWithoutIngredients => 'Cette recette n\'a pas d\'ingrédients';
+  String get recipeWithoutIngredients =>
+      'Cette recette n\'a pas d\'ingrédients';
 
   @override
   String get noPlannedDates => 'Aucune date planifiée';
 
   @override
-  String get noHTTPPairings => 'Aucun appairage précédent avec des serveurs HTTP';
+  String get noHTTPPairings =>
+      'Aucun appairage précédent avec des serveurs HTTP';
 
   @override
   String get loadingIps => 'Chargement des adresses IP';
