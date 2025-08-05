@@ -6,7 +6,7 @@ import 'package:nsd/nsd.dart';
 
 class FlutterOpenConnectionProvider extends OpenConnectionProvider with ChangeNotifier {}
 
-class FlutterEnviromentProvider extends EnviromentProvider with ChangeNotifier {}
+class FlutterEnvironmentProvider extends EnvironmentProvider with ChangeNotifier {}
 
 class FlutterHttpServerProvider extends HttpServerProvider with ChangeNotifier{}
 

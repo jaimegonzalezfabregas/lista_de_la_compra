@@ -154,29 +154,29 @@ abstract class AppLocalizations {
   /// **'This list has no results'**
   String get thisListHasNoResults;
 
-  /// No description provided for @createEnviroment.
+  /// No description provided for @createEnvironment.
   ///
   /// In en, this message translates to:
-  /// **'Create enviroment'**
-  String get createEnviroment;
+  /// **'Create environment'**
+  String get createEnvironment;
 
-  /// No description provided for @aviableEnviromentsWithoutConnection.
+  /// No description provided for @availableEnvironmentsWithoutConnection.
   ///
   /// In en, this message translates to:
-  /// **'Aviable enviroments without connection'**
-  String get aviableEnviromentsWithoutConnection;
+  /// **'Available environments without connection'**
+  String get availableEnvironmentsWithoutConnection;
 
-  /// No description provided for @enviromentsOnOtherMachines.
+  /// No description provided for @environmentsOnOtherMachines.
   ///
   /// In en, this message translates to:
-  /// **'Enviroments on other machines'**
-  String get enviromentsOnOtherMachines;
+  /// **'Environments on other machines'**
+  String get environmentsOnOtherMachines;
 
-  /// No description provided for @importEnviroment.
+  /// No description provided for @importEnvironment.
   ///
   /// In en, this message translates to:
-  /// **'Import enviroment'**
-  String get importEnviroment;
+  /// **'Import environment'**
+  String get importEnvironment;
 
   /// No description provided for @syncronization.
   ///
@@ -379,7 +379,7 @@ abstract class AppLocalizations {
   /// No description provided for @localDeviceAvailableIPs.
   ///
   /// In en, this message translates to:
-  /// **'The current device is aviable on the following IPs'**
+  /// **'The current device is available on the following IPs'**
   String get localDeviceAvailableIPs;
 
   /// No description provided for @stopServer.
@@ -574,11 +574,11 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get search;
 
-  /// No description provided for @switchEnviroment.
+  /// No description provided for @switchEnvironment.
   ///
   /// In en, this message translates to:
-  /// **'Switch enviroment'**
-  String get switchEnviroment;
+  /// **'Switch environment'**
+  String get switchEnvironment;
 
   /// No description provided for @actions.
   ///

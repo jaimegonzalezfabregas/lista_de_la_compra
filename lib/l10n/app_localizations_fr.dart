@@ -36,18 +36,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get thisListHasNoResults => 'Cette liste n\'a pas de résultat';
 
   @override
-  String get createEnviroment => 'Créer un environnement';
+  String get createEnvironment => 'Créer un environnement';
 
   @override
-  String get aviableEnviromentsWithoutConnection =>
+  String get availableEnvironmentsWithoutConnection =>
       'Environnements disponibles hors connexion';
 
   @override
-  String get enviromentsOnOtherMachines =>
+  String get environmentsOnOtherMachines =>
       'Environnements sur d\'autres machines';
 
   @override
-  String get importEnviroment => 'Importer un environnement';
+  String get importEnvironment => 'Importer un environnement';
 
   @override
   String get syncronization => 'Synchronisation';
@@ -255,7 +255,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get search => 'Rechercher';
 
   @override
-  String get switchEnviroment => 'Changer d\'environnement';
+  String get switchEnvironment => 'Changer d\'environnement';
 
   @override
   String get actions => 'Actions';
