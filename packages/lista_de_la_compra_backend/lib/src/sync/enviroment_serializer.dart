@@ -1,5 +1,4 @@
 
-import '../../lista_de_la_compra_backend.dart';
 import '../db/database.dart';
 import '../db_providers/enviroment_provider.dart';
 import '../db_providers/product_provider.dart';

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra_backend/src/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/http_server_provider.dart';
 import 'package:lista_de_la_compra/sync/http_client_service.dart';
-import 'package:lista_de_la_compra_backend/src/sync/open_conection_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class HTTPKnownServers extends StatelessWidget {
   const HTTPKnownServers({super.key});

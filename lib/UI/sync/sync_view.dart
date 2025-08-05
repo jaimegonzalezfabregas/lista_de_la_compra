@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/UI/sync/http/http_view.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
 import 'package:lista_de_la_compra/UI/sync/open_connections_widget.dart';
 import 'package:provider/provider.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class SyncView extends StatefulWidget {
   final OpenConnectionManager openConnectionManager;

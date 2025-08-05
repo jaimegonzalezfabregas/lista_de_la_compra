@@ -1,11 +1,6 @@
 import 'package:drift/drift.dart';
 import '../../lista_de_la_compra_backend.dart';
 
-import '../db/database.dart';
-import '../utils.dart';
-
-
-
 class RamScheduleProvider extends ScheduleProvider with VoidEventSourceMixin {}
 
 

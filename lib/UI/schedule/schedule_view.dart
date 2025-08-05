@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
-import 'package:lista_de_la_compra_backend/src/utils.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class _ScheduleView extends State<ScheduleViewContents> {
   late int currentWeek;
 
-  _ScheduleView(this.currentWeek);
+  _ScheduleView(){
+    currentWeek = widget.initialWeek;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +93,7 @@ class ScheduleViewContents extends StatefulWidget {
   const ScheduleViewContents(this.initialWeek, this.enviromentId, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _ScheduleView(initialWeek);
+  State<StatefulWidget> createState() => _ScheduleView();
 }
 
 class ScheduleView extends StatelessWidget {

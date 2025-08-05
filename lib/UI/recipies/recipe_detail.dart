@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
-import 'package:lista_de_la_compra_backend/src/db/database.dart';
+import 'package:provider/provider.dart';
+import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
+import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra_backend/src/utils.dart';
-import 'package:provider/provider.dart';
 
 import '../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 class Ingredients extends StatelessWidget {
   final String recipeId;
@@ -21,6 +18,7 @@ class Ingredients extends StatelessWidget {
   ListTile ingredientEntry(RecipeProduct ingredient, Product product, RecipeProvider recipeProvider, BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
+    // ignore: unused_local_variable
     ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
     return ListTile(
@@ -293,10 +291,9 @@ class RecipeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    RecipeProvider appState = context.watch<FlutterRecipeProvider>();
-    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>(); // TODO: DOS VECES EL MISMO PROVIDER?
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>(); 
 
-    Future<Recipe?> recipeFuture = appState.getRecipeById(recipeId);
+    Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(recipeId);
 
     return Scaffold(
       appBar: AppBar(
@@ -309,7 +306,7 @@ class RecipeDetail extends StatelessWidget {
                   child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text(appLoc.delete)]),
                   onTap: () {
                     Navigator.pop(context);
-                    appState.deleteRecipeById(recipeId);
+                    recipeProvider.deleteRecipeById(recipeId);
                   },
                 ),
                 PopupMenuItem(

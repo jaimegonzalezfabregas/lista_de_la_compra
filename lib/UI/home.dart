@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/UI/Actions/actionIndex.dart';
+import 'package:lista_de_la_compra/UI/Actions/action_index.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_manager.dart';
 import 'package:lista_de_la_compra/UI/products/simple_shopping_list.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
-import 'package:lista_de_la_compra_backend/src/utils.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 class Home extends StatefulWidget {
   final String enviromentId;
@@ -14,10 +14,10 @@ class Home extends StatefulWidget {
   const Home(this.enviromentId, this.openConnectionManager, {super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  HomeState createState() => HomeState();
 }
 
-class _HomeState extends State<Home> {
+class HomeState extends State<Home> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [];
@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     _pages.add(SimpleShoppinglist(widget.enviromentId));
     _pages.add(RecipeView(widget.enviromentId));
     _pages.add(ScheduleView(getCurrentWeek(), widget.enviromentId));
-    _pages.add(Actionindex(widget.enviromentId, widget.openConnectionManager));
+    _pages.add(ActionIndex(widget.enviromentId, widget.openConnectionManager));
   }
 
   void _onItemTapped(int index) {

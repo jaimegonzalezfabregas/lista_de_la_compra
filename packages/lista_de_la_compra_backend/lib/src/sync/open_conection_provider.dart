@@ -1,13 +1,7 @@
 import '../../lista_de_la_compra_backend.dart';
 import 'package:uuid/uuid.dart';
 
-import '../db/database.dart';
-import 'open_connection.dart';
-
-
 class RamOpenConnectionProvider extends OpenConnectionProvider with VoidEventSourceMixin {}
-
-
 
 abstract class OpenConnectionProvider  implements VoidEventSource{
   final Map<String, OpenConnection> _openConnections = {};

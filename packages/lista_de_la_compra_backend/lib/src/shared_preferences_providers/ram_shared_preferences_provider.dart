@@ -1,11 +1,11 @@
-
-
-
+import 'package:uuid/uuid.dart';
 
 import '../../lista_de_la_compra_backend.dart';
-import 'shared_preferences_provider.dart';
 
 class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEventSourceMixin {
+  
+  String terminalId = Uuid().v7();
+
   @override
   Future<void> clearSelectedEnviroment() {
     throw UnimplementedError();
@@ -13,7 +13,7 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
 
   @override
   Future<String> getLocalNick() async {
-    return "Server"; // TODO configurable
+    return "Server"; // TODO make configurable
   }
 
   @override
@@ -23,7 +23,7 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
 
   @override
   Future<String> getTerminalId() async {
-    return "unique_id"; // TODO fix
+    return terminalId;
   }
 
   @override
