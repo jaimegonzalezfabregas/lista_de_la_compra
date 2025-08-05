@@ -2,7 +2,6 @@ import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../lista_de_la_compra_backend.dart';
-import '../db/database.dart';
 
 extension StringExtension on String {
   String capitalize() {

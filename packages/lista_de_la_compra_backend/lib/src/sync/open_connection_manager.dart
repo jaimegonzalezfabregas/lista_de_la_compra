@@ -7,15 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../lista_de_la_compra_backend.dart';
-import '../db/database.dart';
-import '../db_providers/enviroment_provider.dart';
-import '../db_providers/product_provider.dart';
-import '../db_providers/recipe_provider.dart';
-import '../db_providers/schedule_provider.dart';
-import '../shared_preferences_providers/shared_preferences_provider.dart';
 import 'enviroment_serializer.dart';
-import 'open_conection_provider.dart';
-import 'open_connection.dart';
 
 class OpenConnectionManager {
   final ProductProvider productProvider;

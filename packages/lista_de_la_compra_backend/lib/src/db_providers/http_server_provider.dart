@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 
 import '../../lista_de_la_compra_backend.dart';
-import '../db/database.dart';
 
 
 

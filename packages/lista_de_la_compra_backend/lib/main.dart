@@ -1,8 +1,12 @@
 
 
+import 'dart:io';
+
+import 'package:drift/native.dart';
+import 'package:lista_de_la_compra_backend/src/db/database.dart';
+
 import 'src/db_providers/enviroment_provider.dart';
 
-import 'lista_de_la_compra_backend.dart';
 import 'src/db_providers/http_server_provider.dart';
 import 'src/db_providers/http_server_state_provider.dart';
 import 'src/db_providers/product_provider.dart';
@@ -15,6 +19,13 @@ import 'src/sync/open_connection_manager.dart';
 
 
 Future main() async {
+
+    AppDatabaseSingleton.setQueryExecutor(
+      NativeDatabase.createInBackground(File('./persistence.sqlite'))
+
+    );
+
+
   final enviromentProvider = RamEnviromentProvider();
   final recipeProvider = RamRecipeProvider();
   final productProvider = RamProductProvider();

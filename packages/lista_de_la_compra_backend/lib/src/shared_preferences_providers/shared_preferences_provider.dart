@@ -11,3 +11,4 @@ abstract class SharedPreferencesProvider {
 
   void addListener( void Function() listener );
 }
+

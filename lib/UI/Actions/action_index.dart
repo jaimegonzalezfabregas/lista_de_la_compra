@@ -3,15 +3,15 @@ import 'package:lista_de_la_compra/UI/Actions/export_controls.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
 
-class Actionindex extends StatelessWidget {
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
+class ActionIndex extends StatelessWidget {
   final String enviromentId;
   final OpenConnectionManager openConnectionManager;
 
-  const Actionindex(this.enviromentId, this.openConnectionManager, {super.key});
+  const ActionIndex(this.enviromentId, this.openConnectionManager, {super.key});
 
   @override
   Widget build(BuildContext context) {

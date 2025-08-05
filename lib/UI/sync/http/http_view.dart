@@ -4,11 +4,11 @@ import '../../../flutter_providers/flutter_providers.dart';
 import './known_servers.dart';
 import 'package:lista_de_la_compra/UI/sync/nearby_servers.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/http_server_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/http_server_state_provider.dart';
 import 'package:lista_de_la_compra/UI/sync/ip_list_view.dart';
-import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
 import 'package:provider/provider.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class HTTPView extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;

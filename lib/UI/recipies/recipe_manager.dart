@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
-import 'package:lista_de_la_compra_backend/src/db/database.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_detail.dart';
 import 'package:provider/provider.dart';
-
 import '../../flutter_providers/flutter_providers.dart';
+
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+
 
 class RecipeView extends StatelessWidget {
   final String enviromentId;
