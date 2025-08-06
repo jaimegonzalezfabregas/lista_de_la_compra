@@ -1,10 +1,6 @@
 name: "Build"
 
 on:
-  pull_request:
-    branches:
-      - master
-
   push:
     branches:
       - master
@@ -70,5 +66,4 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           tag: v${{ env.VERSION }}
-          token: ${{ secrets.TOKEN }}
   

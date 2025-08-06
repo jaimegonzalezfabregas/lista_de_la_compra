@@ -7,7 +7,7 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
   String terminalId = Uuid().v7();
 
   @override
-  Future<void> clearSelectedEnviroment() {
+  Future<void> clearSelectedEnvironment() {
     throw UnimplementedError();
   }
 
@@ -17,7 +17,7 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
   }
 
   @override
-  Future<String?> getSelectedEnviroment() {
+  Future<String?> getSelectedEnvironment() {
     throw UnimplementedError();
   }
 
@@ -32,7 +32,7 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
   }
 
   @override
-  Future<void> setSelectedEnviroment(String enviromentId) {
+  Future<void> setSelectedEnvironment(String enviromentId) {
     throw UnimplementedError();
   }
 }

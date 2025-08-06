@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'enviroments.dart';
+import 'environments.dart';
 import 'product_model.dart';
 import 'package:uuid/uuid.dart';
 

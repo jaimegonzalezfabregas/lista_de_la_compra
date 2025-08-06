@@ -36,17 +36,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String get thisListHasNoResults => 'Esta lista no tiene resultados';
 
   @override
-  String get createEnviroment => 'Crear entorno';
+  String get createEnvironment => 'Crear entorno';
 
   @override
-  String get aviableEnviromentsWithoutConnection =>
+  String get availableEnvironmentsWithoutConnection =>
       'Entornos disponibles sin conexión';
 
   @override
-  String get enviromentsOnOtherMachines => 'Entornos en otras máquinas';
+  String get environmentsOnOtherMachines => 'Entornos en otras máquinas';
 
   @override
-  String get importEnviroment => 'Importar entorno';
+  String get importEnvironment => 'Importar entorno';
 
   @override
   String get syncronization => 'Sincronización';
@@ -253,7 +253,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get search => 'Buscar';
 
   @override
-  String get switchEnviroment => 'Cambiar entorno';
+  String get switchEnvironment => 'Cambiar entorno';
 
   @override
   String get actions => 'Aciones';

@@ -15,7 +15,7 @@ class EnvSelect extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
   const EnvSelect(this.openConnectionManager, {super.key});
 
-  void showEditEnviromentDialog(BuildContext context, EnviromentProvider enviromentProvider, Enviroment env) {
+  void showEditEnvironmentDialog(BuildContext context, EnvironmentProvider environmentProvider, Environment env) {
     final formKey = GlobalKey<FormState>();
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
@@ -50,7 +50,7 @@ class EnvSelect extends StatelessWidget {
             TextButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  enviromentProvider.setName(env.id, textControler.text.trim());
+                  environmentProvider.setName(env.id, textControler.text.trim());
                   Navigator.of(context).pop();
                 }
               },
@@ -64,13 +64,13 @@ class EnvSelect extends StatelessWidget {
 
   Widget getOfflineListTile(
     BuildContext context,
-    EnviromentProvider enviromentProvider,
-    Enviroment env,
+    EnvironmentProvider environmentProvider,
+    Environment env,
     SharedPreferencesProvider sharedPreferencesProvider,
   ) {
     return ListTile(
       onTap: () {
-        sharedPreferencesProvider.setSelectedEnviroment(env.id);
+        sharedPreferencesProvider.setSelectedEnvironment(env.id);
       },
       title: Text(env.name),
       trailing: Row(
@@ -78,14 +78,14 @@ class EnvSelect extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              showEditEnviromentDialog(context, enviromentProvider, env);
+              showEditEnvironmentDialog(context, environmentProvider, env);
             },
             icon: Icon(Icons.edit),
           ),
 
           IconButton(
             onPressed: () {
-              enviromentProvider.deleteById(env.id);
+              environmentProvider.deleteById(env.id);
             },
             icon: Icon(Icons.delete),
           ),
@@ -94,22 +94,22 @@ class EnvSelect extends StatelessWidget {
     );
   }
 
-  Widget offlineEnviromentList(BuildContext context) {
+  Widget offlineEnvironmentList(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
     SharedPreferencesProvider sharedPreferencesProvider = context.watch<PersistantSharedPreferencesProvider>();
 
 
     return Builder(
       builder: (context) {
-        EnviromentProvider enviromentProvider = context.watch<FlutterEnviromentProvider>();
+        EnvironmentProvider environmentProvider = context.watch<FlutterEnvironmentProvider>();
         return FutureBuilder(
-          future: enviromentProvider.getEnviromentList(),
+          future: environmentProvider.getEnvironmentList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
                 return Center(child: Text(appLoc.thisListHasNoResults));
               }
-              return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, enviromentProvider, env,sharedPreferencesProvider)).toList());
+              return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, environmentProvider, env,sharedPreferencesProvider)).toList());
             } else if (snapshot.hasError) {
               return Text("$snapshot");
             } else {
@@ -121,7 +121,7 @@ class EnvSelect extends StatelessWidget {
     );
   }
 
-  Widget getRemoteListTile(BuildContext context, EnviromentProvider enviromentProvider, Enviroment env) {
+  Widget getRemoteListTile(BuildContext context, EnvironmentProvider environmentProvider, Environment env) {
     return ListTile(
       title: Text(env.name),
       trailing: Row(
@@ -129,7 +129,7 @@ class EnvSelect extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              enviromentProvider.upsertEnviroment(env);
+              environmentProvider.upsertEnvironment(env);
               openConnectionManager.triggerSyncPull();
             },
             icon: Icon(Icons.download),
@@ -139,40 +139,40 @@ class EnvSelect extends StatelessWidget {
     );
   }
 
-  Widget peerEnviromentList(BuildContext context) {
+  Widget peerEnvironmentList(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
-    EnviromentProvider enviromentProvider = context.watch<FlutterEnviromentProvider>();
+    EnvironmentProvider environmentProvider = context.watch<FlutterEnvironmentProvider>();
     OpenConnectionProvider openConnectionProvider = context.watch<FlutterOpenConnectionProvider>();
 
-    Future<Iterable<Enviroment>> getPeerEnviromentList() async {
-      Map<String, Enviroment> remoteEnviroments = {};
+    Future<Iterable<Environment>> getPeerEnvironmentList() async {
+      Map<String, Environment> remoteEnvironments = {};
 
       for (OpenConnection openConnection in openConnectionProvider.openConnections.values) {
-        for (Enviroment remoteEnviroment in openConnection.enviromentList) {
-          if (await enviromentProvider.getEnviromentById(remoteEnviroment.id) != null) {
+        for (Environment remoteEnvironment in openConnection.environmentList) {
+          if (await environmentProvider.getEnvironmentById(remoteEnvironment.id) != null) {
             continue;
           }
 
-          var alreadyAddedEnviroment = remoteEnviroments[remoteEnviroment.id];
-          if (alreadyAddedEnviroment == null || alreadyAddedEnviroment.updatedAt < remoteEnviroment.updatedAt) {
-            remoteEnviroments[remoteEnviroment.id] = remoteEnviroment;
+          var alreadyAddedEnvironment = remoteEnvironments[remoteEnvironment.id];
+          if (alreadyAddedEnvironment == null || alreadyAddedEnvironment.updatedAt < remoteEnvironment.updatedAt) {
+            remoteEnvironments[remoteEnvironment.id] = remoteEnvironment;
           }
         }
       }
-      return remoteEnviroments.values;
+      return remoteEnvironments.values;
     }
 
     return Builder(
       builder: (context) {
         return FutureBuilder(
-          future: getPeerEnviromentList(),
+          future: getPeerEnvironmentList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
                 return Center(child: Text(appLoc.thisListHasNoResults));
               }
-              return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getRemoteListTile(context, enviromentProvider, env)).toList());
+              return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getRemoteListTile(context, environmentProvider, env)).toList());
             } else if (snapshot.hasError) {
               return Text("$snapshot");
             } else {
@@ -184,7 +184,7 @@ class EnvSelect extends StatelessWidget {
     );
   }
 
-  void createNewEnviromentPopup(BuildContext context) {
+  void createNewEnvironmentPopup(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     showDialog(
@@ -192,7 +192,7 @@ class EnvSelect extends StatelessWidget {
       builder: (context) {
         TextEditingController textControler = TextEditingController();
         return AlertDialog(
-          title: Text(appLoc.createEnviroment),
+          title: Text(appLoc.createEnvironment),
           content: TextField(decoration: InputDecoration(labelText: appLoc.name), controller: textControler),
           actions: [
             TextButton(
@@ -203,8 +203,8 @@ class EnvSelect extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                EnviromentProvider enviromentProvider = context.read<FlutterEnviromentProvider>();
-                enviromentProvider.addEmptyEnviroment(textControler.text);
+                EnvironmentProvider environmentProvider = context.read<FlutterEnvironmentProvider>();
+                environmentProvider.addEmptyEnvironment(textControler.text);
                 Navigator.of(context).pop();
               },
               child: Text(appLoc.save),
@@ -215,9 +215,9 @@ class EnvSelect extends StatelessWidget {
     );
   }
 
-  void importNewEnviroment(
+  void importNewEnvironment(
     BuildContext context,
-    EnviromentProvider enviromentProvider,
+    EnvironmentProvider environmentProvider,
     ProductProvider productProvider,
     RecipeProvider recipeProvider,
     ScheduleProvider scheduleProvider,
@@ -229,19 +229,19 @@ class EnvSelect extends StatelessWidget {
 
       final Map<String, dynamic> serializedState = jsonDecode(utf8.decode(file.bytes!.toList()));
 
-      Enviroment remoteEnviroment = Enviroment.fromJson(serializedState["enviroment"]);
-      Enviroment? currentEnviroment = await enviromentProvider.getEnviromentById(remoteEnviroment.id);
-      if (currentEnviroment == null) {
-        enviromentProvider.upsertEnviroment(remoteEnviroment);
+      Environment remoteEnvironment = Environment.fromJson(serializedState["environment"]);
+      Environment? currentEnvironment = await environmentProvider.getEnvironmentById(remoteEnvironment.id);
+      if (currentEnvironment == null) {
+        environmentProvider.upsertEnvironment(remoteEnvironment);
       }
 
-      recieveState(serializedState, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
+      recieveState(serializedState, environmentProvider, productProvider, recipeProvider, scheduleProvider);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    EnviromentProvider enviromentProvider = context.watch<FlutterEnviromentProvider>();
+    EnvironmentProvider environmentProvider = context.watch<FlutterEnvironmentProvider>();
     ProductProvider productProvider = context.watch<FlutterProductProvider>();
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
@@ -255,28 +255,28 @@ class EnvSelect extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Text(appLoc.aviableEnviromentsWithoutConnection),
-              offlineEnviromentList(context),
+              Text(appLoc.availableEnvironmentsWithoutConnection),
+              offlineEnvironmentList(context),
               SizedBox(height: 30),
 
-              Text(appLoc.enviromentsOnOtherMachines),
+              Text(appLoc.environmentsOnOtherMachines),
 
-              peerEnviromentList(context),
+              peerEnvironmentList(context),
               SizedBox(height: 30),
 
               OutlinedButton(
                 onPressed: () {
-                  createNewEnviromentPopup(context);
+                  createNewEnvironmentPopup(context);
                 },
-                child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text(appLoc.createEnviroment)]),
+                child: Row(children: [Icon(Icons.add), SizedBox(width: 8), Text(appLoc.createEnvironment)]),
               ),
               SizedBox(height: 10),
 
               OutlinedButton(
                 onPressed: () {
-                  importNewEnviroment(context, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
+                  importNewEnvironment(context, environmentProvider, productProvider, recipeProvider, scheduleProvider);
                 },
-                child: Row(children: [Icon(Icons.file_copy), SizedBox(width: 8), Text(appLoc.importEnviroment)]),
+                child: Row(children: [Icon(Icons.file_copy), SizedBox(width: 8), Text(appLoc.importEnvironment)]),
               ),
               SizedBox(height: 10),
 
