@@ -19,18 +19,18 @@ class ExporControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    EnviromentProvider enviromentProvider = context.watch<FlutterEnviromentProvider>();
+    EnvironmentProvider environmentProvider = context.watch<FlutterEnvironmentProvider>();
     ProductProvider productProvider = context.watch<FlutterProductProvider>();
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
 
-    final Future serialized = serializeEnviroment(enviromentId, enviromentProvider, productProvider, recipeProvider, scheduleProvider);
+    final Future serialized = serializeEnvironment(enviromentId, environmentProvider, productProvider, recipeProvider, scheduleProvider);
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-    final Future fileName = enviromentProvider
-        .getEnviromentById(enviromentId)
-        .then((Enviroment? env) => "${(env?.name) ?? appLoc.error}_${formatter.format(now)}_export.json");
+    final Future fileName = environmentProvider
+        .getEnvironmentById(enviromentId)
+        .then((Environment? env) => "${(env?.name) ?? appLoc.error}_${formatter.format(now)}_export.json");
 
     return Column(
       children: [
