@@ -32,6 +32,7 @@ mixin class VoidEventSourceMixin implements VoidEventSource {
 
   @override
   void notifyListeners(){
+    print("notifyListeners");
     _growableList.forEach( (listener)=> listener() );
   }
 }
