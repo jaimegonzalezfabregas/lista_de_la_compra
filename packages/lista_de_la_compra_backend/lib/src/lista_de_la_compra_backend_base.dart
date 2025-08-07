@@ -1,5 +1,3 @@
-// TODO: Put public facing types in this file.
-
 typedef VoidCallback = void Function();
 
 abstract class VoidEventSource {
