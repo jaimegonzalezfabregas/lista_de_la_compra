@@ -1,0 +1,16 @@
+name: lista_de_la_compra_server
+description: A server using Docker.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+
+  lista_de_la_compra_backend:
+    path: ../lista_de_la_compra_backend
+
+
+dev_dependencies:
+  test: ^1.24.0
