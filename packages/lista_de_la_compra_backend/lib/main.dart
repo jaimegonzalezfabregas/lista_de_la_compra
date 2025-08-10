@@ -17,8 +17,11 @@ import 'src/sync/http_server_manager.dart';
 import 'src/sync/open_conection_provider.dart';
 import 'src/sync/open_connection_manager.dart';
 
-
 Future main() async {
+  runServer();
+}
+
+Future runServer() async{
 
     AppDatabaseSingleton.setQueryExecutor(
       NativeDatabase.createInBackground(File('./persistence.sqlite'))
