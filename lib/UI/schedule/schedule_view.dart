@@ -9,8 +9,8 @@ import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 class _ScheduleView extends State<ScheduleViewContents> {
   late int currentWeek;
 
-  _ScheduleView(){
-    currentWeek = widget.initialWeek;
+  _ScheduleView(int initialWeek){
+    currentWeek = initialWeek;
   }
 
   @override
@@ -93,7 +93,7 @@ class ScheduleViewContents extends StatefulWidget {
   const ScheduleViewContents(this.initialWeek, this.enviromentId, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _ScheduleView();
+  State<StatefulWidget> createState() => _ScheduleView(this.initialWeek);
 }
 
 class ScheduleView extends StatelessWidget {
