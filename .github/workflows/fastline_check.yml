@@ -5,10 +5,8 @@ on:
   pull_request:
     branches:
       - master
-  push:
-    branches:
-      - master
-
+      - develop
+      
 jobs:  
   build:  
     name: Check form
