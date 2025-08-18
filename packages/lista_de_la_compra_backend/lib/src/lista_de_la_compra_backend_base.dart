@@ -1,5 +1,3 @@
-// TODO: Put public facing types in this file.
-
 typedef VoidCallback = void Function();
 
 abstract class VoidEventSource {
@@ -34,6 +32,7 @@ mixin class VoidEventSourceMixin implements VoidEventSource {
 
   @override
   void notifyListeners(){
+    print("notifyListeners");
     _growableList.forEach( (listener)=> listener() );
   }
 }

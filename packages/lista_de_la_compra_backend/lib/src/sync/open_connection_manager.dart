@@ -93,9 +93,11 @@ class OpenConnectionManager {
     }
 
     Future<void> triggerSyncPull() async {
+      // TODO: UNDERSTAND HOW OTHER CONECTIONS ARE NOTIFIED
       for (Environment env in await environmentProvider.getEnvironmentList()) {
         int salt = math.Random().nextInt(1000);
         send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
+        print( "triggerSyncPull: sent send_digest of $env");
       }
     }
 
@@ -111,6 +113,8 @@ class OpenConnectionManager {
       (message) async {
         if (message is String) {
           Map<String, dynamic> data = jsonDecode(message);
+
+          print( "Received: ${data["type"]}");
 
           switch (data["type"]) {
             case "ping":
@@ -170,11 +174,19 @@ class OpenConnectionManager {
               break;
 
             case "sync_push":
+              print( "---> triggerSyncPull()");
               triggerSyncPull();
+              print( "<--- triggerSyncPull()");
 
               break;
 
             case "send_digest":
+              // TODO: SOMETIMES, data.environment IS NULL. WHY?
+              if( data["environment"] == null ){
+                print("data is null, do nothing");
+                print("$data");
+                break;
+              }
               Environment remoteEnvironment = Environment.fromJson(data["environment"]);
               Environment? currentEnvironment = await environmentProvider.getEnvironmentById(remoteEnvironment.id);
               if (currentEnvironment == null) {
@@ -205,6 +217,9 @@ class OpenConnectionManager {
               recieveState(data["state"], environmentProvider, productProvider, recipeProvider, scheduleProvider);
 
               break;
+
+            default:
+              print("Unknown message type: ${data["type"]}");
           }
         }
       },
