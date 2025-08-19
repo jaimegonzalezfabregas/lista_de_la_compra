@@ -20,7 +20,7 @@ $ cd $REPODIR/packages/lista_de_la_compra_server
 $ dart run bin/server.dart
 ```
 
-Alternatively, you can run the server with `$REPODIR/run-server.sh`
+Alternatively, you can run the server with [`$REPODIR/run-server.sh`](../../run-server.sh)
 
 The server will listen on port `4545`.
 
