@@ -34,4 +34,4 @@ docker build . --progress=plain -t lista_de_la_compra_server
 sudo docker run -it -p 4545:4545 lista_de_la_compra_server
 ```
 
-Alternatively, you can build and run the docker image with `$REPODIR/run-server-on-docker.sh`
+Alternatively, you can build and run the docker image with [`$REPODIR/run-server-on-docker.sh`](../../run-server-on-docker-sh)
