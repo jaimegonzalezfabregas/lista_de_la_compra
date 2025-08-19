@@ -1,5 +1,12 @@
 # Lista de la compra (Shopping List)
 
+[<img src="https://f-droid.org/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.jaimegonzalezfabregas.shoppinglist/)
+
+Or download the latest APK from the [Releases Section](https://github.com/jaimegonzalezfabregas/lista_de_la_compra/releases/latest).
+
+
 This is a shopping list app, with integrated meals integrated. It features local sync, that is, synchronization between instances without the need of a central server.
 
 
@@ -25,6 +32,8 @@ Currently, there is no encryption in the network protocol. Please connect only t
 
 ## Standalone server
 You can host a server in your own LAN. See the instructions in [lista_de_la_compra_server](./packages/lista_de_la_compra_server/README.md).
+
+
 
 
 
