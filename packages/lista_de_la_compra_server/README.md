@@ -5,8 +5,8 @@ configured to enable running with [Docker](https://www.docker.com/).
 
 Get the source code from the [git repository](https://github.com/jaimegonzalezfabregas/lista_de_la_compra). This package is in the `packages/lista_de_la_compra_server` directory
 
-```
-$ git clonehttps://github.com/jaimegonzalezfabregas/lista_de_la_compra.git
+```bash
+$ git clone https://github.com/jaimegonzalezfabregas/lista_de_la_compra.git
 ```
 
 
@@ -15,7 +15,7 @@ $ git clonehttps://github.com/jaimegonzalezfabregas/lista_de_la_compra.git
 You can run the example with the [Dart SDK](https://dart.dev/get-dart)
 like this:
 
-```
+```bash
 $ cd $REPODIR/packages/lista_de_la_compra_server
 $ dart run bin/server.dart
 ```
@@ -28,7 +28,7 @@ The server will listen on port `4545`.
 
 There is a `Dockerfile` that builds and runs the server. 
 
-```
+```bash
 cd $REPODIR
 docker build . --progress=plain -t lista_de_la_compra_server
 sudo docker run -it -p 4545:4545 lista_de_la_compra_server
