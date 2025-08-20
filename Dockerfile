@@ -18,7 +18,6 @@ FROM dart:stable
 RUN apt-get update
 RUN apt-get install -y libsqlite3-dev
 
-# COPY --from=build /runtime/ /
 COPY --from=build /app/lista_de_la_compra_server/bin/server /app/bin/
 
 # Start server.
