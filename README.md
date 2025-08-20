@@ -18,11 +18,11 @@ Some offline games (like Minecraft) can be used either offline, as a client of o
 - When acting as a client, the UI shows the detected servers, and allows to enter a custom server.
 
 ### 🛠️ Use Cases
-     - Padawan Level: Use a single app instance to track your groceries 
-     - Jedi Knight Level: Share your databases between your family and synchronize your instances with your home Wi-Fi 
-     - Jedi Master Level: When shopping, turn on the access point (Wi-Fi tethering) on one of your smartphones, and connect the remaining instances to that Wi-Fi 
-     - Sith Level: Install a VPN server on your home or VPS, connect all your smartphones to that VPN 
-     - Sith lord level: Add the [standalone server](./packages/lista_de_la_compra_server/README.md) to your VPN
+- Padawan Level: Use a single app instance to track your groceries 
+- Jedi Knight Level: Share your databases between your family and synchronize your instances with your home Wi-Fi 
+- Jedi Master Level: When shopping, turn on the access point (Wi-Fi tethering) on one of your smartphones, and connect the remaining instances to that Wi-Fi 
+- Sith Level: Install a VPN server on your home or VPS, connect all your smartphones to that VPN 
+- Sith lord level: Add the [standalone server](./packages/lista_de_la_compra_server/README.md) to your VPN
 
 ## 🔒 Encryption
 In terms of encryption we have no encryption. Please connect only to fully trusted networks while synchronizing the app databases.
