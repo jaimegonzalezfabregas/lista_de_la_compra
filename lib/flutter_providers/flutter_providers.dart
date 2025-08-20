@@ -41,7 +41,7 @@ class FlutterHttpServerStateProvider extends HttpServerStateProvider with Change
   @override
   Future<void> stopServer() {
     if (avahiRegistration != null) {
-      unregister(avahiRegistration!); // TODO: MAKE THIS CALL AWAIT
+      unregister(avahiRegistration!);
       avahiRegistration = null;
     }
     return super.stopServer();
