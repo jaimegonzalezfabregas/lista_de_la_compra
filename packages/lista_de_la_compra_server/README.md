@@ -1,7 +1,7 @@
 A server app for the [Shopping List application](https://f-droid.org/en/packages/com.jaimegonzalezfabregas.shoppinglist/),
 configured to enable running with [Docker](https://www.docker.com/).
 
-# Running the sample
+# Running the Server
 
 Get the source code from the [git repository](https://github.com/jaimegonzalezfabregas/lista_de_la_compra). This package is in the `packages/lista_de_la_compra_server` directory
 
@@ -12,7 +12,7 @@ $ git clone https://github.com/jaimegonzalezfabregas/lista_de_la_compra.git
 
 ## Running with the Dart SDK
 
-You can run the example with the [Dart SDK](https://dart.dev/get-dart)
+You can run the server with the [Dart SDK](https://dart.dev/get-dart)
 like this:
 
 ```bash
