@@ -1,4 +1,5 @@
 {
+  "@@locale": "fr",
   "appTitle": "Liste de courses",
   "changeName": "Modifier le nom",
   "changeNick": "Modifier le pseudo",
