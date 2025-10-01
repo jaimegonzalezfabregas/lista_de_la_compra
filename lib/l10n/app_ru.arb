@@ -87,6 +87,5 @@
   "knownServers": "Известные серверы",
   "noOpenConnection": "Нет открытых соединений",
   "neverConnected": "Никогда не подключался",
-  "fallbackLocalNick": "устройство-без-имени",
-  "setAllIngredientsToBuy": "Пометить все ингредиенты для покупки"
+  "fallbackLocalNick": "устройство-без-имени"
 }

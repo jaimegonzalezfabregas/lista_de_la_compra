@@ -87,6 +87,5 @@
     "knownServers": "Servidores conocidos",
     "noOpenConnection": "Sin conexiones establecidas",
     "neverConnected": "Nunca conectado",
-    "fallbackLocalNick": "dispositivo-sin-nombre",
-    "setAllIngredientsToBuy": "Marcar todos los ingredientes para comprar"
-}
+    "fallbackLocalNick": "dispositivo-sin-nombre"
+  }

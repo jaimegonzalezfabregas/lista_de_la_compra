@@ -87,6 +87,5 @@
   "knownServers": "الخوادم المعروفة",
   "noOpenConnection": "لا يوجد اتصال مفتوح",
   "neverConnected": "لم يتم الاتصال أبدًا",
-  "fallbackLocalNick": "جهاز-بدون-اسم",
-  "setAllIngredientsToBuy": "تعيين جميع المكونات للشراء"
+  "fallbackLocalNick": "جهاز-بدون-اسم"
 }
