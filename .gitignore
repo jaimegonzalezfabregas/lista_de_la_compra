@@ -44,4 +44,3 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 ~/.lista_de_la_compra/db/persistence.sqlite
-.aider*
