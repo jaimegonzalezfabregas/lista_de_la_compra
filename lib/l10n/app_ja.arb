@@ -87,6 +87,5 @@
   "knownServers": "既知のサーバー",
   "noOpenConnection": "オープンな接続なし",
   "neverConnected": "接続したことがない",
-  "fallbackLocalNick": "名前なしデバイス",
-  "setAllIngredientsToBuy": "すべての材料を購入対象に設定"
+  "fallbackLocalNick": "名前なしデバイス"
 }

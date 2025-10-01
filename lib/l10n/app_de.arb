@@ -87,6 +87,5 @@
   "knownServers": "Bekannte Server",
   "noOpenConnection": "Keine offenen Verbindungen",
   "neverConnected": "Nie verbunden",
-  "fallbackLocalNick": "unbenanntes-gerät",
-  "setAllIngredientsToBuy": "Alle Zutaten als zu kaufen markieren"
+  "fallbackLocalNick": "unbenanntes-gerät"
 }
