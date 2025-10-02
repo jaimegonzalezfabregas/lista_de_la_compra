@@ -1,5 +1,6 @@
 {
-    "appTitle": "Lista de la compra",
+  "@@locale": "es",
+  "appTitle": "Lista de la compra",
     "changeName": "Cambiar nombre",
     "changeNick": "Cambiar apodo",
     "name": "Nombre",
@@ -87,4 +88,4 @@
     "noOpenConnection": "Sin conexiones establecidas",
     "neverConnected": "Nunca conectado",
     "fallbackLocalNick": "dispositivo-sin-nombre"
-}
+  }
