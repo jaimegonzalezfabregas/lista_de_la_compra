@@ -96,17 +96,33 @@ class Ingredients extends StatelessWidget {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
-    var _ = context.watch<FlutterProductProvider>();
+    var productProvider = context.watch<FlutterProductProvider>();
 
-    var ingredients = recipeProvider.getProductsOfRecipeById(recipeId);
+    var ingredientFuture = recipeProvider.getProductsOfRecipeById(recipeId);
 
     return FutureBuilder(
-      future: ingredients,
+      future: ingredientFuture,
       builder: (context, AsyncSnapshot<List<(RecipeProduct, Product)>> snapshot) {
         if (!snapshot.hasData) {
           return Text(appLoc.loading);
         }
+        List<(RecipeProduct, Product)> ingredientList = snapshot.data!;
 
+        var anyNonNeeded = ingredientList.any((p) {
+          return !p.$2.needed;
+        });
+        var anyNeeded = ingredientList.any((p) {
+          return p.$2.needed;
+        });
+
+        bool? allNotNeeded;
+
+        if (!anyNonNeeded && anyNeeded) {
+          allNotNeeded = false;
+        }
+        if (anyNonNeeded && !anyNeeded) {
+          allNotNeeded = true;
+        }
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -116,12 +132,35 @@ class Ingredients extends StatelessWidget {
 
               children: [
                 if (snapshot.data!.isNotEmpty)
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(), // Prevent scrolling inside the Column
-                    separatorBuilder: (context, index) => Divider(),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) => ingredientEntry(snapshot.data![index].$1, snapshot.data![index].$2, recipeProvider, context),
+                  Column(
+                    children: [
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(), // Prevent scrolling inside the Column
+                        separatorBuilder: (context, index) => Divider(),
+                        itemCount: ingredientList.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == 0) {
+                            return ListTile(
+                              trailing: Checkbox(
+                                value: allNotNeeded,
+                                tristate: true,
+                                onChanged: (notNeeded) {
+                                  print("change to ${notNeeded}");
+                                  for (var (_, p) in ingredientList) {
+                                    productProvider.setProductNeededness(p.id, !(notNeeded ?? false));
+                                  }
+                                },
+                              ),
+                           
+                            );
+                          } else {
+                            var ingredient = ingredientList[index - 1];
+                            return ingredientEntry(ingredient.$1, ingredient.$2, recipeProvider, context);
+                          }
+                        },
+                      ),
+                    ],
                   )
                 else
                   Padding(
@@ -291,7 +330,7 @@ class RecipeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>(); 
+    RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
     Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(recipeId);
 
