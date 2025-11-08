@@ -81,11 +81,16 @@
   "search": "Rechercher",
   "switchEnvironment": "Changer d'environnement",
   "actions": "Actions",
+  "markAllAs": "Tout marquer comme",
   "editAmount": "Modifier la quantité",
   "details": "Détails",
   "enoughForA": "Suffisant pour un(e)",
   "knownServers": "Serveurs connus",
   "noOpenConnection": "Aucune connexion ouverte",
   "neverConnected": "Jamais connecté",
-  "fallbackLocalNick": "appareil-sans-nom"
+  "fallbackLocalNick": "appareil-sans-nom",
+  "@ipCopied": {
+    "description": "Message shown when an IP address is copied to the clipboard",
+    "placeholders": { "address": {} }
+  }
 }

@@ -1,0 +1,3 @@
+Aplikacja lista zakupów z zintegrowanym planowaniem posiłków.
+
+Lokalna synchronizacja między urządzeniami umożliwia koordynację między użytkownikami.

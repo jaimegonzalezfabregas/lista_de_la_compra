@@ -1,0 +1,3 @@
+En inköpslista-app med integrerad måltidsplanering.
+
+Lokal synk mellan enheter möjliggör samordning mellan användare.

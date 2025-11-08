@@ -216,6 +216,10 @@ class OpenConnectionManager {
 
               break;
 
+            case "sync_up_to_date":
+              // No action needed
+              break;
+
             default:
               print("Unknown message type: ${data["type"]}");
           }

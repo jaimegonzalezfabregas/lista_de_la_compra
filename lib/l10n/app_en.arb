@@ -80,11 +80,16 @@
   "search": "Search",
   "switchEnvironment": "Switch environment",
   "actions": "Actions",
+  "markAllAs": "Mark all as",
   "editAmount": "Edit amount",
   "details": "Details",
   "enoughForA": "Enough for a",
   "knownServers": "Known servers",
   "noOpenConnection": "No open connections",
   "neverConnected": "Never connected",
-  "fallbackLocalNick": "unnamed-device"
+  "fallbackLocalNick": "unnamed-device",
+  "@ipCopied": {
+    "description": "Message shown when an IP address is copied to the clipboard",
+    "placeholders": { "address": {} }
+  }
 }

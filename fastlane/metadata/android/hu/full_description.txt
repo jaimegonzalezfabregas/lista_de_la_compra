@@ -1,0 +1,3 @@
+Egy bevásárlólista alkalmazás integrált étkezéstervezéssel.
+
+A helyi szinkronizáció az eszközök között lehetővé teszi a felhasználók közötti koordinációt.

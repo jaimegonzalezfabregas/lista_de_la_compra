@@ -1,0 +1,3 @@
+Aplikasi daftar belanja dengan perencanaan makanan terintegrasi.
+
+Sinkron lokal antar perangkat memungkinkan koordinasi antar pengguna.

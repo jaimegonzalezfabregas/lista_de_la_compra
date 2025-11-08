@@ -1,0 +1,3 @@
+Een boodschappenlijst-app met geïntegreerde maaltijdplanning.
+
+Lokale synchronisatie tussen apparaten maakt coördinatie tussen gebruikers mogelijk.

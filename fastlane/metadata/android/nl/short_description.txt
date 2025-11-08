@@ -1,0 +1,1 @@
+Boodschappenlijst en weekplanner met lokale synchronisatie

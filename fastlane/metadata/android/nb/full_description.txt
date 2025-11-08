@@ -1,0 +1,3 @@
+En handleliste-app med integrert måltidsplanlegging.
+
+Lokal synkronisering mellom enheter gjør det mulig å koordinere mellom brukere.
