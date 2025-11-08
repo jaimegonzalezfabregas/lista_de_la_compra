@@ -258,6 +258,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actions => 'Actions';
 
   @override
+  String get markAllAs => 'Mark all as';
+
+  @override
   String get editAmount => 'Edit amount';
 
   @override

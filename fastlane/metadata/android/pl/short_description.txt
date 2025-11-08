@@ -1,0 +1,1 @@
+Lista zakupów i tygodniowy planer z lokalną synchronizacją

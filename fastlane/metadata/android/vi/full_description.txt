@@ -1,0 +1,3 @@
+Ứng dụng danh sách mua sắm với lập kế hoạch bữa ăn tích hợp.
+
+Đồng bộ cục bộ giữa các thiết bị cho phép phối hợp giữa người dùng.

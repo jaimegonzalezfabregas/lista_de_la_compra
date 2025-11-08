@@ -142,17 +142,21 @@ class Ingredients extends StatelessWidget {
                         itemBuilder: (context, index) {
                           if (index == 0) {
                             return ListTile(
-                              trailing: Checkbox(
-                                value: allNotNeeded,
-                                tristate: true,
-                                onChanged: (notNeeded) {
-                                  print("change to ${notNeeded}");
-                                  for (var (_, p) in ingredientList) {
-                                    productProvider.setProductNeededness(p.id, !(notNeeded ?? false));
-                                  }
-                                },
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(appLoc.markAllAs),
+                                  Checkbox(
+                                    value: allNotNeeded,
+                                    tristate: true,
+                                    onChanged: (notNeeded) {
+                                      for (var (_, p) in ingredientList) {
+                                        productProvider.setProductNeededness(p.id, !(notNeeded ?? false));
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
-                           
                             );
                           } else {
                             var ingredient = ingredientList[index - 1];

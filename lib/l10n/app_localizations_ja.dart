@@ -254,6 +254,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actions => '操作';
 
   @override
+  String get markAllAs => 'すべてをマーク';
+
+  @override
   String get editAmount => '数量を編集';
 
   @override

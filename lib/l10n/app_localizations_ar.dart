@@ -256,6 +256,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get actions => 'الإجراءات';
 
   @override
+  String get markAllAs => 'وضع علامة على الكل كـ';
+
+  @override
   String get editAmount => 'تحرير الكمية';
 
   @override

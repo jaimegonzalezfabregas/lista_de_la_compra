@@ -81,11 +81,16 @@
   "search": "搜索",
   "switchEnvironment": "切换环境",
   "actions": "操作",
+  "markAllAs": "全部标记为",
   "editAmount": "编辑数量",
   "details": "详情",
   "enoughForA": "足够一个",
   "knownServers": "已知服务器",
   "noOpenConnection": "无开放连接",
   "neverConnected": "从未连接",
-  "fallbackLocalNick": "未命名设备"
+  "fallbackLocalNick": "未命名设备",
+  "@ipCopied": {
+    "description": "Message shown when an IP address is copied to the clipboard",
+    "placeholders": { "address": {} }
+  }
 }

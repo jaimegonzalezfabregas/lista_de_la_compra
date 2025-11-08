@@ -82,10 +82,15 @@
   "switchEnvironment": "Сменить окружение",
   "actions": "Действия",
   "editAmount": "Изменить количество",
+  "markAllAs": "Отметить все как",
   "details": "Подробности",
   "enoughForA": "Достаточно для",
   "knownServers": "Известные серверы",
   "noOpenConnection": "Нет открытых соединений",
   "neverConnected": "Никогда не подключался",
-  "fallbackLocalNick": "устройство-без-имени"
+  "fallbackLocalNick": "устройство-без-имени",
+  "@ipCopied": {
+    "description": "Message shown when an IP address is copied to the clipboard",
+    "placeholders": { "address": {} }
+  }
 }

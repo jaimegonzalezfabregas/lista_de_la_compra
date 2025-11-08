@@ -258,6 +258,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get actions => 'Aktionen';
 
   @override
+  String get markAllAs => 'Alle als markieren';
+
+  @override
   String get editAmount => 'Menge bearbeiten';
 
   @override

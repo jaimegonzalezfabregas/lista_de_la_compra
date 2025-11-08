@@ -254,6 +254,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actions => '操作';
 
   @override
+  String get markAllAs => '全部标记为';
+
+  @override
   String get editAmount => '编辑数量';
 
   @override
