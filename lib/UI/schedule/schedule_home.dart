@@ -93,14 +93,14 @@ class ScheduleViewContents extends StatefulWidget {
   const ScheduleViewContents(this.initialWeek, this.enviromentId, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _ScheduleView(this.initialWeek);
+  State<StatefulWidget> createState() => _ScheduleView(initialWeek);
 }
 
-class ScheduleView extends StatelessWidget {
+class ScheduleHome extends StatelessWidget {
   final int initialWeek;
   final String enviromentId;
 
-  const ScheduleView(this.initialWeek, this.enviromentId, {super.key});
+  const ScheduleHome(this.initialWeek, this.enviromentId, {super.key});
 
 
   @override

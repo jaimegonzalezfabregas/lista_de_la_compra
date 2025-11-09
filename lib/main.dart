@@ -95,6 +95,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => openConnectionProvider),
         ChangeNotifierProvider(create: (_) => httpServerStateProvider),
         ChangeNotifierProvider(create: (_) => httpClientService),
+        ChangeNotifierProvider(create: (_) => supermarketProvider),
+        ChangeNotifierProvider(create: (_) => aisleProvider),
+        ChangeNotifierProvider(create: (_) => productAisleProvider),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,

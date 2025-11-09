@@ -17,7 +17,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
     late List<T> showElements;
 
     if (filter != "") {
-      final List<T>? searchElms = widget.searchElements;
+      final List<T>? searchElms = widget.elementsOnSearch;
       if (searchElms == null) {
         showElements = widget.elements;
       } else {
@@ -80,9 +80,12 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
             onChanged: onChanged,
           ),
         ),
-        Expanded(
-          child: ListView(controller: scrollController, children: items),
-        ),
+        if (items.isEmpty)
+          Expanded(child: Center(child: Text(appLoc.thisListHasNoResults)))
+        else
+          Expanded(
+            child: ListView(controller: scrollController, children: items),
+          ),
       ],
     );
   }
@@ -90,19 +93,17 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
 
 class Searchablelistview<T> extends StatefulWidget {
   final List<T> elements;
-  final List<T>? searchElements;
+  final List<T>? elementsOnSearch;
   final ListTile Function(T, RichText) elementToListTile;
   final String Function(T) elementToTag;
   final void Function(String)? newElement;
-  final void Function(T)? elementToSubtitle;
 
   const Searchablelistview({
     required this.elements,
     required this.elementToListTile,
     required this.elementToTag,
-    this.elementToSubtitle,
     this.newElement,
-    this.searchElements,
+    this.elementsOnSearch,
     super.key,
   });
 

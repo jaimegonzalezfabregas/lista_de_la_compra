@@ -2,6 +2,7 @@ name: lista_de_la_compra_server
 description: A server using Docker.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
+publish_to: none
 
 environment:
   sdk: 3.9.2

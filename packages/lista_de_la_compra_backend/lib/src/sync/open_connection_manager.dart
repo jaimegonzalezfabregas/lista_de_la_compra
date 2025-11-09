@@ -7,7 +7,6 @@ import 'package:crypto/crypto.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../lista_de_la_compra_backend.dart';
-import 'environment_serializer.dart';
 
 class OpenConnectionManager {
   final ProductProvider productProvider;
@@ -113,7 +112,7 @@ class OpenConnectionManager {
       for (Environment env in await environmentProvider.getEnvironmentList()) {
         int salt = math.Random().nextInt(1000);
         send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
-        print("triggerSyncPull: sent send_digest of $env");
+        // print("triggerSyncPull: sent send_digest of $env");
       }
     }
 
@@ -188,9 +187,7 @@ class OpenConnectionManager {
               break;
 
             case "sync_push":
-              print("---> triggerSyncPull()");
               triggerSyncPull();
-              print("<--- triggerSyncPull()");
 
               break;
 

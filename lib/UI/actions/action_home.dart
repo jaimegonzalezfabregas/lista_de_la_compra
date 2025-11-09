@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/UI/Actions/export_controls.dart';
+import 'package:lista_de_la_compra/UI/actions/export_controls.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
@@ -7,11 +7,11 @@ import 'package:provider/provider.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-class ActionIndex extends StatelessWidget {
+class ActionHome extends StatelessWidget {
   final String enviromentId;
   final OpenConnectionManager openConnectionManager;
 
-  const ActionIndex(this.enviromentId, this.openConnectionManager, {super.key});
+  const ActionHome(this.enviromentId, this.openConnectionManager, {super.key});
 
   @override
   Widget build(BuildContext context) {
