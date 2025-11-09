@@ -362,5 +362,25 @@
   },
   "@supermarketList": {
     "description": "Supermarket list"
+  },
+  "aisles": "Aisles",
+  "@aisles": {
+    "description": "Aisles"
+  }
+  ,
+  "numberOfProducts": "{count, plural, =0{No products} =1{1 product} other{{count} products}}",
+  "@numberOfProducts": {
+    "description": "Number of products with pluralization",
+    "placeholders": { "count": {} }
+  },
+  "numberOfAisles": "{count, plural, =0{No aisles} =1{1 aisle} other{{count} aisles}}",
+  "@numberOfAisles": {
+    "description": "Number of aisles with pluralization",
+    "placeholders": { "count": {} }
+  }
+  ,
+  "addProductsToAisle": "Добавить товары в проход",
+  "@addProductsToAisle": {
+    "description": "Title for the screen where products are added to an aisle"
   }
 }

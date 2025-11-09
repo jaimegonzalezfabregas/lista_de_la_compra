@@ -7,10 +7,10 @@ import '../../flutter_providers/flutter_providers.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 
-class AddIngredient extends StatelessWidget {
+class AddIngredientToRecipe extends StatelessWidget {
   final String recipeId;
 
-  const AddIngredient(this.recipeId, {super.key});
+  const AddIngredientToRecipe(this.recipeId, {super.key});
 
   @override
   Widget build(BuildContext context) {

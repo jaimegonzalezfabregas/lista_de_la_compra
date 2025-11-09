@@ -695,6 +695,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Supermarket list'**
   String get supermarketList;
+
+  /// Aisles
+  ///
+  /// In en, this message translates to:
+  /// **'Aisles'**
+  String get aisles;
+
+  /// Pluralized message for number of products
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No products} =1{1 product} other{{count} products}}'**
+  String numberOfProducts(num count);
+
+  /// Pluralized message for number of aisles
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No aisles} =1{1 aisle} other{{count} aisles}}'**
+  String numberOfAisles(num count);
+
+  /// Title for the screen where products are added to an aisle
+  ///
+  /// In en, this message translates to:
+  /// **'Add products to aisle'**
+  String get addProductsToAisle;
 }
 
 class _AppLocalizationsDelegate

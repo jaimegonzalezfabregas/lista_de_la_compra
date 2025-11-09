@@ -2584,20 +2584,6 @@ class $AislesTable extends Aisles with TableInfo<$AislesTable, Aisle> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _enviromentIdMeta = const VerificationMeta(
-    'enviromentId',
-  );
-  @override
-  late final GeneratedColumn<String> enviromentId = GeneratedColumn<String>(
-    'enviroment_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES enviroments (id)',
-    ),
-  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2605,7 +2591,6 @@ class $AislesTable extends Aisles with TableInfo<$AislesTable, Aisle> {
     marketId,
     updatedAt,
     deletedAt,
-    enviromentId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2650,17 +2635,6 @@ class $AislesTable extends Aisles with TableInfo<$AislesTable, Aisle> {
         deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
       );
     }
-    if (data.containsKey('enviroment_id')) {
-      context.handle(
-        _enviromentIdMeta,
-        enviromentId.isAcceptableOrUnknown(
-          data['enviroment_id']!,
-          _enviromentIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_enviromentIdMeta);
-    }
     return context;
   }
 
@@ -2690,10 +2664,6 @@ class $AislesTable extends Aisles with TableInfo<$AislesTable, Aisle> {
         DriftSqlType.int,
         data['${effectivePrefix}deleted_at'],
       ),
-      enviromentId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}enviroment_id'],
-      )!,
     );
   }
 
@@ -2709,14 +2679,12 @@ class Aisle extends DataClass implements Insertable<Aisle> {
   final String marketId;
   final int updatedAt;
   final int? deletedAt;
-  final String enviromentId;
   const Aisle({
     required this.id,
     required this.name,
     required this.marketId,
     required this.updatedAt,
     this.deletedAt,
-    required this.enviromentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2728,7 +2696,6 @@ class Aisle extends DataClass implements Insertable<Aisle> {
     if (!nullToAbsent || deletedAt != null) {
       map['deleted_at'] = Variable<int>(deletedAt);
     }
-    map['enviroment_id'] = Variable<String>(enviromentId);
     return map;
   }
 
@@ -2741,7 +2708,6 @@ class Aisle extends DataClass implements Insertable<Aisle> {
       deletedAt: deletedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(deletedAt),
-      enviromentId: Value(enviromentId),
     );
   }
 
@@ -2756,7 +2722,6 @@ class Aisle extends DataClass implements Insertable<Aisle> {
       marketId: serializer.fromJson<String>(json['marketId']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
       deletedAt: serializer.fromJson<int?>(json['deletedAt']),
-      enviromentId: serializer.fromJson<String>(json['enviromentId']),
     );
   }
   @override
@@ -2768,7 +2733,6 @@ class Aisle extends DataClass implements Insertable<Aisle> {
       'marketId': serializer.toJson<String>(marketId),
       'updatedAt': serializer.toJson<int>(updatedAt),
       'deletedAt': serializer.toJson<int?>(deletedAt),
-      'enviromentId': serializer.toJson<String>(enviromentId),
     };
   }
 
@@ -2778,14 +2742,12 @@ class Aisle extends DataClass implements Insertable<Aisle> {
     String? marketId,
     int? updatedAt,
     Value<int?> deletedAt = const Value.absent(),
-    String? enviromentId,
   }) => Aisle(
     id: id ?? this.id,
     name: name ?? this.name,
     marketId: marketId ?? this.marketId,
     updatedAt: updatedAt ?? this.updatedAt,
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
-    enviromentId: enviromentId ?? this.enviromentId,
   );
   Aisle copyWithCompanion(AislesCompanion data) {
     return Aisle(
@@ -2794,9 +2756,6 @@ class Aisle extends DataClass implements Insertable<Aisle> {
       marketId: data.marketId.present ? data.marketId.value : this.marketId,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
-      enviromentId: data.enviromentId.present
-          ? data.enviromentId.value
-          : this.enviromentId,
     );
   }
 
@@ -2807,15 +2766,13 @@ class Aisle extends DataClass implements Insertable<Aisle> {
           ..write('name: $name, ')
           ..write('marketId: $marketId, ')
           ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('enviromentId: $enviromentId')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, name, marketId, updatedAt, deletedAt, enviromentId);
+  int get hashCode => Object.hash(id, name, marketId, updatedAt, deletedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2824,8 +2781,7 @@ class Aisle extends DataClass implements Insertable<Aisle> {
           other.name == this.name &&
           other.marketId == this.marketId &&
           other.updatedAt == this.updatedAt &&
-          other.deletedAt == this.deletedAt &&
-          other.enviromentId == this.enviromentId);
+          other.deletedAt == this.deletedAt);
 }
 
 class AislesCompanion extends UpdateCompanion<Aisle> {
@@ -2834,7 +2790,6 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
   final Value<String> marketId;
   final Value<int> updatedAt;
   final Value<int?> deletedAt;
-  final Value<String> enviromentId;
   final Value<int> rowid;
   const AislesCompanion({
     this.id = const Value.absent(),
@@ -2842,7 +2797,6 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
     this.marketId = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
-    this.enviromentId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   AislesCompanion.insert({
@@ -2851,18 +2805,15 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
     required String marketId,
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
-    required String enviromentId,
     this.rowid = const Value.absent(),
   }) : name = Value(name),
-       marketId = Value(marketId),
-       enviromentId = Value(enviromentId);
+       marketId = Value(marketId);
   static Insertable<Aisle> custom({
     Expression<String>? id,
     Expression<String>? name,
     Expression<String>? marketId,
     Expression<int>? updatedAt,
     Expression<int>? deletedAt,
-    Expression<String>? enviromentId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2871,7 +2822,6 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
       if (marketId != null) 'market_id': marketId,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
-      if (enviromentId != null) 'enviroment_id': enviromentId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2882,7 +2832,6 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
     Value<String>? marketId,
     Value<int>? updatedAt,
     Value<int?>? deletedAt,
-    Value<String>? enviromentId,
     Value<int>? rowid,
   }) {
     return AislesCompanion(
@@ -2891,7 +2840,6 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
       marketId: marketId ?? this.marketId,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
-      enviromentId: enviromentId ?? this.enviromentId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2914,9 +2862,6 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
     if (deletedAt.present) {
       map['deleted_at'] = Variable<int>(deletedAt.value);
     }
-    if (enviromentId.present) {
-      map['enviroment_id'] = Variable<String>(enviromentId.value);
-    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2931,7 +2876,6 @@ class AislesCompanion extends UpdateCompanion<Aisle> {
           ..write('marketId: $marketId, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
-          ..write('enviromentId: $enviromentId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -3005,20 +2949,6 @@ class $ProductAislesTable extends ProductAisles
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _enviromentIdMeta = const VerificationMeta(
-    'enviromentId',
-  );
-  @override
-  late final GeneratedColumn<String> enviromentId = GeneratedColumn<String>(
-    'enviroment_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES enviroments (id)',
-    ),
-  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3026,7 +2956,6 @@ class $ProductAislesTable extends ProductAisles
     aisleId,
     updatedAt,
     deletedAt,
-    enviromentId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3071,17 +3000,6 @@ class $ProductAislesTable extends ProductAisles
         deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
       );
     }
-    if (data.containsKey('enviroment_id')) {
-      context.handle(
-        _enviromentIdMeta,
-        enviromentId.isAcceptableOrUnknown(
-          data['enviroment_id']!,
-          _enviromentIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_enviromentIdMeta);
-    }
     return context;
   }
 
@@ -3111,10 +3029,6 @@ class $ProductAislesTable extends ProductAisles
         DriftSqlType.int,
         data['${effectivePrefix}deleted_at'],
       ),
-      enviromentId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}enviroment_id'],
-      )!,
     );
   }
 
@@ -3130,14 +3044,12 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
   final String aisleId;
   final int updatedAt;
   final int? deletedAt;
-  final String enviromentId;
   const ProductAisle({
     required this.id,
     required this.productId,
     required this.aisleId,
     required this.updatedAt,
     this.deletedAt,
-    required this.enviromentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3149,7 +3061,6 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
     if (!nullToAbsent || deletedAt != null) {
       map['deleted_at'] = Variable<int>(deletedAt);
     }
-    map['enviroment_id'] = Variable<String>(enviromentId);
     return map;
   }
 
@@ -3162,7 +3073,6 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
       deletedAt: deletedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(deletedAt),
-      enviromentId: Value(enviromentId),
     );
   }
 
@@ -3177,7 +3087,6 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
       aisleId: serializer.fromJson<String>(json['aisleId']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
       deletedAt: serializer.fromJson<int?>(json['deletedAt']),
-      enviromentId: serializer.fromJson<String>(json['enviromentId']),
     );
   }
   @override
@@ -3189,7 +3098,6 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
       'aisleId': serializer.toJson<String>(aisleId),
       'updatedAt': serializer.toJson<int>(updatedAt),
       'deletedAt': serializer.toJson<int?>(deletedAt),
-      'enviromentId': serializer.toJson<String>(enviromentId),
     };
   }
 
@@ -3199,14 +3107,12 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
     String? aisleId,
     int? updatedAt,
     Value<int?> deletedAt = const Value.absent(),
-    String? enviromentId,
   }) => ProductAisle(
     id: id ?? this.id,
     productId: productId ?? this.productId,
     aisleId: aisleId ?? this.aisleId,
     updatedAt: updatedAt ?? this.updatedAt,
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
-    enviromentId: enviromentId ?? this.enviromentId,
   );
   ProductAisle copyWithCompanion(ProductAislesCompanion data) {
     return ProductAisle(
@@ -3215,9 +3121,6 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
       aisleId: data.aisleId.present ? data.aisleId.value : this.aisleId,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
-      enviromentId: data.enviromentId.present
-          ? data.enviromentId.value
-          : this.enviromentId,
     );
   }
 
@@ -3228,15 +3131,13 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
           ..write('productId: $productId, ')
           ..write('aisleId: $aisleId, ')
           ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('enviromentId: $enviromentId')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, productId, aisleId, updatedAt, deletedAt, enviromentId);
+  int get hashCode => Object.hash(id, productId, aisleId, updatedAt, deletedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3245,8 +3146,7 @@ class ProductAisle extends DataClass implements Insertable<ProductAisle> {
           other.productId == this.productId &&
           other.aisleId == this.aisleId &&
           other.updatedAt == this.updatedAt &&
-          other.deletedAt == this.deletedAt &&
-          other.enviromentId == this.enviromentId);
+          other.deletedAt == this.deletedAt);
 }
 
 class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
@@ -3255,7 +3155,6 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
   final Value<String> aisleId;
   final Value<int> updatedAt;
   final Value<int?> deletedAt;
-  final Value<String> enviromentId;
   final Value<int> rowid;
   const ProductAislesCompanion({
     this.id = const Value.absent(),
@@ -3263,7 +3162,6 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
     this.aisleId = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
-    this.enviromentId = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ProductAislesCompanion.insert({
@@ -3272,18 +3170,15 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
     required String aisleId,
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
-    required String enviromentId,
     this.rowid = const Value.absent(),
   }) : productId = Value(productId),
-       aisleId = Value(aisleId),
-       enviromentId = Value(enviromentId);
+       aisleId = Value(aisleId);
   static Insertable<ProductAisle> custom({
     Expression<String>? id,
     Expression<String>? productId,
     Expression<String>? aisleId,
     Expression<int>? updatedAt,
     Expression<int>? deletedAt,
-    Expression<String>? enviromentId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3292,7 +3187,6 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
       if (aisleId != null) 'aisle_id': aisleId,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
-      if (enviromentId != null) 'enviroment_id': enviromentId,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3303,7 +3197,6 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
     Value<String>? aisleId,
     Value<int>? updatedAt,
     Value<int?>? deletedAt,
-    Value<String>? enviromentId,
     Value<int>? rowid,
   }) {
     return ProductAislesCompanion(
@@ -3312,7 +3205,6 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
       aisleId: aisleId ?? this.aisleId,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
-      enviromentId: enviromentId ?? this.enviromentId,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3335,9 +3227,6 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
     if (deletedAt.present) {
       map['deleted_at'] = Variable<int>(deletedAt.value);
     }
-    if (enviromentId.present) {
-      map['enviroment_id'] = Variable<String>(enviromentId.value);
-    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3352,7 +3241,6 @@ class ProductAislesCompanion extends UpdateCompanion<ProductAisle> {
           ..write('aisleId: $aisleId, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
-          ..write('enviromentId: $enviromentId, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -3470,46 +3358,6 @@ final class $$EnviromentsTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
-
-  static MultiTypedResultKey<$AislesTable, List<Aisle>> _aislesRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.aisles,
-    aliasName: $_aliasNameGenerator(db.enviroments.id, db.aisles.enviromentId),
-  );
-
-  $$AislesTableProcessedTableManager get aislesRefs {
-    final manager = $$AislesTableTableManager(
-      $_db,
-      $_db.aisles,
-    ).filter((f) => f.enviromentId.id.sqlEquals($_itemColumn<String>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_aislesRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<$ProductAislesTable, List<ProductAisle>>
-  _productAislesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.productAisles,
-    aliasName: $_aliasNameGenerator(
-      db.enviroments.id,
-      db.productAisles.enviromentId,
-    ),
-  );
-
-  $$ProductAislesTableProcessedTableManager get productAislesRefs {
-    final manager = $$ProductAislesTableTableManager(
-      $_db,
-      $_db.productAisles,
-    ).filter((f) => f.enviromentId.id.sqlEquals($_itemColumn<String>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_productAislesRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
 }
 
 class $$EnviromentsTableFilterComposer
@@ -3602,56 +3450,6 @@ class $$EnviromentsTableFilterComposer
           }) => $$SuperMarketsTableFilterComposer(
             $db: $db,
             $table: $db.superMarkets,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> aislesRefs(
-    Expression<bool> Function($$AislesTableFilterComposer f) f,
-  ) {
-    final $$AislesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.aisles,
-      getReferencedColumn: (t) => t.enviromentId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AislesTableFilterComposer(
-            $db: $db,
-            $table: $db.aisles,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> productAislesRefs(
-    Expression<bool> Function($$ProductAislesTableFilterComposer f) f,
-  ) {
-    final $$ProductAislesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.productAisles,
-      getReferencedColumn: (t) => t.enviromentId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ProductAislesTableFilterComposer(
-            $db: $db,
-            $table: $db.productAisles,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -3779,56 +3577,6 @@ class $$EnviromentsTableAnnotationComposer
     );
     return f(composer);
   }
-
-  Expression<T> aislesRefs<T extends Object>(
-    Expression<T> Function($$AislesTableAnnotationComposer a) f,
-  ) {
-    final $$AislesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.aisles,
-      getReferencedColumn: (t) => t.enviromentId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AislesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.aisles,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> productAislesRefs<T extends Object>(
-    Expression<T> Function($$ProductAislesTableAnnotationComposer a) f,
-  ) {
-    final $$ProductAislesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.productAisles,
-      getReferencedColumn: (t) => t.enviromentId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ProductAislesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.productAisles,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
 }
 
 class $$EnviromentsTableTableManager
@@ -3848,8 +3596,6 @@ class $$EnviromentsTableTableManager
             bool recipesRefs,
             bool productsRefs,
             bool superMarketsRefs,
-            bool aislesRefs,
-            bool productAislesRefs,
           })
         > {
   $$EnviromentsTableTableManager(_$AppDatabase db, $EnviromentsTable table)
@@ -3900,8 +3646,6 @@ class $$EnviromentsTableTableManager
                 recipesRefs = false,
                 productsRefs = false,
                 superMarketsRefs = false,
-                aislesRefs = false,
-                productAislesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -3909,8 +3653,6 @@ class $$EnviromentsTableTableManager
                     if (recipesRefs) db.recipes,
                     if (productsRefs) db.products,
                     if (superMarketsRefs) db.superMarkets,
-                    if (aislesRefs) db.aisles,
-                    if (productAislesRefs) db.productAisles,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -3978,48 +3720,6 @@ class $$EnviromentsTableTableManager
                               ),
                           typedResults: items,
                         ),
-                      if (aislesRefs)
-                        await $_getPrefetchedData<
-                          Enviroment,
-                          $EnviromentsTable,
-                          Aisle
-                        >(
-                          currentTable: table,
-                          referencedTable: $$EnviromentsTableReferences
-                              ._aislesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$EnviromentsTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).aislesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.enviromentId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (productAislesRefs)
-                        await $_getPrefetchedData<
-                          Enviroment,
-                          $EnviromentsTable,
-                          ProductAisle
-                        >(
-                          currentTable: table,
-                          referencedTable: $$EnviromentsTableReferences
-                              ._productAislesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$EnviromentsTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).productAislesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.enviromentId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
                     ];
                   },
                 );
@@ -4044,8 +3744,6 @@ typedef $$EnviromentsTableProcessedTableManager =
         bool recipesRefs,
         bool productsRefs,
         bool superMarketsRefs,
-        bool aislesRefs,
-        bool productAislesRefs,
       })
     >;
 typedef $$RecipesTableCreateCompanionBuilder =
@@ -6477,7 +6175,6 @@ typedef $$AislesTableCreateCompanionBuilder =
       required String marketId,
       Value<int> updatedAt,
       Value<int?> deletedAt,
-      required String enviromentId,
       Value<int> rowid,
     });
 typedef $$AislesTableUpdateCompanionBuilder =
@@ -6487,7 +6184,6 @@ typedef $$AislesTableUpdateCompanionBuilder =
       Value<String> marketId,
       Value<int> updatedAt,
       Value<int?> deletedAt,
-      Value<String> enviromentId,
       Value<int> rowid,
     });
 
@@ -6508,25 +6204,6 @@ final class $$AislesTableReferences
       $_db.superMarkets,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_marketIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static $EnviromentsTable _enviromentIdTable(_$AppDatabase db) =>
-      db.enviroments.createAlias(
-        $_aliasNameGenerator(db.aisles.enviromentId, db.enviroments.id),
-      );
-
-  $$EnviromentsTableProcessedTableManager get enviromentId {
-    final $_column = $_itemColumn<String>('enviroment_id')!;
-
-    final manager = $$EnviromentsTableTableManager(
-      $_db,
-      $_db.enviroments,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_enviromentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -6595,29 +6272,6 @@ class $$AislesTableFilterComposer
           }) => $$SuperMarketsTableFilterComposer(
             $db: $db,
             $table: $db.superMarkets,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$EnviromentsTableFilterComposer get enviromentId {
-    final $$EnviromentsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableFilterComposer(
-            $db: $db,
-            $table: $db.enviroments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -6704,29 +6358,6 @@ class $$AislesTableOrderingComposer
     );
     return composer;
   }
-
-  $$EnviromentsTableOrderingComposer get enviromentId {
-    final $$EnviromentsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableOrderingComposer(
-            $db: $db,
-            $table: $db.enviroments,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
 class $$AislesTableAnnotationComposer
@@ -6764,29 +6395,6 @@ class $$AislesTableAnnotationComposer
           }) => $$SuperMarketsTableAnnotationComposer(
             $db: $db,
             $table: $db.superMarkets,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$EnviromentsTableAnnotationComposer get enviromentId {
-    final $$EnviromentsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.enviroments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -6835,11 +6443,7 @@ class $$AislesTableTableManager
           $$AislesTableUpdateCompanionBuilder,
           (Aisle, $$AislesTableReferences),
           Aisle,
-          PrefetchHooks Function({
-            bool marketId,
-            bool enviromentId,
-            bool productAislesRefs,
-          })
+          PrefetchHooks Function({bool marketId, bool productAislesRefs})
         > {
   $$AislesTableTableManager(_$AppDatabase db, $AislesTable table)
     : super(
@@ -6859,7 +6463,6 @@ class $$AislesTableTableManager
                 Value<String> marketId = const Value.absent(),
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
-                Value<String> enviromentId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => AislesCompanion(
                 id: id,
@@ -6867,7 +6470,6 @@ class $$AislesTableTableManager
                 marketId: marketId,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
-                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -6877,7 +6479,6 @@ class $$AislesTableTableManager
                 required String marketId,
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
-                required String enviromentId,
                 Value<int> rowid = const Value.absent(),
               }) => AislesCompanion.insert(
                 id: id,
@@ -6885,7 +6486,6 @@ class $$AislesTableTableManager
                 marketId: marketId,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
-                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -6895,11 +6495,7 @@ class $$AislesTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({
-                marketId = false,
-                enviromentId = false,
-                productAislesRefs = false,
-              }) {
+              ({marketId = false, productAislesRefs = false}) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
@@ -6930,19 +6526,6 @@ class $$AislesTableTableManager
                                         ._marketIdTable(db),
                                     referencedColumn: $$AislesTableReferences
                                         ._marketIdTable(db)
-                                        .id,
-                                  )
-                                  as T;
-                        }
-                        if (enviromentId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.enviromentId,
-                                    referencedTable: $$AislesTableReferences
-                                        ._enviromentIdTable(db),
-                                    referencedColumn: $$AislesTableReferences
-                                        ._enviromentIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -6993,11 +6576,7 @@ typedef $$AislesTableProcessedTableManager =
       $$AislesTableUpdateCompanionBuilder,
       (Aisle, $$AislesTableReferences),
       Aisle,
-      PrefetchHooks Function({
-        bool marketId,
-        bool enviromentId,
-        bool productAislesRefs,
-      })
+      PrefetchHooks Function({bool marketId, bool productAislesRefs})
     >;
 typedef $$ProductAislesTableCreateCompanionBuilder =
     ProductAislesCompanion Function({
@@ -7006,7 +6585,6 @@ typedef $$ProductAislesTableCreateCompanionBuilder =
       required String aisleId,
       Value<int> updatedAt,
       Value<int?> deletedAt,
-      required String enviromentId,
       Value<int> rowid,
     });
 typedef $$ProductAislesTableUpdateCompanionBuilder =
@@ -7016,7 +6594,6 @@ typedef $$ProductAislesTableUpdateCompanionBuilder =
       Value<String> aisleId,
       Value<int> updatedAt,
       Value<int?> deletedAt,
-      Value<String> enviromentId,
       Value<int> rowid,
     });
 
@@ -7059,25 +6636,6 @@ final class $$ProductAislesTableReferences
       $_db.aisles,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_aisleIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static $EnviromentsTable _enviromentIdTable(_$AppDatabase db) =>
-      db.enviroments.createAlias(
-        $_aliasNameGenerator(db.productAisles.enviromentId, db.enviroments.id),
-      );
-
-  $$EnviromentsTableProcessedTableManager get enviromentId {
-    final $_column = $_itemColumn<String>('enviroment_id')!;
-
-    final manager = $$EnviromentsTableTableManager(
-      $_db,
-      $_db.enviroments,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_enviromentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -7146,29 +6704,6 @@ class $$ProductAislesTableFilterComposer
           }) => $$AislesTableFilterComposer(
             $db: $db,
             $table: $db.aisles,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$EnviromentsTableFilterComposer get enviromentId {
-    final $$EnviromentsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableFilterComposer(
-            $db: $db,
-            $table: $db.enviroments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7248,29 +6783,6 @@ class $$ProductAislesTableOrderingComposer
     );
     return composer;
   }
-
-  $$EnviromentsTableOrderingComposer get enviromentId {
-    final $$EnviromentsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableOrderingComposer(
-            $db: $db,
-            $table: $db.enviroments,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
 class $$ProductAislesTableAnnotationComposer
@@ -7336,29 +6848,6 @@ class $$ProductAislesTableAnnotationComposer
     );
     return composer;
   }
-
-  $$EnviromentsTableAnnotationComposer get enviromentId {
-    final $$EnviromentsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.enviromentId,
-      referencedTable: $db.enviroments,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EnviromentsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.enviroments,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
 }
 
 class $$ProductAislesTableTableManager
@@ -7374,11 +6863,7 @@ class $$ProductAislesTableTableManager
           $$ProductAislesTableUpdateCompanionBuilder,
           (ProductAisle, $$ProductAislesTableReferences),
           ProductAisle,
-          PrefetchHooks Function({
-            bool productId,
-            bool aisleId,
-            bool enviromentId,
-          })
+          PrefetchHooks Function({bool productId, bool aisleId})
         > {
   $$ProductAislesTableTableManager(_$AppDatabase db, $ProductAislesTable table)
     : super(
@@ -7398,7 +6883,6 @@ class $$ProductAislesTableTableManager
                 Value<String> aisleId = const Value.absent(),
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
-                Value<String> enviromentId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ProductAislesCompanion(
                 id: id,
@@ -7406,7 +6890,6 @@ class $$ProductAislesTableTableManager
                 aisleId: aisleId,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
-                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -7416,7 +6899,6 @@ class $$ProductAislesTableTableManager
                 required String aisleId,
                 Value<int> updatedAt = const Value.absent(),
                 Value<int?> deletedAt = const Value.absent(),
-                required String enviromentId,
                 Value<int> rowid = const Value.absent(),
               }) => ProductAislesCompanion.insert(
                 id: id,
@@ -7424,7 +6906,6 @@ class $$ProductAislesTableTableManager
                 aisleId: aisleId,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
-                enviromentId: enviromentId,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -7435,80 +6916,60 @@ class $$ProductAislesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback:
-              ({productId = false, aisleId = false, enviromentId = false}) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [],
-                  addJoins:
-                      <
-                        T extends TableManagerState<
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic
-                        >
-                      >(state) {
-                        if (productId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.productId,
-                                    referencedTable:
-                                        $$ProductAislesTableReferences
-                                            ._productIdTable(db),
-                                    referencedColumn:
-                                        $$ProductAislesTableReferences
-                                            ._productIdTable(db)
-                                            .id,
-                                  )
-                                  as T;
-                        }
-                        if (aisleId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.aisleId,
-                                    referencedTable:
-                                        $$ProductAislesTableReferences
-                                            ._aisleIdTable(db),
-                                    referencedColumn:
-                                        $$ProductAislesTableReferences
-                                            ._aisleIdTable(db)
-                                            .id,
-                                  )
-                                  as T;
-                        }
-                        if (enviromentId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.enviromentId,
-                                    referencedTable:
-                                        $$ProductAislesTableReferences
-                                            ._enviromentIdTable(db),
-                                    referencedColumn:
-                                        $$ProductAislesTableReferences
-                                            ._enviromentIdTable(db)
-                                            .id,
-                                  )
-                                  as T;
-                        }
+          prefetchHooksCallback: ({productId = false, aisleId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (productId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.productId,
+                                referencedTable: $$ProductAislesTableReferences
+                                    ._productIdTable(db),
+                                referencedColumn: $$ProductAislesTableReferences
+                                    ._productIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (aisleId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.aisleId,
+                                referencedTable: $$ProductAislesTableReferences
+                                    ._aisleIdTable(db),
+                                referencedColumn: $$ProductAislesTableReferences
+                                    ._aisleIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
 
-                        return state;
-                      },
-                  getPrefetchedDataCallback: (items) async {
-                    return [];
+                    return state;
                   },
-                );
+              getPrefetchedDataCallback: (items) async {
+                return [];
               },
+            );
+          },
         ),
       );
 }
@@ -7525,7 +6986,7 @@ typedef $$ProductAislesTableProcessedTableManager =
       $$ProductAislesTableUpdateCompanionBuilder,
       (ProductAisle, $$ProductAislesTableReferences),
       ProductAisle,
-      PrefetchHooks Function({bool productId, bool aisleId, bool enviromentId})
+      PrefetchHooks Function({bool productId, bool aisleId})
     >;
 
 class $AppDatabaseManager {
