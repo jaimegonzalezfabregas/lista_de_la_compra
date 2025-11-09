@@ -1,9 +1,11 @@
-
 import '../db/database.dart';
 import '../db_providers/environment_provider.dart';
 import '../db_providers/product_provider.dart';
 import '../db_providers/recipe_provider.dart';
 import '../db_providers/schedule_provider.dart';
+import '../db_providers/supermarket_provider.dart';
+import '../db_providers/aisle_provider.dart';
+import '../db_providers/product_aisle_provider.dart';
 
 Future<Map<String, dynamic>> serializeEnvironment(
   String enviromentId,
@@ -11,15 +13,39 @@ Future<Map<String, dynamic>> serializeEnvironment(
   ProductProvider productProvider,
   RecipeProvider recipeProvider,
   ScheduleProvider scheduleProvider,
+  SuperMarketProvider supermarketProvider,
+  AisleProvider aisleProvider,
+  ProductAisleProvider productAisleProvider,
 ) async {
-  Environment environment = (await environmentProvider.getEnvironmentById(enviromentId))!;
+  // Launch all provider fetches concurrently to improve latency.
+  final envFuture = environmentProvider.getEnvironmentById(enviromentId);
+  final productsFuture = productProvider.getSyncProductList(enviromentId);
+  final recipesFuture = recipeProvider.getSyncRecipeList(enviromentId);
+  final recipeProductsFuture = recipeProvider.getSyncRecipeProductList(enviromentId);
+  final scheduleFuture = scheduleProvider.getSyncEntryList(enviromentId);
+  final superMarketsFuture = supermarketProvider.getSyncSuperMarketList(enviromentId);
+  final aislesFuture = aisleProvider.getSyncAisleList(enviromentId);
+  final productAislesFuture = productAisleProvider.getSyncProductAisleList(enviromentId);
+
+  final environment = (await envFuture)!;
+
+  final products = await productsFuture;
+  final recipes = await recipesFuture;
+  final productsRecipies = await recipeProductsFuture;
+  final schedule = await scheduleFuture;
+  final superMarkets = await superMarketsFuture;
+  final aisles = await aislesFuture;
+  final productAisles = await productAislesFuture;
 
   return {
     "environment": environment,
-    "products": await productProvider.getSyncProductList(enviromentId),
-    "recipes": await recipeProvider.getSyncRecipeList(enviromentId),
-    "products_recipies": await recipeProvider.getSyncRecipeProductList(enviromentId),
-    "schedule": await scheduleProvider.getSyncEntryList(enviromentId),
+    "products": products,
+    "recipes": recipes,
+    "products_recipies": productsRecipies,
+    "schedule": schedule,
+    "super_markets": superMarkets,
+    "aisles": aisles,
+    "product_aisles": productAisles,
   };
 }
 
@@ -64,8 +90,11 @@ Future<void> recieveState(
   EnvironmentProvider environmentProvider,
   ProductProvider productProvider,
   RecipeProvider recipeProvider,
-  ScheduleProvider scheduleProvider,
-) async {
+  ScheduleProvider scheduleProvider, {
+  SuperMarketProvider? supermarketProvider,
+  AisleProvider? aisleProvider,
+  ProductAisleProvider? productAisleProvider,
+}) async {
   Environment remoteEnvironment = Environment.fromJson(state["environment"]);
   Environment? currentEnvironment = await environmentProvider.getEnvironmentById(remoteEnvironment.id);
   if (currentEnvironment == null) {
@@ -82,11 +111,17 @@ Future<void> recieveState(
   List<dynamic> otherRecipes = state["recipes"]!;
   List<dynamic> otherProductsRecipies = state["products_recipies"]!;
   List<dynamic> otherSchedule = state["schedule"]!;
+  List<dynamic> otherSuperMarkets = state["super_markets"] ?? [];
+  List<dynamic> otherAisles = state["aisles"] ?? [];
+  List<dynamic> otherProductAisles = state["product_aisles"] ?? [];
 
   var selfProducts = productProvider.getSyncProductList(remoteEnvironment.id);
   var selfRecipes = recipeProvider.getSyncRecipeList(remoteEnvironment.id);
   var selfProductsRecipes = recipeProvider.getSyncRecipeProductList(remoteEnvironment.id);
   var selfSchedule = scheduleProvider.getSyncEntryList(remoteEnvironment.id);
+  var selfSuperMarkets = supermarketProvider != null ? supermarketProvider.getSyncSuperMarketList(remoteEnvironment.id) : Future.value([]);
+  var selfAisles = aisleProvider != null ? aisleProvider.getSyncAisleList(remoteEnvironment.id) : Future.value([]);
+  var selfProductAisles = productAisleProvider != null ? productAisleProvider.getSyncProductAisleList(remoteEnvironment.id) : Future.value([]);
 
   await syncItems(
     otherProducts,
@@ -119,4 +154,35 @@ Future<void> recieveState(
     (id, deletedAt) => scheduleProvider.syncSetDeleted(id, deletedAt),
     (item) => scheduleProvider.syncAddEntry(item),
   );
+
+  // sync new tables if providers are present
+  if (supermarketProvider != null) {
+    await syncItems(
+      otherSuperMarkets,
+      await selfSuperMarkets,
+      (id, item) => supermarketProvider.syncOverideSuperMarket(id, item),
+      (id, deletedAt) => supermarketProvider.syncSetDeletedSuperMarket(id, deletedAt),
+      (item) => supermarketProvider.syncAddSuperMarket(item),
+    );
+  }
+
+  if (aisleProvider != null) {
+    await syncItems(
+      otherAisles,
+      await selfAisles,
+      (id, item) => aisleProvider.syncOverideAisle(id, item),
+      (id, deletedAt) => aisleProvider.syncSetDeletedAisle(id, deletedAt),
+      (item) => aisleProvider.syncAddAisle(item),
+    );
+  }
+
+  if (productAisleProvider != null) {
+    await syncItems(
+      otherProductAisles,
+      await selfProductAisles,
+      (id, item) => productAisleProvider.syncOverideProductAisle(id, item),
+      (id, deletedAt) => productAisleProvider.syncSetDeletedProductAisle(id, deletedAt),
+      (item) => productAisleProvider.syncAddProductAisle(item),
+    );
+  }
 }
