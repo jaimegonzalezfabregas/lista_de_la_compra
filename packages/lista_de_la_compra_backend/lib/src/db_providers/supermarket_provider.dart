@@ -86,4 +86,26 @@ abstract class SuperMarketProvider implements VoidEventSource {
     notifyListeners();
     return id;
   }
+
+  Future<SuperMarket?> getSuperMarketById(String supermarketId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    return await (database.select(database.superMarkets)
+          ..where((table) => table.id.equals(supermarketId))
+          ..where((table) => table.deletedAt.isNull()))
+        .getSingleOrNull();
+  }
+
+  Future<void> deleteById(String supermarketId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    var q = database.update(database.superMarkets);
+
+    q.where((tbl) => tbl.id.equals(supermarketId));
+
+    q.write(SuperMarketsCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+
+    notifyListeners();
+  }
+
 }

@@ -61,6 +61,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
     }
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -80,11 +81,12 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
             onChanged: onChanged,
           ),
         ),
+        Flexible(
+          child: ListView(shrinkWrap: true, controller: scrollController, children: items),
+        ),
         if (items.isEmpty)
-          Expanded(child: Center(child: Text(appLoc.thisListHasNoResults)))
-        else
-          Expanded(
-            child: ListView(controller: scrollController, children: items),
+          Flexible(
+            child: Container(margin: EdgeInsets.all(20), child: Text(appLoc.thisListHasNoResults)),
           ),
       ],
     );

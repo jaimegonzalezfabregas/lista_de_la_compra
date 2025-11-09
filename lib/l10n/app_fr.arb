@@ -362,5 +362,14 @@
   },
   "@supermarketList": {
     "description": "Supermarket list"
+  },
+  "aisles": "Aisles",
+  "@aisles": {
+    "description": "Aisles"
+  }
+  ,
+  "addProductsToAisle": "Ajouter des produits à l'allée",
+  "@addProductsToAisle": {
+    "description": "Title for the screen where products are added to an aisle"
   }
 }

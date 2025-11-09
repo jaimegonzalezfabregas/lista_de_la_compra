@@ -362,5 +362,27 @@
   "@supermarketList": {
     "description": "Supermarket list"
   },
-  "@@locale": "en"
+  "@@locale": "en",
+  "aisles": "Aisles",
+  "@aisles": {
+    "description": "Aisles"
+  },
+  "numberOfProducts": "{count, plural, =0{No products} =1{1 product} other{{count} products}}",
+  "@numberOfProducts": {
+    "description": "Pluralized message for number of products",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "numberOfAisles": "{count, plural, =0{No aisles} =1{1 aisle} other{{count} aisles}}",
+  "@numberOfAisles": {
+    "description": "Pluralized message for number of aisles",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "addProductsToAisle": "Add products to aisle",
+  "@addProductsToAisle": {
+    "description": "Title for the screen where products are added to an aisle"
+  }
 }
