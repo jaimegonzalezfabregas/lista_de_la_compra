@@ -1,0 +1,3 @@
+Aplikasi senarai beli-belah dengan perancangan hidangan bersepadu.
+
+Penyegerakan tempatan antara peranti membolehkan koordinasi antara pengguna.

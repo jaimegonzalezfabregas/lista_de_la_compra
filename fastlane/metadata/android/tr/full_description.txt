@@ -1,0 +1,3 @@
+Entegre öğün planlamasıyla bir alışveriş listesi uygulaması.
+
+Cihazlar arasındaki yerel senkronizasyon, kullanıcılar arasında koordinasyon sağlar.

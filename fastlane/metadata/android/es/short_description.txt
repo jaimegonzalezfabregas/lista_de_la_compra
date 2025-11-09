@@ -1,1 +1,1 @@
-Lista de la compra con planificador semanal y sync local
+Lista de la compra y planificador semanal con sincronización local

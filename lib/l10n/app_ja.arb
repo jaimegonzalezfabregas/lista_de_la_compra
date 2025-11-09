@@ -81,11 +81,16 @@
   "search": "検索",
   "switchEnvironment": "環境を切り替え",
   "actions": "操作",
+  "markAllAs": "すべてをマーク",
   "editAmount": "数量を編集",
   "details": "詳細",
   "enoughForA": "十分な量：",
   "knownServers": "既知のサーバー",
   "noOpenConnection": "オープンな接続なし",
   "neverConnected": "接続したことがない",
-  "fallbackLocalNick": "名前なしデバイス"
+  "fallbackLocalNick": "名前なしデバイス",
+  "@ipCopied": {
+    "description": "Message shown when an IP address is copied to the clipboard",
+    "placeholders": { "address": {} }
+  }
 }

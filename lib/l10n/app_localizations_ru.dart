@@ -257,6 +257,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actions => 'Действия';
 
   @override
+  String get markAllAs => 'Отметить все как';
+
+  @override
   String get editAmount => 'Изменить количество';
 
   @override

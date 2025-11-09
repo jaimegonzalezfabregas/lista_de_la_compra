@@ -1,0 +1,3 @@
+Aplikácia nákupného zoznamu s integrovaným plánovaním jedál.
+
+Lokálna synchronizácia medzi zariadeniami umožňuje koordináciu medzi používateľmi.

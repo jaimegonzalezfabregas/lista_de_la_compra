@@ -1,0 +1,3 @@
+O aplicație pentru lista de cumpărături cu planificare a meselor integrată.
+
+Sincronizarea locală între dispozitive permite coordonarea între utilizatori.

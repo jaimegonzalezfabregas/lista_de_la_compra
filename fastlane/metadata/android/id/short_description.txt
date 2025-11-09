@@ -1,0 +1,1 @@
+Daftar belanja dan perencana mingguan dengan sinkron lokal

@@ -1,1 +1,1 @@
-Liste de courses avec planificateur hebdomadaire et synchronisation locale
+Liste de courses avec synchronisation locale

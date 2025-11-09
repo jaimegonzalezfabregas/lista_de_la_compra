@@ -1,0 +1,3 @@
+Um aplicativo de lista de compras com planejamento de refeições integrado.
+
+A sincronização local entre dispositivos permite a coordenação entre usuários.

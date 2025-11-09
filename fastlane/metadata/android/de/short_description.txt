@@ -1,0 +1,1 @@
+Einkaufsliste und Wochenplaner mit lokaler Synchronisation

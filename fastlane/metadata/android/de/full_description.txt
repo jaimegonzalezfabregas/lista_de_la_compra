@@ -1,0 +1,3 @@
+Eine Einkaufslisten-App mit integriertem Essensplaner.
+
+Lokale Synchronisierung zwischen Geräten ermöglicht die Koordination zwischen Benutzern.

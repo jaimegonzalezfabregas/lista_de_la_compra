@@ -1,0 +1,3 @@
+Un'app per la lista della spesa con pianificazione dei pasti integrata.
+
+La sincronizzazione locale tra dispositivi consente il coordinamento tra gli utenti.

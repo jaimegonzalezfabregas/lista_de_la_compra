@@ -1,0 +1,3 @@
+En indkøbsliste-app med integreret måltidsplanlægning.
+
+Lokal synkronisering mellem enheder tillader koordinering mellem brugere.
