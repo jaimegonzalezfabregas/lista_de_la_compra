@@ -281,4 +281,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'dispositivo-sin-nombre';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

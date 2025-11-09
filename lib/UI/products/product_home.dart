@@ -25,7 +25,7 @@ class ProductListDisplay extends StatelessWidget {
 
     return Searchablelistview<Product>(
       elements: filteredProducts,
-      searchElements: products,
+      elementsOnSearch: products,
       elementToListTile: (Product p, RichText tag) {
         return ListTile(
           title: tag,
@@ -58,9 +58,9 @@ class ProductListDisplay extends StatelessWidget {
   }
 }
 
-class SimpleShoppinglist extends StatelessWidget {
+class ProductHome extends StatelessWidget {
   final String enviromentId;
-  const SimpleShoppinglist(this.enviromentId, {super.key});
+  const ProductHome(this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {

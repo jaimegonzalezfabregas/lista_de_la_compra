@@ -281,4 +281,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'naamloos-apparaat';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

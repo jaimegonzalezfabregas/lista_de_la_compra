@@ -278,4 +278,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'جهاز-بدون-اسم';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

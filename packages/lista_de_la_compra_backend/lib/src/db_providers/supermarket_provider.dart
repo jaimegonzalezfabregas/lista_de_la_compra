@@ -3,22 +3,23 @@ import 'package:uuid/uuid.dart';
 
 import '../../lista_de_la_compra_backend.dart';
 
-
 class RamSuperMarketProvider extends SuperMarketProvider with VoidEventSourceMixin {}
 
 abstract class SuperMarketProvider implements VoidEventSource {
   Future<void> syncAddSuperMarket(Map<String, dynamic> serialized) async {
     final database = AppDatabaseSingleton.instance;
 
-    await database.into(database.superMarkets).insert(
-      SuperMarketsCompanion(
-        id: Value(serialized["id"]),
-        name: Value(serialized["name"]),
-        updatedAt: Value(serialized["updatedAt"]),
-        deletedAt: Value(serialized["deletedAt"]),
-        enviromentId: Value(serialized["enviromentId"]),
-      ),
-    );
+    await database
+        .into(database.superMarkets)
+        .insert(
+          SuperMarketsCompanion(
+            id: Value(serialized["id"]),
+            name: Value(serialized["name"]),
+            updatedAt: Value(serialized["updatedAt"]),
+            deletedAt: Value(serialized["deletedAt"]),
+            enviromentId: Value(serialized["enviromentId"]),
+          ),
+        );
 
     notifyListeners();
   }
@@ -65,11 +66,15 @@ abstract class SuperMarketProvider implements VoidEventSource {
     return await q.get();
   }
 
-  Future<String> addSuperMarket(String name, String enviromentId) async {
+  Future<String> addSuperMarket(String rawName, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
     final String id = Uuid().v7();
 
-    await database.into(database.superMarkets).insert(
+    String name = rawName.trim().capitalize();
+
+    await database
+        .into(database.superMarkets)
+        .insert(
           SuperMarketsCompanion(
             id: Value(id),
             name: Value(name),

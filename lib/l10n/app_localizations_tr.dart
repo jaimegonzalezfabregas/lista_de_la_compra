@@ -279,4 +279,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'isimsiz-cihaz';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

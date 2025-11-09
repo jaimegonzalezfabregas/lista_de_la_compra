@@ -281,4 +281,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'perangkat-tanpa-nama';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

@@ -281,4 +281,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'dispozitiv-fără-nume';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

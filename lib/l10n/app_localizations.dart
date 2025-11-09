@@ -156,463 +156,463 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
-  /// No description provided for @appTitle.
+  /// Shopping List
   ///
   /// In en, this message translates to:
   /// **'Shopping List'**
   String get appTitle;
 
-  /// No description provided for @changeName.
+  /// Change Name
   ///
   /// In en, this message translates to:
   /// **'Change Name'**
   String get changeName;
 
-  /// No description provided for @changeNick.
+  /// Change Nick
   ///
   /// In en, this message translates to:
   /// **'Change Nick'**
   String get changeNick;
 
-  /// No description provided for @name.
+  /// Name
   ///
   /// In en, this message translates to:
   /// **'Name'**
   String get name;
 
-  /// No description provided for @nick.
+  /// Nick
   ///
   /// In en, this message translates to:
   /// **'Nick'**
   String get nick;
 
-  /// No description provided for @theNameCantBeEmpty.
+  /// The name cant be empty
   ///
   /// In en, this message translates to:
   /// **'The name cant be empty'**
   String get theNameCantBeEmpty;
 
-  /// No description provided for @cancel.
+  /// Cancel
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
 
-  /// No description provided for @save.
+  /// Save
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
 
-  /// No description provided for @thisListHasNoResults.
+  /// This list has no results
   ///
   /// In en, this message translates to:
   /// **'This list has no results'**
   String get thisListHasNoResults;
 
-  /// No description provided for @createEnvironment.
+  /// Create environment
   ///
   /// In en, this message translates to:
   /// **'Create environment'**
   String get createEnvironment;
 
-  /// No description provided for @availableEnvironmentsWithoutConnection.
+  /// Available environments without connection
   ///
   /// In en, this message translates to:
   /// **'Available environments without connection'**
   String get availableEnvironmentsWithoutConnection;
 
-  /// No description provided for @environmentsOnOtherMachines.
+  /// Environments on other machines
   ///
   /// In en, this message translates to:
   /// **'Environments on other machines'**
   String get environmentsOnOtherMachines;
 
-  /// No description provided for @importEnvironment.
+  /// Import environment
   ///
   /// In en, this message translates to:
   /// **'Import environment'**
   String get importEnvironment;
 
-  /// No description provided for @syncronization.
+  /// Syncronization
   ///
   /// In en, this message translates to:
   /// **'Syncronization'**
   String get syncronization;
 
-  /// No description provided for @loading.
+  /// Loading...
   ///
   /// In en, this message translates to:
   /// **'Loading...'**
   String get loading;
 
-  /// No description provided for @home.
+  /// Home
   ///
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
 
-  /// No description provided for @shoppingList.
+  /// Shopping List
   ///
   /// In en, this message translates to:
   /// **'Shopping List'**
   String get shoppingList;
 
-  /// No description provided for @recipeList.
+  /// Recipe List
   ///
   /// In en, this message translates to:
   /// **'Recipe List'**
   String get recipeList;
 
-  /// No description provided for @agenda.
+  /// Agenda
   ///
   /// In en, this message translates to:
   /// **'Agenda'**
   String get agenda;
 
-  /// No description provided for @export.
+  /// Export
   ///
   /// In en, this message translates to:
   /// **'Export'**
   String get export;
 
-  /// No description provided for @undo.
+  /// Undo
   ///
   /// In en, this message translates to:
   /// **'Undo'**
   String get undo;
 
-  /// No description provided for @product.
+  /// Product
   ///
   /// In en, this message translates to:
   /// **'Product'**
   String get product;
 
-  /// No description provided for @markAsNeeded.
+  ///  marked as needed.
   ///
   /// In en, this message translates to:
   /// **' marked as needed. '**
   String get markAsNeeded;
 
-  /// No description provided for @markAsBought.
+  ///  marked as bought.
   ///
   /// In en, this message translates to:
   /// **' marked as bought. '**
   String get markAsBought;
 
-  /// No description provided for @toBuy.
+  /// To buy
   ///
   /// In en, this message translates to:
   /// **'To buy'**
   String get toBuy;
 
-  /// No description provided for @editName.
+  /// Edit name
   ///
   /// In en, this message translates to:
   /// **'Edit name'**
   String get editName;
 
-  /// No description provided for @delete.
+  /// Delete
   ///
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
 
-  /// No description provided for @setAsBought.
+  /// Set as bought
   ///
   /// In en, this message translates to:
   /// **'Set as bought'**
   String get setAsBought;
 
-  /// No description provided for @setAsNeeded.
+  /// Set as needed
   ///
   /// In en, this message translates to:
   /// **'Set as needed'**
   String get setAsNeeded;
 
-  /// No description provided for @selectRecipe.
+  /// Select recipe
   ///
   /// In en, this message translates to:
   /// **'Select recipe'**
   String get selectRecipe;
 
-  /// No description provided for @add.
+  /// Add
   ///
   /// In en, this message translates to:
   /// **'Add'**
   String get add;
 
-  /// No description provided for @noNick.
+  /// No nick
   ///
   /// In en, this message translates to:
   /// **'No nick'**
   String get noNick;
 
-  /// No description provided for @pairings.
+  /// Pairings
   ///
   /// In en, this message translates to:
   /// **'Pairings'**
   String get pairings;
 
-  /// No description provided for @connectionType.
+  /// Connection type
   ///
   /// In en, this message translates to:
   /// **'Connection type'**
   String get connectionType;
 
-  /// No description provided for @notStablished.
+  /// Not stablished
   ///
   /// In en, this message translates to:
   /// **'Not stablished'**
   String get notStablished;
 
-  /// No description provided for @stablished.
+  /// Stablished
   ///
   /// In en, this message translates to:
   /// **'Stablished'**
   String get stablished;
 
-  /// No description provided for @connectionState.
+  /// Conection state
   ///
   /// In en, this message translates to:
   /// **'Conection state'**
   String get connectionState;
 
-  /// No description provided for @generalConfig.
+  /// General Config
   ///
   /// In en, this message translates to:
   /// **'General Config'**
   String get generalConfig;
 
-  /// No description provided for @scanStarted.
+  /// Scan started
   ///
   /// In en, this message translates to:
   /// **'Scan started'**
   String get scanStarted;
 
-  /// No description provided for @noResultsYet.
+  /// No results yet
   ///
   /// In en, this message translates to:
   /// **'No results yet'**
   String get noResultsYet;
 
-  /// No description provided for @noName.
+  /// No name
   ///
   /// In en, this message translates to:
   /// **'No name'**
   String get noName;
 
-  /// No description provided for @noHost.
+  /// No host
   ///
   /// In en, this message translates to:
   /// **'No host'**
   String get noHost;
 
-  /// No description provided for @error.
+  /// Error
   ///
   /// In en, this message translates to:
   /// **'Error'**
   String get error;
 
-  /// No description provided for @saveFileToYourDesiredLocation.
+  /// Save file to your desired location
   ///
   /// In en, this message translates to:
   /// **'Save file to your desired location'**
   String get saveFileToYourDesiredLocation;
 
-  /// No description provided for @exportToFile.
+  /// Export to file
   ///
   /// In en, this message translates to:
   /// **'Export to file'**
   String get exportToFile;
 
-  /// No description provided for @sendExport.
+  /// Export and send
   ///
   /// In en, this message translates to:
   /// **'Export and send'**
   String get sendExport;
 
-  /// No description provided for @localDeviceAvailableIPs.
+  /// The current device is available on the following IPs
   ///
   /// In en, this message translates to:
   /// **'The current device is available on the following IPs'**
   String get localDeviceAvailableIPs;
 
-  /// No description provided for @stopServer.
+  /// Stop server
   ///
   /// In en, this message translates to:
   /// **'Stop server'**
   String get stopServer;
 
-  /// No description provided for @startServer.
+  /// Start server
   ///
   /// In en, this message translates to:
   /// **'Start server'**
   String get startServer;
 
-  /// No description provided for @startingServer.
+  /// Starting server...
   ///
   /// In en, this message translates to:
   /// **'Starting server...'**
   String get startingServer;
 
-  /// No description provided for @stoppingServer.
+  /// Stopping server...
   ///
   /// In en, this message translates to:
   /// **'Stopping server...'**
   String get stoppingServer;
 
-  /// No description provided for @errorStartingServer.
+  /// Error starting server
   ///
   /// In en, this message translates to:
   /// **'Error starting server'**
   String get errorStartingServer;
 
-  /// No description provided for @nearbyDevices.
+  /// Nearby devices
   ///
   /// In en, this message translates to:
   /// **'Nearby devices'**
   String get nearbyDevices;
 
-  /// No description provided for @enterAddressManually.
+  /// Enter address manually
   ///
   /// In en, this message translates to:
   /// **'Enter address manually'**
   String get enterAddressManually;
 
-  /// No description provided for @remoteAddress.
+  /// Remote address
   ///
   /// In en, this message translates to:
   /// **'Remote address'**
   String get remoteAddress;
 
-  /// No description provided for @remotePort.
+  /// Remote port
   ///
   /// In en, this message translates to:
   /// **'Remote port'**
   String get remotePort;
 
-  /// No description provided for @errorEmptyRemoteAddress.
+  /// Error: the remote address cannot be empty
   ///
   /// In en, this message translates to:
   /// **'Error: the remote address cannot be empty'**
   String get errorEmptyRemoteAddress;
 
-  /// No description provided for @connect.
+  /// Connect
   ///
   /// In en, this message translates to:
   /// **'Connect'**
   String get connect;
 
-  /// No description provided for @server.
+  /// Server
   ///
   /// In en, this message translates to:
   /// **'Server'**
   String get server;
 
-  /// No description provided for @client.
+  /// Client
   ///
   /// In en, this message translates to:
   /// **'Client'**
   String get client;
 
-  /// No description provided for @inputTheAmount.
+  /// Input the amount
   ///
   /// In en, this message translates to:
   /// **'Input the amount'**
   String get inputTheAmount;
 
-  /// No description provided for @noIngredientsYet.
+  /// No ingredients have been added yet
   ///
   /// In en, this message translates to:
   /// **'No ingredients have been added yet'**
   String get noIngredientsYet;
 
-  /// No description provided for @addIngredients.
+  /// Add ingredients
   ///
   /// In en, this message translates to:
   /// **'Add ingredients'**
   String get addIngredients;
 
-  /// No description provided for @showPastDates.
+  /// Show past dates
   ///
   /// In en, this message translates to:
   /// **'Show past dates'**
   String get showPastDates;
 
-  /// No description provided for @ingredients.
+  /// Ingredients
   ///
   /// In en, this message translates to:
   /// **'Ingredients'**
   String get ingredients;
 
-  /// No description provided for @dates.
+  /// Dates
   ///
   /// In en, this message translates to:
   /// **'Dates'**
   String get dates;
 
-  /// No description provided for @buy.
+  /// Buy
   ///
   /// In en, this message translates to:
   /// **'Buy'**
   String get buy;
 
-  /// No description provided for @all.
+  /// Everything
   ///
   /// In en, this message translates to:
   /// **'Everything'**
   String get all;
 
-  /// No description provided for @httpClient.
+  /// HTTP Client
   ///
   /// In en, this message translates to:
   /// **'HTTP Client'**
   String get httpClient;
 
-  /// No description provided for @httpServer.
+  /// HTTP Server
   ///
   /// In en, this message translates to:
   /// **'HTTP Server'**
   String get httpServer;
 
-  /// No description provided for @selectIngredients.
+  /// Select ingredients
   ///
   /// In en, this message translates to:
   /// **'Select ingredients'**
   String get selectIngredients;
 
-  /// No description provided for @recipeWithoutIngredients.
+  /// This recipe has no ingredients
   ///
   /// In en, this message translates to:
   /// **'This recipe has no ingredients'**
   String get recipeWithoutIngredients;
 
-  /// No description provided for @noPlannedDates.
+  /// No planned dates
   ///
   /// In en, this message translates to:
   /// **'No planned dates'**
   String get noPlannedDates;
 
-  /// No description provided for @noHTTPPairings.
+  /// There are no past pairings with http servers
   ///
   /// In en, this message translates to:
   /// **'There are no past pairings with http servers'**
   String get noHTTPPairings;
 
-  /// No description provided for @loadingIps.
+  /// Loading IP addresses
   ///
   /// In en, this message translates to:
   /// **'Loading IP addresses'**
   String get loadingIps;
 
-  /// No description provided for @ipRefresh.
+  /// Refresh IPs
   ///
   /// In en, this message translates to:
   /// **'Refresh IPs'**
   String get ipRefresh;
 
-  /// No description provided for @planner.
+  /// Planner
   ///
   /// In en, this message translates to:
   /// **'Planner'**
@@ -624,71 +624,77 @@ abstract class AppLocalizations {
   /// **'IP Address ({address}) copied to clipboard'**
   String ipCopied(Object address);
 
-  /// No description provided for @search.
+  /// Search
   ///
   /// In en, this message translates to:
   /// **'Search'**
   String get search;
 
-  /// No description provided for @switchEnvironment.
+  /// Switch environment
   ///
   /// In en, this message translates to:
   /// **'Switch environment'**
   String get switchEnvironment;
 
-  /// No description provided for @actions.
+  /// Actions
   ///
   /// In en, this message translates to:
   /// **'Actions'**
   String get actions;
 
-  /// No description provided for @markAllAs.
+  /// Mark all as
   ///
   /// In en, this message translates to:
   /// **'Mark all as'**
   String get markAllAs;
 
-  /// No description provided for @editAmount.
+  /// Edit amount
   ///
   /// In en, this message translates to:
   /// **'Edit amount'**
   String get editAmount;
 
-  /// No description provided for @details.
+  /// Details
   ///
   /// In en, this message translates to:
   /// **'Details'**
   String get details;
 
-  /// No description provided for @enoughForA.
+  /// Enough for a
   ///
   /// In en, this message translates to:
   /// **'Enough for a'**
   String get enoughForA;
 
-  /// No description provided for @knownServers.
+  /// Known servers
   ///
   /// In en, this message translates to:
   /// **'Known servers'**
   String get knownServers;
 
-  /// No description provided for @noOpenConnection.
+  /// No open connections
   ///
   /// In en, this message translates to:
   /// **'No open connections'**
   String get noOpenConnection;
 
-  /// No description provided for @neverConnected.
+  /// Never connected
   ///
   /// In en, this message translates to:
   /// **'Never connected'**
   String get neverConnected;
 
-  /// No description provided for @fallbackLocalNick.
+  /// unnamed-device
   ///
   /// In en, this message translates to:
   /// **'unnamed-device'**
   String get fallbackLocalNick;
+
+  /// Supermarket list
+  ///
+  /// In en, this message translates to:
+  /// **'Supermarket list'**
+  String get supermarketList;
 }
 
 class _AppLocalizationsDelegate

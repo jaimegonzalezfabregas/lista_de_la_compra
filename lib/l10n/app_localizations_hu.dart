@@ -280,4 +280,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'névtelen-eszköz';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

@@ -276,4 +276,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => '名前なしデバイス';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

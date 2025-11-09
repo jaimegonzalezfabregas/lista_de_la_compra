@@ -279,4 +279,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'namnlös-enhet';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

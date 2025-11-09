@@ -89,8 +89,278 @@
   "noOpenConnection": "オープンな接続なし",
   "neverConnected": "接続したことがない",
   "fallbackLocalNick": "名前なしデバイス",
+  "supermarketList": "Supermarket list",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
-    "placeholders": { "address": {} }
+    "placeholders": {
+      "address": {}
+    }
+  },
+  "@appTitle": {
+    "description": "Shopping List"
+  },
+  "@changeName": {
+    "description": "Change Name"
+  },
+  "@changeNick": {
+    "description": "Change Nick"
+  },
+  "@name": {
+    "description": "Name"
+  },
+  "@nick": {
+    "description": "Nick"
+  },
+  "@theNameCantBeEmpty": {
+    "description": "The name cant be empty"
+  },
+  "@cancel": {
+    "description": "Cancel"
+  },
+  "@save": {
+    "description": "Save"
+  },
+  "@thisListHasNoResults": {
+    "description": "This list has no results"
+  },
+  "@createEnvironment": {
+    "description": "Create environment"
+  },
+  "@availableEnvironmentsWithoutConnection": {
+    "description": "Available environments without connection"
+  },
+  "@environmentsOnOtherMachines": {
+    "description": "Environments on other machines"
+  },
+  "@importEnvironment": {
+    "description": "Import environment"
+  },
+  "@syncronization": {
+    "description": "Syncronization"
+  },
+  "@loading": {
+    "description": "Loading..."
+  },
+  "@home": {
+    "description": "Home"
+  },
+  "@shoppingList": {
+    "description": "Shopping List"
+  },
+  "@recipeList": {
+    "description": "Recipe List"
+  },
+  "@agenda": {
+    "description": "Agenda"
+  },
+  "@export": {
+    "description": "Export"
+  },
+  "@undo": {
+    "description": "Undo"
+  },
+  "@product": {
+    "description": "Product"
+  },
+  "@markAsNeeded": {
+    "description": " marked as needed. "
+  },
+  "@markAsBought": {
+    "description": " marked as bought. "
+  },
+  "@toBuy": {
+    "description": "To buy"
+  },
+  "@editName": {
+    "description": "Edit name"
+  },
+  "@delete": {
+    "description": "Delete"
+  },
+  "@setAsBought": {
+    "description": "Set as bought"
+  },
+  "@setAsNeeded": {
+    "description": "Set as needed"
+  },
+  "@selectRecipe": {
+    "description": "Select recipe"
+  },
+  "@add": {
+    "description": "Add"
+  },
+  "@noNick": {
+    "description": "No nick"
+  },
+  "@pairings": {
+    "description": "Pairings"
+  },
+  "@connectionType": {
+    "description": "Connection type"
+  },
+  "@notStablished": {
+    "description": "Not stablished"
+  },
+  "@stablished": {
+    "description": "Stablished"
+  },
+  "@connectionState": {
+    "description": "Conection state"
+  },
+  "@generalConfig": {
+    "description": "General Config"
+  },
+  "@scanStarted": {
+    "description": "Scan started"
+  },
+  "@noResultsYet": {
+    "description": "No results yet"
+  },
+  "@noName": {
+    "description": "No name"
+  },
+  "@noHost": {
+    "description": "No host"
+  },
+  "@error": {
+    "description": "Error"
+  },
+  "@saveFileToYourDesiredLocation": {
+    "description": "Save file to your desired location"
+  },
+  "@exportToFile": {
+    "description": "Export to file"
+  },
+  "@sendExport": {
+    "description": "Export and send"
+  },
+  "@localDeviceAvailableIPs": {
+    "description": "The current device is available on the following IPs"
+  },
+  "@stopServer": {
+    "description": "Stop server"
+  },
+  "@startServer": {
+    "description": "Start server"
+  },
+  "@startingServer": {
+    "description": "Starting server..."
+  },
+  "@stoppingServer": {
+    "description": "Stopping server..."
+  },
+  "@errorStartingServer": {
+    "description": "Error starting server"
+  },
+  "@nearbyDevices": {
+    "description": "Nearby devices"
+  },
+  "@enterAddressManually": {
+    "description": "Enter address manually"
+  },
+  "@remoteAddress": {
+    "description": "Remote address"
+  },
+  "@remotePort": {
+    "description": "Remote port"
+  },
+  "@errorEmptyRemoteAddress": {
+    "description": "Error: the remote address cannot be empty"
+  },
+  "@connect": {
+    "description": "Connect"
+  },
+  "@server": {
+    "description": "Server"
+  },
+  "@client": {
+    "description": "Client"
+  },
+  "@inputTheAmount": {
+    "description": "Input the amount"
+  },
+  "@noIngredientsYet": {
+    "description": "No ingredients have been added yet"
+  },
+  "@addIngredients": {
+    "description": "Add ingredients"
+  },
+  "@showPastDates": {
+    "description": "Show past dates"
+  },
+  "@ingredients": {
+    "description": "Ingredients"
+  },
+  "@dates": {
+    "description": "Dates"
+  },
+  "@buy": {
+    "description": "Buy"
+  },
+  "@all": {
+    "description": "Everything"
+  },
+  "@httpClient": {
+    "description": "HTTP Client"
+  },
+  "@httpServer": {
+    "description": "HTTP Server"
+  },
+  "@selectIngredients": {
+    "description": "Select ingredients"
+  },
+  "@recipeWithoutIngredients": {
+    "description": "This recipe has no ingredients"
+  },
+  "@noPlannedDates": {
+    "description": "No planned dates"
+  },
+  "@noHTTPPairings": {
+    "description": "There are no past pairings with http servers"
+  },
+  "@loadingIps": {
+    "description": "Loading IP addresses"
+  },
+  "@ipRefresh": {
+    "description": "Refresh IPs"
+  },
+  "@planner": {
+    "description": "Planner"
+  },
+  "@search": {
+    "description": "Search"
+  },
+  "@switchEnvironment": {
+    "description": "Switch environment"
+  },
+  "@actions": {
+    "description": "Actions"
+  },
+  "@markAllAs": {
+    "description": "Mark all as"
+  },
+  "@editAmount": {
+    "description": "Edit amount"
+  },
+  "@details": {
+    "description": "Details"
+  },
+  "@enoughForA": {
+    "description": "Enough for a"
+  },
+  "@knownServers": {
+    "description": "Known servers"
+  },
+  "@noOpenConnection": {
+    "description": "No open connections"
+  },
+  "@neverConnected": {
+    "description": "Never connected"
+  },
+  "@fallbackLocalNick": {
+    "description": "unnamed-device"
+  },
+  "@supermarketList": {
+    "description": "Supermarket list"
   }
 }

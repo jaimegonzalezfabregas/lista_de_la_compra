@@ -279,4 +279,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'अनाम-डिवाइस';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

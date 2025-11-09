@@ -279,4 +279,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'пристрій-без-імені';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

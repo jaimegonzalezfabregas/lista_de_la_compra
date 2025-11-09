@@ -29,14 +29,14 @@ class OpenConnection {
   );
 
   void triggerSyncPull() {
-    print("triggering sync pull");
-    print("triggering sync pull with $nick");
+    // print("triggering sync pull");
+    // print("triggering sync pull with $nick");
     cascadeTriggerSyncPull();
   }
 
   void triggerSyncPush() {
-    print("triggering sync push");
-    print("triggering sync push with $nick");
+    // print("triggering sync push");
+    // print("triggering sync push with $nick");
     cascadeTriggerSyncPush();
   }
 

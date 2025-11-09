@@ -282,4 +282,7 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'ανώνυμη-συσκευή';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

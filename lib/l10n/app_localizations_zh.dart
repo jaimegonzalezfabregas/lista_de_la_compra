@@ -276,4 +276,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => '未命名设备';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

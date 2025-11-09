@@ -279,4 +279,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'urządzenie-bez-nazwy';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }

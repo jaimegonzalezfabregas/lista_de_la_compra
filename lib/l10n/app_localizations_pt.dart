@@ -281,4 +281,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'dispositivo-sem-nome';
+
+  @override
+  String get supermarketList => 'Supermarket list';
 }
