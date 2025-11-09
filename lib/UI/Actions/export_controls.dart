@@ -23,8 +23,11 @@ class ExporControls extends StatelessWidget {
     ProductProvider productProvider = context.watch<FlutterProductProvider>();
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    SuperMarketProvider superMarketProvider = context.watch<FlutterSuperMarketProvider>();
+    AisleProvider aisleProvider = context.watch<FlutterAisleProvider>();
+    ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
 
-    final Future serialized = serializeEnvironment(enviromentId, environmentProvider, productProvider, recipeProvider, scheduleProvider);
+    final Future serialized = serializeEnvironment(enviromentId, environmentProvider, productProvider, recipeProvider, scheduleProvider, superMarketProvider, aisleProvider, productAisleProvider);
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
