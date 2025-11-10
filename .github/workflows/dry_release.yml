@@ -1,4 +1,4 @@
-name: "Analyze"
+name: "Flutter Analyze"
 
 on:
   pull_request:
