@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:characters/characters.dart';
 
 class SearchScorer {
   String filter;

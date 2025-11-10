@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/products/common.dart';
-import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
 import '../../flutter_providers/flutter_providers.dart';
-
-import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 class ProductListDisplay extends StatelessWidget {
   final List<Product> products;
@@ -20,12 +19,14 @@ class ProductListDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
     final ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    final SharedPreferencesProvider sharedPreferencesProvider = context.watch<PersistantSharedPreferencesProvider>();
+    final ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
 
     var filteredProducts = isNeededList ? products.where((e) => e.needed).toList() : products;
 
     return Searchablelistview<Product>(
       elements: filteredProducts,
-      searchElements: products,
+      elementsOnSearch: products,
       elementToListTile: (Product p, RichText tag) {
         return ListTile(
           title: tag,
@@ -54,45 +55,16 @@ class ProductListDisplay extends StatelessWidget {
           productProvider.addProduct(name, isNeededList, enviromentId);
         }
       },
-    );
-  }
-}
+      elementCategories: (Product p) async {
+        String? selectedSupermarket = await sharedPreferencesProvider.getSelectedSupermarket(enviromentId);
 
-class SimpleShoppinglist extends StatelessWidget {
-  final String enviromentId;
-  const SimpleShoppinglist(this.enviromentId, {super.key});
+        if (selectedSupermarket == null) {
+          return [];
+        }
 
-  @override
-  Widget build(BuildContext context) {
-    final AppLocalizations appLoc = AppLocalizations.of(context)!;
-    final ProductProvider productProvider = context.watch<FlutterProductProvider>();
-
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-          bottom: TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.shopping_cart), child: Text(appLoc.buy)),
-              Tab(icon: Icon(Icons.list), child: Text(appLoc.all)),
-            ],
-          ),
-          title: Text(appLoc.shoppingList),
-        ),
-        body: FutureBuilder<List<Product>>(
-          future: productProvider.getDisplayProductList(enviromentId),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            }
-            var allProducts = snapshot.data!;
-
-            return TabBarView(children: [ProductListDisplay(allProducts, true, enviromentId), ProductListDisplay(allProducts, false, enviromentId)]);
-          },
-        ),
-      ),
+        var aisles = await productAisleProvider.getAisleOfProductInSupermarket(p.id, selectedSupermarket);
+        return aisles.map((a) => (a.id, a.name)).toList();
+      },
     );
   }
 }

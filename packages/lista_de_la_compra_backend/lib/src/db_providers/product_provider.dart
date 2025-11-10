@@ -133,4 +133,6 @@ abstract class ProductProvider  implements VoidEventSource{
 
     return await query.get();
   }
+
+  void addProductToAisle(String id, String aisleId) {}
 }
