@@ -221,7 +221,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get httpServer => 'خادم HTTP';
 
   @override
-  String get selectIngredients => 'اختر المكونات';
+  String get selectIngredients => 'أضف مكونات إلى الوصفة';
 
   @override
   String get recipeWithoutIngredients => 'هذه الوصفة ليس لها مكونات';

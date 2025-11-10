@@ -576,10 +576,10 @@ abstract class AppLocalizations {
   /// **'HTTP Server'**
   String get httpServer;
 
-  /// Select ingredients
+  /// Title for the screen to add ingredients to a recipe. Used in: lib/UI/recipies/add_ingredient_to_recipe.dart -> AppBar.title (appLoc.selectIngredients). This screen operates on a specific recipe (recipeId) and shows products in that recipe's environment.
   ///
   /// In en, this message translates to:
-  /// **'Select ingredients'**
+  /// **'Add ingredients to recipe'**
   String get selectIngredients;
 
   /// This recipe has no ingredients
@@ -690,31 +690,31 @@ abstract class AppLocalizations {
   /// **'unnamed-device'**
   String get fallbackLocalNick;
 
-  /// Supermarket list
+  /// Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList).
   ///
   /// In en, this message translates to:
   /// **'Supermarket list'**
   String get supermarketList;
 
-  /// Aisles
+  /// Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart).
   ///
   /// In en, this message translates to:
   /// **'Aisles'**
   String get aisles;
 
-  /// Pluralized message for number of products
+  /// Pluralized message for number of products. Intended to be used where product counts are shown. Not referenced directly in codebase currently.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =0{No products} =1{1 product} other{{count} products}}'**
   String numberOfProducts(num count);
 
-  /// Pluralized message for number of aisles
+  /// Pluralized message for number of aisles. Intended to be used where aisle counts are shown. Not referenced directly in codebase currently.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =0{No aisles} =1{1 aisle} other{{count} aisles}}'**
   String numberOfAisles(num count);
 
-  /// Title for the screen where products are added to an aisle
+  /// Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId).
   ///
   /// In en, this message translates to:
   /// **'Add products to aisle'**

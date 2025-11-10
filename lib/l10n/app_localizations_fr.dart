@@ -224,7 +224,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get httpServer => 'Serveur HTTP';
 
   @override
-  String get selectIngredients => 'Sélectionner des ingrédients';
+  String get selectIngredients => 'Ajouter des ingrédients à la recette';
 
   @override
   String get recipeWithoutIngredients =>

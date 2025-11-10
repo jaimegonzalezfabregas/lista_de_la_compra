@@ -17,48 +17,58 @@ class AddProductsToIsle extends StatelessWidget {
     final AisleProvider aisleProvider = context.watch<FlutterAisleProvider>();
     final SuperMarketProvider supermarketProvider = context.watch<FlutterSuperMarketProvider>();
     final ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
-    Future<List<Product>> allProductsInEnvFuture = aisleProvider
-        .getAisleById(aisleId)
-        .then(
-          (aisle) => supermarketProvider
-              .getSuperMarketById(aisle!.marketId)
-              .then((supermarket) => productProvider.getDisplayProductList(supermarket!.enviromentId)),
-        );
+
+    Future<Aisle?> aisleFuture = aisleProvider.getAisleById(aisleId);
+    Future<SuperMarket?> supermarketFuture = aisleFuture.then((aisle) => supermarketProvider.getSuperMarketById(aisle!.marketId));
+    Future<List<Product>> allProductsInEnvFuture = supermarketFuture.then(
+      (supermarket) => productProvider.getDisplayProductList(supermarket!.enviromentId),
+    );
 
     return Scaffold(
-      appBar: AppBar(title: Text(appLoc.addProductsToAisle)),
+      appBar: AppBar(
+        title: Text(appLoc.addProductsToAisle),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+      ),
       body: FutureBuilder(
         future: allProductsInEnvFuture,
         builder: (context, asyncSnapshot) {
           if (!asyncSnapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
-          var allProducts = asyncSnapshot.data!;
+          final List<Product> allProducts = asyncSnapshot.data!;
           return Searchablelistview(
-                        elementToTag: (Product p) => p.name,
-
             elements: allProducts,
-            elementToListTile: (Product p, tag) => ListTile(
+            elementToTag: (Product p) => p.name,
+            newElement: (String name) async {
+              String productId = await productProvider.addProduct(name, false, (await supermarketFuture)!.enviromentId);
+
+              productAisleProvider.setProductInAisle(productId, aisleId, true);
+            },
+            elementToListTile: (Product product, tag) => ListTile(
               title: tag,
-              trailing: Builder(builder: (builder) {
-                return FutureBuilder(
-                  future: aisleProvider.isProductInAisle(aisleId, p.id),
-                  builder: (context, asyncSnapshot) {
-                    if (!asyncSnapshot.hasData) {
-                      return CircularProgressIndicator();
-                    }
-                    bool isInAisle = asyncSnapshot.data!;
-                     return Checkbox(
-                        value: isInAisle,
-                        onChanged: (value) {
-                          productAisleProvider.setProductInAisle(p.id, aisleId, value == true);
-                        },
-                      ); 
-                    
-                  },
-                );
-              }
-              )
+              trailing: FutureBuilder(
+                future: aisleProvider.isProductInAisle(aisleId, product.id),
+                builder: (context, asyncSnapshot) {
+                  if (!asyncSnapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  bool isInAisle = asyncSnapshot.data!;
+                  return Checkbox(
+                    value: isInAisle,
+                    onChanged: (value) {
+                      productAisleProvider.setProductInAisle(product.id, aisleId, value == true);
+                    },
+                  );
+                },
+              ),
             ),
           );
         },
