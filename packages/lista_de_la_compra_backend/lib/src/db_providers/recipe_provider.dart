@@ -232,4 +232,14 @@ abstract class RecipeProvider  implements VoidEventSource{
 
     notifyListeners();
   }
+
+  Future<bool> isIngredientOfRecipe(String recipeId, String id) async {
+    final database = AppDatabaseSingleton.instance;
+
+    return await (database.select(database.recipeProducts)
+          ..where((table) => table.recipeId.equals(recipeId))
+          ..where((table) => table.productId.equals(id))
+          ..where((table) => table.deletedAt.isNull()))
+        .getSingleOrNull() != null;
+  }
 }

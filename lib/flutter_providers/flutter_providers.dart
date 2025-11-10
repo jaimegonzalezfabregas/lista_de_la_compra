@@ -54,4 +54,9 @@ class FlutterRecipeProvider extends RecipeProvider with ChangeNotifier{}
 
 class FlutterScheduleProvider extends ScheduleProvider with ChangeNotifier {}
 
+class FlutterSuperMarketProvider extends SuperMarketProvider with ChangeNotifier {}
+
+class FlutterAisleProvider extends AisleProvider with ChangeNotifier {}
+
+class FlutterProductAisleProvider extends ProductAisleProvider with ChangeNotifier {}
 

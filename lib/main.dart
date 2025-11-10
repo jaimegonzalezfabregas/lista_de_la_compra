@@ -1,4 +1,3 @@
-
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
@@ -14,7 +13,6 @@ import 'flutter_providers/flutter_providers.dart';
 import 'l10n/app_localizations.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
-
 
 Future main() async {
   runApp(MyApp());
@@ -55,6 +53,9 @@ class MyApp extends StatelessWidget {
     final FlutterHttpServerProvider httpServerProvider = FlutterHttpServerProvider();
     final PersistantSharedPreferencesProvider sharedPreferencesProvider = PersistantSharedPreferencesProvider(context);
     final FlutterOpenConnectionProvider openConnectionProvider = FlutterOpenConnectionProvider();
+    final FlutterSuperMarketProvider supermarketProvider = FlutterSuperMarketProvider();
+    final FlutterAisleProvider aisleProvider = FlutterAisleProvider();
+    final FlutterProductAisleProvider productAisleProvider = FlutterProductAisleProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
@@ -63,6 +64,9 @@ class MyApp extends StatelessWidget {
       scheduleProvider,
       sharedPreferencesProvider,
       environmentProvider,
+      supermarketProvider,
+      aisleProvider,
+      productAisleProvider,
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
@@ -91,6 +95,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => openConnectionProvider),
         ChangeNotifierProvider(create: (_) => httpServerStateProvider),
         ChangeNotifierProvider(create: (_) => httpClientService),
+        ChangeNotifierProvider(create: (_) => supermarketProvider),
+        ChangeNotifierProvider(create: (_) => aisleProvider),
+        ChangeNotifierProvider(create: (_) => productAisleProvider),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,

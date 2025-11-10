@@ -221,7 +221,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get httpServer => 'HTTP szerver';
 
   @override
-  String get selectIngredients => 'Összetevők kiválasztása';
+  String addIngredientsToRecipe(Object recipe) {
+    return 'Összetevők kiválasztása ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients =>
@@ -280,4 +282,42 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'névtelen-eszköz';
+
+  @override
+  String get supermarketList => 'Supermarket list';
+
+  @override
+  String get aisles => 'Aisles';
+
+  @override
+  String numberOfProducts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberOfAisles(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aisles',
+      one: '1 aisle',
+      zero: 'No aisles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return 'Termékek hozzáadása a folyosóhoz ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }

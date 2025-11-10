@@ -222,7 +222,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get httpServer => 'HTTP-сервер';
 
   @override
-  String get selectIngredients => 'Выбрать ингредиенты';
+  String addIngredientsToRecipe(Object recipe) {
+    return 'Выбрать ингредиенты ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients => 'В этом рецепте нет ингредиентов';
@@ -279,4 +281,42 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'устройство-без-имени';
+
+  @override
+  String get supermarketList => 'Supermarket list';
+
+  @override
+  String get aisles => 'Aisles';
+
+  @override
+  String numberOfProducts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberOfAisles(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aisles',
+      one: '1 aisle',
+      zero: 'No aisles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return 'Добавить товары в проход ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }

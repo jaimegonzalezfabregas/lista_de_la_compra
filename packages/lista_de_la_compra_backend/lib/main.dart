@@ -1,9 +1,10 @@
-
-
 import 'dart:io';
 
 import 'package:drift/native.dart';
 import 'package:lista_de_la_compra_backend/src/db/database.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/aisle_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/product_aisle_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/supermarket_provider.dart';
 
 import 'src/db_providers/environment_provider.dart';
 
@@ -21,13 +22,8 @@ Future main() async {
   runServer();
 }
 
-Future runServer() async{
-
-    AppDatabaseSingleton.setQueryExecutor(
-      NativeDatabase.createInBackground(File('./persistence.sqlite'))
-
-    );
-
+Future runServer() async {
+  AppDatabaseSingleton.setQueryExecutor(NativeDatabase.createInBackground(File('./persistence.sqlite')));
 
   final environmentProvider = RamEnvironmentProvider();
   final recipeProvider = RamRecipeProvider();
@@ -36,17 +32,22 @@ Future runServer() async{
   final httpServerProvider = RamHttpServerProvider();
   final sharedPreferencesProvider = RamSharedPreferencesProvider();
   final openConnectionProvider = RamOpenConnectionProvider();
+  final supermarketProvider = RamSuperMarketProvider();
+  final aisleProvider = RamAisleProvider();
+  final productAisleProvider = RamProductAisleProvider();
 
   final OpenConnectionManager openConnectionManager = OpenConnectionManager(
-      openConnectionProvider,
-      productProvider,
-      recipeProvider,
-      scheduleProvider,
-      sharedPreferencesProvider,
-      environmentProvider,
+    openConnectionProvider,
+    productProvider,
+    recipeProvider,
+    scheduleProvider,
+    sharedPreferencesProvider,
+    environmentProvider,
+    supermarketProvider,
+    aisleProvider,
+    productAisleProvider,
 
-      downloadAllEnvironments : true
-
+    downloadAllEnvironments: true,
   );
 
   final httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
@@ -65,8 +66,3 @@ Future runServer() async{
     await Future.delayed(Duration(seconds: 5));
   }
 }
-
-
-
-
-

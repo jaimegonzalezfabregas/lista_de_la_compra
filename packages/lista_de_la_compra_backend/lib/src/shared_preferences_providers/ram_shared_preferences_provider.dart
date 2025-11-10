@@ -3,13 +3,7 @@ import 'package:uuid/uuid.dart';
 import '../../lista_de_la_compra_backend.dart';
 
 class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEventSourceMixin {
-  
   String terminalId = Uuid().v7();
-
-  @override
-  Future<void> clearSelectedEnvironment() {
-    throw UnimplementedError();
-  }
 
   @override
   Future<String> getLocalNick() async {
@@ -17,13 +11,18 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
   }
 
   @override
-  Future<String?> getSelectedEnvironment() {
+  Future<String> getTerminalId() async {
+    return terminalId;
+  }
+
+  @override
+  Future<void> clearSelectedEnvironment() {
     throw UnimplementedError();
   }
 
   @override
-  Future<String> getTerminalId() async {
-    return terminalId;
+  Future<String?> getSelectedEnvironment() {
+    throw UnimplementedError();
   }
 
   @override
@@ -33,6 +32,21 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
 
   @override
   Future<void> setSelectedEnvironment(String enviromentId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> clearSelectedSupermarket(String enviromentId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> getSelectedSupermarket(String enviromentId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setSelectedSupermarket(String enviromentId, String supermarketId) {
     throw UnimplementedError();
   }
 }

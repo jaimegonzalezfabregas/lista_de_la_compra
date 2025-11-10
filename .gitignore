@@ -1,4 +1,5 @@
 # Miscellaneous
+*.bak
 *.class
 *.log
 *.pyc
@@ -44,3 +45,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 ~/.lista_de_la_compra/db/persistence.sqlite
+lib/l10n/app_ms.arb.bak

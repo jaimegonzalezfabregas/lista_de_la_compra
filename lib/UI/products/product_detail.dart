@@ -67,7 +67,6 @@ class ProductDetail extends StatelessWidget {
                     ),
                   ),
               elementToTag: (recipe) => recipe.$2.name,
-              elementToSubtitle: (recipe) => recipe.$1.amount,
             ),
           ),
         );

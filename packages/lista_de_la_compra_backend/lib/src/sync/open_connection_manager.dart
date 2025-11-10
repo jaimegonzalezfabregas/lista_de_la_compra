@@ -7,7 +7,6 @@ import 'package:crypto/crypto.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../lista_de_la_compra_backend.dart';
-import 'environment_serializer.dart';
 
 class OpenConnectionManager {
   final ProductProvider productProvider;
@@ -16,6 +15,9 @@ class OpenConnectionManager {
   final OpenConnectionProvider openConnectionProvider;
   final SharedPreferencesProvider sharedPreferencesProvider;
   final EnvironmentProvider environmentProvider;
+  final SuperMarketProvider supermarketProvider;
+  final AisleProvider aisleProvider;
+  final ProductAisleProvider productAisleProvider;
 
   final bool downloadAllEnvironments;
 
@@ -43,7 +45,10 @@ class OpenConnectionManager {
     this.recipeProvider,
     this.scheduleProvider,
     this.sharedPreferencesProvider,
-    this.environmentProvider, {
+    this.environmentProvider,
+    this.supermarketProvider,
+    this.aisleProvider,
+    this.productAisleProvider, {
     this.downloadAllEnvironments = false,
   }) {
     productProvider.addListener(triggerSyncPush);
@@ -60,7 +65,18 @@ class OpenConnectionManager {
 
   Future<String> getStateDigest(int salt, String enviromentId) async {
     Uint8List bytes = utf8.encode(
-      jsonEncode(await serializeEnvironment(enviromentId, environmentProvider, productProvider, recipeProvider, scheduleProvider)),
+      jsonEncode(
+        await serializeEnvironment(
+          enviromentId,
+          environmentProvider,
+          productProvider,
+          recipeProvider,
+          scheduleProvider,
+          supermarketProvider,
+          aisleProvider,
+          productAisleProvider,
+        ),
+      ),
     ); // data being hashed
     var saltedBytes = bytes + utf8.encode(salt.toString());
     return sha512256.convert(saltedBytes).toString();
@@ -96,7 +112,7 @@ class OpenConnectionManager {
       for (Environment env in await environmentProvider.getEnvironmentList()) {
         int salt = math.Random().nextInt(1000);
         send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
-        print( "triggerSyncPull: sent send_digest of $env");
+        // print("triggerSyncPull: sent send_digest of $env");
       }
     }
 
@@ -159,8 +175,6 @@ class OpenConnectionManager {
               }
 
               if (downloadAllEnvironments) {
-
-
                 for (var env in envList) {
                   environmentProvider.upsertEnvironment(env);
                 }
@@ -173,14 +187,12 @@ class OpenConnectionManager {
               break;
 
             case "sync_push":
-              print( "---> triggerSyncPull()");
               triggerSyncPull();
-              print( "<--- triggerSyncPull()");
 
               break;
 
             case "send_digest":
-              if( data["environment"] == null ){
+              if (data["environment"] == null) {
                 print("data is null, do nothing");
                 print("$data");
                 break;
@@ -205,7 +217,16 @@ class OpenConnectionManager {
                 send(
                   jsonEncode({
                     "type": "send_state",
-                    "state": await serializeEnvironment(remoteEnvironment.id, environmentProvider, productProvider, recipeProvider, scheduleProvider),
+                    "state": await serializeEnvironment(
+                      remoteEnvironment.id,
+                      environmentProvider,
+                      productProvider,
+                      recipeProvider,
+                      scheduleProvider,
+                      supermarketProvider,
+                      aisleProvider,
+                      productAisleProvider,
+                    ),
                   }),
                 );
               }

@@ -223,7 +223,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get httpServer => 'HTTP server';
 
   @override
-  String get selectIngredients => 'Vybrať ingrediencie';
+  String addIngredientsToRecipe(Object recipe) {
+    return 'Vybrať ingrediencie ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients => 'Tento recept nemá ingrediencie';
@@ -281,4 +283,42 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'neoznačené-zariadenie';
+
+  @override
+  String get supermarketList => 'Supermarket list';
+
+  @override
+  String get aisles => 'Aisles';
+
+  @override
+  String numberOfProducts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberOfAisles(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aisles',
+      one: '1 aisle',
+      zero: 'No aisles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return 'Pridať produkty do uličky ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }
