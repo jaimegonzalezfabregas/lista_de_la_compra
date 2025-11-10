@@ -6,7 +6,6 @@ import '../../flutter_providers/flutter_providers.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-
 class AddIngredientToRecipe extends StatelessWidget {
   final String recipeId;
 
@@ -19,8 +18,10 @@ class AddIngredientToRecipe extends StatelessWidget {
     ProductProvider productProvider = context.watch<FlutterProductProvider>();
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
-    Future<List<(RecipeProduct, Product)>> ingredientsFuture = recipeProvider.getProductsOfRecipeById(recipeId);
     Future<Recipe?> recipeFuture = recipeProvider.getRecipeById(recipeId);
+    Future<List<Product>> productsFuture = recipeFuture.then(
+      (Recipe? recipe) async => recipe == null ? [] : await productProvider.getDisplayProductList(recipe.enviromentId),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -38,44 +39,39 @@ class AddIngredientToRecipe extends StatelessWidget {
       ),
 
       body: FutureBuilder(
-        future: recipeProvider
-            .getRecipeById(recipeId)
-            .then((Recipe? recipe) async => recipe == null ? null : await productProvider.getDisplayProductList(recipe.enviromentId)),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Text(appLoc.loading);
+        future: productsFuture,
+        builder: (context, asyncSnapshot) {
+          if (!asyncSnapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
           }
-          final List<Product> products = snapshot.data!;
-          return Searchablelistview<Product>(
-            elements: products,
+          final List<Product> allProducts = asyncSnapshot.data!;
+          return Searchablelistview(
+            elements: allProducts,
             elementToTag: (Product p) => p.name,
-            elementToListTile: (Product product, tag) {
-              return ListTile(
-                title: tag,
-                trailing: FutureBuilder(
-                  future: ingredientsFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final List<(RecipeProduct, Product)> recipeProducts = snapshot.data!;
-
-                      return Checkbox(
-                        value: recipeProducts.any((ingredient) => ingredient.$2.id == product.id),
-                        onChanged: (value) {
-                          recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true, appLoc.enoughForA);
-                        },
-                      );
-                    } else {
-                      return Checkbox(value: false, onChanged: (_) {}, tristate: true);
-                    }
-                  },
-                ),
-              );
-            },
             newElement: (String name) async {
               String productId = await productProvider.addProduct(name, false, (await recipeFuture)!.enviromentId);
 
               recipeProvider.setIngredientOfRecipeById(recipeId, productId, true, appLoc.enoughForA);
             },
+            elementToListTile: (Product product, tag) => ListTile(
+              title: tag,
+              trailing: FutureBuilder(
+                future: recipeProvider.isIngredientOfRecipe(recipeId, product.id),
+                builder: (context, asyncSnapshot) {
+                  if (!asyncSnapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  final bool isInRecipe = asyncSnapshot.data!;
+
+                  return Checkbox(
+                    value: isInRecipe,
+                    onChanged: (value) {
+                      recipeProvider.setIngredientOfRecipeById(recipeId, product.id, value == true, appLoc.enoughForA);
+                    },
+                  );
+                },
+              ),
+            ),
           );
         },
       ),

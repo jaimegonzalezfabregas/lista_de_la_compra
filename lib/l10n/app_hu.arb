@@ -307,7 +307,7 @@
     "description": "HTTP Server"
   },
   "@selectIngredients": {
-    "description": "Select ingredients"
+    "description": "Title for the screen to add ingredients to a recipe. Used in: lib/UI/recipies/add_ingredient_to_recipe.dart -> AppBar.title (appLoc.selectIngredients). This screen operates on a specific recipe (recipeId) and shows products in that recipe's environment."
   },
   "@recipeWithoutIngredients": {
     "description": "This recipe has no ingredients"
@@ -361,26 +361,28 @@
     "description": "unnamed-device"
   },
   "@supermarketList": {
-    "description": "Supermarket list"
+    "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
   "aisles": "Aisles",
   "@aisles": {
-    "description": "Aisles"
-  }
-  ,
+    "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
+  },
   "numberOfProducts": "{count, plural, =0{No products} =1{1 product} other{{count} products}}",
   "@numberOfProducts": {
-    "description": "Number of products with pluralization",
-    "placeholders": { "count": {} }
+    "description": "Pluralized message for number of products. Intended to be used where product counts are shown. Not referenced directly in codebase currently.",
+    "placeholders": {
+      "count": {}
+    }
   },
   "numberOfAisles": "{count, plural, =0{No aisles} =1{1 aisle} other{{count} aisles}}",
   "@numberOfAisles": {
-    "description": "Number of aisles with pluralization",
-    "placeholders": { "count": {} }
-  }
-  ,
+    "description": "Pluralized message for number of aisles. Intended to be used where aisle counts are shown. Not referenced directly in codebase currently.",
+    "placeholders": {
+      "count": {}
+    }
+  },
   "addProductsToAisle": "Termékek hozzáadása a folyosóhoz",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle"
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId)."
   }
 }
