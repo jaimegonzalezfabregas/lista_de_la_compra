@@ -223,7 +223,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get httpServer => 'Server HTTP';
 
   @override
-  String get selectIngredients => 'Seleziona ingredienti';
+  String addIngredientsToRecipe(Object recipe) {
+    return 'Seleziona ingredienti ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients => 'Questa ricetta non ha ingredienti';
@@ -281,4 +283,42 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'dispositivo-senza-nome';
+
+  @override
+  String get supermarketList => 'Supermarket list';
+
+  @override
+  String get aisles => 'Aisles';
+
+  @override
+  String numberOfProducts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberOfAisles(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aisles',
+      one: '1 aisle',
+      zero: 'No aisles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return 'Aggiungi prodotti al corridoio ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }

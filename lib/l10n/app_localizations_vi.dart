@@ -222,7 +222,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get httpServer => 'HTTP Server';
 
   @override
-  String get selectIngredients => 'Chọn nguyên liệu';
+  String addIngredientsToRecipe(Object recipe) {
+    return 'Chọn nguyên liệu ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients => 'Công thức này không có nguyên liệu';
@@ -279,4 +281,42 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => 'thiết-bị-không-tên';
+
+  @override
+  String get supermarketList => 'Supermarket list';
+
+  @override
+  String get aisles => 'Aisles';
+
+  @override
+  String numberOfProducts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberOfAisles(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aisles',
+      one: '1 aisle',
+      zero: 'No aisles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return 'Thêm sản phẩm vào lối đi ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }

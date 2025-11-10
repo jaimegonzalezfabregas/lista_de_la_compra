@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:provider/provider.dart';
-import 'package:lista_de_la_compra/UI/schedule/schedule_view.dart';
-import 'package:lista_de_la_compra/UI/recipies/add_ingredient.dart';
+import 'package:lista_de_la_compra/UI/schedule/schedule_home.dart';
+import 'package:lista_de_la_compra/UI/recipies/add_ingredient_to_recipe.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 
@@ -182,7 +182,7 @@ class Ingredients extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return AddIngredient(recipeId);
+                            return AddIngredientToRecipe(recipeId);
                           },
                         ),
                       );
@@ -293,7 +293,7 @@ class _PlannedDatesState extends State<PlannedDates> {
                                                 return Text(appLoc.loading);
                                               }
 
-                                              return ScheduleView(entry.week, snapshot.data!.enviromentId);
+                                              return ScheduleHome(entry.week, snapshot.data!.enviromentId);
                                             },
                                           );
                                         },
@@ -340,7 +340,7 @@ class RecipeDetail extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        actions: <Widget>[
+        actions: [
           PopupMenuButton<String>(
             onSelected: (s) {},
             itemBuilder: (BuildContext context) {

@@ -8,9 +8,9 @@ import '../../flutter_providers/flutter_providers.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 
-class RecipeView extends StatelessWidget {
+class RecipeHome extends StatelessWidget {
   final String enviromentId;
-  const RecipeView(this.enviromentId, {super.key});
+  const RecipeHome(this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {

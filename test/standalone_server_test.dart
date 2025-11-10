@@ -8,6 +8,9 @@ import 'package:lista_de_la_compra_backend/src/db_providers/http_server_provider
 import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
 import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
 import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/supermarket_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/aisle_provider.dart';
+import 'package:lista_de_la_compra_backend/src/db_providers/product_aisle_provider.dart';
 import 'package:lista_de_la_compra_backend/src/sync/http_server_manager.dart';
 import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
 import 'package:test/test.dart';
@@ -24,6 +27,9 @@ void main() {
     final HttpServerProvider httpServerProvider = RamHttpServerProvider();
     final SharedPreferencesProvider sharedPreferencesProvider = RamSharedPreferencesProvider();
     final OpenConnectionProvider openConnectionProvider = RamOpenConnectionProvider();
+    final SuperMarketProvider supermarketProvider = RamSuperMarketProvider();
+    final AisleProvider aisleProvider = RamAisleProvider();
+    final ProductAisleProvider productAisleProvider = RamProductAisleProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
@@ -32,9 +38,11 @@ void main() {
       scheduleProvider,
       sharedPreferencesProvider,
       environmentProvider,
-      
-      downloadAllEnvironments : true
-      
+      supermarketProvider,
+      aisleProvider,
+      productAisleProvider,
+
+      downloadAllEnvironments: true,
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);

@@ -219,7 +219,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get httpServer => 'HTTP 서버';
 
   @override
-  String get selectIngredients => '재료 선택';
+  String addIngredientsToRecipe(Object recipe) {
+    return '재료 선택 ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients => '이 레시피에는 재료가 없습니다';
@@ -276,4 +278,42 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get fallbackLocalNick => '이름없는-기기';
+
+  @override
+  String get supermarketList => 'Supermarket list';
+
+  @override
+  String get aisles => 'Aisles';
+
+  @override
+  String numberOfProducts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberOfAisles(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aisles',
+      one: '1 aisle',
+      zero: 'No aisles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return '통로에 상품 추가 ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }
