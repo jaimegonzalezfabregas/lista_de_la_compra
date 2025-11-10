@@ -25,7 +25,17 @@ class AddIngredientToRecipe extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLoc.selectIngredients),
+        title: FutureBuilder(
+          future: recipeFuture,
+          builder: (context, asyncSnapshot) {
+            if (asyncSnapshot.hasData) {
+              final Recipe recipe = asyncSnapshot.data!;
+              return Text(appLoc.addIngredientsToRecipe(recipe.name));
+            } else {
+              return Text(appLoc.addIngredientsToRecipe("..."));
+            }
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.check),
