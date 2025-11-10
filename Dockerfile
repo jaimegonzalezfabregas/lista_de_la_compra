@@ -1,5 +1,7 @@
+ARG dartversion=3.9.2-sdk
+
 # Use latest stable channel SDK.
-FROM dart:stable AS build
+FROM dart:$dartversion AS build
 
 WORKDIR /app
 
@@ -13,7 +15,7 @@ RUN dart compile exe bin/server.dart -o bin/server
 
 # Build minimal serving image from AOT-compiled `/server`
 # and the pre-built AOT-runtime in the `/runtime/` directory of the base image.
-FROM dart:stable
+FROM dart:$dartversion
 
 RUN apt-get update
 RUN apt-get install -y libsqlite3-dev

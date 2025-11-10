@@ -1,0 +1,22 @@
+name: "Docker dry run"
+
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:  
+  build:      
+    name: Build
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: docker build -t lista_de_la_compra_server .  
