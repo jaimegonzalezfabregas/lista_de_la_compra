@@ -108,4 +108,15 @@ abstract class SuperMarketProvider implements VoidEventSource {
     notifyListeners();
   }
 
+  void updateSuperMarketName(String supermarketId, String text) {
+    final database = AppDatabaseSingleton.instance;
+
+    var q = database.update(database.superMarkets);
+
+    q.where((tbl) => tbl.id.equals(supermarketId));
+
+    q.write(SuperMarketsCompanion(name: Value(text.trim().capitalize()), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+
+    notifyListeners();
+  }
 }

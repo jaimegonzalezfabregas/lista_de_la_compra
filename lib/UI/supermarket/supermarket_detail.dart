@@ -96,6 +96,39 @@ class SupermarketDetail extends StatelessWidget {
                     superMarketProvider.deleteById(supermarketId);
                   },
                 ),
+                PopupMenuItem(
+                  child: Row(children: [Icon(Icons.edit), SizedBox(width: 8), Text(appLoc.editName)]),
+                  onTap: () {
+                    TextEditingController textEditingController = TextEditingController();
+                    supermarketFuture.then((supermarket) {
+                      textEditingController.text = supermarket?.name ?? "";
+                    });
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        Widget cancelButton = TextButton(
+                          child: Text(appLoc.cancel),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        );
+                        Widget continueButton = ElevatedButton(
+                          child: Text(appLoc.save),
+                          onPressed: () {
+                            superMarketProvider.updateSuperMarketName(supermarketId, textEditingController.text);
+                            Navigator.of(context).pop();
+                          },
+                        );
+
+                        return AlertDialog(
+                          title: Text(appLoc.inputTheAmount),
+                          content: TextField(controller: textEditingController),
+                          actions: [cancelButton, continueButton],
+                        );
+                      },
+                    );
+                  },
+                ),
               ];
             },
           ),
