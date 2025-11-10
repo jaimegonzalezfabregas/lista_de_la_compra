@@ -222,7 +222,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get httpServer => 'HTTP সার্ভার';
 
   @override
-  String get selectIngredients => 'উপকরণ নির্বাচন করুন';
+  String addIngredientsToRecipe(Object recipe) {
+    return 'উপকরণ নির্বাচন করুন ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients => 'এই রেসিপিতে কোনও উপকরণ নেই';
@@ -312,5 +314,10 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get addProductsToAisle => 'শেলফে পণ্য যোগ করুন';
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return 'শেলফে পণ্য যোগ করুন ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }

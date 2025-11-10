@@ -3,22 +3,23 @@ import 'package:uuid/uuid.dart';
 
 import '../../lista_de_la_compra_backend.dart';
 
-
 class RamProductAisleProvider extends ProductAisleProvider with VoidEventSourceMixin {}
 
 abstract class ProductAisleProvider implements VoidEventSource {
   Future<void> syncAddProductAisle(Map<String, dynamic> serialized) async {
     final database = AppDatabaseSingleton.instance;
 
-    await database.into(database.productAisles).insert(
-      ProductAislesCompanion(
-        id: Value(serialized["id"]),
-        productId: Value(serialized["productId"]),
-        aisleId: Value(serialized["aisleId"]),
-        updatedAt: Value(serialized["updatedAt"]),
-        deletedAt: Value(serialized["deletedAt"]),
-      ),
-    );
+    await database
+        .into(database.productAisles)
+        .insert(
+          ProductAislesCompanion(
+            id: Value(serialized["id"]),
+            productId: Value(serialized["productId"]),
+            aisleId: Value(serialized["aisleId"]),
+            updatedAt: Value(serialized["updatedAt"]),
+            deletedAt: Value(serialized["deletedAt"]),
+          ),
+        );
 
     notifyListeners();
   }
@@ -82,10 +83,11 @@ abstract class ProductAisleProvider implements VoidEventSource {
     final String id = Uuid().v7();
 
     // Ensure product exists and is not deleted
-    final product = await (database.select(database.products)
-          ..where((p) => p.id.equals(productId))
-          ..where((p) => p.deletedAt.isNull()))
-        .getSingleOrNull();
+    final product =
+        await (database.select(database.products)
+              ..where((p) => p.id.equals(productId))
+              ..where((p) => p.deletedAt.isNull()))
+            .getSingleOrNull();
 
     if (product == null) {
       throw Exception('Product not found or deleted');
@@ -101,14 +103,16 @@ abstract class ProductAisleProvider implements VoidEventSource {
       throw Exception('Aisle not found');
     }
 
-  final supermarket = rows.first.readTable(database.superMarkets);
+    final supermarket = rows.first.readTable(database.superMarkets);
 
     // Verify supermarket environment matches product environment
     if (supermarket.enviromentId != product.enviromentId) {
       throw Exception('Aisle marketplace environment (${supermarket.enviromentId}) does not match product environment (${product.enviromentId})');
     }
 
-    await database.into(database.productAisles).insert(
+    await database
+        .into(database.productAisles)
+        .insert(
           ProductAislesCompanion(
             id: Value(id),
             productId: Value(productId),
@@ -144,10 +148,11 @@ abstract class ProductAisleProvider implements VoidEventSource {
 
     if (present) {
       // Need product env id to call addProductAisle
-      final product = await (database.select(database.products)
-            ..where((p) => p.id.equals(productId))
-            ..where((p) => p.deletedAt.isNull()))
-          .getSingleOrNull();
+      final product =
+          await (database.select(database.products)
+                ..where((p) => p.id.equals(productId))
+                ..where((p) => p.deletedAt.isNull()))
+              .getSingleOrNull();
 
       if (product == null) {
         throw Exception('Product not found or deleted');
@@ -158,18 +163,34 @@ abstract class ProductAisleProvider implements VoidEventSource {
     }
 
     // Mark any existing non-deleted ProductAisle rows as deleted
-    final existing = await (database.select(database.productAisles)
-          ..where((pa) => pa.productId.equals(productId))
-          ..where((pa) => pa.aisleId.equals(aisleId))
-          ..where((pa) => pa.deletedAt.isNull()))
-        .get();
+    final existing =
+        await (database.select(database.productAisles)
+              ..where((pa) => pa.productId.equals(productId))
+              ..where((pa) => pa.aisleId.equals(aisleId))
+              ..where((pa) => pa.deletedAt.isNull()))
+            .get();
 
     final now = DateTime.now().millisecondsSinceEpoch;
     for (final row in existing) {
-      await (database.update(database.productAisles)..where((tbl) => tbl.id.equals(row.id)))
-          .write(ProductAislesCompanion(deletedAt: Value(now)));
+      await (database.update(database.productAisles)..where((tbl) => tbl.id.equals(row.id))).write(ProductAislesCompanion(deletedAt: Value(now)));
     }
 
     notifyListeners();
+  }
+
+  Future<List<Aisle>> getAisleOfProductInSupermarket(String id, String supermarketId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    final joined = database.select(database.productAisles).join([
+      innerJoin(database.aisles, database.aisles.id.equalsExp(database.productAisles.aisleId)),
+      innerJoin(database.superMarkets, database.superMarkets.id.equalsExp(database.aisles.marketId)),
+    ]);
+
+    joined.where(database.productAisles.productId.equals(id));
+    joined.where(database.superMarkets.id.equals(supermarketId));
+    joined.where(database.productAisles.deletedAt.isNull());
+
+    final rows = await joined.get();
+    return rows.map((r) => r.readTable(database.aisles)).toList();
   }
 }

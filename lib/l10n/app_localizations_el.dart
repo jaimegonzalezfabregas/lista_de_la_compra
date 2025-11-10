@@ -224,7 +224,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get httpServer => 'HTTP διακομιστής';
 
   @override
-  String get selectIngredients => 'Επιλέξτε υλικά';
+  String addIngredientsToRecipe(Object recipe) {
+    return 'Επιλέξτε υλικά ($recipe)';
+  }
 
   @override
   String get recipeWithoutIngredients => 'Αυτή η συνταγή δεν έχει υλικά';
@@ -314,5 +316,10 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
-  String get addProductsToAisle => 'Προσθήκη προϊόντων στη λωρίδα';
+  String addProductsToAisle(Object aisle, Object supermarket) {
+    return 'Προσθήκη προϊόντων στη λωρίδα ($aisle — $supermarket)';
+  }
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
 }

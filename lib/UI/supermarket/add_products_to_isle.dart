@@ -26,7 +26,20 @@ class AddProductsToIsle extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLoc.addProductsToAisle),
+        title: FutureBuilder(
+          future: Future.wait([aisleFuture, supermarketFuture]),
+          builder: (context, snap) {
+            if (snap.hasData) {
+              final Aisle? aisle = snap.data![0] as Aisle?;
+              final SuperMarket? market = snap.data![1] as SuperMarket?;
+              final String aisleName = aisle?.name ?? '...';
+              final String marketName = market?.name ?? '...';
+              return Text(appLoc.addProductsToAisle(aisleName, marketName));
+            } else {
+              return Text(appLoc.addProductsToAisle("...", "..."));
+            }
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.check),
