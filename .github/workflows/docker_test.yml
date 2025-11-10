@@ -1,11 +1,10 @@
-name: "Analyze"
+name: "Docker dry run"
 
 on:
   pull_request:
     branches:
       - master
       - develop
-      - develop-alvaro
 
 jobs:  
   build:      
