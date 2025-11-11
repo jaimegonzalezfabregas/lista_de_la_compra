@@ -219,9 +219,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get httpServer => 'HTTP服务器';
 
   @override
-  String addIngredientsToRecipe(Object recipe) {
-    return '选择食材 ($recipe)';
-  }
+  String get addIngredientsToRecipe => '选择食材 ';
 
   @override
   String get recipeWithoutIngredients => '此食谱无食材';
@@ -310,9 +308,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String addProductsToAisle(Object aisle, Object supermarket) {
-    return '将产品添加到通道 ($aisle — $supermarket)';
-  }
+  String get addProductsToAisle => '将产品添加到通道';
 
   @override
   String get selectSupermarket => 'Select Supermarket...';

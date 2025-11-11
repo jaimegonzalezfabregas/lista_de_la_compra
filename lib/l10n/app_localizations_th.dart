@@ -222,9 +222,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get httpServer => 'เซิร์ฟเวอร์ HTTP';
 
   @override
-  String addIngredientsToRecipe(Object recipe) {
-    return 'เลือกส่วนผสม ($recipe)';
-  }
+  String get addIngredientsToRecipe => 'เลือกส่วนผสม ';
 
   @override
   String get recipeWithoutIngredients => 'สูตรนี้ไม่มีส่วนผสม';
@@ -313,9 +311,7 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String addProductsToAisle(Object aisle, Object supermarket) {
-    return 'เพิ่มสินค้าลงในช่องทาง ($aisle — $supermarket)';
-  }
+  String get addProductsToAisle => 'เพิ่มสินค้าลงในช่องทาง';
 
   @override
   String get selectSupermarket => 'Select Supermarket...';

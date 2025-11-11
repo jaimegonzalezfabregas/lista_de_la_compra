@@ -70,7 +70,7 @@
   "all": "Все",
   "httpClient": "HTTP-клиент",
   "httpServer": "HTTP-сервер",
-  "addIngredientsToRecipe": "Выбрать ингредиенты ({recipe})",
+  "addIngredientsToRecipe": "Выбрать ингредиенты ",
   "recipeWithoutIngredients": "В этом рецепте нет ингредиентов",
   "noPlannedDates": "Нет запланированных дат",
   "noHTTPPairings": "Нет предыдущих сопряжений с HTTP-серверами",
@@ -307,10 +307,7 @@
     "description": "HTTP Server"
   },
   "@addIngredientsToRecipe": {
-    "description": "Title for the screen to add ingredients to a recipe. Used in: lib/UI/recipies/add_ingredient_to_recipe.dart -> AppBar.title (appLoc.addIngredientsToRecipe). This screen operates on a specific recipe (recipeId) and shows products in that recipe's environment. Placeholder: {recipe}.",
-    "placeholders": {
-      "recipe": {}
-    }
+    "description": "Title for the screen to add ingredients to a recipe. Used in: lib/UI/recipies/add_ingredient_to_recipe.dart -> AppBar.title (appLoc.addIngredientsToRecipe). This screen operates on a specific recipe (recipeId) and shows products in that recipe's environment. Placeholder: {recipe}."
   },
   "@recipeWithoutIngredients": {
     "description": "This recipe has no ingredients"
@@ -384,12 +381,8 @@
       "count": {}
     }
   },
-  "addProductsToAisle": "Добавить товары в проход ({aisle} — {supermarket})",
+  "addProductsToAisle": "Добавить товары в проход",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}.",
-    "placeholders": {
-      "aisle": {},
-      "supermarket": {}
-    }
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
   }
 }

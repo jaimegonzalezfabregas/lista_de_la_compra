@@ -26,20 +26,33 @@ class AddProductsToIsle extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: FutureBuilder(
-          future: Future.wait([aisleFuture, supermarketFuture]),
-          builder: (context, snap) {
-            if (snap.hasData) {
-              final Aisle? aisle = snap.data![0] as Aisle?;
-              final SuperMarket? market = snap.data![1] as SuperMarket?;
-              final String aisleName = aisle?.name ?? '...';
-              final String marketName = market?.name ?? '...';
-              return Text(appLoc.addProductsToAisle(aisleName, marketName));
-            } else {
-              return Text(appLoc.addProductsToAisle("...", "..."));
-            }
-          },
+        title: Column(
+          children: [
+            Container(alignment: Alignment.centerLeft, child: Text(appLoc.addProductsToAisle)),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: FutureBuilder(
+                future: Future.wait([aisleFuture, supermarketFuture]),
+                builder: (context, asyncSnapshot) {
+                  if (asyncSnapshot.hasData) {
+                    final Aisle? aisle = asyncSnapshot.data![0] as Aisle?;
+                    final SuperMarket? market = asyncSnapshot.data![1] as SuperMarket?;
+                    final String aisleName = aisle?.name ?? '...';
+                    final String marketName = market?.name ?? '...';
+                    return Text(
+                      "${aisleName.trim()} - ${marketName.trim()}",
+                      style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    );
+                  } else {
+                    return Text("...");
+                  }
+                },
+              ),
+            ),
+          ],
         ),
+
         actions: [
           IconButton(
             icon: Icon(Icons.check),
@@ -50,6 +63,7 @@ class AddProductsToIsle extends StatelessWidget {
         ],
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
+
       body: FutureBuilder(
         future: allProductsInEnvFuture,
         builder: (context, asyncSnapshot) {
