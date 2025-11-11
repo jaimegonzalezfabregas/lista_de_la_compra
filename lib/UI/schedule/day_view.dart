@@ -10,8 +10,6 @@ import '../../flutter_providers/flutter_providers.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 
-// TODO Mark recipies as fullfilled
-
 class DayView extends StatelessWidget {
   final int week;
   final int day;
