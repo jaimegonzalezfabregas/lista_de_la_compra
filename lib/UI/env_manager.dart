@@ -10,7 +10,6 @@ import '../flutter_providers/flutter_providers.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-
 class EnvSelect extends StatelessWidget {
   final OpenConnectionManager openConnectionManager;
   const EnvSelect(this.openConnectionManager, {super.key});
@@ -98,7 +97,6 @@ class EnvSelect extends StatelessWidget {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
     SharedPreferencesProvider sharedPreferencesProvider = context.watch<PersistantSharedPreferencesProvider>();
 
-
     return Builder(
       builder: (context) {
         EnvironmentProvider environmentProvider = context.watch<FlutterEnvironmentProvider>();
@@ -109,7 +107,10 @@ class EnvSelect extends StatelessWidget {
               if (snapshot.data!.isEmpty) {
                 return Center(child: Text(appLoc.thisListHasNoResults));
               }
-              return ListView(shrinkWrap: true, children: snapshot.data!.map((env) => getOfflineListTile(context, environmentProvider, env,sharedPreferencesProvider)).toList());
+              return ListView(
+                shrinkWrap: true,
+                children: snapshot.data!.map((env) => getOfflineListTile(context, environmentProvider, env, sharedPreferencesProvider)).toList(),
+              );
             } else if (snapshot.hasError) {
               return Text("$snapshot");
             } else {
@@ -193,7 +194,10 @@ class EnvSelect extends StatelessWidget {
         TextEditingController textControler = TextEditingController();
         return AlertDialog(
           title: Text(appLoc.createEnvironment),
-          content: TextField(decoration: InputDecoration(labelText: appLoc.name), controller: textControler),
+          content: TextField(
+            decoration: InputDecoration(labelText: appLoc.name),
+            controller: textControler,
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -221,6 +225,9 @@ class EnvSelect extends StatelessWidget {
     ProductProvider productProvider,
     RecipeProvider recipeProvider,
     ScheduleProvider scheduleProvider,
+    SuperMarketProvider supermarketProvider,
+    AisleProvider aisleProvider,
+    ProductAisleProvider productAisleProvider,
   ) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(withData: true);
 
@@ -235,7 +242,16 @@ class EnvSelect extends StatelessWidget {
         environmentProvider.upsertEnvironment(remoteEnvironment);
       }
 
-      recieveState(serializedState, environmentProvider, productProvider, recipeProvider, scheduleProvider);
+      recieveState(
+        serializedState,
+        environmentProvider,
+        productProvider,
+        recipeProvider,
+        scheduleProvider,
+        supermarketProvider,
+        aisleProvider,
+        productAisleProvider,
+      );
     }
   }
 
@@ -245,6 +261,9 @@ class EnvSelect extends StatelessWidget {
     ProductProvider productProvider = context.watch<FlutterProductProvider>();
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    SuperMarketProvider supermarketProvider = context.watch<FlutterSuperMarketProvider>();
+    AisleProvider aisleProvider = context.watch<FlutterAisleProvider>();
+    ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -274,7 +293,16 @@ class EnvSelect extends StatelessWidget {
 
               OutlinedButton(
                 onPressed: () {
-                  importNewEnvironment(context, environmentProvider, productProvider, recipeProvider, scheduleProvider);
+                  importNewEnvironment(
+                    context,
+                    environmentProvider,
+                    productProvider,
+                    recipeProvider,
+                    scheduleProvider,
+                    supermarketProvider,
+                    aisleProvider,
+                    productAisleProvider,
+                  );
                 },
                 child: Row(children: [Icon(Icons.file_copy), SizedBox(width: 8), Text(appLoc.importEnvironment)]),
               ),

@@ -90,11 +90,11 @@ Future<void> recieveState(
   EnvironmentProvider environmentProvider,
   ProductProvider productProvider,
   RecipeProvider recipeProvider,
-  ScheduleProvider scheduleProvider, {
-  SuperMarketProvider? supermarketProvider,
-  AisleProvider? aisleProvider,
-  ProductAisleProvider? productAisleProvider,
-}) async {
+  ScheduleProvider scheduleProvider,
+  SuperMarketProvider supermarketProvider,
+  AisleProvider aisleProvider,
+  ProductAisleProvider productAisleProvider,
+) async {
   Environment remoteEnvironment = Environment.fromJson(state["environment"]);
   Environment? currentEnvironment = await environmentProvider.getEnvironmentById(remoteEnvironment.id);
   if (currentEnvironment == null) {
@@ -119,9 +119,9 @@ Future<void> recieveState(
   var selfRecipes = recipeProvider.getSyncRecipeList(remoteEnvironment.id);
   var selfProductsRecipes = recipeProvider.getSyncRecipeProductList(remoteEnvironment.id);
   var selfSchedule = scheduleProvider.getSyncEntryList(remoteEnvironment.id);
-  var selfSuperMarkets = supermarketProvider != null ? supermarketProvider.getSyncSuperMarketList(remoteEnvironment.id) : Future.value([]);
-  var selfAisles = aisleProvider != null ? aisleProvider.getSyncAisleList(remoteEnvironment.id) : Future.value([]);
-  var selfProductAisles = productAisleProvider != null ? productAisleProvider.getSyncProductAisleList(remoteEnvironment.id) : Future.value([]);
+  var selfSuperMarkets = supermarketProvider.getSyncSuperMarketList(remoteEnvironment.id);
+  var selfAisles = aisleProvider.getSyncAisleList(remoteEnvironment.id);
+  var selfProductAisles = productAisleProvider.getSyncProductAisleList(remoteEnvironment.id);
 
   await syncItems(
     otherProducts,
@@ -156,33 +156,27 @@ Future<void> recieveState(
   );
 
   // sync new tables if providers are present
-  if (supermarketProvider != null) {
-    await syncItems(
-      otherSuperMarkets,
-      await selfSuperMarkets,
-      (id, item) => supermarketProvider.syncOverideSuperMarket(id, item),
-      (id, deletedAt) => supermarketProvider.syncSetDeletedSuperMarket(id, deletedAt),
-      (item) => supermarketProvider.syncAddSuperMarket(item),
-    );
-  }
+  await syncItems(
+    otherSuperMarkets,
+    await selfSuperMarkets,
+    (id, item) => supermarketProvider.syncOverideSuperMarket(id, item),
+    (id, deletedAt) => supermarketProvider.syncSetDeletedSuperMarket(id, deletedAt),
+    (item) => supermarketProvider.syncAddSuperMarket(item),
+  );
 
-  if (aisleProvider != null) {
-    await syncItems(
-      otherAisles,
-      await selfAisles,
-      (id, item) => aisleProvider.syncOverideAisle(id, item),
-      (id, deletedAt) => aisleProvider.syncSetDeletedAisle(id, deletedAt),
-      (item) => aisleProvider.syncAddAisle(item),
-    );
-  }
+  await syncItems(
+    otherAisles,
+    await selfAisles,
+    (id, item) => aisleProvider.syncOverideAisle(id, item),
+    (id, deletedAt) => aisleProvider.syncSetDeletedAisle(id, deletedAt),
+    (item) => aisleProvider.syncAddAisle(item),
+  );
 
-  if (productAisleProvider != null) {
-    await syncItems(
-      otherProductAisles,
-      await selfProductAisles,
-      (id, item) => productAisleProvider.syncOverideProductAisle(id, item),
-      (id, deletedAt) => productAisleProvider.syncSetDeletedProductAisle(id, deletedAt),
-      (item) => productAisleProvider.syncAddProductAisle(item),
-    );
-  }
+  await syncItems(
+    otherProductAisles,
+    await selfProductAisles,
+    (id, item) => productAisleProvider.syncOverideProductAisle(id, item),
+    (id, deletedAt) => productAisleProvider.syncSetDeletedProductAisle(id, deletedAt),
+    (item) => productAisleProvider.syncAddProductAisle(item),
+  );
 }

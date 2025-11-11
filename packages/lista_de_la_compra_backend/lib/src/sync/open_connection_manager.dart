@@ -233,7 +233,7 @@ class OpenConnectionManager {
               break;
 
             case "send_state":
-              recieveState(data["state"], environmentProvider, productProvider, recipeProvider, scheduleProvider);
+              recieveState(data["state"], environmentProvider, productProvider, recipeProvider, scheduleProvider, supermarketProvider, aisleProvider, productAisleProvider);
 
               break;
 
