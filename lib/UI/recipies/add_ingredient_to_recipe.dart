@@ -25,17 +25,28 @@ class AddIngredientToRecipe extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: FutureBuilder(
-          future: recipeFuture,
-          builder: (context, asyncSnapshot) {
-            if (asyncSnapshot.hasData) {
-              final Recipe recipe = asyncSnapshot.data!;
-              return Text(appLoc.addIngredientsToRecipe(recipe.name));
-            } else {
-              return Text(appLoc.addIngredientsToRecipe("..."));
-            }
-          },
+        title: Column(
+          children: [
+            Container(alignment: Alignment.centerLeft, child: Text(appLoc.addIngredientsToRecipe)),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: FutureBuilder(
+                future: recipeFuture,
+                builder: (context, asyncSnapshot) {
+                  if (asyncSnapshot.hasData) {
+                    final Recipe recipe = asyncSnapshot.data!;
+
+                    return Text(recipe.name.trim(), style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant));
+                  } else {
+                    return Text("...");
+                  }
+                },
+              ),
+            ),
+          ],
         ),
+
         actions: [
           IconButton(
             icon: Icon(Icons.check),
