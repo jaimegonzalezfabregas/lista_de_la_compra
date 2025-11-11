@@ -221,9 +221,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get httpServer => 'HTTP szerver';
 
   @override
-  String addIngredientsToRecipe(Object recipe) {
-    return 'Összetevők kiválasztása ($recipe)';
-  }
+  String get addIngredientsToRecipe => 'Összetevők kiválasztása ';
 
   @override
   String get recipeWithoutIngredients =>
@@ -314,9 +312,7 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String addProductsToAisle(Object aisle, Object supermarket) {
-    return 'Termékek hozzáadása a folyosóhoz ($aisle — $supermarket)';
-  }
+  String get addProductsToAisle => 'Termékek hozzáadása a folyosóhoz';
 
   @override
   String get selectSupermarket => 'Select Supermarket...';

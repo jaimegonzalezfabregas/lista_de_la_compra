@@ -579,8 +579,8 @@ abstract class AppLocalizations {
   /// Title for the screen to add ingredients to a recipe. Used in: lib/UI/recipies/add_ingredient_to_recipe.dart -> AppBar.title (appLoc.addIngredientsToRecipe). This screen operates on a specific recipe (recipeId) and shows products in that recipe's environment. Placeholder: {recipe}.
   ///
   /// In en, this message translates to:
-  /// **'Add ingredients to recipe ({recipe})'**
-  String addIngredientsToRecipe(Object recipe);
+  /// **'Add ingredients to recipe '**
+  String get addIngredientsToRecipe;
 
   /// This recipe has no ingredients
   ///
@@ -717,8 +717,8 @@ abstract class AppLocalizations {
   /// Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}.
   ///
   /// In en, this message translates to:
-  /// **'Add products to aisle ({aisle} — {supermarket})'**
-  String addProductsToAisle(Object aisle, Object supermarket);
+  /// **'Add products to aisle'**
+  String get addProductsToAisle;
 
   /// No description provided for @selectSupermarket.
   ///
