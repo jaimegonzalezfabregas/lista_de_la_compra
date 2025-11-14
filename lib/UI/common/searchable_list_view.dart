@@ -11,6 +11,8 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
   Future<List<ListTile>> getShowTilesWithFilter(List<T> searchElms, String filter) async {
     var filterScorer = SearchScorer(filter);
 
+    searchElms.sort((a, b) => widget.elementToTag(a).toLowerCase().compareTo(widget.elementToTag(b).toLowerCase()));
+
     late List<T> ret = searchElms;
 
     ret.sort((a, b) => ((filterScorer.getScore(widget.elementToTag(b)) - filterScorer.getScore(widget.elementToTag(a))) * 1000).floor());
@@ -22,6 +24,8 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
     Map<String, List<T>> categoryMap = {};
     Map<String, String> categoryIdToName = {};
     List<T> uncategorizedElements = [];
+
+    elms.sort((a, b) => widget.elementToTag(a).toLowerCase().compareTo(widget.elementToTag(b).toLowerCase()));
 
     if (widget.elementCategories != null) {
       for (var element in elms) {
