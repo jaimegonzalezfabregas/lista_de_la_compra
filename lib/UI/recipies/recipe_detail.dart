@@ -190,7 +190,7 @@ class Ingredients extends StatelessWidget {
 
                     child: Row(
                       children: [
-                        Icon(Icons.add),
+                        Icon(Icons.format_list_bulleted_add),
                         SizedBox(width: 8),
                         Text(appLoc.addIngredients, style: TextStyle(color: Theme.of(context).colorScheme.primary)),
                       ],
