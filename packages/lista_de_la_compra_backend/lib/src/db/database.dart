@@ -47,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
             name TEXT NOT NULL,
             market_id TEXT NOT NULL REFERENCES super_markets(id),
             updated_at INTEGER NOT NULL,
-            deleted_at INTEGER,
+            deleted_at INTEGER
           );
 
           CREATE TABLE IF NOT EXISTS product_aisles (
@@ -55,7 +55,7 @@ class AppDatabase extends _$AppDatabase {
             product_id TEXT NOT NULL REFERENCES products(id),
             aisle_id TEXT NOT NULL REFERENCES aisles(id),
             updated_at INTEGER NOT NULL,
-            deleted_at INTEGER,
+            deleted_at INTEGER
           );
         ''' );
       }
