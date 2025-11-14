@@ -134,4 +134,12 @@ abstract class AisleProvider implements VoidEventSource {
 
     return count.isNotEmpty;
   }
+
+  Future<void> setAisleName(String id, String name) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.aisles)..where((table) => table.id.equals(id))).write(AislesCompanion(name: Value(name)));
+
+    notifyListeners();
+  }
 }

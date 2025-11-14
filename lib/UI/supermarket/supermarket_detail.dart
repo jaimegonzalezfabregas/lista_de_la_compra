@@ -52,8 +52,44 @@ class Aisles extends StatelessWidget {
                   children: [
                     IconButton(onPressed: () => {aisleProvider.deleteById(aisle.id)}, icon: Icon(Icons.delete)),
                     IconButton(
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddProductsToIsle(aisle.id))),
                       icon: Icon(Icons.edit),
+
+                      onPressed: () {
+                        var textControler = TextEditingController();
+                        textControler.text = aisle.name;
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(appLoc.editName),
+                              content: TextField(
+                                decoration: InputDecoration(labelText: appLoc.name),
+                                controller: textControler,
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(appLoc.cancel),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    aisleProvider.setAisleName(aisle.id, textControler.text);
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(appLoc.save),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AddProductsToIsle(aisle.id))),
+                      icon: Icon(Icons.format_list_bulleted_add),
                     ),
                   ],
                 ),

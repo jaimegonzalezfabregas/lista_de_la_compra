@@ -136,7 +136,11 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
               0,
               ListTile(
                 title: ElevatedButton(
-                  child: Text("${appLoc.add} \"$filter\""),
+
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                     children: [Icon(Icons.format_list_bulleted_add), SizedBox.fromSize(size: Size.square(10)) ,Text("${appLoc.add} \"$filter\"")]),
                   onPressed: () {
                     widget.newElement!(filter);
                   },

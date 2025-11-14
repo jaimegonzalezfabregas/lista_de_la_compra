@@ -9,11 +9,9 @@ extension StringExtension on String {
   }
 }
 
-
 class RamProductProvider extends ProductProvider with VoidEventSourceMixin {}
 
-
-abstract class ProductProvider  implements VoidEventSource{
+abstract class ProductProvider implements VoidEventSource {
   Future<String> addProduct(String rawName, bool needed, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
@@ -25,7 +23,7 @@ abstract class ProductProvider  implements VoidEventSource{
         .into(database.products)
         .insert(
           ProductsCompanion(
-            id : Value(id),
+            id: Value(id),
             name: Value(name),
             needed: Value(needed),
             enviromentId: Value(enviromentId),
@@ -83,25 +81,27 @@ abstract class ProductProvider  implements VoidEventSource{
   Future deleteProductById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.update(database.products)
-      ..where((table) => table.id.equals(id))).write(ProductsCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+    await (database.update(
+      database.products,
+    )..where((table) => table.id.equals(id))).write(ProductsCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
 
     notifyListeners();
   }
 
   Future setProductNeededness(String id, bool needed) async {
     final database = AppDatabaseSingleton.instance;
-    await (database.update(database.products)..where(
-      (table) => table.id.equals(id),
-    )).write(ProductsCompanion(needed: Value(needed), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+    await (database.update(database.products)..where((table) => table.id.equals(id))).write(
+      ProductsCompanion(needed: Value(needed), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)),
+    );
 
     notifyListeners();
   }
 
   Future setProductName(String id, String name) async {
     final database = AppDatabaseSingleton.instance;
-    await (database.update(database.products)
-      ..where((table) => table.id.equals(id))).write(ProductsCompanion(name: Value(name), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+    await (database.update(
+      database.products,
+    )..where((table) => table.id.equals(id))).write(ProductsCompanion(name: Value(name), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
 
     notifyListeners();
   }
