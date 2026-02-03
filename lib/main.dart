@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     AppDatabaseSingleton.setQueryExecutor(
       driftDatabase(
         name: 'persistence',
+        web: DriftWebOptions(sqlite3Wasm: Uri.parse("sqlite3.wasm"), driftWorker: Uri.parse("drift_worker.js")),
         native: DriftNativeOptions(
           databaseDirectory: () async {
             try {

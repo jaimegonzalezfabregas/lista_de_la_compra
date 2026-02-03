@@ -36,89 +36,45 @@ dependencies:
 
   lista_de_la_compra_backend:
     path: ./packages/lista_de_la_compra_backend
-
-
-  cupertino_icons: 1.0.8
-  modals: 1.0.0+1
-  drift_flutter: 0.2.4
-
-  path_provider: 2.1.5
-  path: 1.9.1
-  sqlite3_flutter_libs: 0.5.34
-  uuid: 4.5.1
-  shared_preferences: 2.5.3
-  contentsize_tabbarview: 0.0.2
-  http: 1.3.0
-  shelf_web_socket: 3.0.0
-  web_socket_channel: 3.0.3
-  crypto: 3.0.6
-  device_marketing_names: 1.1.0
-  shelf: 1.4.2
-  share_plus: 11.0.0
-  file_picker: 10.1.9
-  intl: 0.20.2
-  nsd: any
-  collection: 1.19.1
-  fluttertoast: 8.2.12
   flutter_show_when_locked: 1.0.0
   flutter_localizations:
     sdk: flutter
-  flutter_launcher_icons: 0.14.4
-  characters: ^1.4.0
-dev_dependencies:
-  drift_dev: ^2.26.0
-  build_runner: ^2.4.15
+  nsd: any
+  contentsize_tabbarview: 0.0.2
+  share_plus: 11.0.0
+  fluttertoast: 8.2.12
+  device_marketing_names: 1.1.0
+  shared_preferences: 2.5.3
 
+
+  drift: ^2.23.1
+  drift_dev: ^2.23.1
+  drift_flutter: ^0.2.4
+  file_picker: ^10.3.10
+  flutter_colorpicker: ^1.0.3
+  flutter_riverpod: ^3.0.0-dev
+  go_router: ^16.1.0
+  intl: ^0.20.2
+  sqlite3_flutter_libs: ^0.5.5
+  sqlite3: ^2.0.0
+  path_provider: ^2.0.9
+  path: ^1.8.0
+  riverpod: ^3.0.0-dev
+  stack_trace: ^1.11.1
+
+dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.1.8
+  # We use this to compile the shared web worker for the web database. This dependency
+  # isn't required for most apps. You only need it if you want to target the web, use
+  # web workers for drift AND want to compile those web workers through `build_runner`.
+  # Either way, using this package with Flutter requires a delicate setup described in
+  # `build.yaml`.
+  build_web_compilers: ^4.0.0
+  build: '>=3.0.0 <5.0.0'
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: 6.0.0
-  test: ^1.25.15
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
   generate: true
-
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/to/asset-from-package
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
