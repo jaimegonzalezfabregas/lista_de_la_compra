@@ -16,4 +16,4 @@ run-linux-debug-container: build-runner-container
 	./flutterw.sh run -d linux
 
 build-apk-container: build-runner-container
-	./flutterw.sh build --release apk
+	./flutterw.sh build apk --release
