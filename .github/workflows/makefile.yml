@@ -1,0 +1,23 @@
+name: makefile.yml
+on:
+  push:
+    branches:
+      - cliente-web
+
+
+jobs:
+    build:
+        name: Build APK in Container
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Run make build-apk-container
+              run: make build-apk-container
+
+
+
