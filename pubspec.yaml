@@ -63,6 +63,7 @@ dependencies:
   stack_trace: ^1.11.1
 
 dev_dependencies:
+  test: any
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
