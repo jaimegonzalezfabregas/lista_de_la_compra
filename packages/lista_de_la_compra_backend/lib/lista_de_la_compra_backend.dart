@@ -18,5 +18,5 @@ export 'src/sync/http_server_manager.dart';
 export 'src/db/database.dart';
 export 'src/sync/environment_serializer.dart';
 export 'src/utils.dart';
-export 'main.dart';
+
 
