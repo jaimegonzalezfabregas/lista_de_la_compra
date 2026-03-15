@@ -11,7 +11,7 @@ RUN ls -laRt
 WORKDIR /app/lista_de_la_compra_server
 RUN ls -laRt
 RUN dart pub get
-RUN dart compile exe bin/server.dart -o bin/server
+RUN dart build cli bin/server.dart --output bin/server_out
 
 # Build minimal serving image from AOT-compiled `/server`
 # and the pre-built AOT-runtime in the `/runtime/` directory of the base image.
@@ -20,7 +20,10 @@ FROM dart:$dartversion
 RUN apt-get update
 RUN apt-get install -y libsqlite3-dev
 
-COPY --from=build /app/lista_de_la_compra_server/bin/server /app/bin/
+COPY --from=build /app/lista_de_la_compra_server/bin/server_out/bundle/bin/server /app/bin/
+COPY --from=build /app/lista_de_la_compra_server/bin/server_out/bundle/lib/libsqlite3.so /app/lib/
+
+ENV LD_LIBRARY_PATH=/app/lib
 
 # Start server.
 EXPOSE 4545
