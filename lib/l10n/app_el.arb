@@ -383,16 +383,17 @@
   },
   "addProductsToAisle": "Προσθήκη προϊόντων στη λωρίδα",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
-  }
-,  "exportToICS": "Εξαγωγή σε ICS",
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "Εξαγωγή σε ICS",
   "@exportToICS": {
     "description": "Export to calendar"
-  },  "exportToGoogleCalendar": "Εξαγωγή στο Google Ημερολόγιο",
+  },
+  "exportToGoogleCalendar": "Εξαγωγή στο Google Ημερολόγιο",
   "@exportToGoogleCalendar": {
     "description": "Export to Google Calendar"
-  }
-,  "exportToMarkdownFile": "Εξαγωγή σε αρχείο Markdown",
+  },
+  "exportToMarkdownFile": "Εξαγωγή σε αρχείο Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   }

@@ -383,16 +383,17 @@
   },
   "addProductsToAisle": "Přidat produkty do uličky",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
-  }
-,  "exportToICS": "Exportovat do ICS",
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "Exportovat do ICS",
   "@exportToICS": {
     "description": "Export to calendar"
-  },  "exportToGoogleCalendar": "Exportovat do Kalendáře Google",
+  },
+  "exportToGoogleCalendar": "Exportovat do Kalendáře Google",
   "@exportToGoogleCalendar": {
     "description": "Export to Google Calendar"
-  }
-,  "exportToMarkdownFile": "Exportovat do souboru Markdown",
+  },
+  "exportToMarkdownFile": "Exportovat do souboru Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   }

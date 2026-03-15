@@ -383,16 +383,17 @@
   },
   "addProductsToAisle": "শেলফে পণ্য যোগ করুন",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
-  }
-,  "exportToICS": "ICS-এ রপ্তানি করুন",
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "ICS-এ রপ্তানি করুন",
   "@exportToICS": {
     "description": "Export to calendar"
-  },  "exportToGoogleCalendar": "Google Calendar-এ রপ্তানি করুন",
+  },
+  "exportToGoogleCalendar": "Google Calendar-এ রপ্তানি করুন",
   "@exportToGoogleCalendar": {
     "description": "Export to Google Calendar"
-  }
-,  "exportToMarkdownFile": "মার্কডাউন ফাইলে রপ্তানি করুন",
+  },
+  "exportToMarkdownFile": "মার্কডাউন ফাইলে রপ্তানি করুন",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   }

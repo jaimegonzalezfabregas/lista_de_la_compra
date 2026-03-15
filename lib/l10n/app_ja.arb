@@ -383,16 +383,17 @@
   },
   "addProductsToAisle": "通路に商品を追加",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
-  }
-,  "exportToICS": "ICSにエクスポート",
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "ICSにエクスポート",
   "@exportToICS": {
     "description": "Export to calendar"
-  },  "exportToGoogleCalendar": "Google カレンダーにエクスポート",
+  },
+  "exportToGoogleCalendar": "Google カレンダーにエクスポート",
   "@exportToGoogleCalendar": {
     "description": "Export to Google Calendar"
-  }
-,  "exportToMarkdownFile": "Markdownファイルにエクスポート",
+  },
+  "exportToMarkdownFile": "Markdownファイルにエクスポート",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   }
