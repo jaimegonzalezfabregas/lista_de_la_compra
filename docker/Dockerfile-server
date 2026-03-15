@@ -1,4 +1,4 @@
-ARG dartversion=3.9.2-sdk
+ARG dartversion=3.11.2-sdk
 
 # Use latest stable channel SDK.
 FROM dart:$dartversion AS build
