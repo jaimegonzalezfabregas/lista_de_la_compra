@@ -315,4 +315,13 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Exportera till ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Exportera till Google Kalender';
+
+  @override
+  String get exportToMarkdownFile => 'Exportera till Markdown-fil';
 }

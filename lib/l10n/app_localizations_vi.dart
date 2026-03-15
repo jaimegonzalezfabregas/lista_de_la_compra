@@ -315,4 +315,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Xuất ra ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Xuất ra Google Lịch';
+
+  @override
+  String get exportToMarkdownFile => 'Xuất ra file Markdown';
 }

@@ -47,16 +47,16 @@ dependencies:
   shared_preferences: 2.5.3
 
 
-  drift: ^2.23.1
-  drift_dev: ^2.23.1
-  drift_flutter: ^0.2.4
+  drift: ^2.32.0
+  drift_dev: ^2.32.0
+  drift_flutter: ^0.3.0
   file_picker: ^10.3.10
   flutter_colorpicker: ^1.0.3
   flutter_riverpod: ^3.0.0-dev
   go_router: ^16.1.0
   intl: ^0.20.2
-  sqlite3_flutter_libs: ^0.5.5
-  sqlite3: ^2.0.0
+  sqlite3_flutter_libs: ^0.6.0
+  sqlite3: ^3.0.0
   path_provider: ^2.0.9
   path: ^1.8.0
   riverpod: ^3.0.0-dev

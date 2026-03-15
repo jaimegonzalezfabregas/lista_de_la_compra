@@ -315,4 +315,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Экспорт в ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Экспорт в Google Календарь';
+
+  @override
+  String get exportToMarkdownFile => 'Экспорт в файл Markdown';
 }

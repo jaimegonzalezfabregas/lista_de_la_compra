@@ -315,4 +315,13 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Експортувати до ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Експортувати до Google Календаря';
+
+  @override
+  String get exportToMarkdownFile => 'Експортувати до файлу Markdown';
 }

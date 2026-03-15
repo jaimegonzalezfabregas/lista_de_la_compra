@@ -316,4 +316,13 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Exportovat do ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Exportovat do Kalendáře Google';
+
+  @override
+  String get exportToMarkdownFile => 'Exportovat do souboru Markdown';
 }

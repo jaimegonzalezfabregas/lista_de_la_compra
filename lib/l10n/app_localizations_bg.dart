@@ -316,4 +316,13 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Експортиране в ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Експортиране в Google Календар';
+
+  @override
+  String get exportToMarkdownFile => 'Експортиране в Markdown файл';
 }

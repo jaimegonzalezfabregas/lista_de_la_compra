@@ -317,4 +317,13 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Exportovať do ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Exportovať do Google Kalendára';
+
+  @override
+  String get exportToMarkdownFile => 'Exportovať do súboru Markdown';
 }

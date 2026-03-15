@@ -725,6 +725,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Supermarket...'**
   String get selectSupermarket;
+
+  /// Export to ICS calendar file
+  ///
+  /// In en, this message translates to:
+  /// **'Export to ICS'**
+  String get exportToICS;
+
+  /// Export to Google Calendar
+  ///
+  /// In en, this message translates to:
+  /// **'Export to Google Calendar'**
+  String get exportToGoogleCalendar;
+
+  /// Export to markdown file
+  ///
+  /// In en, this message translates to:
+  /// **'Export to markdown file'**
+  String get exportToMarkdownFile;
 }
 
 class _AppLocalizationsDelegate
