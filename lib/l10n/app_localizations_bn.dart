@@ -316,4 +316,13 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'ICS-এ রপ্তানি করুন';
+
+  @override
+  String get exportToGoogleCalendar => 'Google Calendar-এ রপ্তানি করুন';
+
+  @override
+  String get exportToMarkdownFile => 'মার্কডাউন ফাইলে রপ্তানি করুন';
 }

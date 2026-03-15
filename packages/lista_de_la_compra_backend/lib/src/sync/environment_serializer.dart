@@ -56,31 +56,26 @@ Future<void> syncItems(
   Function(String, int) syncSetDeletedCallback,
   Function(Map<String, dynamic>) syncAddProductCallback,
 ) async {
+  final selfById = {for (var item in selfItems) item.id: item};
+
   for (var otherItem in otherItems) {
-    var found = false;
-    for (var selfItem in selfItems) {
-      if (selfItem.id == otherItem["id"]) {
-        found = true;
+    final selfItem = selfById[otherItem["id"]];
 
-        if (selfItem.deletedAt == null && otherItem["deletedAt"] == null) {
-          if (selfItem.updatedAt < otherItem["updatedAt"]) {
-            print("Override: ${selfItem.toString()}");
-            syncOverideCallback(selfItem.id, otherItem);
-          }
-        }
+    if (selfItem == null) {
+      syncAddProductCallback(otherItem);
+      continue;
+    }
 
-        if (otherItem["deletedAt"] != null) {
-          if (selfItem.deletedAt == null || selfItem.deletedAt > otherItem["deletedAt"]) {
-            print("Deleted: ${selfItem.toString()}");
-            syncSetDeletedCallback(selfItem.id, otherItem["deletedAt"]);
-          }
-        }
+    if (selfItem.deletedAt == null && otherItem["deletedAt"] == null) {
+      if (selfItem.updatedAt < otherItem["updatedAt"]) {
+        syncOverideCallback(selfItem.id, otherItem);
       }
     }
 
-    if (!found) {
-      print("Added: ${otherItem.toString()}");
-      syncAddProductCallback(otherItem);
+    if (otherItem["deletedAt"] != null) {
+      if (selfItem.deletedAt == null || selfItem.deletedAt > otherItem["deletedAt"]) {
+        syncSetDeletedCallback(selfItem.id, otherItem["deletedAt"]);
+      }
     }
   }
 }

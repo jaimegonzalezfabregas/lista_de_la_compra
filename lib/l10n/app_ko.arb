@@ -383,6 +383,18 @@
   },
   "addProductsToAisle": "통로에 상품 추가",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "ICS로 내보내기",
+  "@exportToICS": {
+    "description": "Export to calendar"
+  },
+  "exportToGoogleCalendar": "Google 캘린더로 내보내기",
+  "@exportToGoogleCalendar": {
+    "description": "Export to Google Calendar"
+  },
+  "exportToMarkdownFile": "Markdown 파일로 내보내기",
+  "@exportToMarkdownFile": {
+    "description": "Export to markdown file"
   }
 }

@@ -317,4 +317,13 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Ekspor ke ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Ekspor ke Google Kalender';
+
+  @override
+  String get exportToMarkdownFile => 'Ekspor ke file Markdown';
 }

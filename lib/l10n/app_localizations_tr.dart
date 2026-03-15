@@ -315,4 +315,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'ICS olarak dışa aktar';
+
+  @override
+  String get exportToGoogleCalendar => 'Google Takvim\'e aktar';
+
+  @override
+  String get exportToMarkdownFile => 'Markdown dosyasına aktar';
 }

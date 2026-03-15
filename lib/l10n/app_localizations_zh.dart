@@ -312,4 +312,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => '导出为ICS';
+
+  @override
+  String get exportToGoogleCalendar => '导出到Google日历';
+
+  @override
+  String get exportToMarkdownFile => '导出为Markdown文件';
 }

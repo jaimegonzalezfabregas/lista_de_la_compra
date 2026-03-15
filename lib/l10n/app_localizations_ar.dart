@@ -314,4 +314,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'تصدير إلى ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'تصدير إلى تقويم Google';
+
+  @override
+  String get exportToMarkdownFile => 'تصدير إلى ملف Markdown';
 }

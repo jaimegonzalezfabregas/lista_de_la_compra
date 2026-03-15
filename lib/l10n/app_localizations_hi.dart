@@ -315,4 +315,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'ICS में निर्यात करें';
+
+  @override
+  String get exportToGoogleCalendar => 'Google Calendar में निर्यात करें';
+
+  @override
+  String get exportToMarkdownFile => 'Markdown फ़ाइल में निर्यात करें';
 }

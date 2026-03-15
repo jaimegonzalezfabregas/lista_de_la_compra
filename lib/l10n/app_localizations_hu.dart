@@ -316,4 +316,13 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Exportálás ICS-be';
+
+  @override
+  String get exportToGoogleCalendar => 'Exportálás Google Naptárba';
+
+  @override
+  String get exportToMarkdownFile => 'Exportálás Markdown fájlba';
 }

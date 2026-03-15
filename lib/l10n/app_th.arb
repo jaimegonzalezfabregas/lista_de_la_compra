@@ -383,6 +383,18 @@
   },
   "addProductsToAisle": "เพิ่มสินค้าลงในช่องทาง",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "ส่งออกเป็น ICS",
+  "@exportToICS": {
+    "description": "Export to calendar"
+  },
+  "exportToGoogleCalendar": "ส่งออกไปยัง Google ปฏิทิน",
+  "@exportToGoogleCalendar": {
+    "description": "Export to Google Calendar"
+  },
+  "exportToMarkdownFile": "ส่งออกเป็นไฟล์ Markdown",
+  "@exportToMarkdownFile": {
+    "description": "Export to markdown file"
   }
 }

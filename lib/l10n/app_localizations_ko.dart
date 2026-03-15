@@ -312,4 +312,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'ICS로 내보내기';
+
+  @override
+  String get exportToGoogleCalendar => 'Google 캘린더로 내보내기';
+
+  @override
+  String get exportToMarkdownFile => 'Markdown 파일로 내보내기';
 }

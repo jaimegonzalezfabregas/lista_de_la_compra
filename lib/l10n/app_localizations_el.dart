@@ -318,4 +318,13 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Εξαγωγή σε ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Εξαγωγή στο Google Ημερολόγιο';
+
+  @override
+  String get exportToMarkdownFile => 'Εξαγωγή σε αρχείο Markdown';
 }

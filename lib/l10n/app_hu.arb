@@ -383,6 +383,18 @@
   },
   "addProductsToAisle": "Termékek hozzáadása a folyosóhoz",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "Exportálás ICS-be",
+  "@exportToICS": {
+    "description": "Export to calendar"
+  },
+  "exportToGoogleCalendar": "Exportálás Google Naptárba",
+  "@exportToGoogleCalendar": {
+    "description": "Export to Google Calendar"
+  },
+  "exportToMarkdownFile": "Exportálás Markdown fájlba",
+  "@exportToMarkdownFile": {
+    "description": "Export to markdown file"
   }
 }

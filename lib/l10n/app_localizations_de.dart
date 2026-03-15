@@ -316,4 +316,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Als ICS exportieren';
+
+  @override
+  String get exportToGoogleCalendar => 'In Google Kalender exportieren';
+
+  @override
+  String get exportToMarkdownFile => 'Als Markdown-Datei exportieren';
 }

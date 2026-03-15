@@ -369,7 +369,7 @@
   },
   "addProductsToAisle": "Ajouter des produits à l'allée",
   "@addProductsToAisle": {
-    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."    
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
   },
   "numberOfProducts": "{count, plural, =0{No products} =1{1 product} other{{count} products}}",
   "@numberOfProducts": {
@@ -384,5 +384,17 @@
     "placeholders": {
       "count": {}
     }
+  },
+  "exportToICS": "Exporter en ICS",
+  "@exportToICS": {
+    "description": "Export to calendar"
+  },
+  "exportToGoogleCalendar": "Exporter vers Google Agenda",
+  "@exportToGoogleCalendar": {
+    "description": "Export to Google Calendar"
+  },
+  "exportToMarkdownFile": "Exporter en fichier Markdown",
+  "@exportToMarkdownFile": {
+    "description": "Export to markdown file"
   }
 }

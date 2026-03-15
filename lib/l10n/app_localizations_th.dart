@@ -315,4 +315,13 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'ส่งออกเป็น ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'ส่งออกไปยัง Google ปฏิทิน';
+
+  @override
+  String get exportToMarkdownFile => 'ส่งออกเป็นไฟล์ Markdown';
 }

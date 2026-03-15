@@ -317,4 +317,13 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Exportați în ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Exportați în Google Calendar';
+
+  @override
+  String get exportToMarkdownFile => 'Exportați în fișier Markdown';
 }
