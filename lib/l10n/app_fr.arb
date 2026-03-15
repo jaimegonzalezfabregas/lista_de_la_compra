@@ -385,4 +385,15 @@
       "count": {}
     }
   }
+,  "exportToICS": "Exporter en ICS",
+  "@exportToICS": {
+    "description": "Export to calendar"
+  },  "exportToGoogleCalendar": "Exporter vers Google Agenda",
+  "@exportToGoogleCalendar": {
+    "description": "Export to Google Calendar"
+  }
+,  "exportToMarkdownFile": "Exporter en fichier Markdown",
+  "@exportToMarkdownFile": {
+    "description": "Export to markdown file"
+  }
 }

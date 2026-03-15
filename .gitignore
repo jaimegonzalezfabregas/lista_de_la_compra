@@ -46,3 +46,8 @@ app.*.map.json
 /android/app/release
 ~/.lista_de_la_compra/db/persistence.sqlite
 lib/l10n/app_ms.arb.bak
+lib/l10n/app_localizations*.dart
+lib/l10n/untranslated_messages.json
+pubspec.lock
+macos/Flutter/GeneratedPluginRegistrant.swift
+.aider*
