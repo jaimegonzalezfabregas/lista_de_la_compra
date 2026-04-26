@@ -187,7 +187,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     await SharePlus.instance.share(
       ShareParams(
         files: [XFile.fromData(utf8.encode(md.toString()), mimeType: 'text/calendar')],
-        fileNameOverrides: ['schedule_week_${DateFormat('y_M_d').format(startOfWeek)}.ics'],
+        fileNameOverrides: ['schedule_week_${DateFormat('y_M_d').format(startOfWeek)}.md'],
         downloadFallbackEnabled: true,
       ),
     );
