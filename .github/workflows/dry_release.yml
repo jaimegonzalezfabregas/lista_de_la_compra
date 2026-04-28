@@ -28,7 +28,7 @@ jobs:
           channel: 'stable'
 
       - name: Install Dependencies
-        run: flutter pub get
+        run: cd flutterfiles &&  flutter pub get
    
       - name: Flutter Analyze
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+        run: cd flutterfiles && flutter analyze --no-fatal-infos --no-fatal-warnings
