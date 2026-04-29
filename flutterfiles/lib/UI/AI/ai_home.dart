@@ -12,7 +12,7 @@ class AiHome extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
           future: (() async {
-            Llama.libraryPath = "/home/jaime/Desktop/projects/2025/lista_de_la_compra/src/llamafiles/dist/x86_linux.so";
+            Llama.libraryPath = "/home/jaime/Desktop/projects/2025/lista_de_la_compra/src/llamafiles/llama.cpp/build-x86/bin/libllama.so";
             
             try {
 
