@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:llama_cpp_dart/llama_cpp_dart.dart';
+import 'package:dart_llama/dart_llama.dart';
 
 class AiHome extends StatelessWidget {
   const AiHome({super.key});
@@ -12,22 +12,22 @@ class AiHome extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
           future: (() async {
-            Llama.libraryPath = "/home/jaime/Desktop/projects/2025/lista_de_la_compra/src/llamafiles/llama.cpp/build-x86/bin/libllama.so";
-            
             try {
+              // Create configuration
+              final config = LlamaConfig(modelPath: '/home/jaime/AI_models/Qwen3-0.6B-Q8_0.gguf', contextSize: 2048, threads: 4);
 
-             final loadCommand = LlamaLoad(
-                path: "/home/jaime/AI_models/Qwen3-0.6B-Q8_0.gguf",
-                modelParams: ModelParams(),
-                contextParams: ContextParams(),
-                samplingParams: SamplerParams(),
-              );
+              // Initialize the model
+              final model = LlamaModel(config);
+              model.initialize();
 
-              final llamaParent = LlamaParent(loadCommand);
-              await llamaParent.init();
+              // Create a generation request
+              final request = GenerationRequest(prompt: 'Once upon a time in a galaxy far, far away', temperature: 0.7, maxTokens: 256);
 
-              return await llamaParent.sendPrompt("2 * 2 = ?");
+              // Generate text
+              final response = await model.generate(request);
+              model.dispose();
 
+              return response.text;
             } catch (e) {
               print(e);
             }
@@ -36,7 +36,6 @@ class AiHome extends StatelessWidget {
             if (!snapshot.hasData) {
               return Text("Loading...");
             }
-            print("X");
 
             return Text(snapshot.data!);
           },

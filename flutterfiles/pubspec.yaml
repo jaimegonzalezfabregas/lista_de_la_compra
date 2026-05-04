@@ -63,7 +63,7 @@ dependencies:
   stack_trace: ^1.11.1
 
   # AI
-  llama_cpp_dart: ^0.2.2
+  dart_llama: ^0.2.0
 
 dev_dependencies:
   test: any
