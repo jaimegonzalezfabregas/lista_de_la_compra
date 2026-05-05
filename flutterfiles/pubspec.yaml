@@ -63,8 +63,10 @@ dependencies:
   stack_trace: ^1.11.1
 
   # AI
-  dart_llama: ^0.2.0
-
+  fllama:
+    git:
+      url: https://github.com/Telosnex/fllama.git
+      ref: main
 dev_dependencies:
   test: any
   flutter_test:
