@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:fllama/fllama_universal.dart';
 import 'package:fllama/misc/openai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' as root_bundle;
+import 'dart:convert';
+
+import 'package:lista_de_la_compra/UI/AI/ai_chat.dart';
 
 class AiHome extends StatelessWidget {
   const AiHome({super.key});
@@ -10,55 +14,55 @@ class AiHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: Text("AI")),
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: Text("AI welcome")),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-          future: (() async {
-            try {
+        child: Column(
+          children: [
+            Text("Did you know AI is a thing? Any turing complete silicon chunk can talk lately?"),
+            FutureBuilder(
+              future: () async {
+                final jsondata = await root_bundle.rootBundle.loadString("assets/ai_model_cataloge.json");
+                final list = json.decode(jsondata) as List<dynamic>;
+                return list
+                    .map(
+                      (e) => ListTile(
+                        title: Text(e["name"]!),
+                        subtitle: Text(e["notes"]!),
 
-              Completer c = Completer();
-              final request = OpenAiRequest(
-                maxTokens: 256,
-                messages: [Message(Role.system, 'You are a chatbot.'), Message(Role.user, "4+4=?")],
-                numGpuLayers: 99,
-                /* this seems to have no adverse effects in environments w/o GPU support, ex. Android and web */
-                modelPath: "/home/jaime/Desktop/projects/2025/lista_de_la_compra/src/flutterfiles/assets/ai/Qwen3-0.6B-Q8_0.gguf",
-                // mmprojPath: _mmprojPath,
-                frequencyPenalty: 0.0,
-                // Don't use below 1.1, LLMs without a repeat penalty
-                // will repeat the same token.
-                presencePenalty: 1.1,
-                topP: 1.0,
-                // Proportional to RAM use.
-                // 4096 is a good default.
-                // 2048 should be considered on devices with low RAM (<8 GB)
-                // 8192 and higher can be considered on device with high RAM (>16 GB)
-                // Models are trained on <= a certain context size. Exceeding that # can/will lead to completely incoherent output.
-                contextSize: 2048,
-                // Don't use 0.0, some models will repeat the same token.
-                temperature: 0.1,
-                logger: (log) {
-                  // ignore: avoid_print
-                  print('[llama.cpp] $log');
-                },
-              );
-              fllamaChat(request, (response,r, done) {
-                c.complete(response);
-              });
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
 
-              return await c.future;
-            } catch (e) {
-              print(e);
-            }
-          })(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Text("Loading...");
-            }
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                              },
+                              icon: Icon(Icons.info),
+                            ),
+                            IconButton(onPressed: () {}, icon: Icon(Icons.download)),
+                            IconButton(onPressed: () {
+                                Navigator.push(context,MaterialPageRoute(builder: (context) => AiChat(e["id"])));
 
-            return Text(snapshot.data!);
-          },
+
+                            }, icon: Icon(Icons.play_arrow)),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList();
+              }(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Text("Loading catalog from offline asset");
+                }
+
+                return ListView(
+                  shrinkWrap: true,
+                  children: ListTile.divideTiles(context: context, tiles: snapshot.data!).toList(),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

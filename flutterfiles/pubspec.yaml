@@ -84,3 +84,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+
+  assets:
+    - assets/ai_model_cataloge.json
