@@ -35,7 +35,7 @@ dependencies:
   provider: 6.1.5
 
   lista_de_la_compra_backend:
-    path: ./packages/lista_de_la_compra_backend
+    path: ../packages/lista_de_la_compra_backend
   flutter_show_when_locked: 1.0.0
   flutter_localizations:
     sdk: flutter
@@ -67,6 +67,7 @@ dependencies:
     git:
       url: https://github.com/Telosnex/fllama.git
       ref: main
+  web_socket_channel: ^3.0.3
 dev_dependencies:
   test: any
   flutter_test:

@@ -5,7 +5,10 @@ import 'package:fllama/misc/openai.dart';
 import 'package:flutter/material.dart';
 
 class AiChat extends StatelessWidget {
-  const AiChat({super.key});
+
+  final String chatId;
+
+  const AiChat(this.chatId, {super.key});
 
   @override
   Widget build(BuildContext context) {
