@@ -61,13 +61,15 @@ dependencies:
   path: ^1.8.0
   riverpod: ^3.0.0-dev
   stack_trace: ^1.11.1
-
+  url_launcher: 6.3.2
+  
   # AI
   fllama:
     git:
       url: https://github.com/Telosnex/fllama.git
       ref: main
   web_socket_channel: ^3.0.3
+  chat_bubbles: ^1.9.0
 dev_dependencies:
   test: any
   flutter_test:

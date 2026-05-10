@@ -1,47 +1,45 @@
 [
     {
-        "id":"phi_1_5",
-        "name": "Phi-1.5 Instruct",
-        "download_url": "https://huggingface.co/microsoft/phi-1_5",
-        "size_gb": "0.8",
-        "opensource": true,
-        "license": "MIT",
-        "notes": "Very strong for its size; especially good at coding logic, math reasoning, and structured answers. Feels more capable than typical 1B models in reasoning tasks."
+        "id": "Quen3.5-2B.Q3_K_M",
+        "name": "Qwen 3.5 2B Q3 K M",
+        "download_url": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF/resolve/main/Qwen3.5-2B.Q3_K_M.gguf?download=true",
+        "size_gb": "1.1",
+        "notes": "",
+        "info_link": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
     },
     {
-        "id": "Qwen_1_5",
-        "name": "Qwen 1.5 0.5B Instruct",
-        "download_url": "https://huggingface.co/Qwen/Qwen1.5-0.5B-Instruct",
+        "id": "Quen3.5-2B.Q3_K",
+        "name": "Qwen 3.5 2B Q3 K",
+        "download_url": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF/resolve/main/Qwen3.5-2B.Q2_K.gguf?download=true",
         "size_gb": "0.9",
-        "opensource": false,
-        "license": "Qwen research license",
-        "notes": "Best general-purpose sub-1B model. Good instruction following and decent reasoning, but weaker deep logic compared to Phi-1.5 or larger models."
+        "notes": "",
+        "info_link": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
     },
     {
-        "id": "Qwen_2",
-        "name": "Qwen 2 0.5B Instruct",
-        "download_url": "https://huggingface.co/Qwen/Qwen2-0.5B-Instruct",
-        "size_gb": "0.9",
-        "opensource": true,
-        "license": "Apache 2.0",
-        "notes": "Improved instruction following over Qwen 1.5. More consistent answers, better formatting, and slightly better reasoning stability."
+        "id": "Quen3.5-2B.Q8",
+        "name": "Quen 3.5 2B Q8",
+        "download_url": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF/resolve/main/Qwen3.5-2B.Q8_0.gguf?download=true",
+        "size_gb": "2",
+        "notes": "",
+        "info_link": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
     },
     {
-        "id": "SmolLM_360M",
-        "name": "SmolLM 360M Instruct",
-        "download_url": "https://huggingface.co/HuggingFaceTB/SmolLM-360M-Instruct",
-        "size_gb": "0.7",
-        "opensource": true,
-        "license": "Apache 2.0",
-        "notes": "Lightweight and fast. Handles simple prompts well but struggles with multi-step reasoning or complex tasks."
+        "id": "Quen3-0.6B",
+        "name": "Qwen 3 0.6B",
+        "download_url": "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf?download=true",
+        "size_gb": "0.6",
+        "notes": "",
+        "info_link": "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF"
     },
+
     {
-        "id": "SmolLM_250M",
-        "name": "SmolLM 135M Instruct",
-        "download_url": "https://huggingface.co/HuggingFaceTB/SmolLM-135M-Instruct",
-        "size_gb": "0.3",
-        "opensource": true,
-        "license": "Apache 2.0",
-        "notes": "Very small experimental model. Suitable only for basic text generation or testing pipelines, not real assistant use."
+        "id": "ruvltra-claude-code-0.5b-q4_k_m",
+        "name": "Ruvltra Claude Code 0.5B Q4 K M",
+        "download_url":"https://huggingface.co/ruv/ruvltra-claude-code/resolve/main/ruvltra-claude-code-0.5b-q4_k_m.gguf?download=true",
+        "size_gb": "0.4",
+        "notes": "",
+        "info_link":"https://huggingface.co/ruv/ruvltra-claude-code/tree/main"
     }
+
+   
 ]
