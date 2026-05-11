@@ -1,45 +1,209 @@
 [
     {
-        "id": "Quen3.5-2B.Q3_K_M",
-        "name": "Qwen 3.5 2B Q3 K M",
-        "download_url": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF/resolve/main/Qwen3.5-2B.Q3_K_M.gguf?download=true",
-        "size_gb": "1.1",
-        "notes": "",
-        "info_link": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
+        "rank": 1,
+        "name": "Qwen3.5 4B",
+        "id": "qwen3.5-4b",
+        "model_download_url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF",
+        "size_gb": 3.4,
+        "notes": "Best overall tool calling model under 10GB. Scored 97.5% in J.D. Hodges 40-case real-world eval (LM Studio). Only 1 failure across all test cases. Excels at parallel tool calls but occasionally fires sequential calls in parallel. Hermes/Qwen format with native llama.cpp support. 48 tok/s."
     },
     {
-        "id": "Quen3.5-2B.Q3_K",
-        "name": "Qwen 3.5 2B Q3 K",
-        "download_url": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF/resolve/main/Qwen3.5-2B.Q2_K.gguf?download=true",
-        "size_gb": "0.9",
-        "notes": "",
-        "info_link": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
+        "rank": 2,
+        "name": "Nemotron Nano 4B",
+        "id": "nemotron-nano-4b",
+        "model_download_url": "https://huggingface.co/bartowski/nvidia_Llama-3.1-Nemotron-Nano-4B-v1.1-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/nvidia_Llama-3.1-Nemotron-Nano-4B-v1.1-GGUF",
+        "size_gb": 4.2,
+        "notes": "95% in J.D. Hodges eval. Best at sequential multi-turn reasoning — correctly waits for results before making next call. Weakness: sometimes only calls one tool when asked for parallel same-tool calls. Llama 3.x format. Reliable fallback if Qwen3.5 doesn't work with your setup."
     },
     {
-        "id": "Quen3.5-2B.Q8",
-        "name": "Quen 3.5 2B Q8",
-        "download_url": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF/resolve/main/Qwen3.5-2B.Q8_0.gguf?download=true",
-        "size_gb": "2",
-        "notes": "",
-        "info_link": "https://huggingface.co/Jackrong/Qwen3.5-2B-Claude-4.6-Opus-Reasoning-Distilled-GGUF"
+        "rank": 3,
+        "name": "Mistral Nemo 12B",
+        "id": "mistral-nemo-12b",
+        "model_download_url": "https://huggingface.co/bartowski/Mistral-Nemo-Instruct-2407-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/Mistral-Nemo-Instruct-2407-GGUF",
+        "size_gb": 7.5,
+        "notes": "92.5% in J.D. Hodges eval, 67% NexusRaven (complex API understanding). Best multi-turn sequential model — correctly identifies when to wait for results. Weakness: paraphrases arguments and sometimes over-helps. Low BFCL (49%) is due to Ollama template issues, not model quality. Mistral Nemo format."
     },
     {
-        "id": "Quen3-0.6B",
-        "name": "Qwen 3 0.6B",
-        "download_url": "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf?download=true",
-        "size_gb": "0.6",
-        "notes": "",
-        "info_link": "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF"
+        "rank": 4,
+        "name": "Qwen3.5 9B",
+        "id": "qwen3.5-9b",
+        "model_download_url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF",
+        "size_gb": 5.0,
+        "notes": "Best composite score across 3 benchmarks: 64% BFCL, 77% NexusRaven (best API understanding of all small models), 45% AgentBench (best multi-step agentic). Strongest at understanding complex API semantics. Hermes/Qwen format. Slightly slower than 4B variant."
     },
-
     {
-        "id": "ruvltra-claude-code-0.5b-q4_k_m",
-        "name": "Ruvltra Claude Code 0.5B Q4 K M",
-        "download_url":"https://huggingface.co/ruv/ruvltra-claude-code/resolve/main/ruvltra-claude-code-0.5b-q4_k_m.gguf?download=true",
-        "size_gb": "0.4",
-        "notes": "",
-        "info_link":"https://huggingface.co/ruv/ruvltra-claude-code/tree/main"
+        "rank": 5,
+        "name": "Qwen3 8B",
+        "id": "qwen3-8b",
+        "model_download_url": "https://huggingface.co/bartowski/Qwen_Qwen3-8B-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/Qwen_Qwen3-8B-GGUF",
+        "size_gb": 5.0,
+        "notes": "85% in J.D. Hodges eval. Solid single-tool performance but weak at multi-tool parallel calls (2/8). Good for simple single-function workflows. Hermes/Qwen format. Predecessor to Qwen3.5 — use 3.5 if available."
+    },
+    {
+        "rank": 6,
+        "name": "Gemma 4 E4B",
+        "id": "gemma-4-e4b",
+        "model_download_url": "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF",
+        "model_info_url": "https://huggingface.co/unsloth/gemma-4-E4B-it-GGUF",
+        "size_gb": 5.0,
+        "notes": "65% BFCL (good format compliance), 60% NexusRaven. Uses unique Gemma 4 non-JSON tool call syntax. Multimodal (text+image). Strong parallel calling (78% BFCL parallel). Weakness: lower on simple single-tool calls. Requires Gemma 4 format handler in llama.cpp."
+    },
+    {
+        "rank": 7,
+        "name": "Qwen2.5 7B Instruct",
+        "id": "qwen2.5-7b-instruct",
+        "model_download_url": "https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF",
+        "size_gb": 4.7,
+        "notes": "63% BFCL, 71% NexusRaven, 35% AgentBench. Strong API understanding. Well-tested and stable with excellent llama.cpp compatibility. Hermes/Qwen format. Good all-rounder if you want proven stability over newer models."
+    },
+    {
+        "rank": 8,
+        "name": "Qwen2.5 Coder 7B Instruct",
+        "id": "qwen2.5-coder-7b",
+        "model_download_url": "https://huggingface.co/bartowski/Qwen2.5-Coder-7B-Instruct-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/Qwen2.5-Coder-7B-Instruct-GGUF",
+        "size_gb": 5.0,
+        "notes": "Code-specialized variant of Qwen2.5. Excels at code-related tool calls (interpreters, file operations, code generation tools). Hermes/Qwen format. Use this over base Qwen2.5-7B if your tools are code-focused."
+    },
+    {
+        "rank": 9,
+        "name": "Gemma 4 E2B",
+        "id": "gemma-4-e2b",
+        "model_download_url": "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF",
+        "model_info_url": "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF",
+        "size_gb": 3.0,
+        "notes": "62% BFCL at only 3GB — impressive for size. 70% parallel calling. Weakness: 48% NexusRaven shows limited complex API understanding. Good for simple, fixed-schema tool calling on constrained devices. Gemma 4 format."
+    },
+    {
+        "rank": 10,
+        "name": "Ministral 3 14B",
+        "id": "ministral-3-14b",
+        "model_download_url": "https://huggingface.co/bartowski/mistralai_Ministral-3-14B-Reasoning-2512-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/mistralai_Ministral-3-14B-Reasoning-2512-GGUF",
+        "size_gb": 8.5,
+        "notes": "Reasoning-first model that thinks before calling tools. Uses specialized Ministral format with [THINK]/[TOOL_CALLS]/[ARGS] tags. Good for complex decisions about when/whether to call tools. Larger size for the tier but adds reasoning capability."
+    },
+    {
+        "rank": 11,
+        "name": "Bonsai 8B (1-bit)",
+        "id": "bonsai-8b-1bit",
+        "model_download_url": "https://huggingface.co/prism-ml/Bonsai-8B-gguf",
+        "model_info_url": "https://huggingface.co/prism-ml/Bonsai-8B-gguf",
+        "size_gb": 1.15,
+        "notes": "73% BFCL — highest format compliance of all models tested, at only 1.15GB. Quantization-aware trained at 1-bit. Weakness: 44% NexusRaven shows poor complex API understanding. Best for fixed schemas where format matters more than reasoning. Requires PrismML llama.cpp fork."
+    },
+    {
+        "rank": 12,
+        "name": "Nemotron Nano 9B v2",
+        "id": "nemotron-nano-9b-v2",
+        "model_download_url": "https://huggingface.co/bartowski/nvidia_NVIDIA-Nemotron-Nano-9B-v2-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/nvidia_NVIDIA-Nemotron-Nano-9B-v2-GGUF",
+        "size_gb": 5.5,
+        "notes": "Updated v2 of Nemotron Nano line. Improved over v1 with better reasoning. Llama 3.x format. Larger than the 4B but may offer better complex reasoning. Less independently benchmarked than the 4B variant."
+    },
+    {
+        "rank": 14,
+        "name": "Llama 3.1 8B Instruct",
+        "id": "llama-3.1-8b-instruct",
+        "model_download_url": "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF",
+        "size_gb": 4.7,
+        "notes": "51% BFCL, 67% NexusRaven, 30% AgentBench. Decent API understanding but weak format compliance. Native Llama 3.x tool format. Well-supported everywhere but outclassed by Qwen and Nemotron at similar sizes."
+    },
+    {
+        "rank": 15,
+        "name": "Arch-Agent 7B",
+        "id": "arch-agent-7b",
+        "model_download_url": "https://huggingface.co/katanemo/Arch-Agent-7B.gguf",
+        "model_info_url": "https://huggingface.co/katanemo/Arch-Agent-7B.gguf",
+        "size_gb": 4.9,
+        "notes": "Purpose-built for multi-step agentic workflows with intelligent tool selection and adaptive planning. Designed by Katanemo for complex multi-turn tasks. Less benchmarked independently but architecturally optimized for agent use."
+    },
+    {
+        "rank": 16,
+        "name": "Command R7B",
+        "id": "command-r7b",
+        "model_download_url": "https://huggingface.co/bartowski/c4ai-command-r7b-12-2024-GGUF",
+        "model_info_url": "https://huggingface.co/bartowski/c4ai-command-r7b-12-2024-GGUF",
+        "size_gb": 4.5,
+        "notes": "Cohere model with reasoning extraction. Uses TAG_WITH_TAGGED format. Good at explaining its tool call decisions. Requires tool_use template override. Less competitive on raw accuracy vs Qwen/Nemotron but adds interpretability."
+    },
+    {
+        "rank": 17,
+        "name": "Bonsai 4B (1-bit)",
+        "id": "bonsai-4b-1bit",
+        "model_download_url": "https://huggingface.co/prism-ml/Bonsai-4B-gguf",
+        "model_info_url": "https://huggingface.co/prism-ml/Bonsai-4B-gguf",
+        "size_gb": 0.57,
+        "notes": "55% BFCL, 44% NexusRaven at only 570MB. Strong parallel calling (74%). Incredible size-to-capability ratio for edge/mobile. Requires PrismML llama.cpp fork. Best for extremely constrained environments with simple fixed schemas."
+    },
+    {
+        "rank": 18,
+        "name": "Bonsai 1.7B (1-bit)",
+        "id": "bonsai-1.7b-1bit",
+        "model_download_url": "https://huggingface.co/prism-ml/Bonsai-1.7B-gguf",
+        "model_info_url": "https://huggingface.co/prism-ml/Bonsai-1.7B-gguf",
+        "size_gb": 0.25,
+        "notes": "55% BFCL, 54% NexusRaven at 250MB. Runs on a phone. 0.4s per query. Surprisingly competitive NexusRaven score. Requires PrismML llama.cpp fork. Best for on-device/IoT with simple tool schemas."
+    },
+    {
+        "rank": 19,
+        "name": "LFM2.5 1.2B Nova Function Calling",
+        "id": "lfm2.5-1.2b-nova-fc",
+        "model_download_url": "https://huggingface.co/NovachronoAI/LFM2.5-1.2B-Nova-Function-Calling-GGUF",
+        "model_info_url": "https://huggingface.co/NovachronoAI/LFM2.5-1.2B-Nova-Function-Calling-GGUF",
+        "size_gb": 0.8,
+        "notes": "Liquid Neural Network fine-tuned for function calling. Claims to rival 7B models on specific narrow tasks. Uses LFM2.5 Python-style format. Very small but limited to narrow use cases. Less independently validated."
+    },
+    {
+        "rank": 20,
+        "name": "Mistral 7B v0.3 Instruct",
+        "id": "mistral-7b-v0.3-instruct",
+        "model_download_url": "https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF",
+        "model_info_url": "https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3",
+        "size_gb": 4.5,
+        "notes": "Older Mistral model with Mistral Nemo format support. Decent baseline but outclassed by Nemo 12B and Qwen models. Use Mistral Nemo 12B instead if you have the RAM."
+    },
+    {
+        "rank": 21,
+        "name": "Llama 3.2 3B Instruct",
+        "id": "llama-3.2-3b-instruct",
+        "model_download_url": "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF",
+        "model_info_url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct", 
+        "size_gb": 2.0,
+        "notes": "Basic tool calling capability. Llama 3.x format. Good for edge devices where you need Meta's ecosystem. Significantly outperformed by Qwen3.5 4B at similar size."
+    },
+    {
+        "rank": 22,
+        "name": "IBM Granite 3.3 2B Instruct",
+        "id": "ibm-granite-3.3-2b",
+        "model_download_url": "https://huggingface.co/bartowski/ibm-granite_granite-3.3-2B-instruct-GGUF",
+        "model_info_url": "https://huggingface.co/ibm-granite/granite-3.3-2b-instruct",
+        "size_gb": 1.5,
+        "notes": "Enterprise-focused model from IBM. Autoparser format. Designed for enterprise tool calling with safety guardrails. Small but limited capability compared to Qwen/Gemma at similar sizes."
+    },
+    {
+        "rank": 23,
+        "name": "Qwen2.5 1.5B Instruct",
+        "id": "qwen2.5-1.5b-instruct",
+        "model_download_url": "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf?download=true",
+        "model_info_url": "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF",
+        "size_gb": 1.0,
+        "notes": "Minimal Hermes/Qwen format model. Basic tool calling for very constrained environments. Significantly weaker than 7B+ variants. Use Bonsai models instead for sub-2GB if format compliance is the goal."
+    },
+    {
+        "rank": 24,
+        "name": "Llama 3.2 1B Instruct",
+        "id": "llama-3.2-1b-instruct",
+        "model_download_url": "https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-IQ3_M.gguf?download=true",
+        "model_info_url": "https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF",
+        "size_gb": 0.7,
+        "notes": "Smallest Llama with tool calling support. Llama 3.x format. Very basic capability — research shows sub-1B models achieve ~35% accuracy on agentic tasks. Only for the most constrained edge scenarios."
     }
-
-   
 ]
