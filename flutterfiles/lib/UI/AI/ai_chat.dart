@@ -54,7 +54,7 @@ class AiChatState extends State<AiChat> {
       // 2048 should be considered on devices with low RAM (<8 GB)
       // 8192 and higher can be considered on device with high RAM (>16 GB)
       // Models are trained on <= a certain context size. Exceeding that # can/will lead to completely incoherent output.
-      contextSize: 1024,
+      contextSize: 2048,
       // Don't use 0.0, some models will repeat the same token.
       temperature: 0.1,
       logger: (log) {

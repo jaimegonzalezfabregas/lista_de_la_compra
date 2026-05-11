@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:background_downloader/background_downloader.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as root_bundle;
 import 'dart:convert';
@@ -9,16 +11,16 @@ import 'package:lista_de_la_compra/UI/AI/ai_chat.dart';
 import 'dart:io' as io;
 
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AiMetadata {
   late final String name;
   late final String notes;
   late final String id;
-  late final Uri modelDownloadUrl;
+  late final String modelDownloadUrl;
   late final double sizeGb;
   late final Uri modelInfoUrl;
-  late bool downloaded;
 
   late StreamController<dynamic> stateStream;
 
@@ -26,68 +28,72 @@ class AiMetadata {
     name = seed["name"];
     notes = seed["notes"];
     id = seed["id"];
-    modelDownloadUrl = Uri.parse(seed["model_download_url"]);
+    modelDownloadUrl = seed["model_download_url"];
     sizeGb = seed["size_gb"];
     modelInfoUrl = Uri.parse(seed["model_info_url"]);
-    downloaded = io.File("./$id.gguf").existsSync();
 
     stateStream = StreamController();
 
-    stateStream.add(downloaded);
+    downloaded().then((e) => stateStream.add(e));
   }
 
-  http.StreamedResponse? _response;
-  int _total = 0, _received = 0;
-  List<int> _bytes = [];
+  Future<bool> downloaded() async {
+    final fileDir = (await getApplicationDocumentsDirectory()).path;
+
+    return io.File("$fileDir/$id.gguf").existsSync();
+  }
 
   void download() async {
-    try {
-      if (downloaded || _response != null) {
-        throw "This model is already downloaded";
-      }
+    final fileDir = (await getApplicationDocumentsDirectory()).path;
 
-      stateStream.add("Starting download");
+    final task = DownloadTask(
+      url: modelDownloadUrl,
+      filename: '.tmp_$id.gguf',
+      directory: fileDir,
+      updates: Updates.statusAndProgress, // request status and progress updates
+      retries: 5,
+      allowPause: true,
+    );
 
-      _response = await http.Client().send(http.Request('GET', modelDownloadUrl));
-      _total = _response?.contentLength ?? 0;
-
-      _response?.stream
-          .listen((value) {
-            _bytes.addAll(value);
-            double lastProgress = _received / _total;
-            _received += value.length;
-            double currentProgress = _received / _total;
-            if (lastProgress % 0.01 != currentProgress % 0.01) {
-              stateStream.add(_received / _total);
-            }
-          })
-          .onDone(() async {
-            final file = io.File('./$id.gguf');
-            await file.writeAsBytes(_bytes);
-            downloaded = true;
-            stateStream.add(downloaded);
-          });
-    } catch (e) {
-      stateStream.add(e.toString());
-    }
+    FileDownloader().download(
+      task,
+      onProgress: (progress) => stateStream.add(progress),
+      onStatus: (status) async {
+        switch (status) {
+          case TaskStatus.enqueued:
+          case TaskStatus.running:
+            break;
+          case TaskStatus.notFound:
+          case TaskStatus.failed:
+          case TaskStatus.canceled:
+            stateStream.add(false);
+            break;
+          case TaskStatus.waitingToRetry:
+            stateStream.add("retrying shortly...");
+            break;
+          case TaskStatus.paused:
+            stateStream.add("download paused");
+            break;
+          case TaskStatus.complete:
+            io.File('$fileDir/.tmp_$id.gguf').rename('$fileDir/$id.gguf');
+            stateStream.add(await downloaded());
+        }
+      },
+    );
   }
 
   void delete() async {
-    final file = io.File('./$id.gguf');
+    final fileDir = (await getApplicationDocumentsDirectory()).path;
+
+    final file = io.File('$fileDir/$id.gguf');
 
     if (!file.existsSync()) {
       throw "This model is not donwloaded";
     }
 
     await file.delete();
-    _response = null;
-    _received = 0;
-    _total = 0;
-    _bytes = [];
 
-    downloaded = false;
-
-    stateStream.add(downloaded);
+    stateStream.add(await downloaded());
   }
 }
 
@@ -103,7 +109,7 @@ class AiHome extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text("Did you know AI is a thing? Any turing complete silicon chunk can talk lately?"),
+              Text("Did you know AI is a thing? Any turing complete silicon chunk can talk lately? The download times are long, but you can exit the app :). If you exit this page and come back the download handler will get lost, but the download continues in the background"),
               FutureBuilder(
                 future: () async {
                   try {
@@ -111,11 +117,11 @@ class AiHome extends StatelessWidget {
                     final list = json.decode(jsondata) as List<dynamic>;
                     return list.map((e) {
                       AiMetadata meta = AiMetadata(e);
-          
+
                       return ListTile(
                         title: Text(meta.name),
                         subtitle: Text(meta.notes),
-          
+
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -125,7 +131,7 @@ class AiHome extends StatelessWidget {
                                 if (!snapshot.hasData) {
                                   return Text("...");
                                 }
-          
+
                                 if (snapshot.data == true) {
                                   return Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -136,7 +142,7 @@ class AiHome extends StatelessWidget {
                                         },
                                         icon: Icon(Icons.play_arrow),
                                       ),
-          
+
                                       IconButton(
                                         icon: Icon(Icons.delete),
                                         onPressed: () {
@@ -169,11 +175,11 @@ class AiHome extends StatelessWidget {
                                     ],
                                   );
                                 }
-          
+
                                 if (snapshot.data == false || snapshot.data is String) {
                                   return Row(
                                     mainAxisSize: MainAxisSize.min,
-          
+
                                     children: [
                                       snapshot.data is String ? Text(snapshot.data) : Text("~ ${meta.sizeGb} GB"),
                                       IconButton(
@@ -185,7 +191,7 @@ class AiHome extends StatelessWidget {
                                     ],
                                   );
                                 }
-          
+
                                 if (snapshot.data is double) {
                                   return Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -196,9 +202,9 @@ class AiHome extends StatelessWidget {
                                     ],
                                   );
                                 }
-          
+
                                 print(snapshot);
-          
+
                                 return Text("? ${snapshot}");
                               },
                             ),
@@ -220,7 +226,7 @@ class AiHome extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Text("Loading catalog from offline asset");
                   }
-          
+
                   return ListView(
                     shrinkWrap: true,
                     children: ListTile.divideTiles(context: context, tiles: snapshot.data!).toList(),
