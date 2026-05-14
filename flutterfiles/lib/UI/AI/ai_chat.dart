@@ -7,6 +7,7 @@ import 'package:fllama/misc/openai.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/AI/MessageBuble.dart';
 import 'package:lista_de_la_compra/UI/AI/ai_tools.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AiChat extends StatefulWidget {
   final String chatId;
@@ -19,13 +20,13 @@ class AiChat extends StatefulWidget {
   }
 }
 
-
 class AiChatState extends State<AiChat> {
   List<String> pendingMessages = [];
-  List<Message> conversationState = [Message(Role.system, getContext())];
+  // List<Message> conversationState = [Message(Role.system, getContext())];
+  List<Message> conversationState = [Message(Role.system, "you are an chat agent")];
   Widget? currentMessage;
 
-  void aiTurn() {
+  void aiTurn() async {
     if (pendingMessages.isEmpty) {
       return;
     }
@@ -36,13 +37,14 @@ class AiChatState extends State<AiChat> {
     conversationState.add(Message(Role.user, userMessage));
 
     StreamController<String> streamController = StreamController();
+    final fileDir = (await getApplicationDocumentsDirectory()).path;
 
     final request = OpenAiRequest(
       maxTokens: 256,
       messages: conversationState,
       numGpuLayers: 99,
       /* this seems to have no adverse effects in environments w/o GPU support, ex. Android and web */
-      modelPath: "./${widget.chatId}.gguf",
+      modelPath: "$fileDir/ai_models/${widget.chatId}.gguf",
       // mmprojPath: _mmprojPath,
       frequencyPenalty: 0.0,
       // Don't use below 1.1, LLMs without a repeat penalty
@@ -54,12 +56,12 @@ class AiChatState extends State<AiChat> {
       // 2048 should be considered on devices with low RAM (<8 GB)
       // 8192 and higher can be considered on device with high RAM (>16 GB)
       // Models are trained on <= a certain context size. Exceeding that # can/will lead to completely incoherent output.
-      contextSize: 2048,
+      contextSize: 8192,
       // Don't use 0.0, some models will repeat the same token.
       temperature: 0.1,
       logger: (log) {
         // ignore: avoid_print
-        // print('[llama.cpp] $log');
+        print('[llama.cpp] $log');
       },
       toolChoice: ToolChoice.auto,
       tools: getTools(),
@@ -68,6 +70,7 @@ class AiChatState extends State<AiChat> {
     String lastResponse = "";
 
     fllamaChat(request, (response, r, done) {
+      print("$response $r $done");
       if (done) {
         setState(() {
           conversationState.add(Message(Role.assistant, lastResponse));

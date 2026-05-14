@@ -46,5 +46,14 @@
         "model_info_url": "https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF",
         "size_gb": 5.0,
         "notes": "Best composite score across 3 benchmarks: 64% BFCL, 77% NexusRaven (best API understanding of all small models), 45% AgentBench (best multi-step agentic). Strongest at understanding complex API semantics. Hermes/Qwen format. Slightly slower than 4B variant."
+    },
+    {
+        "name": "Tiny Agent a 0.5B K M",
+        "id": "Tiny-Agent-a-0.5B",
+        "model_download_url":"https://huggingface.co/driaforall/Tiny-Agent-a-0.5B/resolve/main/dria-agent-a-0.5b.Q4_K_M.gguf?download=true",
+        "model_info_url": "https://huggingface.co/driaforall/Tiny-Agent-a-0.5B",
+        "size_gb": 0.5,
+        "notes":"Tiny-Agent-α is an extension of Dria-Agent-a, trained on top of the Qwen2.5-Coder series to be used in edge devices. These models are carefully fine tuned with quantization aware training to minimize performance degradation after quantization."
+
     }
 ]
