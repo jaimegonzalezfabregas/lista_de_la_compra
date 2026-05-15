@@ -55,5 +55,109 @@
         "size_gb": 0.5,
         "notes":"Tiny-Agent-α is an extension of Dria-Agent-a, trained on top of the Qwen2.5-Coder series to be used in edge devices. These models are carefully fine tuned with quantization aware training to minimize performance degradation after quantization."
 
+    },
+    {
+        "name": "Qwen 3 0.6B Q2 K",
+        "id": "Qwen3-0.6B-Q2_K",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q2_K.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.347,
+        "notes": "Very low quality, smallest and fastest option. Suitable for highly constrained devices."
+    },
+    {
+        "name": "Qwen 3 0.6B Q3 K S",
+        "id": "Qwen3-0.6B-Q3_K_S",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_S.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.390,
+        "notes": "Low quality, compact quantization for minimal RAM usage."
+    },
+    {
+        "name": "Qwen 3 0.6B Q3 K M",
+        "id": "Qwen3-0.6B-Q3_K_M",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_M.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.406,
+        "notes": "Balanced low-memory option with slightly better quality than Q3_K_S."
+    },
+    {
+        "name": "Qwen 3 0.6B Q3 K L",
+        "id": "Qwen3-0.6B-Q3_K_L",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_L.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.435,
+        "notes": "Largest Q3 quantization, better quality while still lightweight."
+    },
+    {
+        "name": "Qwen 3 0.6B Q4 0",
+        "id": "Qwen3-0.6B-Q4_0",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_0.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.469,
+        "notes": "Classic Q4 quantization, good general-purpose option."
+    },
+    {
+        "name": "Qwen 3 0.6B Q4 K S",
+        "id": "Qwen3-0.6B-Q4_K_S",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_S.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.472,
+        "notes": "Good quality, efficient K-quant variant."
+    },
+    {
+        "name": "Qwen 3 0.6B Q4 K M",
+        "id": "Qwen3-0.6B-Q4_K_M",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_M.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.484,
+        "notes": "Recommended default. Best balance of quality, speed, and memory usage."
+    },
+    {
+        "name": "Qwen 3 0.6B Q5 0",
+        "id": "Qwen3-0.6B-Q5_0",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_0.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.544,
+        "notes": "Higher quality than Q4 variants, moderate memory increase."
+    },
+    {
+        "name": "Qwen 3 0.6B Q5 K S",
+        "id": "Qwen3-0.6B-Q5_K_S",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_K_S.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.547,
+        "notes": "Efficient high-quality K-quant."
+    },
+    {
+        "name": "Qwen 3 0.6B Q5 K M",
+        "id": "Qwen3-0.6B-Q5_K_M",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_K_M.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.551,
+        "notes": "High-quality quantization, recommended if RAM allows."
+    },
+    {
+        "name": "Qwen 3 0.6B Q6 K",
+        "id": "Qwen3-0.6B-Q6_K",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q6_K.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.623,
+        "notes": "Very high quality quantized model, close to full precision."
+    },
+    {
+        "name": "Qwen 3 0.6B Q8 0",
+        "id": "Qwen3-0.6B-Q8_0",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 0.805,
+        "notes": "Near-lossless quantization, excellent quality."
+    },
+    {
+        "name": "Qwen 3 0.6B F16",
+        "id": "Qwen3-0.6B-F16",
+        "model_download_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-f16.gguf?download=true",
+        "model_info_url": "https://huggingface.co/gaianet/Qwen3-0.6B-GGUF",
+        "size_gb": 1.51,
+        "notes": "Full FP16 weights. Maximum quality, highest memory usage."
     }
 ]

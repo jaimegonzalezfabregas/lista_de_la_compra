@@ -1,5 +1,6 @@
 import 'package:fllama/fllama.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
 
 String getContext() {
   return """You are an **agentic personal meal planner**. Your objective is to manipulate the user's meal plan exactly as the user requests.
@@ -368,4 +369,61 @@ List<Tool> getTools() {
 ''',
     ),
   ];
+}
+
+String? extractLastJson(String input) {
+    int endObject = input.lastIndexOf('}');
+    int endArray = input.lastIndexOf(']');
+
+    int end = endObject > endArray ? endObject : endArray;
+
+    if (end == -1) return null;
+
+    int braceCount = 0;
+    int bracketCount = 0;
+
+    for (int i = end; i >= 0; i--) {
+      var char = input[i];
+
+      if (char == '}') braceCount++;
+      if (char == '{') braceCount--;
+
+      if (char == ']') bracketCount++;
+      if (char == '[') bracketCount--;
+
+      // When balanced, we found the start
+      if (braceCount == 0 && bracketCount == 0) {
+        return input.substring(i, end + 1);
+      }
+    }
+
+    return null;
+  
+}
+
+String invokeTool(String toolCall) {
+  if (toolCall == "") {
+    return "";
+  }
+
+  print("tool call [$toolCall]");
+
+  dynamic parsedToolCall = jsonDecode(toolCall);
+
+  switch (parsedToolCall["name"]) {
+    case ("GetPlanning"):
+      return getPlanning(parsedToolCall["arguments"]["days"]);
+    case ("GetIngredientCatalog"):
+      return getIngredientCatalog();
+  }
+
+  return "The called tool is not enabled";
+}
+
+String getPlanning(int days) {
+  return "chicken breast all the $days days";
+}
+
+String getIngredientCatalog() {
+  return "no ingredients";
 }

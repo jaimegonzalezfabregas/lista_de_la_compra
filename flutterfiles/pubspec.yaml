@@ -63,7 +63,6 @@ dependencies:
   stack_trace: ^1.11.1
   url_launcher: 6.3.2
   background_downloader: ^9.5.4
-  
   # AI
   fllama:
     git:
