@@ -39,7 +39,7 @@ class ExporControls extends StatelessWidget {
       children: [
         OutlinedButton(
           onPressed: () async {
-            FilePicker.platform.saveFile(
+            FilePicker.saveFile(
               dialogTitle: appLoc.saveFileToYourDesiredLocation,
               fileName: await fileName,
               bytes: utf8.encode(jsonEncode(await serialized)),

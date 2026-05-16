@@ -229,7 +229,7 @@ class EnvSelect extends StatelessWidget {
     AisleProvider aisleProvider,
     ProductAisleProvider productAisleProvider,
   ) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(withData: true);
+    FilePickerResult? result = await FilePicker.pickFiles(withData: true);
 
     if (result != null) {
       PlatformFile file = result.files.first;

@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:fllama/fllama.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 
-class FllamaInferer extends Inferencer {
+class FllamaInferrer extends Inferrer {
   final String modelPath;
   bool running = false;
   bool abortFlag = false;
 
-  FllamaInferer(this.modelPath, super.tools);
+  FllamaInferrer(this.modelPath, super.tools);
 
   @override
-  Stream<InferenceEvent> inferResponse(List<Message> conversation) {
+  Stream<InferenceEvent> inferResponse(List<Jmessage> conversation) {
     final request = OpenAiRequest(
-      maxTokens: 256,
-      messages: conversation,
+      maxTokens: 3333,
+      messages: conversation.map((e) => e.intoFllamaMessage()).toList(),
       numGpuLayers: 99,
       /* this seems to have no adverse effects in environments w/o GPU support, ex. Android and web */
       modelPath: modelPath,
@@ -52,13 +52,13 @@ class FllamaInferer extends Inferencer {
         localAbort = true;
         running = false;
         abortFlag = false;
-        streamController.addError(InferenceAborted());
+        streamController.add(InferenceAborted());
         streamController.close();
       }
 
       if (done) {
         running = false;
-        conversation.add(Message(Role.assistant, lastResponse));
+        conversation.add(Jmessage(Jrole.assistant, lastResponse));
 
         streamController.add(InferenceEnd(conversation));
 

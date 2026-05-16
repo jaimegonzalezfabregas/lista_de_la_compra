@@ -1,20 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:fllama/fllama.dart';
-import 'package:fllama/fllama_universal.dart';
 import 'package:fllama/misc/openai.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 import 'package:lista_de_la_compra/UI/AI/message_buble.dart';
-import 'package:lista_de_la_compra/AI/ai_tools.dart';
-import 'package:path_provider/path_provider.dart';
 
 class AiChat extends StatefulWidget {
-  final Inferencer inferencer;
+  final Future<Inferrer> inferrer;
 
-  AiChat(this.inferencer);
+  const AiChat(this.inferrer, {super.key});
 
   @override
   State<AiChat> createState() {
@@ -22,19 +18,27 @@ class AiChat extends StatefulWidget {
   }
 }
 
-List<Message> conversationState = [Message(Role.system, "you are an chat agent")];
+List<Jmessage> conversationState = [Jmessage(Jrole.system, "you are an chat agent")];
 
 class AiChatState extends State<AiChat> {
   // List<Message> conversationState = [Message(Role.system, getContext())];
   Widget? liveResponse;
 
   void aiTurn() async {
-    Stream<InferenceEvent> inferenceStream = widget.inferencer.inferResponseToolReady(conversationState);
+    Stream<InferenceEvent> inferenceStream = (await widget.inferrer).inferResponseToolReady(conversationState);
+
+
+    setState(() {
+      liveResponse = Text("...");
+    });
 
     inferenceStream.listen((event) {
+      print("\n\n InferenceStream event $event \n\n");
+
       if (event is InferenceEnd) {
         setState(() {
           conversationState = event.conversation;
+          liveResponse = null;
         });
       }
 
@@ -68,13 +72,14 @@ class AiChatState extends State<AiChat> {
     }
 
     if (liveResponse != null) {
-      messageBubbles.add(MessageBubble(role: Role.assistant, message: liveResponse!));
+      messageBubbles.add(MessageBubble(role: Jrole.assistant, message: liveResponse!));
     }
 
     return PopScope(
-      onPopInvokedWithResult: (_, __) {
-        setState(() {
-          widget.inferencer.abort();
+      onPopInvokedWithResult: (_, _) async {
+        Inferrer inferrer= await widget.inferrer;
+        setState(()  {
+          inferrer.abort();
         });
       },
       child: Scaffold(
@@ -89,15 +94,16 @@ class AiChatState extends State<AiChat> {
               ),
               MessageBar(
                 onSend: (msg) {
-                  conversationState.add(Message(Role.user, msg));
-
-                  aiTurn();
+                  setState(() {
+                    conversationState.add(Jmessage(Jrole.user, msg));
+                    aiTurn();
+                  });
                 },
                 actions: [
                   InkWell(
                     child: Icon(Icons.stop, color: Colors.black, size: 24),
-                    onTap: () {
-                      widget.inferencer.abort();
+                    onTap: () async {
+                      (await widget.inferrer).abort();
                     },
                   ),
                 ],

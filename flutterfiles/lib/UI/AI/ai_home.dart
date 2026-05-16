@@ -1,16 +1,14 @@
 import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' as root_bundle;
+import 'package:lista_de_la_compra/AI/ai_tools.dart';
 import 'package:lista_de_la_compra/AI/model_catalog.dart';
-import 'dart:convert';
+import 'package:lista_de_la_compra/AI/model_metadata.dart';
 
 import 'package:lista_de_la_compra/UI/AI/ai_chat.dart';
 
-
-
 import 'package:url_launcher/url_launcher.dart';
 
-void showDeleteDialog(context, meta) {
+void showDeleteDialog(BuildContext context, ModelMetadata meta) {
   showDialog(
     context: context,
     builder: (context) {
@@ -53,14 +51,21 @@ String durationAprox(Duration d) {
   return "< 5 secs";
 }
 
-Widget buildToolBar(meta, data, context) {
+Widget buildToolBar(ModelMetadata meta, DownloadEvent data, BuildContext context) {
   if (data is ReadyToUse) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AiChat(meta.id)));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return AiChat(meta.getInferencer(getTools()));
+                },
+              ),
+            );
           },
           icon: Icon(Icons.play_arrow),
         ),
@@ -91,14 +96,16 @@ Widget buildToolBar(meta, data, context) {
     );
   }
 
-  if (data is TaskProgressUpdate) {
-    if (data.progress > 0) {
+  if (data is TaskProgressUpdateWrapper) {
+    TaskProgressUpdate update = data.update;
+
+    if (update.progress > 0) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 20,
         children: [
-          Text("${(data.progress * 100).toStringAsFixed(1)}% (${durationAprox(data.timeRemaining)})"),
-          CircularProgressIndicator(value: data.progress),
+          Text("${(update.progress * 100).toStringAsFixed(1)}% (${durationAprox(update.timeRemaining)})"),
+          CircularProgressIndicator(value: update.progress),
           IconButton(
             onPressed: () {
               meta.stopDownload();
@@ -142,7 +149,7 @@ Widget buildToolBar(meta, data, context) {
     );
   }
 
-  return Text("unexpected state: ${data}");
+  return Text("unexpected state: $data");
 }
 
 class AiHome extends StatelessWidget {
@@ -163,11 +170,7 @@ class AiHome extends StatelessWidget {
               FutureBuilder(
                 future: () async {
                   try {
-                    final jsondata = await root_bundle.rootBundle.loadString("assets/ai_model_cataloge.json");
-                    final list = json.decode(jsondata) as List<dynamic>;
-                    return list.map((e) {
-                      ModelMetadata meta = ModelMetadata(e);
-
+                    return catalog.map((meta) {
                       return ListTile(
                         title: Text(meta.name),
                         subtitle: Text(meta.notes),
@@ -181,7 +184,7 @@ class AiHome extends StatelessWidget {
                                 if (!snapshot.hasData) {
                                   return Text("...");
                                 }
-                                return buildToolBar(meta, snapshot.data, context);
+                                return buildToolBar(meta, snapshot.data!, context);
                               },
                             ),
                             IconButton(
