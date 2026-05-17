@@ -1,14 +1,13 @@
-import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
 import 'package:lista_de_la_compra/AI/ai_tools.dart';
 import 'package:lista_de_la_compra/AI/model_catalog.dart';
-import 'package:lista_de_la_compra/AI/model_metadata.dart';
 
 import 'package:lista_de_la_compra/UI/AI/ai_chat.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-void showDeleteDialog(BuildContext context, ModelMetadata meta) {
+void showDeleteDialog(BuildContext context, AIModel meta) {
   showDialog(
     context: context,
     builder: (context) {
@@ -51,7 +50,7 @@ String durationAprox(Duration d) {
   return "< 5 secs";
 }
 
-Widget buildToolBar(ModelMetadata meta, DownloadEvent data, BuildContext context) {
+Widget buildToolBar(AIModel meta, DownloadEvent data, BuildContext context) {
   if (data is ReadyToUse) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -69,13 +68,13 @@ Widget buildToolBar(ModelMetadata meta, DownloadEvent data, BuildContext context
           },
           icon: Icon(Icons.play_arrow),
         ),
-
-        IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () {
-            showDeleteDialog(context, meta);
-          },
-        ),
+        if (meta.isDeleteAviable())
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              showDeleteDialog(context, meta);
+            },
+          ),
       ],
     );
   }
@@ -96,22 +95,21 @@ Widget buildToolBar(ModelMetadata meta, DownloadEvent data, BuildContext context
     );
   }
 
-  if (data is TaskProgressUpdateWrapper) {
-    TaskProgressUpdate update = data.update;
-
-    if (update.progress > 0) {
+  if (data is DownloadProgress) {
+    if (data.progress > 0) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 20,
         children: [
-          Text("${(update.progress * 100).toStringAsFixed(1)}% (${durationAprox(update.timeRemaining)})"),
-          CircularProgressIndicator(value: update.progress),
-          IconButton(
-            onPressed: () {
-              meta.stopDownload();
-            },
-            icon: Icon(Icons.stop),
-          ),
+          Text("${(data.progress * 100).toStringAsFixed(1)}% (${durationAprox(data.timeRemaining)})"),
+          CircularProgressIndicator(value: data.progress),
+          if (meta.isStopAviable())
+            IconButton(
+              onPressed: () {
+                meta.stopDownload();
+              },
+              icon: Icon(Icons.stop),
+            ),
         ],
       );
     } else {
@@ -170,33 +168,41 @@ class AiHome extends StatelessWidget {
               FutureBuilder(
                 future: () async {
                   try {
-                    return catalog.map((meta) {
+                    var ret = catalog.map((AIModel model) {
                       return ListTile(
-                        title: Text(meta.name),
-                        subtitle: Text(meta.notes),
+                        title: Text(model.name),
+                        subtitle: Text(model.notes),
 
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             StreamBuilder(
-                              stream: meta.stateStream.stream,
+                              stream: model.stateStream.stream,
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
                                   return Text("...");
                                 }
-                                return buildToolBar(meta, snapshot.data!, context);
+                                return buildToolBar(model, snapshot.data!, context);
                               },
                             ),
                             IconButton(
                               icon: Icon(Icons.my_library_books_rounded),
                               onPressed: () {
-                                launchUrl(meta.modelInfoUrl);
+                                launchUrl(model.modelInfoUrl);
                               },
                             ),
                           ],
                         ),
                       );
                     }).toList();
+
+                    Future.delayed(Duration(seconds: 1)).then((_) {
+                      for (var e in catalog) {
+                        e.refreshStatus();
+                      }
+                    });
+
+                    return ret;
                   } catch (e) {
                     print(e);
                   }
@@ -208,6 +214,7 @@ class AiHome extends StatelessWidget {
 
                   return ListView(
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     children: ListTile.divideTiles(context: context, tiles: snapshot.data!).toList(),
                   );
                 },

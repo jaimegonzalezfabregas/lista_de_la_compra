@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:fllama/misc/openai.dart';
+import 'package:cactus/cactus.dart';
+import 'package:fllama/fllama.dart';
 import 'package:lista_de_la_compra/AI/ai_tools.dart';
 
 abstract class InferenceEvent {}
@@ -45,14 +46,14 @@ abstract class Inferrer {
 
   Inferrer(this.tools);
 
-  Stream<InferenceEvent> inferResponse(List<Jmessage> conversation);
+  Future<Stream<InferenceEvent>> inferResponse(List<Jmessage> conversation, {int maxTokens = 333});
   void abort();
 
-  Stream<InferenceEvent> inferResponseToolReady(List<Jmessage> conversation) {
+  Future<Stream<InferenceEvent>> inferResponseToolReady(List<Jmessage> conversation, {int maxTokens = 333}) async {
     StreamController<InferenceEvent> superStreamController = StreamController<InferenceEvent>();
 
     void prepareStream(Stream<InferenceEvent> stream) {
-      stream.listen((event) {
+      stream.listen((event) async {
         if (event is InferenceUpdate) {
           superStreamController.add(event);
         }
@@ -88,7 +89,7 @@ abstract class Inferrer {
 
             superStreamController.add(InferenceConversationUpdate(conversation));
 
-            prepareStream(inferResponse(conversation));
+            prepareStream(await inferResponse(conversation, maxTokens: maxTokens));
           } else {
             superStreamController.add(event);
             superStreamController.close();
@@ -97,7 +98,7 @@ abstract class Inferrer {
       });
     }
 
-    prepareStream(inferResponse(conversation));
+    prepareStream(await inferResponse(conversation));
 
     return superStreamController.stream;
   }
@@ -106,10 +107,18 @@ abstract class Inferrer {
 class Jtool {
   String name;
   String description;
-  String jsonSchema;
+  JtoolSchema jsonSchema;
   String Function(Map<String, dynamic> args) tool;
 
   Jtool({required this.name, required this.description, required this.jsonSchema, required this.tool});
+
+  Tool intoFllamaTool() {
+    return Tool(name: name, description: description, jsonSchema: jsonSchema.intoFllamaJsonSchema());
+  }
+
+  CactusTool intoCactusTool() {
+    return CactusTool(description: description, name: name, parameters: jsonSchema.intoCactusSchema());
+  }
 }
 
 enum Jrole {
@@ -140,6 +149,10 @@ class Jmessage {
 
   Message intoFllamaMessage() {
     return Message(role.intoFllamaRole(), text);
+  }
+
+  ChatMessage intoChatMessage() {
+    return ChatMessage(content: text, role: role.name);
   }
 
   @override

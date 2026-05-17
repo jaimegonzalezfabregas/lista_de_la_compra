@@ -3,58 +3,45 @@ import 'dart:io';
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
-import 'package:lista_de_la_compra/AI/AI_Inferers/fllama_inferer.dart';
+import 'package:lista_de_la_compra/AI/AI_Inferers/fllama_inferrer.dart';
+import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
 
 import 'dart:io' as io;
 
 import 'package:path_provider/path_provider.dart';
 
-abstract class DownloadEvent {}
-
-class JustASecond extends DownloadEvent {}
-
-class ReadyToUse extends DownloadEvent {}
-
-class NotDownloaded extends DownloadEvent {}
-
-class TaskProgressUpdateWrapper extends DownloadEvent {
-  TaskProgressUpdate update;
-
-  TaskProgressUpdateWrapper(this.update);
-}
-
-class ModelMetadata {
-  late final String name;
-  late final String notes;
-  late final String id;
-  late final double sizeGb;
-  late final Uri modelInfoUrl;
+class FllamaModel extends AIModel {
   late final Uri modelDownloadUrl;
+
+  String? documentPath;
+
+  Future<String> getBasePath() async {
+    return documentPath ?? (await getApplicationDocumentsDirectory()).path;
+  }
 
   List<Completer> onFinishDownloadCompleters = [];
 
-  late StreamController<DownloadEvent> stateStream = StreamController();
-
-  ModelMetadata({
-    required this.name,
-    required this.notes,
-    required this.id,
+  FllamaModel({
+    required super.name,
+    required super.notes,
+    required super.id,
+    required super.sizeGb,
     required this.modelDownloadUrl,
-    required this.sizeGb,
-    required this.modelInfoUrl,
+    required super.modelInfoUrl,
   }) {
-    firstStatus();
     attachDownloadTaskToStream();
   }
-
-  void firstStatus() async {
-    if (await FileDownloader().taskForId(id) != null) {
-      return stateStream.add(JustASecond());
-    }
-
-    return stateStream.add(await io.File(await getPath()).exists() ? ReadyToUse() : NotDownloaded());
+  @override
+  Future<bool> currentlyDownloading() async {
+    return await FileDownloader().taskForId(id) != null;
   }
 
+  @override
+  Future<bool> alreadyDownloaded() async {
+    return await io.File(await getPath()).exists();
+  }
+
+  @override
   Future<Inferrer> getInferencer(List<Jtool> tools) async {
     return FllamaInferrer(await getPath(), tools);
   }
@@ -94,13 +81,14 @@ class ModelMetadata {
         }
       },
       taskProgressCallback: (progress) {
-        stateStream.add(TaskProgressUpdateWrapper(progress));
+        stateStream.add(DownloadProgress(progress.progress, progress.timeRemaining));
       },
     );
 
     FileDownloader().start();
   }
 
+  @override
   void stopDownload() async {
     FileDownloader().cancelTaskWithId(id);
     stateStream.add(NotDownloaded());
@@ -110,6 +98,7 @@ class ModelMetadata {
     onFinishDownloadCompleters = [];
   }
 
+  @override
   void startDownload() async {
     var test = await FileDownloader().taskForId(id);
     if (test != null) {
@@ -133,13 +122,13 @@ class ModelMetadata {
   }
 
   Future<String> getPath() async {
-    final fileDir = (await getApplicationDocumentsDirectory()).path;
+    final fileDir = await getBasePath();
 
     return '$fileDir/ai_models/$id.gguf';
   }
 
   Future<String> getTmpPath() async {
-    final fileDir = (await getApplicationDocumentsDirectory()).path;
+    final fileDir = await getBasePath();
 
     return '$fileDir/ai_models/.tmp_$id.gguf';
   }
@@ -148,15 +137,40 @@ class ModelMetadata {
     File file = File(await getPath());
 
     if (await file.exists()) {
+      print("${file.path} was already downloaded");
       return;
     }
 
     final request = await HttpClient().getUrl(modelDownloadUrl);
     final response = await request.close();
-    response.pipe(File(await getPath()).openWrite());
+
+    final totalBytes = response.contentLength;
+    int downloadedBytes = 0;
+    int nextPrintPercent = 0;
+
+    final sink = file.openWrite();
+
+    await for (final chunk in response) {
+      sink.add(chunk);
+      downloadedBytes += chunk.length;
+
+      if (totalBytes > 0) {
+        final percent = (downloadedBytes / totalBytes * 100).floor();
+
+        if (percent >= nextPrintPercent) {
+          print('Download progress for ${file.path}: $nextPrintPercent%');
+          nextPrintPercent += 10;
+        }
+      }
+    }
+
+    await sink.close();
+    print('Download complete.');
   }
 
-  void delete() async {
+
+  @override
+  Future<void> delete() async {
     final file = io.File(await getPath());
 
     if (!file.existsSync()) {
@@ -166,5 +180,15 @@ class ModelMetadata {
     await file.delete();
 
     stateStream.add(NotDownloaded());
+  }
+
+  @override
+  bool isStopAviable() {
+    return true;
+  }
+
+  @override
+  bool isDeleteAviable() {
+    return true;
   }
 }

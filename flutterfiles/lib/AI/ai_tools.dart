@@ -1,3 +1,4 @@
+import 'package:cactus/cactus.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
@@ -30,193 +31,6 @@ You should act autonomously:
 - If a recipe needs ingredients that are missing from the catalog, add them using `AddIngredient`.
 - After modifying the plan, verify the result using `GetPlanning`.
 - Never invent UUIDs-always retrieve them from tool outputs.
-
----
-
-# Tool Invocation Format
-
-To run a tool, output JSON in exactly this format:
-
-```json
-{"tool":"<TOOLNAME>", "args":{...}}
-```
-
-The tool response will then be returned to you.
-
----
-
-# Tools
-
-## GetPlanning
-
-Retrieve the current meal plan for upcoming days.
-
-### Arguments
-
-```json
-{"tool":"GetPlanning","args":{"days":4}}
-```
-
-### Example Response
-
-```json
-[
-  {
-    "day":"12 May 2026 Tuesday",
-    "meals":[
-      {"id":"<UUID>","name":"Chocolate con churros"},
-      {"id":"<UUID>","name":"Patatas con bacalao"}
-    ]
-  }
-]
-```
-
-### Usage Notes
-
-Use this tool to:
-
-- Inspect current meal assignments
-- Determine what is planned on a given day
-- Verify successful updates after using `SetMeal`
-
----
-
-## GetIngredientCatalog
-
-Retrieve all available ingredients currently known to the system.
-
-### Arguments
-
-```json
-{"tool":"GetIngredientCatalog","args":{}}
-```
-
-### Example Response
-
-```json
-[
-  {"id":"<UUID>","name":"Tomato"},
-  {"id":"<UUID>","name":"Olive Oil"},
-  {"id":"<UUID>","name":"Egg"}
-]
-```
-
-### Usage Notes
-
-Use this before creating recipes to check whether ingredients already exist.
-
----
-
-## AddIngredient
-
-Create a new ingredient in the catalog.
-
-### Arguments
-
-```json
-{"tool":"AddIngredient","args":{"name":"Chickpeas"}}
-```
-
-### Example Response
-
-```json
-{"id":"<UUID>","name":"Chickpeas"}
-```
-
-### Usage Notes
-
-Use only when an ingredient needed for a recipe does not already exist.
-
----
-
-## GetRecipeBook
-
-Retrieve all existing recipes.
-
-### Arguments
-
-```json
-{"tool":"GetRecipeBook","args":{}}
-```
-
-### Example Response
-
-```json
-[
-  {
-    "id":"<UUID>",
-    "name":"Paella"
-  },
-  {
-    "id":"<UUID>",
-    "name":"Gazpacho"
-  }
-]
-```
-
-### Usage Notes
-
-Always use this tool to find recipe UUIDs before calling `SetMeal`.
-
----
-
-## AddRecipe
-
-Create a new recipe.
-
-### Arguments
-
-```json
-{
-  "tool":"AddRecipe",
-  "args":{
-    "name":"Lentil Soup",
-    "ingredientUUIDs":["<UUID1>","<UUID2>"]
-  }
-}
-```
-
-### Example Response
-
-```json
-{
-  "id":"<UUID>",
-  "name":"Lentil Soup"
-}
-```
-
-### Usage Notes
-
-Before calling:
-
-1. Check whether the recipe already exists with `GetRecipeBook`
-2. Ensure all required ingredients exist using `GetIngredientCatalog`
-3. Add missing ingredients using `AddIngredient`
-
----
-
-## SetMeal
-
-Assign a recipe to a specific future day.
-
-### Arguments
-
-```json
-{
-  "tool":"SetMeal",
-  "args":{
-    "day":2,
-    "recipeUUID":"<UUID>"
-  }
-}
-```
-
-### Meaning of `day`
-
-- `0` = today
-- `1` = tomorrow
-- `2` = day after tomorrow
-- etc.
 
 ### Usage Notes
 
@@ -267,124 +81,112 @@ Use `GetPlanning`.
 """;
 }
 
+class Jproperty {
+  String type = "integer";
+  String description;
+
+  Jproperty(this.type, this.description);
+}
+
+class JtoolSchema {
+  List<String> requiredProps;
+  Map<String, Jproperty> properties;
+  String type;
+
+  JtoolSchema({this.requiredProps = const [], this.properties = const {}, this.type = "object"});
+
+  String intoFllamaJsonSchema() {
+    return jsonEncode({
+      type: type,
+      requiredProps: requiredProps,
+      properties: properties.map((String key, Jproperty value) {
+        return MapEntry(key, {"type": value.type, "description": value.description});
+      }),
+    });
+  }
+
+  ToolParametersSchema intoCactusSchema() {
+    /*
+    CactusTool(
+      name: "get_weather",
+      description: "Get current weather for a location",
+      parameters: ToolParametersSchema(
+        properties: {
+          'location': ToolParameter(type: 'string', description: 'City name', required: true),
+        },
+      ),
+    ),
+    
+    */
+    return ToolParametersSchema(
+      type: type,
+      properties: properties.map((key, Jproperty value) {
+        return MapEntry(key, ToolParameter(type: value.type, required: requiredProps.contains(key), description: value.description));
+      }),
+    );
+  }
+}
+
+
 List<Jtool> getTools() {
   return [
     Jtool(
       name: "GetPlanning",
       description: "Retrieve the current meal planning for the next N days.",
-      jsonSchema: '''
-{
-  "type": "object",
-  "properties": {
-    "days": {
-      "type": "integer",
-      "description": "Number of future days to retrieve"
-    }
-  },
-  "required": ["days"]
-}
-''',
+      jsonSchema: JtoolSchema(requiredProps: ["days"], properties: {"days": Jproperty("integer", "Number of future days to retrieve")}),
       tool: (_) {
-        return "";
+        return "This is a tool response";
       },
     ),
 
     Jtool(
       name: "GetIngredientCatalog",
       description: "Retrieve all available ingredients.",
-      jsonSchema: '''
-{
-  "type": "object",
-  "properties": {}
-}
-''',
+      jsonSchema: JtoolSchema(),
       tool: (_) {
-        return "";
+        return "This is a tool response";
       },
     ),
 
     Jtool(
       name: "AddIngredient",
       description: "Add a new ingredient to the catalog.",
-      jsonSchema: '''
-{
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "Ingredient name"
-    }
-  },
-  "required": ["name"]
-}
-''',
+      jsonSchema: JtoolSchema(requiredProps: ["name"], properties: {"name": Jproperty("string", "Ingredient name")}),
       tool: (_) {
-        return "";
+        return "This is a tool response";
       },
     ),
 
     Jtool(
       name: "GetRecipeBook",
       description: "Retrieve all recipes in the recipe book.",
-      jsonSchema: '''
-{
-  "type": "object",
-  "properties": {}
-}
-''',
+      jsonSchema: JtoolSchema(),
       tool: (_) {
-        return "";
+        return "This is a tool response";
       },
     ),
 
     Jtool(
       name: "AddRecipe",
       description: "Create a new recipe using existing ingredient UUIDs.",
-      jsonSchema: '''
-{
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "Recipe name"
-    },
-    "ingredientUUIDs": {
-      "type": "array",
-      "description": "List of ingredient UUIDs",
-      "items": {
-        "type": "string"
-      }
-    }
-  },
-  "required": ["name", "ingredientUUIDs"]
-}
-''',
+      jsonSchema: JtoolSchema(
+        requiredProps: ["name", "ingredientUUIDs"],
+        properties: {"name": Jproperty("string", "Recipe name"), "ingredientUUIDs": Jproperty("array", "List of ingredient UUIDs")},
+      ),
       tool: (_) {
-        return "";
+        return "This is a tool response";
       },
     ),
 
     Jtool(
       name: "SetMeal",
       description: "Assign a recipe to a specific day.",
-      jsonSchema: '''
-{
-  "type": "object",
-  "properties": {
-    "day": {
-      "type": "integer",
-      "description": "0=today, 1=tomorrow, etc."
-    },
-    "recipeUUID": {
-      "type": "string",
-      "description": "UUID of recipe to assign"
-    }
-  },
-  "required": ["day", "recipeUUID"]
-}
-''',
+      jsonSchema: JtoolSchema(
+        requiredProps: ["day", "recipeUUID"],
+        properties: {"day": Jproperty("integer", "0=today, 1=tomorrow, etc."), "recipeUUID": Jproperty("string", "UUID of recipe to assign")},
+      ),
       tool: (_) {
-        return "";
+        return "This is a tool response";
       },
     ),
   ];

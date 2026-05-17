@@ -11,9 +11,9 @@ class FllamaInferrer extends Inferrer {
   FllamaInferrer(this.modelPath, super.tools);
 
   @override
-  Stream<InferenceEvent> inferResponse(List<Jmessage> conversation) {
+  Future<Stream<InferenceEvent>> inferResponse(List<Jmessage> conversation, {int maxTokens = 333}) async {
     final request = OpenAiRequest(
-      maxTokens: 3333,
+      maxTokens: maxTokens,
       messages: conversation.map((e) => e.intoFllamaMessage()).toList(),
       numGpuLayers: 99,
       /* this seems to have no adverse effects in environments w/o GPU support, ex. Android and web */
@@ -36,7 +36,7 @@ class FllamaInferrer extends Inferrer {
         // print('[llama.cpp] $log');
       },
       toolChoice: ToolChoice.auto,
-      tools: tools.map((t) => Tool(name: t.name, jsonSchema: t.jsonSchema, description: t.description)).toList(),
+      tools: tools.map((t) => Tool(name: t.name, jsonSchema: t.jsonSchema.intoFllamaJsonSchema(), description: t.description)).toList(),
     );
 
     StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();

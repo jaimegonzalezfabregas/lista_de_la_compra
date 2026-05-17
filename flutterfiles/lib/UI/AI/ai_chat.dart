@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:chat_bubbles/message_bars/message_bar.dart';
-import 'package:fllama/fllama.dart';
-import 'package:fllama/misc/openai.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 import 'package:lista_de_la_compra/UI/AI/message_buble.dart';
@@ -25,8 +23,7 @@ class AiChatState extends State<AiChat> {
   Widget? liveResponse;
 
   void aiTurn() async {
-    Stream<InferenceEvent> inferenceStream = (await widget.inferrer).inferResponseToolReady(conversationState);
-
+    Stream<InferenceEvent> inferenceStream = await (await widget.inferrer).inferResponseToolReady(conversationState);
 
     setState(() {
       liveResponse = Text("...");
@@ -77,8 +74,8 @@ class AiChatState extends State<AiChat> {
 
     return PopScope(
       onPopInvokedWithResult: (_, _) async {
-        Inferrer inferrer= await widget.inferrer;
-        setState(()  {
+        Inferrer inferrer = await widget.inferrer;
+        setState(() {
           inferrer.abort();
         });
       },

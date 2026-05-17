@@ -1,6 +1,7 @@
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
+import 'package:lista_de_la_compra/AI/model_catalog.dart';
 import 'package:lista_de_la_compra/UI/selected_environment_fork.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
 import 'package:lista_de_la_compra/sync/http_client_service.dart';
@@ -14,8 +15,13 @@ import 'l10n/app_localizations.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-Future main() async {
-  runApp(MyApp());
+Future main(List<String> args) async {
+  const String modelMetadataI = String.fromEnvironment('TEST_MODEL_METADATA');
+  if (modelMetadataI == "true") {
+    catalogTest();
+  } else {
+    runApp(MyApp());
+  }
 }
 
 class MyApp extends StatelessWidget {

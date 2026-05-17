@@ -1,6 +1,4 @@
-import 'package:fllama/misc/openai.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 
 class MessageBubble extends StatelessWidget {

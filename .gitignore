@@ -1,1 +1,2 @@
 *.gguf
+ai_tests/testing_*.txt

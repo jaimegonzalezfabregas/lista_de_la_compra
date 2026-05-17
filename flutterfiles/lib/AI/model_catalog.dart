@@ -1,7 +1,16 @@
-import 'package:lista_de_la_compra/AI/model_metadata.dart';
+import 'dart:io';
 
-List<ModelMetadata> catalog = [
-  ModelMetadata(
+import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
+import 'package:lista_de_la_compra/AI/AI_models/cactus_model.dart';
+import 'package:lista_de_la_compra/AI/AI_models/fllama_model.dart';
+
+import 'dart:async';
+
+import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
+import 'package:lista_de_la_compra/AI/ai_tools.dart';
+
+List<AIModel> catalog = [
+  FllamaModel(
     name: "Qwen 3.5 4B IQ2 M",
     id: "Qwen_Qwen3.5-4B-IQ2_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen_Qwen3.5-4B-IQ2_M.gguf?download=true"),
@@ -10,7 +19,7 @@ List<ModelMetadata> catalog = [
     notes: "Relatively low quality, uses SOTA techniques to be surprisingly usable.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3.5 4B bf16",
     id: "Qwen_Qwen3.5-4B-bf16",
     modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen_Qwen3.5-4B-bf16.gguf?download=true"),
@@ -19,25 +28,7 @@ List<ModelMetadata> catalog = [
     notes: "Full BF16 weights.",
   ),
 
-  ModelMetadata(
-    name: "Qwen 3.5 4B Q4 K M",
-    id: "Qwen3.5-4B-Q4_K_M",
-    modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-Q4_K_M.gguf?download=true"),
-    modelInfoUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF"),
-    sizeGb: 2.9,
-    notes: "Good quality, default size for most use cases, recommended.",
-  ),
-
-  ModelMetadata(
-    name: "Qwen 3.5 4B IQ4 XS",
-    id: "Qwen3.5-4B-IQ4_XS",
-    modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen3.5-4B-IQ4_XS.gguf?download=true"),
-    modelInfoUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF"),
-    sizeGb: 2.5,
-    notes: "Decent quality, smaller than Q4_K_S with similar performance, recommended.",
-  ),
-
-  ModelMetadata(
+  FllamaModel(
     name: "Mistral Nemo 12B",
     id: "mistral-nemo-12b",
     modelDownloadUrl: Uri.parse(
@@ -49,7 +40,7 @@ List<ModelMetadata> catalog = [
         "92.5% in J.D. Hodges eval, 67% NexusRaven (complex API understanding). Best multi-turn sequential model — correctly identifies when to wait for results. Weakness: paraphrases arguments and sometimes over-helps. Low BFCL (49%) is due to Ollama template issues, not model quality. Mistral Nemo format.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen3.5 9B",
     id: "qwen3.5-9b",
     modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF/resolve/main/Qwen_Qwen3.5-9B-Q3_K_L.gguf?download=true"),
@@ -59,7 +50,7 @@ List<ModelMetadata> catalog = [
         "Best composite score across 3 benchmarks: 64% BFCL, 77% NexusRaven (best API understanding of all small models), 45% AgentBench (best multi-step agentic). Strongest at understanding complex API semantics. Hermes/Qwen format. Slightly slower than 4B variant.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Tiny Agent a 0.5B K M",
     id: "Tiny-Agent-a-0.5B",
     modelDownloadUrl: Uri.parse("https://huggingface.co/driaforall/Tiny-Agent-a-0.5B/resolve/main/dria-agent-a-0.5b.Q4_K_M.gguf?download=true"),
@@ -69,7 +60,7 @@ List<ModelMetadata> catalog = [
         "Tiny-Agent-α is an extension of Dria-Agent-a, trained on top of the Qwen2.5-Coder series to be used in edge devices. These models are carefully fine tuned with quantization aware training to minimize performance degradation after quantization.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q2 K",
     id: "Qwen3-0.6B-Q2_K",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q2_K.gguf?download=true"),
@@ -78,7 +69,7 @@ List<ModelMetadata> catalog = [
     notes: "Very low quality, smallest and fastest option. Suitable for highly constrained devices.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q3 K S",
     id: "Qwen3-0.6B-Q3_K_S",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_S.gguf?download=true"),
@@ -87,7 +78,7 @@ List<ModelMetadata> catalog = [
     notes: "Low quality, compact quantization for minimal RAM usage.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q3 K M",
     id: "Qwen3-0.6B-Q3_K_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_M.gguf?download=true"),
@@ -96,7 +87,7 @@ List<ModelMetadata> catalog = [
     notes: "Balanced low-memory option with slightly better quality than Q3_K_S.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q3 K L",
     id: "Qwen3-0.6B-Q3_K_L",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_L.gguf?download=true"),
@@ -105,7 +96,7 @@ List<ModelMetadata> catalog = [
     notes: "Largest Q3 quantization, better quality while still lightweight.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q4 0",
     id: "Qwen3-0.6B-Q4_0",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_0.gguf?download=true"),
@@ -114,7 +105,7 @@ List<ModelMetadata> catalog = [
     notes: "Classic Q4 quantization, good general-purpose option.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q4 K S",
     id: "Qwen3-0.6B-Q4_K_S",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_S.gguf?download=true"),
@@ -123,7 +114,7 @@ List<ModelMetadata> catalog = [
     notes: "Good quality, efficient K-quant variant.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q4 K M",
     id: "Qwen3-0.6B-Q4_K_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_M.gguf?download=true"),
@@ -132,7 +123,7 @@ List<ModelMetadata> catalog = [
     notes: "Recommended default. Best balance of quality, speed, and memory usage.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q5 0",
     id: "Qwen3-0.6B-Q5_0",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_0.gguf?download=true"),
@@ -141,7 +132,7 @@ List<ModelMetadata> catalog = [
     notes: "Higher quality than Q4 variants, moderate memory increase.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q5 K S",
     id: "Qwen3-0.6B-Q5_K_S",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_K_S.gguf?download=true"),
@@ -150,7 +141,7 @@ List<ModelMetadata> catalog = [
     notes: "Efficient high-quality K-quant.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q5 K M",
     id: "Qwen3-0.6B-Q5_K_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_K_M.gguf?download=true"),
@@ -159,7 +150,7 @@ List<ModelMetadata> catalog = [
     notes: "High-quality quantization, recommended if RAM allows.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q6 K",
     id: "Qwen3-0.6B-Q6_K",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q6_K.gguf?download=true"),
@@ -168,7 +159,7 @@ List<ModelMetadata> catalog = [
     notes: "Very high quality quantized model, close to full precision.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B Q8 0",
     id: "Qwen3-0.6B-Q8_0",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf?download=true"),
@@ -177,7 +168,7 @@ List<ModelMetadata> catalog = [
     notes: "Near-lossless quantization, excellent quality.",
   ),
 
-  ModelMetadata(
+  FllamaModel(
     name: "Qwen 3 0.6B F16",
     id: "Qwen3-0.6B-F16",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-f16.gguf?download=true"),
@@ -185,4 +176,85 @@ List<ModelMetadata> catalog = [
     sizeGb: 1.51,
     notes: "Full FP16 weights. Maximum quality, highest memory usage.",
   ),
+
+  CactusModel(
+    name: "qwen3-0.6",
+    notes: "will see...",
+    id: "qwen3-0.6",
+    sizeGb: 0,
+    modelInfoUrl: Uri.parse("http://example.com"),
+    modelDownloadSlug: "qwen3-0.6",
+  ),
+
+  CactusModel(
+    name: "gemma3-270m",
+    notes: "will see...",
+    id: "gemma3-270m",
+    sizeGb: 0,
+    modelInfoUrl: Uri.parse("http://example.com"),
+    modelDownloadSlug: "gemma3-270m",
+  ),
 ];
+List<Jtool> getTestTools() {
+  return [
+    Jtool(
+      name: "GetGeoLocation",
+      description: "This tool provides information about the location of the user in real time",
+      jsonSchema: JtoolSchema(requiredProps: [], properties: {}),
+      tool: (_) {
+        return "You are in Moscow";
+      },
+    ),
+  ];
+}
+
+Future<void> catalogTest() async {
+  await Future.wait(catalog.map((meta) => meta.syncDownload()).toList());
+
+  for (var meta in catalog) {
+    await File("testing_${meta.id}.txt").writeAsString("");
+
+    for (int i = 0; i < 4; i++) {
+      var startTestTime = DateTime.now().millisecondsSinceEpoch;
+
+      print("Testing ${meta.name}");
+
+      await meta.syncDownload();
+
+      var tester = await meta.getInferencer(getTestTools());
+      print("   Inferer created...");
+
+      var resultStream = await tester.inferResponse([
+        Jmessage(Jrole.system, "You are a chat agent, able to call tools to retrieve information"),
+        Jmessage(Jrole.user, "Where are we?"),
+      ]);
+
+      Completer c = Completer();
+
+      resultStream.listen((event) {
+        if (event is InferenceEnd) {
+          print("   simulation was: ${event.conversation}");
+
+          c.complete(event);
+        }
+      });
+      print("   Waiting for inference...");
+
+      InferenceEnd endState = await c.future;
+      print("   Inference done, saving...");
+
+      String lastMessage = endState.conversation.last.text;
+
+      var endTestTime = DateTime.now().millisecondsSinceEpoch;
+
+      var result =
+          "$i: ${meta.id} was able to use tool: ${lastMessage.contains("Moscow")} (test took ${endTestTime - startTestTime} ms)\n\n\n${endState.conversation}\n\n\n";
+
+      await File("testing_${meta.id}.txt").writeAsString(result, mode: FileMode.append);
+    }
+  }
+
+  print("exiting");
+
+  exit(0);
+}
