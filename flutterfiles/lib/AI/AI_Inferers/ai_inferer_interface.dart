@@ -1,14 +1,24 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cactus/cactus.dart';
 import 'package:fllama/fllama.dart';
 import 'package:lista_de_la_compra/AI/ai_tools.dart';
 
+class JtoolCall {
+  final String name;
+  final Map<String, dynamic> arguments;
+
+  JtoolCall(this.name, this.arguments);
+
+  static JtoolCall fromCactus(ToolCall cactusToolCall) {
+    return JtoolCall(cactusToolCall.name, cactusToolCall.arguments);
+  }
+}
+
 abstract class InferenceEvent {}
 
 class InferenceEnd extends InferenceEvent {
-  List<Jmessage> conversation;
+  final List<Jmessage> conversation;
 
   InferenceEnd(this.conversation);
 
@@ -19,12 +29,25 @@ class InferenceEnd extends InferenceEvent {
 }
 
 class InferenceConversationUpdate extends InferenceEvent {
-  List<Jmessage> conversation;
+  final List<Jmessage> conversation;
+
   InferenceConversationUpdate(this.conversation);
 
   @override
   String toString() {
     return "InferenceConversationUpdate($conversation)";
+  }
+}
+
+class InferenceToolCall extends InferenceEvent {
+  final List<JtoolCall> jtoolCall;
+  final List<Jmessage> conversation;
+
+  InferenceToolCall(this.jtoolCall, this.conversation);
+
+  @override
+  String toString() {
+    return "InferenceConversationUpdate(jtoolCall: $jtoolCall, conversation: $conversation)";
   }
 }
 
@@ -41,6 +64,8 @@ class InferenceUpdate extends InferenceEvent {
   }
 }
 
+class StartingInference extends InferenceEvent {}
+
 abstract class Inferrer {
   List<Jtool> tools;
 
@@ -48,6 +73,7 @@ abstract class Inferrer {
 
   Future<Stream<InferenceEvent>> inferResponse(List<Jmessage> conversation, {int maxTokens = 333});
   void abort();
+  Future<void> unload();
 
   Future<Stream<InferenceEvent>> inferResponseToolReady(List<Jmessage> conversation, {int maxTokens = 333}) async {
     StreamController<InferenceEvent> superStreamController = StreamController<InferenceEvent>();
@@ -67,33 +93,27 @@ abstract class Inferrer {
           superStreamController.add(event);
         }
 
+        if (event is InferenceToolCall) {
+          List<Jmessage> conversation = event.conversation;
+          List<JtoolCall> toolCalls = event.jtoolCall;
+
+          for (JtoolCall tc in toolCalls) {
+            Jtool jtool = tools.firstWhere(
+              (Jtool tool) => tool.name == tc.name,
+              orElse: () => Jtool.failure("The tool with name ${tc.name} does not exist!"),
+            );
+
+            conversation.add(Jmessage(Jrole.tool, jtool.tool(tc.arguments)));
+          }
+
+          superStreamController.add(InferenceConversationUpdate(conversation));
+
+          prepareStream(await inferResponse(conversation, maxTokens: maxTokens));
+        }
+
         if (event is InferenceEnd) {
-          conversation = event.conversation;
-
-          String? lastJson = extractLastJson(event.conversation.last.text);
-          String? toolResponse;
-
-          if (lastJson != null) {
-            dynamic toolCall = jsonDecode(lastJson);
-
-            for (Jtool t in tools) {
-              print(toolCall);
-              if (t.name == toolCall["name"]) {
-                toolResponse = t.tool(toolCall["arguments"]);
-              }
-            }
-          }
-
-          if (toolResponse != null) {
-            conversation.add(Jmessage(Jrole.tool, toolResponse));
-
-            superStreamController.add(InferenceConversationUpdate(conversation));
-
-            prepareStream(await inferResponse(conversation, maxTokens: maxTokens));
-          } else {
-            superStreamController.add(event);
-            superStreamController.close();
-          }
+          superStreamController.add(event);
+          superStreamController.close();
         }
       });
     }
@@ -119,15 +139,20 @@ class Jtool {
   CactusTool intoCactusTool() {
     return CactusTool(description: description, name: name, parameters: jsonSchema.intoCactusSchema());
   }
+
+  static Jtool failure(String message) {
+    return Jtool(name: "Unknown Tool", description: "", tool: (_) => message, jsonSchema: JtoolSchema());
+  }
 }
 
 enum Jrole {
   assistant,
   tool,
   user,
-  system;
+  system,
+  toolCall;
 
-  Role intoFllamaRole() {
+  Role? intoFllamaRole() {
     switch (this) {
       case Jrole.assistant:
         return Role.assistant;
@@ -137,6 +162,8 @@ enum Jrole {
         return Role.user;
       case Jrole.system:
         return Role.system;
+      default:
+        return null;
     }
   }
 }
@@ -147,12 +174,20 @@ class Jmessage {
 
   Jmessage(this.role, this.text);
 
-  Message intoFllamaMessage() {
-    return Message(role.intoFllamaRole(), text);
+  Message? intoFllamaMessage() {
+    if (role == Jrole.system) {
+      return null;
+    } else {
+      return Message(role.intoFllamaRole()!, text);
+    }
   }
 
-  ChatMessage intoChatMessage() {
-    return ChatMessage(content: text, role: role.name);
+  ChatMessage? intoCactusMessage() {
+    if (role == Jrole.system) {
+      return null;
+    } else {
+      return ChatMessage(content: text, role: role.name);
+    }
   }
 
   @override

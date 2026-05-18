@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:fllama/fllama.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
+import 'package:lista_de_la_compra/AI/ai_tools.dart';
 
 class FllamaInferrer extends Inferrer {
   final String modelPath;
@@ -14,7 +16,7 @@ class FllamaInferrer extends Inferrer {
   Future<Stream<InferenceEvent>> inferResponse(List<Jmessage> conversation, {int maxTokens = 333}) async {
     final request = OpenAiRequest(
       maxTokens: maxTokens,
-      messages: conversation.map((e) => e.intoFllamaMessage()).toList(),
+      messages: conversation.map((e) => e.intoFllamaMessage()).whereType<Message>().toList(),
       numGpuLayers: 99,
       /* this seems to have no adverse effects in environments w/o GPU support, ex. Android and web */
       modelPath: modelPath,
@@ -40,6 +42,8 @@ class FllamaInferrer extends Inferrer {
     );
 
     StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();
+    streamController.add(StartingInference());
+
     running = true;
     bool localAbort = false;
     String lastResponse = "";
@@ -58,11 +62,23 @@ class FllamaInferrer extends Inferrer {
 
       if (done) {
         running = false;
-        conversation.add(Jmessage(Jrole.assistant, lastResponse));
 
-        streamController.add(InferenceEnd(conversation));
+        (String, Map<String, dynamic>?) messageAnalisys = extractLastJson(lastResponse);
 
-        streamController.close();
+        if (messageAnalisys.$2 != null && messageAnalisys.$2!["name"] != null) {
+          String name = messageAnalisys.$2!["name"];
+          Map<String, dynamic>? arguments = messageAnalisys.$2!["arguments"];
+
+          conversation.add(Jmessage(Jrole.assistant, messageAnalisys.$1));
+          conversation.add(Jmessage(Jrole.toolCall, jsonEncode(messageAnalisys.$2)));
+
+          streamController.add(InferenceToolCall([JtoolCall(name, arguments ?? {})], conversation));
+        } else {
+          conversation.add(Jmessage(Jrole.assistant, lastResponse));
+
+          streamController.add(InferenceEnd(conversation));
+          streamController.close();
+        }
       } else {
         lastResponse = response;
         streamController.add(InferenceUpdate(response));
@@ -78,4 +94,7 @@ class FllamaInferrer extends Inferrer {
       abortFlag = true;
     }
   }
+
+  @override
+  Future<void> unload() async {}
 }

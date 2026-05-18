@@ -8,16 +8,8 @@ import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
 
 import 'dart:io' as io;
 
-import 'package:path_provider/path_provider.dart';
-
 class FllamaModel extends AIModel {
   late final Uri modelDownloadUrl;
-
-  String? documentPath;
-
-  Future<String> getBasePath() async {
-    return documentPath ?? (await getApplicationDocumentsDirectory()).path;
-  }
 
   List<Completer> onFinishDownloadCompleters = [];
 

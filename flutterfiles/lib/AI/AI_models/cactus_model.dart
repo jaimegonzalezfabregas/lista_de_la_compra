@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cactus/cactus.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/cactus_inferrer.dart';
@@ -18,12 +20,19 @@ class CactusModel extends AIModel {
 
   @override
   bool isDeleteAviable() {
-    return false;
+    return true;
+  }
+
+  Future<String> getPath() async {
+    final fileDir = await getBasePath();
+
+    return '$fileDir/models/$modelDownloadSlug';
   }
 
   @override
-  Future<void> delete() {
-    throw UnimplementedError();
+  Future<void> delete() async {
+    await Directory(await getPath()).delete(recursive: true);
+    super.stateStream.add(NotDownloaded());
   }
 
   @override

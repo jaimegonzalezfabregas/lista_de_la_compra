@@ -7,8 +7,9 @@ import 'package:lista_de_la_compra/UI/AI/message_buble.dart';
 
 class AiChat extends StatefulWidget {
   final Future<Inferrer> inferrer;
+  final String aiName;
 
-  const AiChat(this.inferrer, {super.key});
+  const AiChat(this.inferrer, this.aiName, {super.key});
 
   @override
   State<AiChat> createState() {
@@ -16,7 +17,9 @@ class AiChat extends StatefulWidget {
   }
 }
 
-List<Jmessage> conversationState = [Jmessage(Jrole.system, "you are an chat agent")];
+final List<Jmessage> startingConversationState = [Jmessage(Jrole.system, "you are an chat agent")];
+
+List<Jmessage> conversationState = startingConversationState;
 
 class AiChatState extends State<AiChat> {
   // List<Message> conversationState = [Message(Role.system, getContext())];
@@ -26,7 +29,7 @@ class AiChatState extends State<AiChat> {
     Stream<InferenceEvent> inferenceStream = await (await widget.inferrer).inferResponseToolReady(conversationState);
 
     setState(() {
-      liveResponse = Text("...");
+      liveResponse = Text("⏳");
     });
 
     inferenceStream.listen((event) {
@@ -57,6 +60,12 @@ class AiChatState extends State<AiChat> {
           liveResponse = null;
         });
       }
+
+      if (event is StartingInference) {
+        setState(() {
+          liveResponse = CircularProgressIndicator(value: null);
+        });
+      }
     });
   }
 
@@ -76,11 +85,11 @@ class AiChatState extends State<AiChat> {
       onPopInvokedWithResult: (_, _) async {
         Inferrer inferrer = await widget.inferrer;
         setState(() {
-          inferrer.abort();
+          inferrer.unload();
         });
       },
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: Text("AI")),
+        appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: Text(widget.aiName)),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(
@@ -101,6 +110,14 @@ class AiChatState extends State<AiChat> {
                     child: Icon(Icons.stop, color: Colors.black, size: 24),
                     onTap: () async {
                       (await widget.inferrer).abort();
+                    },
+                  ),
+                  InkWell(
+                    child: Icon(Icons.refresh, color: Colors.black, size: 24),
+                    onTap: () async {
+                      setState(() {
+                        conversationState = startingConversationState;
+                      });
                     },
                   ),
                 ],

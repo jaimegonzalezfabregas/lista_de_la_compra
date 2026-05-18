@@ -127,7 +127,6 @@ class JtoolSchema {
   }
 }
 
-
 List<Jtool> getTools() {
   return [
     Jtool(
@@ -192,18 +191,13 @@ List<Jtool> getTools() {
   ];
 }
 
-String? extractLastJson(String input) {
-  int endObject = input.lastIndexOf('}');
-  int endArray = input.lastIndexOf(']');
-
-  int end = endObject > endArray ? endObject : endArray;
-
-  if (end == -1) return null;
+(String, Map<String, dynamic>?) extractLastJson(String input) {
+  if (input[input.length - 1] != '}') return (input, null);
 
   int braceCount = 0;
   int bracketCount = 0;
 
-  for (int i = end; i >= 0; i--) {
+  for (int i = input.length - 1; i >= 0; i--) {
     var char = input[i];
 
     if (char == '}') braceCount++;
@@ -214,11 +208,11 @@ String? extractLastJson(String input) {
 
     // When balanced, we found the start
     if (braceCount == 0 && bracketCount == 0) {
-      return input.substring(i, end + 1);
+      return (input.substring(0, i), jsonDecode(input.substring(i, input.length)));
     }
   }
 
-  return null;
+  return (input, null);
 }
 
 String invokeTool(String toolCall) {

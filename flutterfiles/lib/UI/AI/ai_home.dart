@@ -61,7 +61,7 @@ Widget buildToolBar(AIModel meta, DownloadEvent data, BuildContext context) {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return AiChat(meta.getInferencer(getTools()));
+                  return AiChat(meta.getInferencer(getTools()), meta.name);
                 },
               ),
             );

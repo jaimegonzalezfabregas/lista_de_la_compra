@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
+import 'package:path_provider/path_provider.dart';
 
 abstract class DownloadEvent {}
 
@@ -25,10 +26,16 @@ abstract class AIModel {
   final double sizeGb;
   final Uri modelInfoUrl;
 
+  String? documentPath;
+
   StreamController<DownloadEvent> stateStream = StreamController.broadcast();
 
   AIModel({required this.name, required this.notes, required this.id, required this.sizeGb, required this.modelInfoUrl}) {
     refreshStatus();
+  }
+
+  Future<String> getBasePath() async {
+    return documentPath ?? (await getApplicationDocumentsDirectory()).path;
   }
 
   Future<Inferrer> getInferencer(List<Jtool> tools);
@@ -46,7 +53,6 @@ abstract class AIModel {
   Future<bool> alreadyDownloaded();
 
   void refreshStatus() async {
-    print("refreshing status of $name");
     if (await currentlyDownloading()) {
       return stateStream.add(JustASecond());
     }

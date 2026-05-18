@@ -1,48 +1,105 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cactus/cactus.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 
 class CactusInferrer extends Inferrer {
   late final CactusLM lm;
-  late final String model; // "qwen3-0.6"
+  final String model; // "qwen3-0.6"
+
+  late final Future<void> ready;
+
+  bool running = false;
+  bool stopFlag = false;
 
   CactusInferrer(super.tools, this.model) {
     lm = CactusLM();
+
+    ready = lm.downloadModel(model: model).then((value) => lm.initializeModel());
   }
 
   @override
   void abort() {
+    if (running) {
+      stopFlag = true;
+    }
+  }
+
+  @override
+  Future<void> unload() async {
+    await ready;
     lm.unload();
   }
 
   @override
   Future<Stream<InferenceEvent>> inferResponse(List<Jmessage> conversation, {int maxTokens = 333}) async {
+    StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();
+
     List<CactusTool> cactusTools = super.tools
         .map((t) => CactusTool(name: t.name, description: t.description, parameters: t.jsonSchema.intoCactusSchema()))
         .toList();
 
     // Download model (defaults to "qwen3-0.6" if model parameter is omitted)
-    await lm.downloadModel(model: model);
-    await lm.initializeModel();
+    await ready;
 
-    // Get the streaming response with default parameters
+    if (running) {
+      throw "inference already running";
+    }
+
+    running = true;
+
+    streamController.add(StartingInference());
+
     final streamedResult = await lm.generateCompletionStream(
-      messages: conversation.map((e) => e.intoChatMessage()).toList(),
+      messages: conversation.map((e) => e.intoCactusMessage()).whereType<ChatMessage>().toList(),
       params: CactusCompletionParams(tools: cactusTools),
     );
 
-    StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();
+    String messageSoFar = "";
+
+    bool localStopFlag = false;
 
     streamedResult.stream.listen((text) {
-      streamController.add(InferenceUpdate(text));
+      if (localStopFlag) {
+        return;
+      }
+
+      if (stopFlag) {
+        stopFlag = false;
+        localStopFlag = true;
+        return;
+      }
+
+      messageSoFar += text;
+      streamController.add(InferenceUpdate(messageSoFar));
     });
 
     streamedResult.result.then((CactusCompletionResult e) {
+      if (localStopFlag) {
+        return;
+      }
+
+      if (stopFlag) {
+        stopFlag = false;
+        localStopFlag = true;
+        return;
+      }
+
       if (e.success) {
+        running = false;
+
         conversation.add(Jmessage(Jrole.assistant, e.response));
 
-        streamController.add(InferenceEnd(conversation));
+        if (e.toolCalls.isNotEmpty) {
+          for (ToolCall tc in e.toolCalls) {
+            conversation.add(Jmessage(Jrole.toolCall, jsonEncode(tc.toJson())));
+          }
+
+          streamController.add(InferenceToolCall(e.toolCalls.map((tc) => JtoolCall.fromCactus(tc)).toList(), conversation));
+        } else {
+          streamController.add(InferenceEnd(conversation));
+        }
       } else {
         streamController.add(InferenceAborted());
       }
