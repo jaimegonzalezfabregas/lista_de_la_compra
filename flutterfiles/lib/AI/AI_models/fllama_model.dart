@@ -8,12 +8,12 @@ import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
 
 import 'dart:io' as io;
 
-class FllamaModel extends AIModel {
+class JfllamaModel extends AIModel {
   late final Uri modelDownloadUrl;
 
   List<Completer> onFinishDownloadCompleters = [];
 
-  FllamaModel({
+  JfllamaModel({
     required super.name,
     required super.notes,
     required super.id,

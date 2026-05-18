@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cactus/cactus.dart';
 import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
 import 'package:lista_de_la_compra/AI/AI_models/cactus_model.dart';
 import 'package:lista_de_la_compra/AI/AI_models/fllama_model.dart';
@@ -8,9 +9,10 @@ import 'dart:async';
 
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 import 'package:lista_de_la_compra/AI/ai_tools.dart';
+import 'package:lista_de_la_compra/UI/AI/ai_chat.dart';
 
-List<AIModel> catalog = [
-  FllamaModel(
+List<JfllamaModel> fLlamaCatalog = [
+  JfllamaModel(
     name: "Qwen 3.5 4B IQ2 M",
     id: "Qwen_Qwen3.5-4B-IQ2_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen_Qwen3.5-4B-IQ2_M.gguf?download=true"),
@@ -19,7 +21,7 @@ List<AIModel> catalog = [
     notes: "Relatively low quality, uses SOTA techniques to be surprisingly usable.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3.5 4B bf16",
     id: "Qwen_Qwen3.5-4B-bf16",
     modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-4B-GGUF/resolve/main/Qwen_Qwen3.5-4B-bf16.gguf?download=true"),
@@ -28,7 +30,7 @@ List<AIModel> catalog = [
     notes: "Full BF16 weights.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Mistral Nemo 12B",
     id: "mistral-nemo-12b",
     modelDownloadUrl: Uri.parse(
@@ -40,7 +42,7 @@ List<AIModel> catalog = [
         "92.5% in J.D. Hodges eval, 67% NexusRaven (complex API understanding). Best multi-turn sequential model — correctly identifies when to wait for results. Weakness: paraphrases arguments and sometimes over-helps. Low BFCL (49%) is due to Ollama template issues, not model quality. Mistral Nemo format.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen3.5 9B",
     id: "qwen3.5-9b",
     modelDownloadUrl: Uri.parse("https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF/resolve/main/Qwen_Qwen3.5-9B-Q3_K_L.gguf?download=true"),
@@ -50,7 +52,7 @@ List<AIModel> catalog = [
         "Best composite score across 3 benchmarks: 64% BFCL, 77% NexusRaven (best API understanding of all small models), 45% AgentBench (best multi-step agentic). Strongest at understanding complex API semantics. Hermes/Qwen format. Slightly slower than 4B variant.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Tiny Agent a 0.5B K M",
     id: "Tiny-Agent-a-0.5B",
     modelDownloadUrl: Uri.parse("https://huggingface.co/driaforall/Tiny-Agent-a-0.5B/resolve/main/dria-agent-a-0.5b.Q4_K_M.gguf?download=true"),
@@ -60,7 +62,7 @@ List<AIModel> catalog = [
         "Tiny-Agent-α is an extension of Dria-Agent-a, trained on top of the Qwen2.5-Coder series to be used in edge devices. These models are carefully fine tuned with quantization aware training to minimize performance degradation after quantization.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q2 K",
     id: "Qwen3-0.6B-Q2_K",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q2_K.gguf?download=true"),
@@ -69,7 +71,7 @@ List<AIModel> catalog = [
     notes: "Very low quality, smallest and fastest option. Suitable for highly constrained devices.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q3 K S",
     id: "Qwen3-0.6B-Q3_K_S",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_S.gguf?download=true"),
@@ -78,7 +80,7 @@ List<AIModel> catalog = [
     notes: "Low quality, compact quantization for minimal RAM usage.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q3 K M",
     id: "Qwen3-0.6B-Q3_K_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_M.gguf?download=true"),
@@ -87,7 +89,7 @@ List<AIModel> catalog = [
     notes: "Balanced low-memory option with slightly better quality than Q3_K_S.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q3 K L",
     id: "Qwen3-0.6B-Q3_K_L",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q3_K_L.gguf?download=true"),
@@ -96,7 +98,7 @@ List<AIModel> catalog = [
     notes: "Largest Q3 quantization, better quality while still lightweight.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q4 0",
     id: "Qwen3-0.6B-Q4_0",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_0.gguf?download=true"),
@@ -105,7 +107,7 @@ List<AIModel> catalog = [
     notes: "Classic Q4 quantization, good general-purpose option.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q4 K S",
     id: "Qwen3-0.6B-Q4_K_S",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_S.gguf?download=true"),
@@ -114,7 +116,7 @@ List<AIModel> catalog = [
     notes: "Good quality, efficient K-quant variant.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q4 K M",
     id: "Qwen3-0.6B-Q4_K_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_M.gguf?download=true"),
@@ -123,7 +125,7 @@ List<AIModel> catalog = [
     notes: "Recommended default. Best balance of quality, speed, and memory usage.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q5 0",
     id: "Qwen3-0.6B-Q5_0",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_0.gguf?download=true"),
@@ -132,7 +134,7 @@ List<AIModel> catalog = [
     notes: "Higher quality than Q4 variants, moderate memory increase.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q5 K S",
     id: "Qwen3-0.6B-Q5_K_S",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_K_S.gguf?download=true"),
@@ -141,7 +143,7 @@ List<AIModel> catalog = [
     notes: "Efficient high-quality K-quant.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q5 K M",
     id: "Qwen3-0.6B-Q5_K_M",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q5_K_M.gguf?download=true"),
@@ -150,7 +152,7 @@ List<AIModel> catalog = [
     notes: "High-quality quantization, recommended if RAM allows.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q6 K",
     id: "Qwen3-0.6B-Q6_K",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q6_K.gguf?download=true"),
@@ -159,7 +161,7 @@ List<AIModel> catalog = [
     notes: "Very high quality quantized model, close to full precision.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B Q8 0",
     id: "Qwen3-0.6B-Q8_0",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q8_0.gguf?download=true"),
@@ -168,31 +170,13 @@ List<AIModel> catalog = [
     notes: "Near-lossless quantization, excellent quality.",
   ),
 
-  FllamaModel(
+  JfllamaModel(
     name: "Qwen 3 0.6B F16",
     id: "Qwen3-0.6B-F16",
     modelDownloadUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-f16.gguf?download=true"),
     modelInfoUrl: Uri.parse("https://huggingface.co/gaianet/Qwen3-0.6B-GGUF"),
     sizeGb: 1.51,
     notes: "Full FP16 weights. Maximum quality, highest memory usage.",
-  ),
-
-  CactusModel(
-    name: "qwen3-0.6",
-    notes: "will see...",
-    id: "qwen3-0.6",
-    sizeGb: 0,
-    modelInfoUrl: Uri.parse("http://example.com"),
-    modelDownloadSlug: "qwen3-0.6",
-  ),
-
-  CactusModel(
-    name: "gemma3-270m",
-    notes: "will see...",
-    id: "gemma3-270m",
-    sizeGb: 0,
-    modelInfoUrl: Uri.parse("http://example.com"),
-    modelDownloadSlug: "gemma3-270m",
   ),
 ];
 List<Jtool> getTestTools() {
@@ -208,10 +192,21 @@ List<Jtool> getTestTools() {
   ];
 }
 
-Future<void> catalogTest() async {
-  await Future.wait(catalog.map((meta) => meta.syncDownload()).toList());
+Future<List<JcactusModel>> getCactusCatalog() async {
+  return (await CactusLM().getModels()).map((e) => JcactusModel.fromCactusModel(e)).whereType<JcactusModel>().toList();
+}
 
-  for (var meta in catalog) {
+List<AIModel>? catalogSingleton;
+
+Future<List<AIModel>> getCatalog() async {
+  catalogSingleton ??= [...fLlamaCatalog, ...(await getCactusCatalog())];
+  return catalogSingleton!;
+}
+
+Future<void> catalogTest() async {
+  await Future.wait((await getCatalog()).map((meta) => meta.syncDownload()).toList());
+
+  for (var meta in (await getCatalog())) {
     await File("testing_${meta.id}.txt").writeAsString("");
 
     for (int i = 0; i < 4; i++) {

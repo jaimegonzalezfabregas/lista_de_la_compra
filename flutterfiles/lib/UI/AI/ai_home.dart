@@ -168,7 +168,7 @@ class AiHome extends StatelessWidget {
               FutureBuilder(
                 future: () async {
                   try {
-                    var ret = catalog.map((AIModel model) {
+                    var ret = (await getCatalog()).map((AIModel model) {
                       return ListTile(
                         title: Text(model.name),
                         subtitle: Text(model.notes),
@@ -196,8 +196,8 @@ class AiHome extends StatelessWidget {
                       );
                     }).toList();
 
-                    Future.delayed(Duration(seconds: 1)).then((_) {
-                      for (var e in catalog) {
+                    Future.delayed(Duration(seconds: 1)).then((_) async {
+                      for (var e in (await getCatalog())) {
                         e.refreshStatus();
                       }
                     });

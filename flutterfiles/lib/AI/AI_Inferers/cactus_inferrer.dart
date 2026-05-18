@@ -68,6 +68,7 @@ class CactusInferrer extends Inferrer {
       if (stopFlag) {
         stopFlag = false;
         localStopFlag = true;
+        running = false;
         return;
       }
 
@@ -83,14 +84,17 @@ class CactusInferrer extends Inferrer {
       if (stopFlag) {
         stopFlag = false;
         localStopFlag = true;
+        running = false;
+
         return;
       }
 
       if (e.success) {
         running = false;
 
-        conversation.add(Jmessage(Jrole.assistant, e.response));
-
+        if (e.response.trim() != "") {
+          conversation.add(Jmessage(Jrole.assistant, e.response));
+        }
         if (e.toolCalls.isNotEmpty) {
           for (ToolCall tc in e.toolCalls) {
             conversation.add(Jmessage(Jrole.toolCall, jsonEncode(tc.toJson())));

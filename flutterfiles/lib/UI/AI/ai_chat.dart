@@ -19,7 +19,7 @@ class AiChat extends StatefulWidget {
 
 final List<Jmessage> startingConversationState = [Jmessage(Jrole.system, "you are an chat agent")];
 
-List<Jmessage> conversationState = startingConversationState;
+List<Jmessage> conversationState = [... startingConversationState];
 
 class AiChatState extends State<AiChat> {
   // List<Message> conversationState = [Message(Role.system, getContext())];
@@ -63,7 +63,7 @@ class AiChatState extends State<AiChat> {
 
       if (event is StartingInference) {
         setState(() {
-          liveResponse = CircularProgressIndicator(value: null);
+          liveResponse = Text("🤔");
         });
       }
     });
@@ -106,17 +106,17 @@ class AiChatState extends State<AiChat> {
                   });
                 },
                 actions: [
-                  InkWell(
-                    child: Icon(Icons.stop, color: Colors.black, size: 24),
-                    onTap: () async {
+                  IconButton(
+                    icon: Icon(Icons.stop, color: Colors.black, size: 24),
+                    onPressed: () async {
                       (await widget.inferrer).abort();
                     },
                   ),
-                  InkWell(
-                    child: Icon(Icons.refresh, color: Colors.black, size: 24),
-                    onTap: () async {
+                  IconButton(
+                    icon: Icon(Icons.refresh, color: Colors.black, size: 24),
+                    onPressed: () async {
                       setState(() {
-                        conversationState = startingConversationState;
+                        conversationState = [... startingConversationState];
                       });
                     },
                   ),

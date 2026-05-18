@@ -5,11 +5,11 @@ import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/cactus_inferrer.dart';
 import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
 
-class CactusModel extends AIModel {
+class JcactusModel extends AIModel {
   String modelDownloadSlug;
   bool currentlyDownloadingFlag = false;
 
-  CactusModel({
+  JcactusModel({
     required super.name,
     required super.notes,
     required super.id,
@@ -17,6 +17,19 @@ class CactusModel extends AIModel {
     required super.modelInfoUrl,
     required this.modelDownloadSlug,
   });
+
+  static JcactusModel? fromCactusModel(CactusModel cm) {
+    if (cm.supportsToolCalling && !cm.supportsVision) {
+      return JcactusModel(
+        name: cm.name,
+        notes: "Cactus powered model",
+        id: "cactus_${cm.slug}",
+        sizeGb: cm.sizeMb / 1000,
+        modelInfoUrl: Uri.parse("https://pub.dev/packages/cactus"),
+        modelDownloadSlug: cm.slug,
+      );
+    }
+  }
 
   @override
   bool isDeleteAviable() {
