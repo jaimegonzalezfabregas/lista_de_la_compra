@@ -21,6 +21,7 @@
   "agenda": "일정",
   "export": "내보내기",
   "undo": "실행 취소",
+  "uncategorized": "분류되지 않음",
   "product": "제품",
   "markAsNeeded": " 필요로 표시되었습니다. ",
   "markAsBought": " 구매됨으로 표시되었습니다. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

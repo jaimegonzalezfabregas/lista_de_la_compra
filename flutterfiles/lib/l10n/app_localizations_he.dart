@@ -73,6 +73,9 @@ class AppLocalizationsHe extends AppLocalizations {
   String get undo => 'בטל';
 
   @override
+  String get uncategorized => 'ללא קטגוריה';
+
+  @override
   String get product => 'מוצר';
 
   @override

@@ -21,6 +21,7 @@
   "agenda": "Program",
   "export": "Exportovať",
   "undo": "Späť",
+  "uncategorized": "Bez kategórie",
   "product": "Produkt",
   "markAsNeeded": " označené ako potrebné. ",
   "markAsBought": " označené ako kúpené. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

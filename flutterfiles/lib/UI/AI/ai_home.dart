@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 import 'package:lista_de_la_compra/AI/AI_models/ai_model.dart';
 import 'package:lista_de_la_compra/AI/ai_tools.dart';
 import 'package:lista_de_la_compra/AI/model_catalog.dart';
 
 import 'package:lista_de_la_compra/UI/AI/ai_chat.dart';
+import 'package:lista_de_la_compra/flutter_providers/flutter_providers.dart';
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
+import 'package:provider/provider.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,7 +54,7 @@ String durationAprox(Duration d) {
   return "< 5 secs";
 }
 
-Widget buildToolBar(AIModel meta, DownloadEvent data, BuildContext context) {
+Widget buildToolBar(AIModel meta, DownloadEvent data, BuildContext context, List<Jtool> tools) {
   if (data is ReadyToUse) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -61,7 +65,7 @@ Widget buildToolBar(AIModel meta, DownloadEvent data, BuildContext context) {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return AiChat(meta.getInferencer(getTools()), meta.name);
+                  return AiChat(meta.getInferencer(tools), meta.name);
                 },
               ),
             );
@@ -151,10 +155,18 @@ Widget buildToolBar(AIModel meta, DownloadEvent data, BuildContext context) {
 }
 
 class AiHome extends StatelessWidget {
-  const AiHome({super.key});
+  final String enviromentId;
+
+  const AiHome(this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    ScheduleProvider scheduleProvider = context.read<FlutterScheduleProvider>();
+    ProductProvider productProvider = context.read<FlutterProductProvider>();
+    RecipeProvider recipeProvider = context.read<FlutterRecipeProvider>();
+
+    List<Jtool> tools = getTools(scheduleProvider, productProvider, recipeProvider, enviromentId);
+
     return Scaffold(
       appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surfaceContainer, title: Text("AI welcome")),
       body: Padding(
@@ -182,7 +194,7 @@ class AiHome extends StatelessWidget {
                                 if (!snapshot.hasData) {
                                   return Text("...");
                                 }
-                                return buildToolBar(model, snapshot.data!, context);
+                                return buildToolBar(model, snapshot.data!, context, tools);
                               },
                             ),
                             IconButton(

@@ -282,6 +282,12 @@ abstract class AppLocalizations {
   /// **'Undo'**
   String get undo;
 
+  /// Uncategorized
+  ///
+  /// In en, this message translates to:
+  /// **'Uncategorized'**
+  String get uncategorized;
+
   /// Product
   ///
   /// In en, this message translates to:

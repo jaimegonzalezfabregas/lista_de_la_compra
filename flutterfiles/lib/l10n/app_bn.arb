@@ -21,6 +21,7 @@
   "agenda": "অ্যাজেন্ডা",
   "export": "রপ্তানি",
   "undo": "পূর্বাবস্থা",
+  "uncategorized": "অবিশেষিত",
   "product": "পণ্য",
   "markAsNeeded": " চিহ্নিত করা হয়েছে প্রয়োজনীয়। ",
   "markAsBought": " চিহ্নিত করা হয়েছে কেনা হয়েছে। ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

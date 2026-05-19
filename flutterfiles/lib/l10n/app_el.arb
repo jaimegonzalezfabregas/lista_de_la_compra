@@ -21,6 +21,7 @@
   "agenda": "Ημερήσια διάταξη",
   "export": "Εξαγωγή",
   "undo": "Αναίρεση",
+  "uncategorized": "Χωρίς κατηγορία",
   "product": "Προϊόν",
   "markAsNeeded": " επισημάνθηκε ως απαραίτητο. ",
   "markAsBought": " επισημάνθηκε ως αγορασμένο. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

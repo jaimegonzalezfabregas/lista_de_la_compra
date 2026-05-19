@@ -103,7 +103,7 @@ abstract class Inferrer {
               orElse: () => Jtool.failure("The tool with name ${tc.name} does not exist!"),
             );
 
-            conversation.add(Jmessage(Jrole.tool, jtool.tool(tc.arguments)));
+            conversation.add(Jmessage(Jrole.tool, await jtool.tool(tc.arguments)));
           }
 
           superStreamController.add(InferenceConversationUpdate(conversation));
@@ -128,7 +128,7 @@ class Jtool {
   String name;
   String description;
   JtoolSchema jsonSchema;
-  String Function(Map<String, dynamic> args) tool;
+  Future<String> Function(Map<String, dynamic> args) tool;
 
   Jtool({required this.name, required this.description, required this.jsonSchema, required this.tool});
 
@@ -141,7 +141,7 @@ class Jtool {
   }
 
   static Jtool failure(String message) {
-    return Jtool(name: "Unknown Tool", description: "", tool: (_) => message, jsonSchema: JtoolSchema());
+    return Jtool(name: "Unknown Tool", description: "", tool: (_) async => message, jsonSchema: JtoolSchema());
   }
 }
 
@@ -152,8 +152,9 @@ enum Jrole {
   system,
   toolCall;
 
-  Role? intoFllamaRole() {
+  Role intoFllamaRole() {
     switch (this) {
+      case Jrole.toolCall:
       case Jrole.assistant:
         return Role.assistant;
       case Jrole.tool:
@@ -162,8 +163,20 @@ enum Jrole {
         return Role.user;
       case Jrole.system:
         return Role.system;
-      default:
-        return null;
+    }
+  }
+
+  String intoCactusRole() {
+    switch (this) {
+      case Jrole.toolCall:
+      case Jrole.assistant:
+        return "assistant";
+      case Jrole.tool:
+        return "tool";
+      case Jrole.user:
+        return "user";
+      case Jrole.system:
+        return "system";
     }
   }
 }
@@ -175,19 +188,11 @@ class Jmessage {
   Jmessage(this.role, this.text);
 
   Message? intoFllamaMessage() {
-    if (role == Jrole.system) {
-      return null;
-    } else {
-      return Message(role.intoFllamaRole()!, text);
-    }
+    return Message(role.intoFllamaRole(), text);
   }
 
   ChatMessage? intoCactusMessage() {
-    if (role == Jrole.system) {
-      return null;
-    } else {
-      return ChatMessage(content: text, role: role.name);
-    }
+    return ChatMessage(role: role.intoCactusRole(), content: text);
   }
 
   @override

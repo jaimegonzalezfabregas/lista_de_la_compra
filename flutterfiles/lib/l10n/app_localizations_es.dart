@@ -73,6 +73,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get undo => 'Deshacer';
 
   @override
+  String get uncategorized => 'Sin categoría';
+
+  @override
   String get product => 'Producto';
 
   @override

@@ -73,6 +73,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get undo => 'Zpět';
 
   @override
+  String get uncategorized => 'Bez kategorie';
+
+  @override
   String get product => 'Produkt';
 
   @override

@@ -21,6 +21,7 @@
   "agenda": "Agenda",
   "export": "Exporteren",
   "undo": "Ongedaan maken",
+  "uncategorized": "Zonder categorie",
   "product": "Product",
   "markAsNeeded": " gemarkeerd als nodig. ",
   "markAsBought": " gemarkeerd als gekocht. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

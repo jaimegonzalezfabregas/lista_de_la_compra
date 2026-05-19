@@ -73,6 +73,9 @@ class AppLocalizationsDa extends AppLocalizations {
   String get undo => 'Fortryd';
 
   @override
+  String get uncategorized => 'Uden kategori';
+
+  @override
   String get product => 'Produkt';
 
   @override

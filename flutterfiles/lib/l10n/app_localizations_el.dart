@@ -74,6 +74,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get undo => 'Αναίρεση';
 
   @override
+  String get uncategorized => 'Χωρίς κατηγορία';
+
+  @override
   String get product => 'Προϊόν';
 
   @override

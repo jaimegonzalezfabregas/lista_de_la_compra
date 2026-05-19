@@ -73,6 +73,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get undo => 'পূর্বাবস্থা';
 
   @override
+  String get uncategorized => 'অবিশেষিত';
+
+  @override
   String get product => 'পণ্য';
 
   @override

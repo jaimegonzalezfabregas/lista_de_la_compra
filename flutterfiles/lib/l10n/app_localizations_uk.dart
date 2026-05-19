@@ -73,6 +73,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get undo => 'Скасувати';
 
   @override
+  String get uncategorized => 'Без категорії';
+
+  @override
   String get product => 'Продукт';
 
   @override

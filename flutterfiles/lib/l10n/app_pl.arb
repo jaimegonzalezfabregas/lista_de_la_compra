@@ -21,6 +21,7 @@
   "agenda": "Kalendarz",
   "export": "Eksportuj",
   "undo": "Cofnij",
+  "uncategorized": "Bez kategorii",
   "product": "Produkt",
   "markAsNeeded": " oznaczono jako potrzebne. ",
   "markAsBought": " oznaczono jako kupione. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

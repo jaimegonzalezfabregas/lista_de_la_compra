@@ -73,6 +73,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get undo => 'Ongedaan maken';
 
   @override
+  String get uncategorized => 'Zonder categorie';
+
+  @override
   String get product => 'Product';
 
   @override

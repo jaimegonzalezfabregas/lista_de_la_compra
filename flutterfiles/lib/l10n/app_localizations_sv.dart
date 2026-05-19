@@ -73,6 +73,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get undo => 'Ångra';
 
   @override
+  String get uncategorized => 'Utan kategori';
+
+  @override
   String get product => 'Produkt';
 
   @override

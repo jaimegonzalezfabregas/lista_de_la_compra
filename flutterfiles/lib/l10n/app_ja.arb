@@ -21,6 +21,7 @@
   "agenda": "スケジュール",
   "export": "エクスポート",
   "undo": "元に戻す",
+  "uncategorized": "未分類",
   "product": "商品",
   "markAsNeeded": " が必要とマークされました。",
   "markAsBought": " が購入済みとマークされました。",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

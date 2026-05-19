@@ -21,6 +21,7 @@
   "agenda": "Agenda",
   "export": "Eksporter",
   "undo": "Angre",
+  "uncategorized": "Uten kategori",
   "product": "Produkt",
   "markAsNeeded": " markert som nødvendig. ",
   "markAsBought": " markert som kjøpt. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

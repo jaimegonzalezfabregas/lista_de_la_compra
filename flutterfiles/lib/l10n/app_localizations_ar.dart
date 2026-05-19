@@ -73,6 +73,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get undo => 'تراجع';
 
   @override
+  String get uncategorized => 'غير مصنّف';
+
+  @override
   String get product => 'منتج';
 
   @override

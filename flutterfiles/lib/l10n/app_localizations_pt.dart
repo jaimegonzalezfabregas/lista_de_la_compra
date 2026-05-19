@@ -73,6 +73,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get undo => 'Desfazer';
 
   @override
+  String get uncategorized => 'Sem categoria';
+
+  @override
   String get product => 'Produto';
 
   @override

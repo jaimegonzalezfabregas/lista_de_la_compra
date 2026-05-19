@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:provider/provider.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_home.dart';
-import 'package:lista_de_la_compra/UI/recipies/add_ingredient_to_recipe.dart';
+import 'package:lista_de_la_compra/UI/recipies/add_product_to_recipe.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 
@@ -11,11 +11,11 @@ import '../../flutter_providers/flutter_providers.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-class Ingredients extends StatelessWidget {
+class Products extends StatelessWidget {
   final String recipeId;
-  const Ingredients(this.recipeId, {super.key});
+  const Products(this.recipeId, {super.key});
 
-  ListTile ingredientEntry(RecipeProduct ingredient, Product product, RecipeProvider recipeProvider, BuildContext context) {
+  ListTile productEntry(RecipeProduct recipeProduct, Product product, RecipeProvider recipeProvider, BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     // ignore: unused_local_variable
@@ -23,7 +23,7 @@ class Ingredients extends StatelessWidget {
 
     return ListTile(
       title: Text(product.name),
-      subtitle: ingredient.amount != "" ? Text(ingredient.amount) : null,
+      subtitle: recipeProduct.amount != "" ? Text(recipeProduct.amount) : null,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -36,7 +36,7 @@ class Ingredients extends StatelessWidget {
                 PopupMenuItem(
                   onTap: () {
                     TextEditingController textEditingController = TextEditingController();
-                    textEditingController.text = ingredient.amount;
+                    textEditingController.text = recipeProduct.amount;
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -49,7 +49,7 @@ class Ingredients extends StatelessWidget {
                         Widget continueButton = ElevatedButton(
                           child: Text(appLoc.save),
                           onPressed: () {
-                            recipeProvider.setIngredientAmountOfRecipeById(recipeId, ingredient.productId, textEditingController.text);
+                            recipeProvider.setIngredientAmountOfRecipeById(recipeId, recipeProduct.productId, textEditingController.text);
                             Navigator.of(context).pop();
                           },
                         );
@@ -71,7 +71,7 @@ class Ingredients extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return ProductDetail(ingredient.productId);
+                          return ProductDetail(recipeProduct.productId);
                         },
                       ),
                     );
@@ -79,7 +79,7 @@ class Ingredients extends StatelessWidget {
                 ),
                 PopupMenuItem(
                   onTap: () {
-                    recipeProvider.setIngredientOfRecipeById(recipeId, ingredient.productId, false, appLoc.enoughForA);
+                    recipeProvider.setIngredientOfRecipeById(recipeId, recipeProduct.productId, false, appLoc.enoughForA);
                   },
                   child: Row(children: [Icon(Icons.delete), SizedBox(width: 8), Text(appLoc.delete)]),
                 ),
@@ -98,20 +98,20 @@ class Ingredients extends StatelessWidget {
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
     var productProvider = context.watch<FlutterProductProvider>();
 
-    var ingredientFuture = recipeProvider.getProductsOfRecipeById(recipeId);
+    var productFuture = recipeProvider.getProductsOfRecipeById(recipeId);
 
     return FutureBuilder(
-      future: ingredientFuture,
+      future: productFuture,
       builder: (context, AsyncSnapshot<List<(RecipeProduct, Product)>> snapshot) {
         if (!snapshot.hasData) {
           return Text(appLoc.loading);
         }
-        List<(RecipeProduct, Product)> ingredientList = snapshot.data!;
+        List<(RecipeProduct, Product)> productList = snapshot.data!;
 
-        var anyNonNeeded = ingredientList.any((p) {
+        var anyNonNeeded = productList.any((p) {
           return !p.$2.needed;
         });
-        var anyNeeded = ingredientList.any((p) {
+        var anyNeeded = productList.any((p) {
           return p.$2.needed;
         });
 
@@ -138,7 +138,7 @@ class Ingredients extends StatelessWidget {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(), // Prevent scrolling inside the Column
                         separatorBuilder: (context, index) => Divider(),
-                        itemCount: ingredientList.length + 1,
+                        itemCount: productList.length + 1,
                         itemBuilder: (context, index) {
                           if (index == 0) {
                             return ListTile(
@@ -150,7 +150,7 @@ class Ingredients extends StatelessWidget {
                                     value: allNotNeeded,
                                     tristate: true,
                                     onChanged: (notNeeded) {
-                                      for (var (_, p) in ingredientList) {
+                                      for (var (_, p) in productList) {
                                         productProvider.setProductNeededness(p.id, !(notNeeded ?? false));
                                       }
                                     },
@@ -159,8 +159,8 @@ class Ingredients extends StatelessWidget {
                               ),
                             );
                           } else {
-                            var ingredient = ingredientList[index - 1];
-                            return ingredientEntry(ingredient.$1, ingredient.$2, recipeProvider, context);
+                            var entry = productList[index - 1];
+                            return productEntry(entry.$1, entry.$2, recipeProvider, context);
                           }
                         },
                       ),
@@ -182,7 +182,7 @@ class Ingredients extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return AddIngredientToRecipe(recipeId);
+                            return AddProductToRecipe(recipeId);
                           },
                         ),
                       );
@@ -417,7 +417,7 @@ class RecipeDetail extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(appLoc.ingredients, style: Theme.of(context).textTheme.titleSmall),
             ),
-            Ingredients(recipeId),
+            Products(recipeId),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(appLoc.dates, style: Theme.of(context).textTheme.titleSmall),

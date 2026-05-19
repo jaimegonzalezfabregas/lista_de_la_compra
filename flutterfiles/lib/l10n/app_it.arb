@@ -21,6 +21,7 @@
   "agenda": "Agenda",
   "export": "Esporta",
   "undo": "Annulla",
+  "uncategorized": "Senza categoria",
   "product": "Prodotto",
   "markAsNeeded": " contrassegnato come necessario. ",
   "markAsBought": " contrassegnato come acquistato. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

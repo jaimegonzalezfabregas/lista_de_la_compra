@@ -21,6 +21,8 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
   }
 
   Future<List<ListTile>> getShowTilesWithoutFilter(List<T> elms) async {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     Map<String, List<T>> categoryMap = {};
     Map<String, String> categoryIdToName = {};
     List<T> uncategorizedElements = [];
@@ -47,22 +49,6 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
     }
 
     List<ListTile> ret = [];
-
-    if (uncategorizedElements.isNotEmpty) {
-      ret.addAll(
-        uncategorizedElements.map(
-          (e) => widget.elementToListTile(
-            e,
-            RichText(
-              text: TextSpan(
-                style: Theme.of(context).textTheme.bodyLarge,
-                children: [TextSpan(text: widget.elementToTag(e))],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
 
     categoryMap.keys.toList()
       ..sort((a, b) => categoryIdToName[a]!.toLowerCase().compareTo(categoryIdToName[b]!.toLowerCase()))
@@ -92,6 +78,32 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
           ),
         );
       });
+
+    if (uncategorizedElements.isNotEmpty) {
+      if (elms.length != uncategorizedElements.length) {
+        ret.add(
+          ListTile(
+            title: Center(
+              child: Text(appLoc.uncategorized, style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ),
+        );
+      }
+
+      ret.addAll(
+        uncategorizedElements.map(
+          (e) => widget.elementToListTile(
+            e,
+            RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyLarge,
+                children: [TextSpan(text: widget.elementToTag(e))],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return ret;
   }
@@ -136,11 +148,15 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
               0,
               ListTile(
                 title: ElevatedButton(
-
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                     children: [Icon(Icons.format_list_bulleted_add), SizedBox.fromSize(size: Size.square(10)) ,Text("${appLoc.add} \"$filter\"")]),
+                    children: [
+                      Icon(Icons.format_list_bulleted_add),
+                      SizedBox.fromSize(size: Size.square(10)),
+                      Text("${appLoc.add} \"$filter\""),
+                    ],
+                  ),
                   onPressed: () {
                     widget.newElement!(filter);
                   },

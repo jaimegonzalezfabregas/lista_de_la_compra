@@ -73,6 +73,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get undo => 'Отмени';
 
   @override
+  String get uncategorized => 'Без категория';
+
+  @override
   String get product => 'Продукт';
 
   @override

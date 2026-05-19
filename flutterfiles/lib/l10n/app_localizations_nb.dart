@@ -73,6 +73,9 @@ class AppLocalizationsNb extends AppLocalizations {
   String get undo => 'Angre';
 
   @override
+  String get uncategorized => 'Uten kategori';
+
+  @override
   String get product => 'Produkt';
 
   @override

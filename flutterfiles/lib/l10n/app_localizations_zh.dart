@@ -72,6 +72,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get undo => '撤销';
 
   @override
+  String get uncategorized => '未分类';
+
+  @override
   String get product => '产品';
 
   @override

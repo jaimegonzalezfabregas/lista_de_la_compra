@@ -14,9 +14,9 @@ class CactusInferrer extends Inferrer {
   bool stopFlag = false;
 
   CactusInferrer(super.tools, this.model) {
-    lm = CactusLM();
+    lm = CactusLM(enableToolFiltering: false);
 
-    ready = lm.downloadModel(model: model).then((value) => lm.initializeModel());
+    ready =  lm.initializeModel(params: CactusInitParams(model: model));
   }
 
   @override
@@ -35,6 +35,7 @@ class CactusInferrer extends Inferrer {
   @override
   Future<Stream<InferenceEvent>> inferResponse(List<Jmessage> conversation, {int maxTokens = 333}) async {
     StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();
+    Future.delayed(Duration(milliseconds: 100), () => streamController.add(StartingInference()));
 
     List<CactusTool> cactusTools = super.tools
         .map((t) => CactusTool(name: t.name, description: t.description, parameters: t.jsonSchema.intoCactusSchema()))
@@ -49,7 +50,6 @@ class CactusInferrer extends Inferrer {
 
     running = true;
 
-    streamController.add(StartingInference());
 
     final streamedResult = await lm.generateCompletionStream(
       messages: conversation.map((e) => e.intoCactusMessage()).whereType<ChatMessage>().toList(),

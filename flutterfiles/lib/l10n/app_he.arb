@@ -21,6 +21,7 @@
   "agenda": "סדר יום",
   "export": "ייצא",
   "undo": "בטל",
+  "uncategorized": "ללא קטגוריה",
   "product": "מוצר",
   "markAsNeeded": " סומן כנדרש. ",
   "markAsBought": " סומן כנרכש. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

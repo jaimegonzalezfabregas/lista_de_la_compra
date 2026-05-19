@@ -73,6 +73,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get undo => 'Hoàn tác';
 
   @override
+  String get uncategorized => 'Không phân loại';
+
+  @override
   String get product => 'Sản phẩm';
 
   @override

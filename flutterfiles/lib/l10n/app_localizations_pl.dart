@@ -73,6 +73,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get undo => 'Cofnij';
 
   @override
+  String get uncategorized => 'Bez kategorii';
+
+  @override
   String get product => 'Produkt';
 
   @override

@@ -21,6 +21,7 @@
   "agenda": "วาระการประชุม",
   "export": "ส่งออก",
   "undo": "เลิกทำ",
+  "uncategorized": "ไม่มีหมวดหมู่",
   "product": "สินค้า",
   "markAsNeeded": " ถูกทำเครื่องหมายว่าเป็นสิ่งที่จำเป็น ",
   "markAsBought": " ถูกทำเครื่องหมายว่าได้ซื้อแล้ว ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

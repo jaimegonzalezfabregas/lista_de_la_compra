@@ -21,6 +21,7 @@
   "agenda": "جدول الأعمال",
   "export": "تصدير",
   "undo": "تراجع",
+  "uncategorized": "غير مصنّف",
   "product": "منتج",
   "markAsNeeded": " تم تحديده كمطلوب. ",
   "markAsBought": " تم تحديده كمشترى. ",
@@ -152,6 +153,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

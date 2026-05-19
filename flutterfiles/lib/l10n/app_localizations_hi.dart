@@ -73,6 +73,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get undo => 'पूर्ववत करें';
 
   @override
+  String get uncategorized => 'बिना श्रेणी';
+
+  @override
   String get product => 'उत्पाद';
 
   @override

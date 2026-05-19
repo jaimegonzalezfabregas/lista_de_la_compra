@@ -73,6 +73,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get undo => 'Batalkan';
 
   @override
+  String get uncategorized => 'Tanpa kategori';
+
+  @override
   String get product => 'Produk';
 
   @override

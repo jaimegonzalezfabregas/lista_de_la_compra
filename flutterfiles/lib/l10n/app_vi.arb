@@ -21,6 +21,7 @@
   "agenda": "Lịch trình",
   "export": "Xuất",
   "undo": "Hoàn tác",
+  "uncategorized": "Không phân loại",
   "product": "Sản phẩm",
   "markAsNeeded": " được đánh dấu là cần thiết. ",
   "markAsBought": " được đánh dấu là đã mua. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

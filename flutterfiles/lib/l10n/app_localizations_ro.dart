@@ -73,6 +73,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get undo => 'Anulează';
 
   @override
+  String get uncategorized => 'Fără categorie';
+
+  @override
   String get product => 'Produs';
 
   @override

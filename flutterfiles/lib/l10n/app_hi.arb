@@ -21,6 +21,7 @@
   "agenda": "एजेंडा",
   "export": "निर्यात",
   "undo": "पूर्ववत करें",
+  "uncategorized": "बिना श्रेणी",
   "product": "उत्पाद",
   "markAsNeeded": " को आवश्यक के रूप में चिह्नित किया गया। ",
   "markAsBought": " को खरीदा गया के रूप में चिह्नित किया गया। ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

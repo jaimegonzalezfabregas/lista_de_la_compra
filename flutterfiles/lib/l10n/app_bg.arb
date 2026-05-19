@@ -21,6 +21,7 @@
   "agenda": "Дневен ред",
   "export": "Експорт",
   "undo": "Отмени",
+  "uncategorized": "Без категория",
   "product": "Продукт",
   "markAsNeeded": " отбелязано като необходимо. ",
   "markAsBought": " отбелязано като закупено. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

@@ -73,6 +73,9 @@ class AppLocalizationsMs extends AppLocalizations {
   String get undo => 'Batal';
 
   @override
+  String get uncategorized => 'Tanpa kategori';
+
+  @override
   String get product => 'Produk';
 
   @override

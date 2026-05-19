@@ -76,7 +76,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return AiHome();
+                    return AiHome(widget.enviromentId);
                   },
                 ),
               );

@@ -73,6 +73,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get undo => 'Späť';
 
   @override
+  String get uncategorized => 'Bez kategórie';
+
+  @override
   String get product => 'Produkt';
 
   @override

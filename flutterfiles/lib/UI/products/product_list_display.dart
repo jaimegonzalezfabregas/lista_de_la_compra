@@ -64,7 +64,7 @@ class ProductListDisplay extends StatelessWidget {
 
         var aisles = await productAisleProvider.getAisleOfProductInSupermarket(p.id, selectedSupermarket);
         return aisles.map((a) => (a.id, a.name)).toList();
-      },
+      }, 
     );
   }
 }

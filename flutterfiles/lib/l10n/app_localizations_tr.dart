@@ -73,6 +73,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get undo => 'Geri al';
 
   @override
+  String get uncategorized => 'Kategorisiz';
+
+  @override
   String get product => 'Ürün';
 
   @override

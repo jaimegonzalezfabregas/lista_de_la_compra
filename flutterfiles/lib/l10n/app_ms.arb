@@ -21,6 +21,7 @@
   "agenda": "Agenda",
   "export": "Eksport",
   "undo": "Batal",
+  "uncategorized": "Tanpa kategori",
   "product": "Produk",
   "markAsNeeded": " ditandakan sebagai diperlukan. ",
   "markAsBought": " ditandakan sebagai dibeli. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

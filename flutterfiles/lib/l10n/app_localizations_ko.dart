@@ -72,6 +72,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get undo => '실행 취소';
 
   @override
+  String get uncategorized => '분류되지 않음';
+
+  @override
   String get product => '제품';
 
   @override

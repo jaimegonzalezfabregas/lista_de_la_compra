@@ -73,6 +73,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get undo => 'Rückgängig';
 
   @override
+  String get uncategorized => 'Ohne Kategorie';
+
+  @override
   String get product => 'Produkt';
 
   @override

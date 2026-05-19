@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
+import 'package:lista_de_la_compra/AI/ai_tools.dart';
 import 'package:lista_de_la_compra/UI/AI/message_buble.dart';
 
 class AiChat extends StatefulWidget {
@@ -17,20 +18,20 @@ class AiChat extends StatefulWidget {
   }
 }
 
-final List<Jmessage> startingConversationState = [Jmessage(Jrole.system, "you are an chat agent")];
+final List<Jmessage> startingConversationState = [Jmessage(Jrole.system, getContext())];
 
-List<Jmessage> conversationState = [... startingConversationState];
+List<Jmessage> conversationState = [...startingConversationState];
 
 class AiChatState extends State<AiChat> {
   // List<Message> conversationState = [Message(Role.system, getContext())];
   Widget? liveResponse;
 
   void aiTurn() async {
-    Stream<InferenceEvent> inferenceStream = await (await widget.inferrer).inferResponseToolReady(conversationState);
-
     setState(() {
       liveResponse = Text("⏳");
     });
+
+    Stream<InferenceEvent> inferenceStream = await (await widget.inferrer).inferResponseToolReady(conversationState);
 
     inferenceStream.listen((event) {
       print("\n\n InferenceStream event $event \n\n");
@@ -116,7 +117,7 @@ class AiChatState extends State<AiChat> {
                     icon: Icon(Icons.refresh, color: Colors.black, size: 24),
                     onPressed: () async {
                       setState(() {
-                        conversationState = [... startingConversationState];
+                        conversationState = [...startingConversationState];
                       });
                     },
                   ),

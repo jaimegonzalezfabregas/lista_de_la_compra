@@ -20,6 +20,7 @@
   "agenda": "Agenda",
   "export": "Export",
   "undo": "Undo",
+  "uncategorized": "Uncategorized",
   "product": "Product",
   "markAsNeeded": " marked as needed. ",
   "markAsBought": " marked as bought. ",
@@ -157,6 +158,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

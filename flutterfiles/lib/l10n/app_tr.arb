@@ -21,6 +21,7 @@
   "agenda": "Ajanda",
   "export": "Dışa aktar",
   "undo": "Geri al",
+  "uncategorized": "Kategorisiz",
   "product": "Ürün",
   "markAsNeeded": " gerekli olarak işaretlendi. ",
   "markAsBought": " satın alındı olarak işaretlendi. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

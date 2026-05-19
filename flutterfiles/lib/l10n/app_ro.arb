@@ -21,6 +21,7 @@
   "agenda": "Agenda",
   "export": "Exportă",
   "undo": "Anulează",
+  "uncategorized": "Fără categorie",
   "product": "Produs",
   "markAsNeeded": " marcat ca necesar. ",
   "markAsBought": " marcat ca cumpărat. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

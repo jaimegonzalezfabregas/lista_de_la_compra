@@ -73,6 +73,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get undo => 'Visszavonás';
 
   @override
+  String get uncategorized => 'Nincs kategória';
+
+  @override
   String get product => 'Termék';
 
   @override

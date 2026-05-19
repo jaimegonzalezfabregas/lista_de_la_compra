@@ -185,7 +185,7 @@ List<Jtool> getTestTools() {
       name: "GetGeoLocation",
       description: "This tool provides information about the location of the user in real time",
       jsonSchema: JtoolSchema(requiredProps: [], properties: {}),
-      tool: (_) {
+      tool: (_) async {
         return "You are in Moscow";
       },
     ),

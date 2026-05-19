@@ -42,7 +42,7 @@ class FllamaInferrer extends Inferrer {
     );
 
     StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();
-    streamController.add(StartingInference());
+    Future.delayed(Duration(milliseconds: 100), () => streamController.add(StartingInference()));
 
     running = true;
     bool localAbort = false;

@@ -72,6 +72,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get undo => '元に戻す';
 
   @override
+  String get uncategorized => '未分類';
+
+  @override
   String get product => '商品';
 
   @override

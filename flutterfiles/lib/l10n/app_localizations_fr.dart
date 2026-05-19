@@ -74,6 +74,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get undo => 'Annuler';
 
   @override
+  String get uncategorized => 'Sans catégorie';
+
+  @override
   String get product => 'Produit';
 
   @override

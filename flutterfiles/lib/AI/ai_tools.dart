@@ -3,11 +3,12 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 String getContext() {
   return """You are an **agentic personal meal planner**. Your objective is to manipulate the user's meal plan exactly as the user requests.
 
-As an agentic LLM, you are able to call tools to inspect, modify, and organize the meal plan, ingredients, and recipes.
+As an agentic LLM, you are able to call tools to inspect, modify, and organize the meal plan, products, and recipes.
 
 Today is `${DateFormat.yMMMMEEEEd().format(DateTime.now())}`. The date info may be useful during conversation, but is never needed as a input to the tools.
 
@@ -19,8 +20,8 @@ Your responsibilities include:
 - Adding or changing meals on specific days
 - Looking up existing recipes
 - Creating new recipes
-- Looking up ingredients
-- Adding missing ingredients
+- Looking up products
+- Adding missing products
 - Verifying that requested changes were successfully applied
 
 You should act autonomously:
@@ -28,7 +29,7 @@ You should act autonomously:
 - When the user asks to change a meal, first inspect existing planning if needed.
 - When the user references a recipe by name, search the recipe book to find its UUID.
 - If a requested recipe does not exist, create it using `AddRecipe`.
-- If a recipe needs ingredients that are missing from the catalog, add them using `AddIngredient`.
+- If a recipe needs products that are missing from the catalog, add them using `AddProduct`.
 - After modifying the plan, verify the result using `GetPlanning`.
 - Never invent UUIDs-always retrieve them from tool outputs.
 
@@ -55,8 +56,8 @@ After setting a meal, verify success with `GetPlanning`.
 
 1. Use `GetRecipeBook` to check if it exists
 2. If missing:
-   - Use `GetIngredientCatalog`
-   - Add any missing ingredients with `AddIngredient`
+   - Use `GetProductCatalog`
+   - Add any missing products with `AddProduct`
    - Create recipe with `AddRecipe`
 3. Use `SetMeal`
 4. Use `GetPlanning` to verify
@@ -97,9 +98,9 @@ class JtoolSchema {
 
   String intoFllamaJsonSchema() {
     return jsonEncode({
-      type: type,
-      requiredProps: requiredProps,
-      properties: properties.map((String key, Jproperty value) {
+      "type": type,
+      "requiredProps": requiredProps,
+      "properties": properties.map((String key, Jproperty value) {
         return MapEntry(key, {"type": value.type, "description": value.description});
       }),
     });
@@ -127,32 +128,78 @@ class JtoolSchema {
   }
 }
 
-List<Jtool> getTools() {
+String toolError(String errorMsg) {
+  return jsonEncode({"responseType": "Error", "errorMessage": errorMsg});
+}
+
+List<Jtool> getTools(ScheduleProvider scheduleProvider, ProductProvider productProvider, RecipeProvider recipeProvider, String enviromentId) {
   return [
     Jtool(
       name: "GetPlanning",
       description: "Retrieve the current meal planning for the next N days.",
       jsonSchema: JtoolSchema(requiredProps: ["days"], properties: {"days": Jproperty("integer", "Number of future days to retrieve")}),
-      tool: (_) {
-        return "This is a tool response";
+      tool: (Map<String, dynamic> args) async {
+        if (args["days"] == null) {
+          return toolError("the number of days is needed");
+        }
+        int days = 0;
+        try {
+          days = int.parse(args["days"]);
+        } on FormatException catch (_, _) {
+          return toolError("the number of days must be an integer");
+        }
+
+        List<Map<String, dynamic>> ret = [];
+
+        int currentWeek = getCurrentWeek();
+        DateTime startOfWeek = getStartOfWeek(currentWeek);
+        int currentDay = getCurrentDayOfTheWeek();
+
+        int sum = 0;
+
+        for (int i = 0; i < days; i++) {
+          int iWeek = currentWeek + (i / 7).floor();
+          int iDay = currentDay + i % 7;
+
+          final date = startOfWeek.add(Duration(days: i));
+
+          List<ScheduleEntry> scheduleEntries = await scheduleProvider.getEntries(iWeek, iDay, enviromentId);
+          List<Recipe?> recipes = await Future.wait(scheduleEntries.map((e) => recipeProvider.getRecipeById(e.recipeId)));
+          sum += recipes.length;
+          
+          ret.add({
+            "day": DateFormat('EEEE d').format(date),
+            "planedMeals": recipes.map((Recipe? recipe) {
+              return {"recipeUUID": recipe!.id, "name": recipe.name};
+            }).toList(),
+          });
+        }
+
+        return jsonEncode({"responseType": "Success", "totalPlannedMealsInRange": sum, "data": ret});
       },
     ),
 
     Jtool(
-      name: "GetIngredientCatalog",
-      description: "Retrieve all available ingredients.",
+      name: "GetProductCatalog",
+      description: "Retrieve all available products.",
       jsonSchema: JtoolSchema(),
-      tool: (_) {
+      tool: (_) async {
         return "This is a tool response";
       },
     ),
 
     Jtool(
-      name: "AddIngredient",
-      description: "Add a new ingredient to the catalog.",
-      jsonSchema: JtoolSchema(requiredProps: ["name"], properties: {"name": Jproperty("string", "Ingredient name")}),
-      tool: (_) {
-        return "This is a tool response";
+      name: "AddProduct",
+      description: "Add a new product to the catalog.",
+      jsonSchema: JtoolSchema(requiredProps: ["name"], properties: {"name": Jproperty("string", "Product name")}),
+      tool: (Map<String, dynamic> args) async {
+        if (args["name"] == null || args["name"].trim().length <= 2) {
+          return toolError("the argument 'name' must be present and contain more than 2 characters");
+        }
+
+        String productId = await productProvider.addProduct(args["name"], false, enviromentId);
+
+        return jsonEncode({"responseType": "Success", "createdProductId": productId});
       },
     ),
 
@@ -160,7 +207,7 @@ List<Jtool> getTools() {
       name: "GetRecipeBook",
       description: "Retrieve all recipes in the recipe book.",
       jsonSchema: JtoolSchema(),
-      tool: (_) {
+      tool: (_) async {
         return "This is a tool response";
       },
     ),
@@ -169,10 +216,10 @@ List<Jtool> getTools() {
       name: "AddRecipe",
       description: "Create a new recipe using existing ingredient UUIDs.",
       jsonSchema: JtoolSchema(
-        requiredProps: ["name", "ingredientUUIDs"],
-        properties: {"name": Jproperty("string", "Recipe name"), "ingredientUUIDs": Jproperty("array", "List of ingredient UUIDs")},
+        requiredProps: ["name", "productUUIDs"],
+        properties: {"name": Jproperty("string", "Recipe name"), "productUUIDs": Jproperty("array", "List of product UUIDs")},
       ),
-      tool: (_) {
+      tool: (_) async {
         return "This is a tool response";
       },
     ),
@@ -184,7 +231,7 @@ List<Jtool> getTools() {
         requiredProps: ["day", "recipeUUID"],
         properties: {"day": Jproperty("integer", "0=today, 1=tomorrow, etc."), "recipeUUID": Jproperty("string", "UUID of recipe to assign")},
       ),
-      tool: (_) {
+      tool: (_) async {
         return "This is a tool response";
       },
     ),
@@ -227,8 +274,8 @@ String invokeTool(String toolCall) {
   switch (parsedToolCall["name"]) {
     case ("GetPlanning"):
       return getPlanning(parsedToolCall["arguments"]["days"]);
-    case ("GetIngredientCatalog"):
-      return getIngredientCatalog();
+    case ("GetProductCatalog"):
+      return getProductCatalog();
   }
 
   return "The called tool is not enabled";
@@ -238,6 +285,6 @@ String getPlanning(int days) {
   return "chicken breast all the $days days";
 }
 
-String getIngredientCatalog() {
-  return "no ingredients";
+String getProductCatalog() {
+  return "no products";
 }

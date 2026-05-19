@@ -21,6 +21,7 @@
   "agenda": "Agenda",
   "export": "Export",
   "undo": "Zpět",
+  "uncategorized": "Bez kategorie",
   "product": "Produkt",
   "markAsNeeded": " označeno jako potřebné. ",
   "markAsBought": " označeno jako koupené. ",
@@ -158,6 +159,9 @@
   },
   "@undo": {
     "description": "Undo"
+  },
+  "@uncategorized": {
+    "description": "Uncategorized"
   },
   "@product": {
     "description": "Product"

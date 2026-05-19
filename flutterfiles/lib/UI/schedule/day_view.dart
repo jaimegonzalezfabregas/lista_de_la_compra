@@ -22,20 +22,20 @@ class DayView extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Builder(
         builder: (context) {
-          var ingredients = recipeProvider.getProductsOfRecipeById(entry.recipeId);
+          var products = recipeProvider.getProductsOfRecipeById(entry.recipeId);
 
           return FutureBuilder(
-            future: ingredients,
-            builder: (constext, ingredientSnapshot) {
-              if (!ingredientSnapshot.hasData) {
+            future: products,
+            builder: (constext, productSnapshot) {
+              if (!productSnapshot.hasData) {
                 return Text(appLoc.loading);
               }
-              if (ingredientSnapshot.data!.isEmpty) {
+              if (productSnapshot.data!.isEmpty) {
                 return Center(child: Text(appLoc.recipeWithoutIngredients));
               }
 
               return Column(
-                children: ingredientSnapshot.data!.map((ingredient) {
+                children: productSnapshot.data!.map((ingredient) {
                   var product = ingredient.$2;
                   var recipeProduct = ingredient.$1;
 
