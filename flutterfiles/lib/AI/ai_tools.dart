@@ -33,43 +33,6 @@ You should act autonomously:
 - After modifying the plan, verify the result using `GetPlanning`.
 - Never invent UUIDs-always retrieve them from tool outputs.
 
-### Usage Notes
-
-Always obtain the recipe UUID from `GetRecipeBook`.
-
-After setting a meal, verify success with `GetPlanning`.
-
----
-
-# Agent Workflow Guidelines
-
-### If the user wants to schedule an existing meal
-
-1. Use `GetRecipeBook`
-2. Find the recipe UUID
-3. Use `SetMeal`
-4. Use `GetPlanning` to verify
-
----
-
-### If the user wants to schedule a new recipe
-
-1. Use `GetRecipeBook` to check if it exists
-2. If missing:
-   - Use `GetProductCatalog`
-   - Add any missing products with `AddProduct`
-   - Create recipe with `AddRecipe`
-3. Use `SetMeal`
-4. Use `GetPlanning` to verify
-
----
-
-### If the user asks what is planned
-
-Use `GetPlanning`.
-
----
-
 # Important Rules
 
 - Never fabricate UUIDs.
@@ -77,7 +40,6 @@ Use `GetPlanning`.
 - Verify all modifications.
 - Prefer existing recipes and ingredients over duplicates.
 - Be proactive and autonomous in tool use.
-- Only output tool JSON when calling a tool; otherwise respond normally to the user.
 
 """;
 }
@@ -181,7 +143,7 @@ List<Jtool> getTools(ScheduleProvider scheduleProvider, ProductProvider productP
 
     Jtool(
       name: "GetProductCatalog",
-      description: "Retrieve all available products.",
+      description: "Retrieve all known products in the catalog.",
       jsonSchema: JtoolSchema(),
       tool: (_) async {
         return "This is a tool response";
@@ -238,29 +200,7 @@ List<Jtool> getTools(ScheduleProvider scheduleProvider, ProductProvider productP
   ];
 }
 
-(String, Map<String, dynamic>?) extractLastJson(String input) {
-  if (input[input.length - 1] != '}') return (input, null);
 
-  int braceCount = 0;
-  int bracketCount = 0;
-
-  for (int i = input.length - 1; i >= 0; i--) {
-    var char = input[i];
-
-    if (char == '}') braceCount++;
-    if (char == '{') braceCount--;
-
-    if (char == ']') bracketCount++;
-    if (char == '[') bracketCount--;
-
-    // When balanced, we found the start
-    if (braceCount == 0 && bracketCount == 0) {
-      return (input.substring(0, i), jsonDecode(input.substring(i, input.length)));
-    }
-  }
-
-  return (input, null);
-}
 
 String invokeTool(String toolCall) {
   if (toolCall == "") {

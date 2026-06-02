@@ -35,7 +35,7 @@ class CactusInferrer extends Inferrer {
   @override
   Future<Stream<InferenceEvent>> inferResponse(List<Jmessage> conversation, {int maxTokens = 333}) async {
     StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();
-    Future.delayed(Duration(milliseconds: 100), () => streamController.add(StartingInference()));
+     streamController.add(StartingInference());
 
     List<CactusTool> cactusTools = super.tools
         .map((t) => CactusTool(name: t.name, description: t.description, parameters: t.jsonSchema.intoCactusSchema()))

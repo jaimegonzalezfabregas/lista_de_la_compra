@@ -1,0 +1,36 @@
+Launching lib/main.dart on Armor 25T Pro in debug mode...
+Running Gradle task 'assembleDebug'...                          
+Running Gradle task 'assembleDebug'...                             25.5s
+✓ Built build/app/outputs/flutter-apk/app-debug.apk
+Installing build/app/outputs/flutter-apk/app-debug.apk...           4.7s
+I/FlutterActivityAndFragmentDelegate(21563): If you are attempting to set --enable-dart-profiling via Intent extras to launch a Flutter component outside of using the Flutter CLI, note that support for setting engine flags on Android via Intent will soon be dropped; see https://github.com/flutter/flutter/issues/180686 for more information on this breaking change. To migrate, set --enable-dart-profiling or any other flags specified via Intent extras on the command line instead or see https://github.com/flutter/flutter/blob/main/docs/engine/Flutter-Android-Engine-Flags.md for alternative methods.
+D/FlutterJNI(21563): Beginning load of flutter...
+D/FlutterJNI(21563): flutter (null) was loaded normally!
+I/flutter (21563): [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(62)] Using the Impeller rendering backend (Vulkan).
+D/FlutterRenderer(21563): Width is zero. 0,0
+D/FlutterRenderer(21563): Width is zero. 0,0
+D/FlutterJNI(21563): Sending viewport metrics to the engine.
+D/FlutterJNI(21563): Sending viewport metrics to the engine.
+Syncing files to device Armor 25T Pro...                           150ms
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+
+A Dart VM Service on Armor 25T Pro is available at: http://127.0.0.1:46813/FQMOwIZUP2o=/
+The Flutter DevTools debugger and profiler on Armor 25T Pro is available at: http://127.0.0.1:46813/FQMOwIZUP2o=/devtools/?uri=ws://127.0.0.1:46813/FQMOwIZUP2o=/ws
+I/flutter (21563): CATALOG_TEST_RESULT Starting all downloads
+I/flutter (21563): Downloading file from https://vlqqczxwyaodtcdmdmlw.supabase.co/storage/v1/object/public/cactus-models/lfm2-1.2b-tool.zip
+I/flutter (21563): Downloading file from https://vlqqczxwyaodtcdmdmlw.supabase.co/storage/v1/object/public/cactus-models/lfm2-1.2b.zip
+I/flutter (21563): Downloading file from https://vlqqczxwyaodtcdmdmlw.supabase.co/storage/v1/object/public/cactus-models/qwen3-1.7.zip
+I/flutter (21563): Downloading file from https://vlqqczxwyaodtcdmdmlw.supabase.co/storage/v1/object/public/cactus-models/v1.3/qwen3-1.7b-pro.zip
+I/flutter (21563): Downloading file from https://vlqqczxwyaodtcdmdmlw.supabase.co/storage/v1/object/public/cactus-models/v1.3/qwen3-0.6b-pro.zip
+D/ProfileInstaller(21563): Installing profile for com.jaimegonzalezfabregas.shoppinglist
+W/as.shoppinglist(21563): userfaultfd: MOVE ioctl seems unsupported: Connection timed out
+I/flutter (21563): Download failed: HttpException: Connection closed while receiving data, uri = https://vlqqczxwyaodtcdmdmlw.supabase.co/storage/v1/object/public/cactus-models/v1.3/qwen3-1.7b-pro.zip
+I/flutter (21563): retying download for Qwen 3 1.7B Pro
+I/flutter (21563): Downloading file from https://vlqqczxwyaodtcdmdmlw.supabase.co/storage/v1/object/public/cactus-models/v1.3/qwen3-1.7b-pro.zip

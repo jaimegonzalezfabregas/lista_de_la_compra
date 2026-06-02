@@ -19,7 +19,9 @@ class JcactusModel extends AIModel {
   });
 
   static JcactusModel? fromCactusModel(CactusModel cm) {
-    if (cm.supportsToolCalling && !cm.supportsVision) {
+    CactusConfig.isTelemetryEnabled = false;
+    
+    if (cm.supportsToolCalling) {
       return JcactusModel(
         name: cm.name,
         notes: "Cactus powered model",
@@ -29,6 +31,7 @@ class JcactusModel extends AIModel {
         modelDownloadSlug: cm.slug,
       );
     }
+    return null;
   }
 
   @override
@@ -108,8 +111,13 @@ class JcactusModel extends AIModel {
   }
 
   @override
-  Future<dynamic> syncDownload() async {
-    await CactusLM().downloadModel(model: modelDownloadSlug);
+  Future<bool> syncDownload() async {
+    try {
+      await CactusLM().downloadModel(model: modelDownloadSlug);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override

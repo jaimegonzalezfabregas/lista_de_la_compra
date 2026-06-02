@@ -5,6 +5,27 @@ import 'package:fllama/fllama.dart';
 import 'package:lista_de_la_compra/AI/AI_Inferers/ai_inferer_interface.dart';
 import 'package:lista_de_la_compra/AI/ai_tools.dart';
 
+(String, Map<String, dynamic>?) extractJsonFromToolCall(String input) {
+  if (input.isEmpty) return ("", null);
+
+  // Match: <tool_call>\n{...}\n</tool_call>
+  final regex = RegExp(r'<tool_call>\s*(\{[^}]*\})\s*</tool_call>', multiLine: true);
+
+  final match = regex.firstMatch(input);
+  if (match == null) return (input, null);
+
+  try {
+    final jsonStr = match.group(1)!;
+    final json = jsonDecode(jsonStr) as Map<String, dynamic>;
+
+    // Remove the matched tool_call from input
+    final remaining = input.replaceFirst(match.group(0)!, '');
+    return (remaining, json);
+  } catch (e) {
+    return (input, null);
+  }
+}
+
 class FllamaInferrer extends Inferrer {
   final String modelPath;
   bool running = false;
@@ -37,16 +58,19 @@ class FllamaInferrer extends Inferrer {
         // ignore: avoid_print
         // print('[llama.cpp] $log');
       },
+      // jinjaTemplate: 'Qwen-Qwen3-0.6B', // Uses that template's JSON format
       toolChoice: ToolChoice.auto,
       tools: tools.map((t) => Tool(name: t.name, jsonSchema: t.jsonSchema.intoFllamaJsonSchema(), description: t.description)).toList(),
     );
 
     StreamController<InferenceEvent> streamController = StreamController<InferenceEvent>();
-    Future.delayed(Duration(milliseconds: 100), () => streamController.add(StartingInference()));
+    streamController.add(StartingInference());
 
     running = true;
     bool localAbort = false;
     String lastResponse = "";
+    print("calling fllama chat");
+
     fllamaChat(request, (response, _, done) {
       if (localAbort) {
         return;
@@ -63,7 +87,7 @@ class FllamaInferrer extends Inferrer {
       if (done) {
         running = false;
 
-        (String, Map<String, dynamic>?) messageAnalisys = extractLastJson(lastResponse);
+        (String, Map<String, dynamic>?) messageAnalisys = extractJsonFromToolCall(lastResponse);
 
         if (messageAnalisys.$2 != null && messageAnalisys.$2!["name"] != null) {
           String name = messageAnalisys.$2!["name"];

@@ -125,41 +125,50 @@ class JfllamaModel extends AIModel {
     return '$fileDir/ai_models/.tmp_$id.gguf';
   }
 
-  Future syncDownload() async {
+  @override
+  Future<bool> syncDownload() async {
     File file = File(await getPath());
+    File tmpfile = File(await getTmpPath());
 
     if (await file.exists()) {
       print("${file.path} was already downloaded");
-      return;
+      return true;
     }
 
-    final request = await HttpClient().getUrl(modelDownloadUrl);
-    final response = await request.close();
+    try {
+      final request = await HttpClient().getUrl(modelDownloadUrl);
+      final response = await request.close();
 
-    final totalBytes = response.contentLength;
-    int downloadedBytes = 0;
-    int nextPrintPercent = 0;
+      final totalBytes = response.contentLength;
+      int downloadedBytes = 0;
+      int nextPrintPercent = 0;
 
-    final sink = file.openWrite();
+      await tmpfile.create(recursive: true, exclusive: false);
+      final sink = tmpfile.openWrite();
 
-    await for (final chunk in response) {
-      sink.add(chunk);
-      downloadedBytes += chunk.length;
+      await for (final chunk in response) {
+        sink.add(chunk);
+        downloadedBytes += chunk.length;
 
-      if (totalBytes > 0) {
-        final percent = (downloadedBytes / totalBytes * 100).floor();
+        if (totalBytes > 0) {
+          final percent = (downloadedBytes / totalBytes * 100).floor();
 
-        if (percent >= nextPrintPercent) {
-          print('Download progress for ${file.path}: $nextPrintPercent%');
-          nextPrintPercent += 10;
+          if (percent >= nextPrintPercent) {
+            print('Download progress for ${tmpfile.path}: $nextPrintPercent%');
+            nextPrintPercent += 10;
+          }
         }
       }
+
+      await sink.close();
+
+      await tmpfile.rename(await getPath());
+
+      return true;
+    } catch (_) {
+      return false;
     }
-
-    await sink.close();
-    print('Download complete.');
   }
-
 
   @override
   Future<void> delete() async {

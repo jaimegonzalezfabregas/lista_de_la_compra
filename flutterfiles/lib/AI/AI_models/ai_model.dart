@@ -41,7 +41,7 @@ abstract class AIModel {
   Future<Inferrer> getInferencer(List<Jtool> tools);
 
   void startDownload();
-  Future syncDownload();
+  Future<bool> syncDownload();
 
   bool isStopAviable();
   void stopDownload();

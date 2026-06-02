@@ -80,14 +80,6 @@ abstract class Inferrer {
 
     void prepareStream(Stream<InferenceEvent> stream) {
       stream.listen((event) async {
-        if (event is InferenceUpdate) {
-          superStreamController.add(event);
-        }
-
-        if (event is InferenceAborted) {
-          superStreamController.add(InferenceAborted());
-          superStreamController.close();
-        }
 
         if (event is InferenceConversationUpdate) {
           superStreamController.add(event);
@@ -111,10 +103,15 @@ abstract class Inferrer {
           prepareStream(await inferResponse(conversation, maxTokens: maxTokens));
         }
 
-        if (event is InferenceEnd) {
+        if (event is InferenceEnd || event is InferenceAborted) {
           superStreamController.add(event);
           superStreamController.close();
         }
+
+        if (event is InferenceUpdate || event is StartingInference) {
+          superStreamController.add(event);
+        }
+
       });
     }
 
