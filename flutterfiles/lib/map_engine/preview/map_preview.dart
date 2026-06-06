@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'preview_game.dart';
 import 'map_utils.dart';
 
-export 'editor/map_editor.dart' show MapEditor;
+export '../editor/map_editor.dart' show MapEditor;
 
 class MapPreview extends StatefulWidget {
   final String supermarketId;

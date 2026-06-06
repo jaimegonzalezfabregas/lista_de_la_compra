@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'editor_game.dart';
 import '../tiles/tile_type.dart';
-import '../map_utils.dart';
+import '../preview/map_utils.dart';
 
 class MapEditor extends StatefulWidget {
   final String supermarketId;

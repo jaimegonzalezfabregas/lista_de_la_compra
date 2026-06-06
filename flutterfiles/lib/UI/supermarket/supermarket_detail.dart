@@ -3,7 +3,7 @@ import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/supermarket/add_products_to_isle.dart';
 import 'package:lista_de_la_compra/flutter_providers/flutter_providers.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/map_engine/map_preview.dart';
+import 'package:lista_de_la_compra/map_engine/preview/map_preview.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
 

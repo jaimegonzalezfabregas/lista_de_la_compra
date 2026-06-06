@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/UI/products/map_router.dart';
 import 'package:lista_de_la_compra/UI/products/product_list_display.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:provider/provider.dart';
 import '../../flutter_providers/flutter_providers.dart';
 
@@ -15,7 +15,7 @@ class ProductHome extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
     final ProductProvider productProvider = context.watch<FlutterProductProvider>();
-  
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -28,14 +28,16 @@ class ProductHome extends StatelessWidget {
               Tab(icon: Icon(Icons.list), child: Text(appLoc.all)),
             ],
           ),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(appLoc.shoppingList),
-              SizedBox(width: 50.0),
-             
-            ],
-          ),
+          title: Text(appLoc.shoppingList),
+          actions: [
+            ElevatedButton.icon(
+              label: Text("Optimize route"), // TODO internationalize
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MapRouter(enviromentId)));
+              },
+              icon: Icon(Icons.route),
+            ),
+          ],
         ),
         body: FutureBuilder<List<Product>>(
           future: productProvider.getDisplayProductList(enviromentId),
