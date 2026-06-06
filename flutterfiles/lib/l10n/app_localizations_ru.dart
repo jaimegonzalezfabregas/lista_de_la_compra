@@ -331,4 +331,51 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Экспорт в файл Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Для этого супермаркета карты не созданы';
+
+  @override
+  String get createMap => 'Создать карту';
+
+  @override
+  String get editMap => 'Редактировать карту';
+
+  @override
+  String get newFloor => 'Новый этаж';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Назначить проход';
+
+  @override
+  String get unassignAisle => 'Убрать проход';
+
+  @override
+  String get tileTypeFloor => 'Пол';
+
+  @override
+  String get tileTypeStart => 'Начало';
+
+  @override
+  String get tileTypeEnd => 'Конец';
+
+  @override
+  String get noAislesToAssign => 'Нет доступных проходов для назначения';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

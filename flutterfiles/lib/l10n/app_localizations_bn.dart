@@ -332,4 +332,51 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'মার্কডাউন ফাইলে রপ্তানি করুন';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'এই সুপারমার্কেটের জন্য কোনো মানচিত্র তৈরি করা হয়নি';
+
+  @override
+  String get createMap => 'মানচিত্র তৈরি করুন';
+
+  @override
+  String get editMap => 'মানচিত্র সম্পাদনা';
+
+  @override
+  String get newFloor => 'নতুন তলা';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'করিডর নির্ধারণ';
+
+  @override
+  String get unassignAisle => 'করিডর সরান';
+
+  @override
+  String get tileTypeFloor => 'মেঝে';
+
+  @override
+  String get tileTypeStart => 'শুরু';
+
+  @override
+  String get tileTypeEnd => 'শেষ';
+
+  @override
+  String get noAislesToAssign => 'নির্ধারণের জন্য কোনো করিডর নেই';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

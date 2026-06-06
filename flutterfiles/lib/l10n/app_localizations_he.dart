@@ -330,4 +330,51 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'ייצוא לקובץ Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'לא נוצרו מפות עבור סופרמרקט זה';
+
+  @override
+  String get createMap => 'צור מפה';
+
+  @override
+  String get editMap => 'ערוך מפה';
+
+  @override
+  String get newFloor => 'קומה חדשה';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'הקצה מסדרון';
+
+  @override
+  String get unassignAisle => 'הסר מסדרון';
+
+  @override
+  String get tileTypeFloor => 'רצפה';
+
+  @override
+  String get tileTypeStart => 'התחלה';
+
+  @override
+  String get tileTypeEnd => 'סיום';
+
+  @override
+  String get noAislesToAssign => 'אין מסדרונות זמינים להקצאה';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

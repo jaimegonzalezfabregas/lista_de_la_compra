@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Xuất ra file Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Chưa có bản đồ nào được tạo cho siêu thị này",
+  "createMap": "Tạo bản đồ",
+  "editMap": "Chỉnh sửa bản đồ",
+  "newFloor": "Tầng mới",
+  "assignAisle": "Gán lối đi",
+  "unassignAisle": "Bỏ lối đi",
+  "tileTypeFloor": "Sàn",
+  "tileTypeStart": "Bắt đầu",
+  "tileTypeEnd": "Kết thúc",
+  "noAislesToAssign": "Không có lối đi để gán"
 }

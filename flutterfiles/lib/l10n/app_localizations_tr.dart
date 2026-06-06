@@ -331,4 +331,51 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Markdown dosyasına aktar';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Bu süpermarket için harita oluşturulmamış';
+
+  @override
+  String get createMap => 'Harita oluştur';
+
+  @override
+  String get editMap => 'Haritayı düzenle';
+
+  @override
+  String get newFloor => 'Yeni kat';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Koridor ata';
+
+  @override
+  String get unassignAisle => 'Koridoru kaldır';
+
+  @override
+  String get tileTypeFloor => 'Zemin';
+
+  @override
+  String get tileTypeStart => 'Başlangıç';
+
+  @override
+  String get tileTypeEnd => 'Bitiş';
+
+  @override
+  String get noAislesToAssign => 'Atanacak koridor yok';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

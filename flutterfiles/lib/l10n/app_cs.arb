@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Exportovat do souboru Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Pro tento supermarket nebyly vytvořeny žádné mapy",
+  "createMap": "Vytvořit mapu",
+  "editMap": "Upravit mapu",
+  "newFloor": "Nové patro",
+  "assignAisle": "Přiřadit uličku",
+  "unassignAisle": "Odebrat uličku",
+  "tileTypeFloor": "Podlaha",
+  "tileTypeStart": "Start",
+  "tileTypeEnd": "Konec",
+  "noAislesToAssign": "Žádné uličky k přiřazení"
 }

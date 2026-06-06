@@ -331,4 +331,51 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Xuất ra file Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Chưa có bản đồ nào được tạo cho siêu thị này';
+
+  @override
+  String get createMap => 'Tạo bản đồ';
+
+  @override
+  String get editMap => 'Chỉnh sửa bản đồ';
+
+  @override
+  String get newFloor => 'Tầng mới';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Gán lối đi';
+
+  @override
+  String get unassignAisle => 'Bỏ lối đi';
+
+  @override
+  String get tileTypeFloor => 'Sàn';
+
+  @override
+  String get tileTypeStart => 'Bắt đầu';
+
+  @override
+  String get tileTypeEnd => 'Kết thúc';
+
+  @override
+  String get noAislesToAssign => 'Không có lối đi để gán';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

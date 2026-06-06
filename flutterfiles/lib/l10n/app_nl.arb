@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Exporteren naar Markdown-bestand",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Er zijn geen kaarten aangemaakt voor deze supermarkt",
+  "createMap": "Kaart maken",
+  "editMap": "Kaart bewerken",
+  "newFloor": "Nieuwe verdieping",
+  "assignAisle": "Gang toewijzen",
+  "unassignAisle": "Gang verwijderen",
+  "tileTypeFloor": "Vloer",
+  "tileTypeStart": "Start",
+  "tileTypeEnd": "Einde",
+  "noAislesToAssign": "Geen gangen beschikbaar om toe te wijzen"
 }

@@ -1,22 +1,9 @@
 
 // https://stackoverflow.com/questions/78626240/flutter-drift-for-the-web-unsupported-operation-unsupported-invalid-type-invali
 import 'package:drift/backends.dart';
-import 'package:lista_de_la_compra_backend/src/db/database.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/aisle_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/product_aisle_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/supermarket_provider.dart';
-
-import 'src/db_providers/environment_provider.dart';
-
-import 'src/db_providers/http_server_provider.dart';
-import 'src/db_providers/http_server_state_provider.dart';
-import 'src/db_providers/product_provider.dart';
-import 'src/db_providers/recipe_provider.dart';
-import 'src/db_providers/schedule_provider.dart';
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'src/shared_preferences_providers/ram_shared_preferences_provider.dart';
-import 'src/sync/http_server_manager.dart';
-import 'src/sync/open_conection_provider.dart';
-import 'src/sync/open_connection_manager.dart';
+
 import 'src/sqlite_db/sqlite_db.dart';
 
 
@@ -38,6 +25,7 @@ Future runServer() async {
   final supermarketProvider = RamSuperMarketProvider();
   final aisleProvider = RamAisleProvider();
   final productAisleProvider = RamProductAisleProvider();
+  final mapTileProvider = RamMapTileProvider();
 
   final OpenConnectionManager openConnectionManager = OpenConnectionManager(
     openConnectionProvider,
@@ -49,6 +37,7 @@ Future runServer() async {
     supermarketProvider,
     aisleProvider,
     productAisleProvider,
+    mapTileProvider,
 
     downloadAllEnvironments: true,
   );

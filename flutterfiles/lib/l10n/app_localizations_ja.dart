@@ -328,4 +328,51 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Markdownファイルにエクスポート';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'このスーパーマーケットのマップはまだ作成されていません';
+
+  @override
+  String get createMap => 'マップを作成';
+
+  @override
+  String get editMap => 'マップを編集';
+
+  @override
+  String get newFloor => '新しいフロア';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => '通路を割り当て';
+
+  @override
+  String get unassignAisle => '通路の割り当てを解除';
+
+  @override
+  String get tileTypeFloor => 'フロア';
+
+  @override
+  String get tileTypeStart => '開始';
+
+  @override
+  String get tileTypeEnd => '終了';
+
+  @override
+  String get noAislesToAssign => '割り当てる通路がありません';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../lista_de_la_compra_backend.dart';
 
-class RamTileMapProvider extends MapTileProvider with VoidEventSourceMixin {}
+class RamMapTileProvider extends MapTileProvider with VoidEventSourceMixin {}
 
 abstract class MapTileProvider implements VoidEventSource {
   Future<void> syncAddMap(Map<String, dynamic> serialized) async {
@@ -80,7 +80,7 @@ abstract class MapTileProvider implements VoidEventSource {
     return q.get();
   }
 
-  Future<List<MapTile>> getSyncAisleList(String enviromentId) async {
+  Future<List<MapTile>> getSyncMapTileList(String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
     final joined = database.select(database.mapTiles).join([
@@ -94,7 +94,7 @@ abstract class MapTileProvider implements VoidEventSource {
     return rows.map((r) => r.readTable(database.mapTiles)).toList();
   }
 
-  Future<String> addAisle(String name, String marketId, int posX, int posY, int floor, bool start, bool end) async {
+  Future<String> addTile(String name, String marketId, int posX, int posY, int floor, bool start, bool end) async {
     final database = AppDatabaseSingleton.instance;
     final String id = Uuid().v7();
 
@@ -127,5 +127,51 @@ abstract class MapTileProvider implements VoidEventSource {
     q.write(MapTilesCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
 
     notifyListeners();
+  }
+
+  Future<void> deleteFloorTiles(String marketId, int floor) async {
+    final database = AppDatabaseSingleton.instance;
+    final now = DateTime.now().millisecondsSinceEpoch;
+    await (database.update(
+      database.mapTiles,
+    )..where((t) => t.marketId.equals(marketId) & t.floor.equals(floor) & t.deletedAt.isNull())).write(MapTilesCompanion(deletedAt: Value(now)));
+    notifyListeners();
+  }
+
+  Future<void> updateTileType(String id, {required bool start, required bool end}) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.mapTiles)..where((t) => t.id.equals(id))).write(
+      MapTilesCompanion(start: Value(start), end: Value(end), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)),
+    );
+
+    notifyListeners();
+  }
+
+  Future<MapTile?> getTileById(String id) async {
+    final database = AppDatabaseSingleton.instance;
+
+    return await (
+      database.select(database.mapTiles)
+        ..where((table) => table.id.equals(id))
+        ..where((table) => table.deletedAt.isNull())
+    ).getSingleOrNull();
+  }
+
+  Future<(MapTile, Aisle)?> getTileByIdJoinedAisle(String tileId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    var join = database.select(database.mapTiles).join([leftOuterJoin(database.aisles, database.aisles.mapTileId.equalsExp(database.mapTiles.id))]);
+
+    join.where(database.mapTiles.id.equals(tileId));
+    join.where(database.mapTiles.deletedAt.isNull());
+
+    final results = await join.getSingleOrNull();
+
+    if (results == null) {
+      return null;
+    }
+
+    return (results.readTable(database.mapTiles), results.readTable(database.aisles));
   }
 }

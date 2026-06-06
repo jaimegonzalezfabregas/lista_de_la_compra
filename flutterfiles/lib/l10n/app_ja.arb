@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Markdownファイルにエクスポート",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "このスーパーマーケットのマップはまだ作成されていません",
+  "createMap": "マップを作成",
+  "editMap": "マップを編集",
+  "newFloor": "新しいフロア",
+  "assignAisle": "通路を割り当て",
+  "unassignAisle": "通路の割り当てを解除",
+  "tileTypeFloor": "フロア",
+  "tileTypeStart": "開始",
+  "tileTypeEnd": "終了",
+  "noAislesToAssign": "割り当てる通路がありません"
 }

@@ -3,7 +3,7 @@ import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/supermarket/add_products_to_isle.dart';
 import 'package:lista_de_la_compra/flutter_providers/flutter_providers.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
-import 'package:lista_de_la_compra/map_engine/public.dart';
+import 'package:lista_de_la_compra/map_engine/map_preview.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
 
@@ -194,7 +194,7 @@ class SupermarketDetail extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(appLoc.map, style: Theme.of(context).textTheme.titleSmall),
             ),
-            Container(height: MediaQuery.of(context).size.height / 2, child: MapPreview(supermarketId)),
+            SizedBox(height: MediaQuery.of(context).size.height / 2, child: MapPreview(supermarketId)),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),

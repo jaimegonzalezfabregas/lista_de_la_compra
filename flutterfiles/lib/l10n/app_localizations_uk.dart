@@ -331,4 +331,51 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Експортувати до файлу Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Для цього супермаркету карти не створено';
+
+  @override
+  String get createMap => 'Створити карту';
+
+  @override
+  String get editMap => 'Редагувати карту';
+
+  @override
+  String get newFloor => 'Новий поверх';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Призначити прохід';
+
+  @override
+  String get unassignAisle => 'Зняти прохід';
+
+  @override
+  String get tileTypeFloor => 'Підлога';
+
+  @override
+  String get tileTypeStart => 'Початок';
+
+  @override
+  String get tileTypeEnd => 'Кінець';
+
+  @override
+  String get noAislesToAssign => 'Немає доступних проходів для призначення';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

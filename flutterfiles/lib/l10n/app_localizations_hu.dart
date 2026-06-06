@@ -332,4 +332,51 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Exportálás Markdown fájlba';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Ehhez az áruházhoz nem készültek térképek';
+
+  @override
+  String get createMap => 'Térkép létrehozása';
+
+  @override
+  String get editMap => 'Térkép szerkesztése';
+
+  @override
+  String get newFloor => 'Új szint';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Folyosó hozzárendelése';
+
+  @override
+  String get unassignAisle => 'Folyosó eltávolítása';
+
+  @override
+  String get tileTypeFloor => 'Padló';
+
+  @override
+  String get tileTypeStart => 'Kezdet';
+
+  @override
+  String get tileTypeEnd => 'Vég';
+
+  @override
+  String get noAislesToAssign => 'Nincs hozzárendelhető folyosó';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

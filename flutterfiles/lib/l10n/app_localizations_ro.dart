@@ -333,4 +333,51 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Exportați în fișier Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Nu au fost create hărți pentru acest supermarket';
+
+  @override
+  String get createMap => 'Creare hartă';
+
+  @override
+  String get editMap => 'Editare hartă';
+
+  @override
+  String get newFloor => 'Etaj nou';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Atribuie culoar';
+
+  @override
+  String get unassignAisle => 'Elimină culoar';
+
+  @override
+  String get tileTypeFloor => 'Podea';
+
+  @override
+  String get tileTypeStart => 'Început';
+
+  @override
+  String get tileTypeEnd => 'Sfârșit';
+
+  @override
+  String get noAislesToAssign => 'Nu există culoar disponibil de atribuit';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

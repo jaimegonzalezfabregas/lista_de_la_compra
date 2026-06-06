@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Exportera till Markdown-fil",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Inga kartor har skapats för denna stormarknad",
+  "createMap": "Skapa karta",
+  "editMap": "Redigera karta",
+  "newFloor": "Ny våning",
+  "assignAisle": "Tilldela gång",
+  "unassignAisle": "Ta bort gång",
+  "tileTypeFloor": "Golv",
+  "tileTypeStart": "Start",
+  "tileTypeEnd": "Slut",
+  "noAislesToAssign": "Inga gångar tillgängliga att tilldela"
 }

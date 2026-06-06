@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Экспорт в файл Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Для этого супермаркета карты не созданы",
+  "createMap": "Создать карту",
+  "editMap": "Редактировать карту",
+  "newFloor": "Новый этаж",
+  "assignAisle": "Назначить проход",
+  "unassignAisle": "Убрать проход",
+  "tileTypeFloor": "Пол",
+  "tileTypeStart": "Начало",
+  "tileTypeEnd": "Конец",
+  "noAislesToAssign": "Нет доступных проходов для назначения"
 }

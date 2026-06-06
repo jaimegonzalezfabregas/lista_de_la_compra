@@ -57,6 +57,7 @@ class MyApp extends StatelessWidget {
     final FlutterSuperMarketProvider supermarketProvider = FlutterSuperMarketProvider();
     final FlutterAisleProvider aisleProvider = FlutterAisleProvider();
     final FlutterProductAisleProvider productAisleProvider = FlutterProductAisleProvider();
+    final FlutterMapTileProvider mapTileProvider = FlutterMapTileProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
       supermarketProvider,
       aisleProvider,
       productAisleProvider,
+      mapTileProvider
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
@@ -99,6 +101,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => supermarketProvider),
         ChangeNotifierProvider(create: (_) => aisleProvider),
         ChangeNotifierProvider(create: (_) => productAisleProvider),
+        ChangeNotifierProvider(create: (_) => mapTileProvider),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,

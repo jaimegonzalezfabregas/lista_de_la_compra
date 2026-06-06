@@ -331,4 +331,51 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'ส่งออกเป็นไฟล์ Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'ยังไม่มีการสร้างแผนที่สำหรับซูเปอร์มาร์เก็ตนี้';
+
+  @override
+  String get createMap => 'สร้างแผนที่';
+
+  @override
+  String get editMap => 'แก้ไขแผนที่';
+
+  @override
+  String get newFloor => 'ชั้นใหม่';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'กำหนดทางเดิน';
+
+  @override
+  String get unassignAisle => 'ยกเลิกทางเดิน';
+
+  @override
+  String get tileTypeFloor => 'พื้น';
+
+  @override
+  String get tileTypeStart => 'เริ่มต้น';
+
+  @override
+  String get tileTypeEnd => 'สิ้นสุด';
+
+  @override
+  String get noAislesToAssign => 'ไม่มีทางเดินที่ใช้ได้';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

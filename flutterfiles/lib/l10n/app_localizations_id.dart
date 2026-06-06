@@ -333,4 +333,51 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Ekspor ke file Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Belum ada peta yang dibuat untuk supermarket ini';
+
+  @override
+  String get createMap => 'Buat peta';
+
+  @override
+  String get editMap => 'Edit peta';
+
+  @override
+  String get newFloor => 'Lantai baru';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Tetapkan lorong';
+
+  @override
+  String get unassignAisle => 'Hapus lorong';
+
+  @override
+  String get tileTypeFloor => 'Lantai';
+
+  @override
+  String get tileTypeStart => 'Mulai';
+
+  @override
+  String get tileTypeEnd => 'Selesai';
+
+  @override
+  String get noAislesToAssign => 'Tidak ada lorong yang tersedia';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

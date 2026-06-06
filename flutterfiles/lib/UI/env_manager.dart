@@ -228,6 +228,7 @@ class EnvSelect extends StatelessWidget {
     SuperMarketProvider supermarketProvider,
     AisleProvider aisleProvider,
     ProductAisleProvider productAisleProvider,
+    MapTileProvider mapTileProvider,
   ) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(withData: true);
 
@@ -251,6 +252,7 @@ class EnvSelect extends StatelessWidget {
         supermarketProvider,
         aisleProvider,
         productAisleProvider,
+        mapTileProvider
       );
     }
   }
@@ -264,6 +266,8 @@ class EnvSelect extends StatelessWidget {
     SuperMarketProvider supermarketProvider = context.watch<FlutterSuperMarketProvider>();
     AisleProvider aisleProvider = context.watch<FlutterAisleProvider>();
     ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
+    MapTileProvider mapTileProvider = context.watch<FlutterMapTileProvider>();
+
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -302,6 +306,7 @@ class EnvSelect extends StatelessWidget {
                     supermarketProvider,
                     aisleProvider,
                     productAisleProvider,
+                    mapTileProvider
                   );
                 },
                 child: Row(children: [Icon(Icons.file_copy), SizedBox(width: 8), Text(appLoc.importEnvironment)]),

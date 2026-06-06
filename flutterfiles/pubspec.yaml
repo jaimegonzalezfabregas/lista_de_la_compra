@@ -47,8 +47,8 @@ dependencies:
   shared_preferences: 2.5.3
 
 
-  drift: ^2.32.0
-  drift_dev: ^2.32.0
+  drift: ^2.33.0
+  drift_dev: ^2.33.0
   drift_flutter: ^0.3.0
   file_picker: ^10.3.10
   flutter_colorpicker: ^1.0.3
@@ -56,25 +56,22 @@ dependencies:
   go_router: ^16.1.0
   intl: ^0.20.2
   sqlite3_flutter_libs: ^0.6.0
-  sqlite3: ^3.0.0
+  sqlite3: ^3.3.2
   path_provider: ^2.0.9
   path: ^1.8.0
   riverpod: ^3.0.0-dev
   stack_trace: ^1.11.1
 
   # AI
-  fllama:
-    git:
-      url: https://github.com/Telosnex/fllama.git
-      ref: main
   web_socket_channel: ^3.0.3
   flame: ^1.37.0
+  collection: ^1.19.1
 dev_dependencies:
   test: any
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.1.8
+  build_runner: ^2.15.0
   # We use this to compile the shared web worker for the web database. This dependency
   # isn't required for most apps. You only need it if you want to target the web, use
   # web workers for drift AND want to compile those web workers through `build_runner`.
@@ -90,3 +87,6 @@ flutter:
 
   assets:
     - assets/images/floor.png
+    - assets/images/entry.png
+    - assets/images/exit.png
+    - assets/images/isle.png

@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Exportar para arquivo Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Nenhum mapa foi criado para este supermercado",
+  "createMap": "Criar mapa",
+  "editMap": "Editar mapa",
+  "newFloor": "Novo andar",
+  "assignAisle": "Atribuir corredor",
+  "unassignAisle": "Remover corredor",
+  "tileTypeFloor": "Chão",
+  "tileTypeStart": "Início",
+  "tileTypeEnd": "Fim",
+  "noAislesToAssign": "Nenhum corredor disponível para atribuir"
 }

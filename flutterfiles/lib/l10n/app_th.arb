@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "ส่งออกเป็นไฟล์ Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "ยังไม่มีการสร้างแผนที่สำหรับซูเปอร์มาร์เก็ตนี้",
+  "createMap": "สร้างแผนที่",
+  "editMap": "แก้ไขแผนที่",
+  "newFloor": "ชั้นใหม่",
+  "assignAisle": "กำหนดทางเดิน",
+  "unassignAisle": "ยกเลิกทางเดิน",
+  "tileTypeFloor": "พื้น",
+  "tileTypeStart": "เริ่มต้น",
+  "tileTypeEnd": "สิ้นสุด",
+  "noAislesToAssign": "ไม่มีทางเดินที่ใช้ได้"
 }

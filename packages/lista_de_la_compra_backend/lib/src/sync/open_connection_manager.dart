@@ -18,6 +18,7 @@ class OpenConnectionManager {
   final SuperMarketProvider supermarketProvider;
   final AisleProvider aisleProvider;
   final ProductAisleProvider productAisleProvider;
+  final MapTileProvider mapTileProvider;
 
   final bool downloadAllEnvironments;
 
@@ -48,7 +49,8 @@ class OpenConnectionManager {
     this.environmentProvider,
     this.supermarketProvider,
     this.aisleProvider,
-    this.productAisleProvider, {
+    this.productAisleProvider,
+    this.mapTileProvider, {
     this.downloadAllEnvironments = false,
   }) {
     productProvider.addListener(triggerSyncPush);
@@ -75,6 +77,7 @@ class OpenConnectionManager {
           supermarketProvider,
           aisleProvider,
           productAisleProvider,
+          mapTileProvider,
         ),
       ),
     ); // data being hashed
@@ -226,6 +229,7 @@ class OpenConnectionManager {
                       supermarketProvider,
                       aisleProvider,
                       productAisleProvider,
+                      mapTileProvider
                     ),
                   }),
                 );
@@ -233,7 +237,17 @@ class OpenConnectionManager {
               break;
 
             case "send_state":
-              recieveState(data["state"], environmentProvider, productProvider, recipeProvider, scheduleProvider, supermarketProvider, aisleProvider, productAisleProvider);
+              recieveState(
+                data["state"],
+                environmentProvider,
+                productProvider,
+                recipeProvider,
+                scheduleProvider,
+                supermarketProvider,
+                aisleProvider,
+                productAisleProvider,
+                mapTileProvider,
+              );
 
               break;
 

@@ -333,4 +333,51 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Exportovať do súboru Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Pre tento supermarket neboli vytvorené žiadne mapy';
+
+  @override
+  String get createMap => 'Vytvoriť mapu';
+
+  @override
+  String get editMap => 'Upraviť mapu';
+
+  @override
+  String get newFloor => 'Nové poschodie';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Priradiť uličku';
+
+  @override
+  String get unassignAisle => 'Odstrániť uličku';
+
+  @override
+  String get tileTypeFloor => 'Podlaha';
+
+  @override
+  String get tileTypeStart => 'Štart';
+
+  @override
+  String get tileTypeEnd => 'Koniec';
+
+  @override
+  String get noAislesToAssign => 'Žiadne uličky na priradenie';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

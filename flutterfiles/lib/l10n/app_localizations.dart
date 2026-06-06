@@ -755,6 +755,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export to markdown file'**
   String get exportToMarkdownFile;
+
+  /// No description provided for @noMappingDataAviable.
+  ///
+  /// In en, this message translates to:
+  /// **'No mapping data available'**
+  String get noMappingDataAviable;
+
+  /// No description provided for @noMapsHaveBeenCreatedForThisSupermarket.
+  ///
+  /// In en, this message translates to:
+  /// **'No maps have been created for this supermarket'**
+  String get noMapsHaveBeenCreatedForThisSupermarket;
+
+  /// No description provided for @createMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Map'**
+  String get createMap;
+
+  /// No description provided for @editMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Map'**
+  String get editMap;
+
+  /// No description provided for @newFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'New Floor'**
+  String get newFloor;
+
+  /// No description provided for @floorN.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor {n}'**
+  String floorN(int n);
+
+  /// No description provided for @assignAisle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Aisle'**
+  String get assignAisle;
+
+  /// No description provided for @unassignAisle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassign Aisle'**
+  String get unassignAisle;
+
+  /// No description provided for @tileTypeFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get tileTypeFloor;
+
+  /// No description provided for @tileTypeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get tileTypeStart;
+
+  /// No description provided for @tileTypeEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get tileTypeEnd;
+
+  /// No description provided for @noAislesToAssign.
+  ///
+  /// In en, this message translates to:
+  /// **'No aisles available to assign'**
+  String get noAislesToAssign;
+
+  /// No description provided for @deleteFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Floor'**
+  String get deleteFloor;
+
+  /// No description provided for @tileLockedLastOfType.
+  ///
+  /// In en, this message translates to:
+  /// **'This tile is locked: it is the last {tileType} tile.'**
+  String tileLockedLastOfType(String tileType);
 }
 
 class _AppLocalizationsDelegate

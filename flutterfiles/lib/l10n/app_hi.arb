@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Markdown फ़ाइल में निर्यात करें",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "इस सुपरमार्केट के लिए कोई मानचित्र नहीं बनाया गया है",
+  "createMap": "मानचित्र बनाएं",
+  "editMap": "मानचित्र संपादित करें",
+  "newFloor": "नई मंजिल",
+  "assignAisle": "गलियारा असाइन करें",
+  "unassignAisle": "गलियारा हटाएं",
+  "tileTypeFloor": "फर्श",
+  "tileTypeStart": "प्रारंभ",
+  "tileTypeEnd": "अंत",
+  "noAislesToAssign": "असाइन करने के लिए कोई गलियारा उपलब्ध नहीं"
 }

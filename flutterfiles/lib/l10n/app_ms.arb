@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Eksport ke fail Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Tiada peta telah dibuat untuk pasar raya ini",
+  "createMap": "Buat peta",
+  "editMap": "Edit peta",
+  "newFloor": "Tingkat baru",
+  "assignAisle": "Tugaskan lorong",
+  "unassignAisle": "Buang lorong",
+  "tileTypeFloor": "Lantai",
+  "tileTypeStart": "Mula",
+  "tileTypeEnd": "Tamat",
+  "noAislesToAssign": "Tiada lorong untuk ditugaskan"
 }

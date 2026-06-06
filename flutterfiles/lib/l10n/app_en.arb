@@ -405,5 +405,29 @@
   "exportToMarkdownFile": "Export to markdown file",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "No maps have been created for this supermarket",
+  "createMap": "Create Map",
+  "editMap": "Edit Map",
+  "newFloor": "New Floor",
+  "floorN": "Floor {n}",
+  "@floorN": {
+    "placeholders": {
+      "n": { "type": "int" }
+    }
+  },
+  "assignAisle": "Assign Aisle",
+  "unassignAisle": "Unassign Aisle",
+  "tileTypeFloor": "Floor",
+  "tileTypeStart": "Start",
+  "tileTypeEnd": "End",
+  "noAislesToAssign": "No aisles available to assign",
+  "deleteFloor": "Delete Floor",
+  "tileLockedLastOfType": "This tile is locked: it is the last {tileType} tile.",
+  "@tileLockedLastOfType": {
+    "placeholders": {
+      "tileType": { "type": "String" }
+    }
   }
 }

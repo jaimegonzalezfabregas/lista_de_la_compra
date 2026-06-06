@@ -328,4 +328,50 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => '导出为Markdown文件';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket => '尚未为该超市创建地图';
+
+  @override
+  String get createMap => '创建地图';
+
+  @override
+  String get editMap => '编辑地图';
+
+  @override
+  String get newFloor => '新楼层';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => '分配通道';
+
+  @override
+  String get unassignAisle => '取消分配通道';
+
+  @override
+  String get tileTypeFloor => '地板';
+
+  @override
+  String get tileTypeStart => '起点';
+
+  @override
+  String get tileTypeEnd => '终点';
+
+  @override
+  String get noAislesToAssign => '没有可分配的通道';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

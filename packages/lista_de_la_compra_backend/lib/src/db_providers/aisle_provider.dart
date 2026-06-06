@@ -142,4 +142,41 @@ abstract class AisleProvider implements VoidEventSource {
 
     notifyListeners();
   }
+
+  Future<void> setAisleTile(String aisleId, String? tileId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.aisles)..where((table) => table.id.equals(aisleId))).write(
+      AislesCompanion(mapTileId: Value(tileId), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)),
+    );
+
+    notifyListeners();
+  }
+
+  Future<Aisle?> getAisleByTileId(String tileId) {
+    final database = AppDatabaseSingleton.instance;
+
+    return (database.select(database.aisles)
+          ..where((t) => t.mapTileId.equals(tileId))
+          ..where((t) => t.deletedAt.isNull()))
+        .getSingleOrNull();
+  }
+
+  Future<void> unlinkTiles(List<String> tileIds) async {
+    final database = AppDatabaseSingleton.instance;
+
+    for (String tileId in tileIds) {
+      await (database.update(database.aisles)..where((table) => table.mapTileId.equals(tileId))).write(
+        AislesCompanion(mapTileId: Value(null), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)),
+      );
+    }
+  }
+
+  Future<void> linkTile(String aisleId, String tileId) async {
+    final database = AppDatabaseSingleton.instance;
+
+    await (database.update(database.aisles)..where((table) => table.id.equals(aisleId))).write(
+      AislesCompanion(mapTileId: Value(tileId), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)),
+    );
+  }
 }

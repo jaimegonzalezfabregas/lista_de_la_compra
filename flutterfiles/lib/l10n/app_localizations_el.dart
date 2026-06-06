@@ -334,4 +334,51 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Εξαγωγή σε αρχείο Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Δεν έχουν δημιουργηθεί χάρτες για αυτό το σούπερ μάρκετ';
+
+  @override
+  String get createMap => 'Δημιουργία χάρτη';
+
+  @override
+  String get editMap => 'Επεξεργασία χάρτη';
+
+  @override
+  String get newFloor => 'Νέος όροφος';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Ανάθεση διαδρόμου';
+
+  @override
+  String get unassignAisle => 'Αφαίρεση διαδρόμου';
+
+  @override
+  String get tileTypeFloor => 'Πάτωμα';
+
+  @override
+  String get tileTypeStart => 'Αρχή';
+
+  @override
+  String get tileTypeEnd => 'Τέλος';
+
+  @override
+  String get noAislesToAssign => 'Δεν υπάρχουν διαθέσιμοι διάδρομοι';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

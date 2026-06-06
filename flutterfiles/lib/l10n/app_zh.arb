@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "导出为Markdown文件",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "尚未为该超市创建地图",
+  "createMap": "创建地图",
+  "editMap": "编辑地图",
+  "newFloor": "新楼层",
+  "assignAisle": "分配通道",
+  "unassignAisle": "取消分配通道",
+  "tileTypeFloor": "地板",
+  "tileTypeStart": "起点",
+  "tileTypeEnd": "终点",
+  "noAislesToAssign": "没有可分配的通道"
 }

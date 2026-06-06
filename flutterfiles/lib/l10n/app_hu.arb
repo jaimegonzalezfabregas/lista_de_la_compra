@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Exportálás Markdown fájlba",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Ehhez az áruházhoz nem készültek térképek",
+  "createMap": "Térkép létrehozása",
+  "editMap": "Térkép szerkesztése",
+  "newFloor": "Új szint",
+  "assignAisle": "Folyosó hozzárendelése",
+  "unassignAisle": "Folyosó eltávolítása",
+  "tileTypeFloor": "Padló",
+  "tileTypeStart": "Kezdet",
+  "tileTypeEnd": "Vég",
+  "noAislesToAssign": "Nincs hozzárendelhető folyosó"
 }

@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:lista_de_la_compra_backend/src/db/aisle_model.dart';
 import 'supermarket_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -13,7 +12,7 @@ class MapTiles extends Table {
   IntColumn get posX => integer()();
   IntColumn get posY => integer()();
   IntColumn get floor => integer()();
-  
+
   BoolColumn get start => boolean()();
   BoolColumn get end => boolean()();
 

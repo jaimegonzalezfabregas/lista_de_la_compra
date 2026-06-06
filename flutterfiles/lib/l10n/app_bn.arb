@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "মার্কডাউন ফাইলে রপ্তানি করুন",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "এই সুপারমার্কেটের জন্য কোনো মানচিত্র তৈরি করা হয়নি",
+  "createMap": "মানচিত্র তৈরি করুন",
+  "editMap": "মানচিত্র সম্পাদনা",
+  "newFloor": "নতুন তলা",
+  "assignAisle": "করিডর নির্ধারণ",
+  "unassignAisle": "করিডর সরান",
+  "tileTypeFloor": "মেঝে",
+  "tileTypeStart": "শুরু",
+  "tileTypeEnd": "শেষ",
+  "noAislesToAssign": "নির্ধারণের জন্য কোনো করিডর নেই"
 }

@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Експортувати до файлу Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Для цього супермаркету карти не створено",
+  "createMap": "Створити карту",
+  "editMap": "Редагувати карту",
+  "newFloor": "Новий поверх",
+  "assignAisle": "Призначити прохід",
+  "unassignAisle": "Зняти прохід",
+  "tileTypeFloor": "Підлога",
+  "tileTypeStart": "Початок",
+  "tileTypeEnd": "Кінець",
+  "noAislesToAssign": "Немає доступних проходів для призначення"
 }

@@ -29,7 +29,7 @@ Future<Map<String, dynamic>> serializeEnvironment(
   final superMarketsFuture = supermarketProvider.getSyncSuperMarketList(enviromentId);
   final aislesFuture = aisleProvider.getSyncAisleList(enviromentId);
   final productAislesFuture = productAisleProvider.getSyncProductAisleList(enviromentId);
-  final mapTilesFuture = mapTileProvider.getSyncAisleList(enviromentId);
+  final mapTilesFuture = mapTileProvider.getSyncMapTileList(enviromentId);
 
   final environment = (await envFuture)!;
 
@@ -125,6 +125,7 @@ Future<void> recieveState(
   var selfSuperMarkets = supermarketProvider.getSyncSuperMarketList(remoteEnvironment.id);
   var selfAisles = aisleProvider.getSyncAisleList(remoteEnvironment.id);
   var selfProductAisles = productAisleProvider.getSyncProductAisleList(remoteEnvironment.id);
+  var selfMapTiles = mapTileProvider.getSyncMapTileList(remoteEnvironment.id);
 
   await syncItems(
     otherProducts,
@@ -182,8 +183,6 @@ Future<void> recieveState(
     (id, deletedAt) => productAisleProvider.syncSetDeletedProductAisle(id, deletedAt),
     (item) => productAisleProvider.syncAddProductAisle(item),
   );
-
-  var selfMapTiles = mapTileProvider.getSyncAisleList(remoteEnvironment.id);
 
   await syncItems(
     otherMapTiles,

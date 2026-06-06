@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Експортиране в Markdown файл",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "За този супермаркет не са създадени карти",
+  "createMap": "Създай карта",
+  "editMap": "Редактирай карта",
+  "newFloor": "Нов етаж",
+  "assignAisle": "Задай коридор",
+  "unassignAisle": "Премахни коридор",
+  "tileTypeFloor": "Под",
+  "tileTypeStart": "Начало",
+  "tileTypeEnd": "Край",
+  "noAislesToAssign": "Няма налични коридори за задаване"
 }

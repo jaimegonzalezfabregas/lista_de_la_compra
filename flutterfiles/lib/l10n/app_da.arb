@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Eksporter til Markdown-fil",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Der er ikke oprettet nogen kort til dette supermarked",
+  "createMap": "Opret kort",
+  "editMap": "Rediger kort",
+  "newFloor": "Nyt etage",
+  "assignAisle": "Tildel gang",
+  "unassignAisle": "Fjern gang",
+  "tileTypeFloor": "Gulv",
+  "tileTypeStart": "Start",
+  "tileTypeEnd": "Slut",
+  "noAislesToAssign": "Ingen gange tilgængelige at tildele"
 }

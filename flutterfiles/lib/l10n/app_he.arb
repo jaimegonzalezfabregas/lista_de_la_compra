@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "ייצוא לקובץ Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "לא נוצרו מפות עבור סופרמרקט זה",
+  "createMap": "צור מפה",
+  "editMap": "ערוך מפה",
+  "newFloor": "קומה חדשה",
+  "assignAisle": "הקצה מסדרון",
+  "unassignAisle": "הסר מסדרון",
+  "tileTypeFloor": "רצפה",
+  "tileTypeStart": "התחלה",
+  "tileTypeEnd": "סיום",
+  "noAislesToAssign": "אין מסדרונות זמינים להקצאה"
 }

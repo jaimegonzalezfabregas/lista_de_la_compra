@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Markdown 파일로 내보내기",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "이 슈퍼마켓에 대한 지도가 생성되지 않았습니다",
+  "createMap": "지도 만들기",
+  "editMap": "지도 편집",
+  "newFloor": "새 층",
+  "assignAisle": "통로 할당",
+  "unassignAisle": "통로 할당 해제",
+  "tileTypeFloor": "바닥",
+  "tileTypeStart": "시작",
+  "tileTypeEnd": "끝",
+  "noAislesToAssign": "할당할 통로가 없습니다"
 }

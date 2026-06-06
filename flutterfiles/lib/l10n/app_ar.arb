@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "تصدير إلى ملف Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "لم يتم إنشاء خرائط لهذا السوبر ماركت",
+  "createMap": "إنشاء خريطة",
+  "editMap": "تعديل الخريطة",
+  "newFloor": "طابق جديد",
+  "assignAisle": "تعيين ممر",
+  "unassignAisle": "إلغاء تعيين الممر",
+  "tileTypeFloor": "أرضية",
+  "tileTypeStart": "بداية",
+  "tileTypeEnd": "نهاية",
+  "noAislesToAssign": "لا توجد ممرات متاحة للتعيين"
 }

@@ -332,4 +332,51 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Експортиране в Markdown файл';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'За този супермаркет не са създадени карти';
+
+  @override
+  String get createMap => 'Създай карта';
+
+  @override
+  String get editMap => 'Редактирай карта';
+
+  @override
+  String get newFloor => 'Нов етаж';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Задай коридор';
+
+  @override
+  String get unassignAisle => 'Премахни коридор';
+
+  @override
+  String get tileTypeFloor => 'Под';
+
+  @override
+  String get tileTypeStart => 'Начало';
+
+  @override
+  String get tileTypeEnd => 'Край';
+
+  @override
+  String get noAislesToAssign => 'Няма налични коридори за задаване';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

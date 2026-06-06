@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Markdown dosyasına aktar",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Bu süpermarket için harita oluşturulmamış",
+  "createMap": "Harita oluştur",
+  "editMap": "Haritayı düzenle",
+  "newFloor": "Yeni kat",
+  "assignAisle": "Koridor ata",
+  "unassignAisle": "Koridoru kaldır",
+  "tileTypeFloor": "Zemin",
+  "tileTypeStart": "Başlangıç",
+  "tileTypeEnd": "Bitiş",
+  "noAislesToAssign": "Atanacak koridor yok"
 }

@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Exportați în fișier Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Nu au fost create hărți pentru acest supermarket",
+  "createMap": "Creare hartă",
+  "editMap": "Editare hartă",
+  "newFloor": "Etaj nou",
+  "assignAisle": "Atribuie culoar",
+  "unassignAisle": "Elimină culoar",
+  "tileTypeFloor": "Podea",
+  "tileTypeStart": "Început",
+  "tileTypeEnd": "Sfârșit",
+  "noAislesToAssign": "Nu există culoar disponibil de atribuit"
 }

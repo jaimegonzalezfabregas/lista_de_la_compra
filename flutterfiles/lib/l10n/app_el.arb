@@ -404,5 +404,16 @@
   "exportToMarkdownFile": "Εξαγωγή σε αρχείο Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
-  }
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Δεν έχουν δημιουργηθεί χάρτες για αυτό το σούπερ μάρκετ",
+  "createMap": "Δημιουργία χάρτη",
+  "editMap": "Επεξεργασία χάρτη",
+  "newFloor": "Νέος όροφος",
+  "assignAisle": "Ανάθεση διαδρόμου",
+  "unassignAisle": "Αφαίρεση διαδρόμου",
+  "tileTypeFloor": "Πάτωμα",
+  "tileTypeStart": "Αρχή",
+  "tileTypeEnd": "Τέλος",
+  "noAislesToAssign": "Δεν υπάρχουν διαθέσιμοι διάδρομοι"
 }

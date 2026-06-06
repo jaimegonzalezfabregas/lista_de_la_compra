@@ -1,18 +1,6 @@
 import 'package:flutter_test/flutter_test.dart' hide test;
-import 'package:lista_de_la_compra_backend/src/db_providers/environment_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/http_server_state_provider.dart';
+import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/ram_shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_backend/src/shared_preferences_providers/shared_preferences_provider.dart';
-import 'package:lista_de_la_compra_backend/src/sync/open_conection_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/http_server_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/product_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/recipe_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/schedule_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/supermarket_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/aisle_provider.dart';
-import 'package:lista_de_la_compra_backend/src/db_providers/product_aisle_provider.dart';
-import 'package:lista_de_la_compra_backend/src/sync/http_server_manager.dart';
-import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -30,6 +18,7 @@ void main() {
     final SuperMarketProvider supermarketProvider = RamSuperMarketProvider();
     final AisleProvider aisleProvider = RamAisleProvider();
     final ProductAisleProvider productAisleProvider = RamProductAisleProvider();
+    final MapTileProvider mapTileProvider = RamMapTileProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
@@ -41,6 +30,7 @@ void main() {
       supermarketProvider,
       aisleProvider,
       productAisleProvider,
+      mapTileProvider,
 
       downloadAllEnvironments: true,
     );
