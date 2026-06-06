@@ -9,6 +9,8 @@
   "cancel": "Mégse",
   "save": "Mentés",
   "thisListHasNoResults": "Ebben a listában nincs találat",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Ebben a listában nincs találat. Kezdjen el gépelni az első hozzáadásához",
+  "map": "Térkép",
   "createEnvironment": "Környezet létrehozása",
   "availableEnvironmentsWithoutConnection": "Elérhető környezetek kapcsolat nélkül",
   "environmentsOnOtherMachines": "Környezetek más gépeken",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

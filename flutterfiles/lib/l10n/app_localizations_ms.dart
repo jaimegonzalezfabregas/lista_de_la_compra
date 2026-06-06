@@ -36,6 +36,13 @@ class AppLocalizationsMs extends AppLocalizations {
   String get thisListHasNoResults => 'Senarai ini tiada keputusan';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Senarai ini tiada keputusan. Mula menaip untuk menambah yang pertama';
+
+  @override
+  String get map => 'Peta';
+
+  @override
   String get createEnvironment => 'Cipta persekitaran';
 
   @override

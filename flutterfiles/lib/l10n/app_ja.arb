@@ -9,6 +9,8 @@
   "cancel": "キャンセル",
   "save": "保存",
   "thisListHasNoResults": "このリストに結果はありません",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "このリストに結果はありません。最初を追加するには入力を始めてください",
+  "map": "地図",
   "createEnvironment": "環境を作成",
   "availableEnvironmentsWithoutConnection": "接続なしで利用可能な環境",
   "environmentsOnOtherMachines": "他のマシン上の環境",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

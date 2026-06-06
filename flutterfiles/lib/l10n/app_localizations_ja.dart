@@ -36,6 +36,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get thisListHasNoResults => 'このリストに結果はありません';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'このリストに結果はありません。最初を追加するには入力を始めてください';
+
+  @override
+  String get map => '地図';
+
+  @override
   String get createEnvironment => '環境を作成';
 
   @override

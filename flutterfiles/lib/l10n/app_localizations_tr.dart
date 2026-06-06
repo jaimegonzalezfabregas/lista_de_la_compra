@@ -36,6 +36,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get thisListHasNoResults => 'Bu listede sonuç yok';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Bu listede sonuç yok. İlkini eklemek için yazmaya başlayın';
+
+  @override
+  String get map => 'Harita';
+
+  @override
   String get createEnvironment => 'Ortam oluştur';
 
   @override

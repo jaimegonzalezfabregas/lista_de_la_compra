@@ -36,6 +36,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get thisListHasNoResults => 'इस सूची में कोई परिणाम नहीं हैं';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'इस सूची में कोई परिणाम नहीं हैं। पहला जोड़ने के लिए टाइप करना शुरू करें';
+
+  @override
+  String get map => 'नक्शा';
+
+  @override
   String get createEnvironment => 'पर्यावरण बनाएं';
 
   @override

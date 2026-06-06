@@ -36,6 +36,13 @@ class AppLocalizationsCs extends AppLocalizations {
   String get thisListHasNoResults => 'Tento seznam nemá žádné výsledky';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Tento seznam nemá žádné výsledky. Začněte psát pro přidání prvního';
+
+  @override
+  String get map => 'Mapa';
+
+  @override
   String get createEnvironment => 'Vytvořit prostředí';
 
   @override

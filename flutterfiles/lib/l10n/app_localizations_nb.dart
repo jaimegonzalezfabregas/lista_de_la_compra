@@ -36,6 +36,13 @@ class AppLocalizationsNb extends AppLocalizations {
   String get thisListHasNoResults => 'Denne listen har ingen resultater';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Denne listen har ingen resultater. Begynn å skrive for å legge til den første';
+
+  @override
+  String get map => 'Kart';
+
+  @override
   String get createEnvironment => 'Opprett miljø';
 
   @override

@@ -68,6 +68,7 @@ dependencies:
       url: https://github.com/Telosnex/fllama.git
       ref: main
   web_socket_channel: ^3.0.3
+  flame: ^1.37.0
 dev_dependencies:
   test: any
   flutter_test:
@@ -88,4 +89,4 @@ flutter:
 
 
   assets:
-    - assets/ai_model_cataloge.json
+    - assets/images/floor.png

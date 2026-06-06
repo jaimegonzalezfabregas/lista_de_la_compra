@@ -9,6 +9,8 @@
   "cancel": "إلغاء",
   "save": "حفظ",
   "thisListHasNoResults": "هذه القائمة لا تحتوي على نتائج",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "هذه القائمة لا تحتوي على نتائج. ابدأ الكتابة لإضافة أول عنصر",
+  "map": "خريطة",
   "createEnvironment": "إنشاء بيئة",
   "availableEnvironmentsWithoutConnection": "البيئات المتاحة بدون اتصال",
   "environmentsOnOtherMachines": "البيئات على أجهزة أخرى",
@@ -113,6 +115,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

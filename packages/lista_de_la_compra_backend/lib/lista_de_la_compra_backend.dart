@@ -10,6 +10,7 @@ export 'src/db_providers/environment_provider.dart';
 export 'src/db_providers/http_server_state_provider.dart';
 export 'src/db_providers/product_provider.dart';
 export 'src/db_providers/recipe_provider.dart';
+export 'src/db_providers/map_provider.dart';
 export 'src/db_providers/schedule_provider.dart';
 export 'src/db_providers/supermarket_provider.dart';
 export 'src/db_providers/aisle_provider.dart';

@@ -9,6 +9,8 @@
   "cancel": "Annuller",
   "save": "Gem",
   "thisListHasNoResults": "Denne liste har ingen resultater",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Denne liste har ingen resultater. Begynd at skrive for at tilføje det første",
+  "map": "Kort",
   "createEnvironment": "Opret miljø",
   "availableEnvironmentsWithoutConnection": "Tilgængelige miljøer uden forbindelse",
   "environmentsOnOtherMachines": "Miljøer på andre maskiner",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

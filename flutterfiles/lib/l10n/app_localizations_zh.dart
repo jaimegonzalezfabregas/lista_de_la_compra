@@ -36,6 +36,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get thisListHasNoResults => '此列表无结果';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      '此列表无结果。开始输入以添加第一个';
+
+  @override
+  String get map => '地图';
+
+  @override
   String get createEnvironment => '创建环境';
 
   @override

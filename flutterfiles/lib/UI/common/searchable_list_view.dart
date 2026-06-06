@@ -174,9 +174,14 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
             Flexible(
               child: ListView(shrinkWrap: true, controller: scrollController, children: items),
             ),
-            if (items.isEmpty)
+            if (items.isEmpty && widget.newElement == null)
               Flexible(
                 child: Container(margin: EdgeInsets.all(20), child: Text(appLoc.thisListHasNoResults)),
+              ),
+
+            if (items.isEmpty && widget.newElement != null)
+              Flexible(
+                child: Container(margin: EdgeInsets.all(20), child: Text(appLoc.thisListHasNoResultsStartTypingToAddTheFirst)),
               ),
           ],
         );

@@ -9,6 +9,8 @@
   "cancel": "Batal",
   "save": "Simpan",
   "thisListHasNoResults": "Senarai ini tiada keputusan",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Senarai ini tiada keputusan. Mula menaip untuk menambah yang pertama",
+  "map": "Peta",
   "createEnvironment": "Cipta persekitaran",
   "availableEnvironmentsWithoutConnection": "Persekitaran tersedia tanpa sambungan",
   "environmentsOnOtherMachines": "Persekitaran pada mesin lain",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

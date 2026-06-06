@@ -9,6 +9,8 @@
   "cancel": "Скасувати",
   "save": "Зберегти",
   "thisListHasNoResults": "Цей список не має результатів",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Цей список не має результатів. Почніть вводити текст, щоб додати перший",
+  "map": "Карта",
   "createEnvironment": "Створити середовище",
   "availableEnvironmentsWithoutConnection": "Доступні середовища без підключення",
   "environmentsOnOtherMachines": "Середовища на інших машинах",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

@@ -36,6 +36,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get thisListHasNoResults => 'รายการนี้ไม่มีผลลัพธ์';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'รายการนี้ไม่มีผลลัพธ์ เริ่มพิมพ์เพื่อเพิ่มรายการแรก';
+
+  @override
+  String get map => 'แผนที่';
+
+  @override
   String get createEnvironment => 'สร้างสภาพแวดล้อม';
 
   @override

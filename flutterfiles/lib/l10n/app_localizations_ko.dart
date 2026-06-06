@@ -36,6 +36,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get thisListHasNoResults => '이 목록에는 결과가 없습니다';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      '이 목록에는 결과가 없습니다. 첫 번째를 추가하려면 입력을 시작하세요';
+
+  @override
+  String get map => '지도';
+
+  @override
   String get createEnvironment => '환경 생성';
 
   @override

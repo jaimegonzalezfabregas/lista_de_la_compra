@@ -36,6 +36,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get thisListHasNoResults => 'هذه القائمة لا تحتوي على نتائج';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'هذه القائمة لا تحتوي على نتائج. ابدأ الكتابة لإضافة أول عنصر';
+
+  @override
+  String get map => 'خريطة';
+
+  @override
   String get createEnvironment => 'إنشاء بيئة';
 
   @override

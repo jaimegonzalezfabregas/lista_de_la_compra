@@ -9,6 +9,8 @@
   "cancel": "Hủy",
   "save": "Lưu",
   "thisListHasNoResults": "Danh sách này không có kết quả",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Danh sách này không có kết quả. Bắt đầu gõ để thêm cái đầu tiên",
+  "map": "Bản đồ",
   "createEnvironment": "Tạo môi trường",
   "availableEnvironmentsWithoutConnection": "Môi trường có sẵn không có kết nối",
   "environmentsOnOtherMachines": "Môi trường trên các máy khác",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

@@ -36,6 +36,13 @@ class AppLocalizationsHe extends AppLocalizations {
   String get thisListHasNoResults => 'רשימה זו אין לה תוצאות';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'רשימה זו אין לה תוצאות. התחל להקליד כדי להוסיף את הראשון';
+
+  @override
+  String get map => 'מפה';
+
+  @override
   String get createEnvironment => 'צור סביבה';
 
   @override

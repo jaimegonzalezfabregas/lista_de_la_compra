@@ -9,6 +9,8 @@
   "cancel": "Avbryt",
   "save": "Lagre",
   "thisListHasNoResults": "Denne listen har ingen resultater",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Denne listen har ingen resultater. Begynn å skrive for å legge til den første",
+  "map": "Kart",
   "createEnvironment": "Opprett miljø",
   "availableEnvironmentsWithoutConnection": "Tilgjengelige miljøer uten tilkobling",
   "environmentsOnOtherMachines": "Miljøer på andre maskiner",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

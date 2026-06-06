@@ -9,6 +9,8 @@
   "cancel": "Отказ",
   "save": "Запази",
   "thisListHasNoResults": "Този списък няма резултати",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Този списък няма резултати. Започнете да пишете, за да добавите първия",
+  "map": "Карта",
   "createEnvironment": "Създай среда",
   "availableEnvironmentsWithoutConnection": "Налични среди без връзка",
   "environmentsOnOtherMachines": "Среда на други машини",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

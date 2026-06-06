@@ -36,6 +36,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get thisListHasNoResults => 'Această listă nu are rezultate';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Această listă nu are rezultate. Începeți să tastați pentru a adăuga primul';
+
+  @override
+  String get map => 'Hartă';
+
+  @override
   String get createEnvironment => 'Creează mediu';
 
   @override

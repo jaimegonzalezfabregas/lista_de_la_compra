@@ -36,6 +36,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get thisListHasNoResults => 'Ebben a listában nincs találat';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Ebben a listában nincs találat. Kezdjen el gépelni az első hozzáadásához';
+
+  @override
+  String get map => 'Térkép';
+
+  @override
   String get createEnvironment => 'Környezet létrehozása';
 
   @override

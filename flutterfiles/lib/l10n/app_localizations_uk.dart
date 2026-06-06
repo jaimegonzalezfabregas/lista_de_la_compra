@@ -36,6 +36,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get thisListHasNoResults => 'Цей список не має результатів';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Цей список не має результатів. Почніть вводити текст, щоб додати перший';
+
+  @override
+  String get map => 'Карта';
+
+  @override
   String get createEnvironment => 'Створити середовище';
 
   @override

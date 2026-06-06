@@ -9,6 +9,8 @@
   "cancel": "ביטול",
   "save": "שמור",
   "thisListHasNoResults": "רשימה זו אין לה תוצאות",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "רשימה זו אין לה תוצאות. התחל להקליד כדי להוסיף את הראשון",
+  "map": "מפה",
   "createEnvironment": "צור סביבה",
   "availableEnvironmentsWithoutConnection": "סביבות זמינות ללא חיבור",
   "environmentsOnOtherMachines": "סביבות במכונות אחרות",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

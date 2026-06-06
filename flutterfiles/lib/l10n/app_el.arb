@@ -9,6 +9,8 @@
   "cancel": "Ακύρωση",
   "save": "Αποθήκευση",
   "thisListHasNoResults": "Αυτή η λίστα δεν έχει αποτελέσματα",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Αυτή η λίστα δεν έχει αποτελέσματα. Αρχίστε να πληκτρολογείτε για να προσθέσετε το πρώτο",
+  "map": "Χάρτης",
   "createEnvironment": "Δημιουργία περιβάλλοντος",
   "availableEnvironmentsWithoutConnection": "Διαθέσιμα περιβάλλοντα χωρίς σύνδεση",
   "environmentsOnOtherMachines": "Περιβάλλοντα σε άλλους υπολογιστές",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

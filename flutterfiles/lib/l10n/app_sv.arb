@@ -9,6 +9,8 @@
   "cancel": "Avbryt",
   "save": "Spara",
   "thisListHasNoResults": "Den här listan har inga resultat",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Den här listan har inga resultat. Börja skriva för att lägga till det första",
+  "map": "Karta",
   "createEnvironment": "Skapa miljö",
   "availableEnvironmentsWithoutConnection": "Tillgängliga miljöer utan anslutning",
   "environmentsOnOtherMachines": "Miljöer på andra enheter",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

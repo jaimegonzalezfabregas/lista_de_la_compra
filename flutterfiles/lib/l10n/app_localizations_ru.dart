@@ -36,6 +36,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get thisListHasNoResults => 'В этом списке нет результатов';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'В этом списке нет результатов. Начните вводить текст, чтобы добавить первый';
+
+  @override
+  String get map => 'Карта';
+
+  @override
   String get createEnvironment => 'Создать окружение';
 
   @override

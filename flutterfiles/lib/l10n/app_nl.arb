@@ -9,6 +9,8 @@
   "cancel": "Annuleren",
   "save": "Opslaan",
   "thisListHasNoResults": "Deze lijst heeft geen resultaten",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Deze lijst heeft geen resultaten. Begin te typen om de eerste toe te voegen",
+  "map": "Kaart",
   "createEnvironment": "Omgeving aanmaken",
   "availableEnvironmentsWithoutConnection": "Beschikbare omgevingen zonder verbinding",
   "environmentsOnOtherMachines": "Omgevingen op andere apparaten",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

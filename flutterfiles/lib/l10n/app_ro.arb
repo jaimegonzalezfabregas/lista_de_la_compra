@@ -9,6 +9,8 @@
   "cancel": "Anulează",
   "save": "Salvează",
   "thisListHasNoResults": "Această listă nu are rezultate",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Această listă nu are rezultate. Începeți să tastați pentru a adăuga primul",
+  "map": "Hartă",
   "createEnvironment": "Creează mediu",
   "availableEnvironmentsWithoutConnection": "Mediile disponibile fără conexiune",
   "environmentsOnOtherMachines": "Mediile pe alte mașini",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

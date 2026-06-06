@@ -36,6 +36,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get thisListHasNoResults => 'Daftar ini tidak memiliki hasil';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Daftar ini tidak memiliki hasil. Mulai mengetik untuk menambahkan yang pertama';
+
+  @override
+  String get map => 'Peta';
+
+  @override
   String get createEnvironment => 'Buat lingkungan';
 
   @override

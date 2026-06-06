@@ -36,6 +36,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get thisListHasNoResults => 'Diese Liste enthält keine Ergebnisse';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Diese Liste enthält keine Ergebnisse. Tippen Sie, um das erste hinzuzufügen';
+
+  @override
+  String get map => 'Karte';
+
+  @override
   String get createEnvironment => 'Umgebung erstellen';
 
   @override

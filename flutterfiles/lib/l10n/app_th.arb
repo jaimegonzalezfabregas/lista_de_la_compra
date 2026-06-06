@@ -9,6 +9,8 @@
   "cancel": "ยกเลิก",
   "save": "บันทึก",
   "thisListHasNoResults": "รายการนี้ไม่มีผลลัพธ์",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "รายการนี้ไม่มีผลลัพธ์ เริ่มพิมพ์เพื่อเพิ่มรายการแรก",
+  "map": "แผนที่",
   "createEnvironment": "สร้างสภาพแวดล้อม",
   "availableEnvironmentsWithoutConnection": "สภาพแวดล้อมที่ใช้ได้โดยไม่มีการเชื่อมต่อ",
   "environmentsOnOtherMachines": "สภาพแวดล้อมในเครื่องอื่น",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

@@ -9,6 +9,8 @@
   "cancel": "Abbrechen",
   "save": "Speichern",
   "thisListHasNoResults": "Diese Liste enthält keine Ergebnisse",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Diese Liste enthält keine Ergebnisse. Tippen Sie, um das erste hinzuzufügen",
+  "map": "Karte",
   "createEnvironment": "Umgebung erstellen",
   "availableEnvironmentsWithoutConnection": "Verfügbare Umgebungen ohne Verbindung",
   "environmentsOnOtherMachines": "Umgebungen auf anderen Geräten",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

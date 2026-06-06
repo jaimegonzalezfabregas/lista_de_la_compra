@@ -9,6 +9,8 @@
   "cancel": "취소",
   "save": "저장",
   "thisListHasNoResults": "이 목록에는 결과가 없습니다",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "이 목록에는 결과가 없습니다. 첫 번째를 추가하려면 입력을 시작하세요",
+  "map": "지도",
   "createEnvironment": "환경 생성",
   "availableEnvironmentsWithoutConnection": "연결 없이 사용 가능한 환경",
   "environmentsOnOtherMachines": "다른 기기의 환경",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

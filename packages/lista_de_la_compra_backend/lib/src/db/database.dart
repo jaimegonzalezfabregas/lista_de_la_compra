@@ -1,5 +1,6 @@
 
 import 'package:drift/drift.dart';
+import 'package:lista_de_la_compra_backend/src/db/map_tile_model.dart';
 import 'environments.dart';
 import 'http_server_model.dart';
 import 'product_model.dart';
@@ -14,7 +15,7 @@ part 'database.g.dart';
 
 typedef Environment = Enviroment;
 
-@DriftDatabase(tables: [ScheduleEntries, Products, Recipes, RecipeProducts, HttpServer, Enviroments, SuperMarkets, Aisles, ProductAisles])
+@DriftDatabase(tables: [MapTiles, ScheduleEntries, Products, Recipes, RecipeProducts, HttpServer, Enviroments, SuperMarkets, Aisles, ProductAisles])
 class AppDatabase extends _$AppDatabase {
 
   AppDatabase(QueryExecutor executor) : super(executor);

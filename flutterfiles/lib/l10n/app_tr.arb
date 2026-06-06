@@ -9,6 +9,8 @@
   "cancel": "İptal",
   "save": "Kaydet",
   "thisListHasNoResults": "Bu listede sonuç yok",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Bu listede sonuç yok. İlkini eklemek için yazmaya başlayın",
+  "map": "Harita",
   "createEnvironment": "Ortam oluştur",
   "availableEnvironmentsWithoutConnection": "Bağlantısız kullanılabilir ortamlar",
   "environmentsOnOtherMachines": "Diğer cihazlardaki ortamlar",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

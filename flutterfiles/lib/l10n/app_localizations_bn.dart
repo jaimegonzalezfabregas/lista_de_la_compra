@@ -36,6 +36,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get thisListHasNoResults => 'এই তালিকায় কোনও ফলাফল নেই';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'এই তালিকায় কোনও ফলাফল নেই। প্রথমটি যোগ করতে টাইপ করা শুরু করুন';
+
+  @override
+  String get map => 'মানচিত্র';
+
+  @override
   String get createEnvironment => 'পরিবেশ তৈরি করুন';
 
   @override

@@ -36,6 +36,13 @@ class AppLocalizationsSk extends AppLocalizations {
   String get thisListHasNoResults => 'Tento zoznam nemá žiadne výsledky';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Tento zoznam nemá žiadne výsledky. Začnite písať pre pridanie prvého';
+
+  @override
+  String get map => 'Mapa';
+
+  @override
   String get createEnvironment => 'Vytvoriť prostredie';
 
   @override

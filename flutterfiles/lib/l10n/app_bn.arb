@@ -9,6 +9,8 @@
   "cancel": "বাতিল",
   "save": "সংরক্ষণ",
   "thisListHasNoResults": "এই তালিকায় কোনও ফলাফল নেই",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "এই তালিকায় কোনও ফলাফল নেই। প্রথমটি যোগ করতে টাইপ করা শুরু করুন",
+  "map": "মানচিত্র",
   "createEnvironment": "পরিবেশ তৈরি করুন",
   "availableEnvironmentsWithoutConnection": "সংযোগ ছাড়া উপলভ্য পরিবেশসমূহ",
   "environmentsOnOtherMachines": "অন্যান্য মেশিনগুলির পরিবেশ",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

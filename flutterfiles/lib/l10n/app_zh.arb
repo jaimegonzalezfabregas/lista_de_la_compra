@@ -9,6 +9,8 @@
   "cancel": "取消",
   "save": "保存",
   "thisListHasNoResults": "此列表无结果",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "此列表无结果。开始输入以添加第一个",
+  "map": "地图",
   "createEnvironment": "创建环境",
   "availableEnvironmentsWithoutConnection": "无连接的可用环境",
   "environmentsOnOtherMachines": "其他设备上的环境",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

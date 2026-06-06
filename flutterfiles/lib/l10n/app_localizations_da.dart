@@ -36,6 +36,13 @@ class AppLocalizationsDa extends AppLocalizations {
   String get thisListHasNoResults => 'Denne liste har ingen resultater';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Denne liste har ingen resultater. Begynd at skrive for at tilføje det første';
+
+  @override
+  String get map => 'Kort';
+
+  @override
   String get createEnvironment => 'Opret miljø';
 
   @override

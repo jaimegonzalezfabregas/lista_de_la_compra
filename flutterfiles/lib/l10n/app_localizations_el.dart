@@ -36,6 +36,13 @@ class AppLocalizationsEl extends AppLocalizations {
   String get thisListHasNoResults => 'Αυτή η λίστα δεν έχει αποτελέσματα';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Αυτή η λίστα δεν έχει αποτελέσματα. Αρχίστε να πληκτρολογείτε για να προσθέσετε το πρώτο';
+
+  @override
+  String get map => 'Χάρτης';
+
+  @override
   String get createEnvironment => 'Δημιουργία περιβάλλοντος';
 
   @override

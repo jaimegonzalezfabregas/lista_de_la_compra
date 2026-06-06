@@ -36,6 +36,13 @@ class AppLocalizationsBg extends AppLocalizations {
   String get thisListHasNoResults => 'Този списък няма резултати';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Този списък няма резултати. Започнете да пишете, за да добавите първия';
+
+  @override
+  String get map => 'Карта';
+
+  @override
   String get createEnvironment => 'Създай среда';
 
   @override

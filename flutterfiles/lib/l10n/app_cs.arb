@@ -9,6 +9,8 @@
   "cancel": "Zrušit",
   "save": "Uložit",
   "thisListHasNoResults": "Tento seznam nemá žádné výsledky",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Tento seznam nemá žádné výsledky. Začněte psát pro přidání prvního",
+  "map": "Mapa",
   "createEnvironment": "Vytvořit prostředí",
   "availableEnvironmentsWithoutConnection": "Dostupná prostředí bez připojení",
   "environmentsOnOtherMachines": "Prostředí na jiných počítačích",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

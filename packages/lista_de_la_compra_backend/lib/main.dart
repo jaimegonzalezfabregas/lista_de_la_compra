@@ -1,8 +1,6 @@
-import 'dart:io';
 
 // https://stackoverflow.com/questions/78626240/flutter-drift-for-the-web-unsupported-operation-unsupported-invalid-type-invali
 import 'package:drift/backends.dart';
-import 'package:drift/native.dart';
 import 'package:lista_de_la_compra_backend/src/db/database.dart';
 import 'package:lista_de_la_compra_backend/src/db_providers/aisle_provider.dart';
 import 'package:lista_de_la_compra_backend/src/db_providers/product_aisle_provider.dart';

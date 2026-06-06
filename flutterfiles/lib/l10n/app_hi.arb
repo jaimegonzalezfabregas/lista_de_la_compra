@@ -9,6 +9,8 @@
   "cancel": "रद्द करें",
   "save": "सहेजें",
   "thisListHasNoResults": "इस सूची में कोई परिणाम नहीं हैं",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "इस सूची में कोई परिणाम नहीं हैं। पहला जोड़ने के लिए टाइप करना शुरू करें",
+  "map": "नक्शा",
   "createEnvironment": "पर्यावरण बनाएं",
   "availableEnvironmentsWithoutConnection": "कनेक्शन के बिना उपलब्ध वातावरण",
   "environmentsOnOtherMachines": "अन्य मशीनों पर वातावरण",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

@@ -36,6 +36,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get thisListHasNoResults => 'Deze lijst heeft geen resultaten';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Deze lijst heeft geen resultaten. Begin te typen om de eerste toe te voegen';
+
+  @override
+  String get map => 'Kaart';
+
+  @override
   String get createEnvironment => 'Omgeving aanmaken';
 
   @override

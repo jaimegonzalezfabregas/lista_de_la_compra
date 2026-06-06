@@ -210,6 +210,18 @@ abstract class AppLocalizations {
   /// **'This list has no results'**
   String get thisListHasNoResults;
 
+  /// This list has no results. Start typing to add the first one
+  ///
+  /// In en, this message translates to:
+  /// **'This list has no results. Start typing to add the first one'**
+  String get thisListHasNoResultsStartTypingToAddTheFirst;
+
+  /// Map
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get map;
+
   /// Create environment
   ///
   /// In en, this message translates to:

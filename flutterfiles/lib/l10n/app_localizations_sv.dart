@@ -36,6 +36,13 @@ class AppLocalizationsSv extends AppLocalizations {
   String get thisListHasNoResults => 'Den här listan har inga resultat';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Den här listan har inga resultat. Börja skriva för att lägga till det första';
+
+  @override
+  String get map => 'Karta';
+
+  @override
   String get createEnvironment => 'Skapa miljö';
 
   @override

@@ -9,6 +9,8 @@
   "cancel": "Отмена",
   "save": "Сохранить",
   "thisListHasNoResults": "В этом списке нет результатов",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "В этом списке нет результатов. Начните вводить текст, чтобы добавить первый",
+  "map": "Карта",
   "createEnvironment": "Создать окружение",
   "availableEnvironmentsWithoutConnection": "Доступные окружения без подключения",
   "environmentsOnOtherMachines": "Окружения на других устройствах",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

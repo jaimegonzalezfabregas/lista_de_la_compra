@@ -9,6 +9,8 @@
   "cancel": "Zrušiť",
   "save": "Uložiť",
   "thisListHasNoResults": "Tento zoznam nemá žiadne výsledky",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Tento zoznam nemá žiadne výsledky. Začnite písať pre pridanie prvého",
+  "map": "Mapa",
   "createEnvironment": "Vytvoriť prostredie",
   "availableEnvironmentsWithoutConnection": "Dostupné prostredia bez pripojenia",
   "environmentsOnOtherMachines": "Prostredia na iných strojoch",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"

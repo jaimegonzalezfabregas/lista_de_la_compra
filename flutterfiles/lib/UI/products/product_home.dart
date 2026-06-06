@@ -41,11 +41,15 @@ class ProductHome extends StatelessWidget {
                   sharedPreferencesProvider.getSelectedSupermarket(enviromentId),
                 ]),
                 builder: (context, asyncSnapshot) {
+                                    print(asyncSnapshot);
+
                   if (!asyncSnapshot.hasData) {
                     return SizedBox.shrink();
                   }
                   final List<SuperMarket> supermarkets = asyncSnapshot.data![0] as List<SuperMarket>;
                   final String? selectedSupermarket = asyncSnapshot.data![1] as String?;
+
+                  print(supermarkets);
 
                   return Flexible(
                     child: Container(

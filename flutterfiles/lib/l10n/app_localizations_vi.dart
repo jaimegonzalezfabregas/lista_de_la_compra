@@ -36,6 +36,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get thisListHasNoResults => 'Danh sách này không có kết quả';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Danh sách này không có kết quả. Bắt đầu gõ để thêm cái đầu tiên';
+
+  @override
+  String get map => 'Bản đồ';
+
+  @override
   String get createEnvironment => 'Tạo môi trường';
 
   @override

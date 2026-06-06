@@ -1,3 +1,5 @@
+import 'package:lista_de_la_compra_backend/src/db_providers/map_provider.dart';
+
 import '../db/database.dart';
 import '../db_providers/environment_provider.dart';
 import '../db_providers/product_provider.dart';
@@ -16,6 +18,7 @@ Future<Map<String, dynamic>> serializeEnvironment(
   SuperMarketProvider supermarketProvider,
   AisleProvider aisleProvider,
   ProductAisleProvider productAisleProvider,
+  MapTileProvider mapTileProvider,
 ) async {
   // Launch all provider fetches concurrently to improve latency.
   final envFuture = environmentProvider.getEnvironmentById(enviromentId);
@@ -26,6 +29,7 @@ Future<Map<String, dynamic>> serializeEnvironment(
   final superMarketsFuture = supermarketProvider.getSyncSuperMarketList(enviromentId);
   final aislesFuture = aisleProvider.getSyncAisleList(enviromentId);
   final productAislesFuture = productAisleProvider.getSyncProductAisleList(enviromentId);
+  final mapTilesFuture = mapTileProvider.getSyncAisleList(enviromentId);
 
   final environment = (await envFuture)!;
 
@@ -36,6 +40,7 @@ Future<Map<String, dynamic>> serializeEnvironment(
   final superMarkets = await superMarketsFuture;
   final aisles = await aislesFuture;
   final productAisles = await productAislesFuture;
+  final mapTiles = await mapTilesFuture;
 
   return {
     "environment": environment,
@@ -46,6 +51,7 @@ Future<Map<String, dynamic>> serializeEnvironment(
     "super_markets": superMarkets,
     "aisles": aisles,
     "product_aisles": productAisles,
+    "map_tiles": mapTiles,
   };
 }
 
@@ -89,6 +95,7 @@ Future<void> recieveState(
   SuperMarketProvider supermarketProvider,
   AisleProvider aisleProvider,
   ProductAisleProvider productAisleProvider,
+  MapTileProvider mapTileProvider,
 ) async {
   Environment remoteEnvironment = Environment.fromJson(state["environment"]);
   Environment? currentEnvironment = await environmentProvider.getEnvironmentById(remoteEnvironment.id);
@@ -109,6 +116,7 @@ Future<void> recieveState(
   List<dynamic> otherSuperMarkets = state["super_markets"] ?? [];
   List<dynamic> otherAisles = state["aisles"] ?? [];
   List<dynamic> otherProductAisles = state["product_aisles"] ?? [];
+  List<dynamic> otherMapTiles = state["map_tiles"] ?? [];
 
   var selfProducts = productProvider.getSyncProductList(remoteEnvironment.id);
   var selfRecipes = recipeProvider.getSyncRecipeList(remoteEnvironment.id);
@@ -173,5 +181,15 @@ Future<void> recieveState(
     (id, item) => productAisleProvider.syncOverideProductAisle(id, item),
     (id, deletedAt) => productAisleProvider.syncSetDeletedProductAisle(id, deletedAt),
     (item) => productAisleProvider.syncAddProductAisle(item),
+  );
+
+  var selfMapTiles = mapTileProvider.getSyncAisleList(remoteEnvironment.id);
+
+  await syncItems(
+    otherMapTiles,
+    await selfMapTiles,
+    (id, item) => mapTileProvider.syncOverideMapTile(id, item),
+    (id, deletedAt) => mapTileProvider.syncSetDeletedMapTile(id, deletedAt),
+    (item) => mapTileProvider.syncAddMap(item),
   );
 }
