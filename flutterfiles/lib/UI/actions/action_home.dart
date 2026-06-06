@@ -3,6 +3,7 @@ import 'package:lista_de_la_compra/UI/actions/export_controls.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';

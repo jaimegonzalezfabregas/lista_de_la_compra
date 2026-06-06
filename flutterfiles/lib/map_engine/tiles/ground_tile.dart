@@ -8,7 +8,7 @@ const double kTileSize = 80.0;
 
 class TileSpriteComponent extends SpriteComponent with TapCallbacks {
   final String tileId;
-  final TileType tileType;
+  final TileType? tileType;
   final int tileX;
   final int tileY;
   final void Function(String)? onTap;
@@ -24,7 +24,7 @@ class TileSpriteComponent extends SpriteComponent with TapCallbacks {
 
   @override
   Future<void> onLoad() async {
-    sprite = await Sprite.load(tileType.getAsset());
+    sprite = await Sprite.load(tileType?.getAsset() ?? "floor.png");
 
     if (tileType is TileAisle) {
       add(

@@ -3,6 +3,7 @@ library;
 export 'src/lista_de_la_compra_backend_base.dart';
 export 'src/db_providers/http_server_provider.dart';
 export 'src/shared_preferences_providers/shared_preferences_provider.dart';
+export 'src/shared_preferences_providers/selected_market_provider.dart';
 export 'src/sync/open_connection_manager.dart';
 export 'src/sync/open_conection_provider.dart';
 export 'src/sync/open_connection.dart';

@@ -32,12 +32,12 @@ Future runServer() async {
     productProvider,
     recipeProvider,
     scheduleProvider,
-    sharedPreferencesProvider,
     environmentProvider,
     supermarketProvider,
     aisleProvider,
     productAisleProvider,
     mapTileProvider,
+    sharedPreferencesProvider,
 
     downloadAllEnvironments: true,
   );

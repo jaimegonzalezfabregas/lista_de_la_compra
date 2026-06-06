@@ -85,9 +85,4 @@ class EditorGame extends FlameGame with DragCallbacks, TapCallbacks {
   void onDragUpdate(DragUpdateEvent event) {
     camera.viewfinder.position -= event.localDelta / camera.viewfinder.zoom;
   }
-
-  void onScroll(PointerScrollInfo info) {
-    final zoom = camera.viewfinder.zoom;
-    camera.viewfinder.zoom = (zoom - info.scrollDelta.global.y * 0.001).clamp(0.2, 5.0);
-  }
 }

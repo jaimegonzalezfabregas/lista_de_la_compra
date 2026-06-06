@@ -37,10 +37,11 @@ class _MapPreviewState extends State<MapPreview> {
           TextButton(
             onPressed: () async {
               Navigator.of(ctx).pop();
-              setState(() => floor = 0);
               aisleProvider.unlinkTiles((await mapTileProvider.getMapOfMarket(widget.supermarketId, floor)).map((tile) => tile.id).toList());
 
               mapTileProvider.deleteFloorTiles(widget.supermarketId, floor);
+
+              setState(() => floor = 0);
             },
             child: Text(appLoc.delete, style: TextStyle(color: Theme.of(ctx).colorScheme.error)),
           ),
@@ -53,7 +54,7 @@ class _MapPreviewState extends State<MapPreview> {
   Widget build(BuildContext context) {
     final appLoc = AppLocalizations.of(context)!;
     final MapTileProvider mapTileProvider = context.watch<FlutterMapTileProvider>();
-    final AisleProvider aisleProvider = context.watch<AisleProvider>();
+    final AisleProvider aisleProvider = context.watch<FlutterAisleProvider>();
 
     return FutureBuilder(
       future: mapTileProvider.getFloorsOfMarket(widget.supermarketId),
@@ -95,7 +96,9 @@ class _MapPreviewState extends State<MapPreview> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ...floors.map(
-                  (f) => f == floor ? Text('$f') : TextButton(child: Text('$f'), onPressed: () => setState(() => floor = f)),
+                  (f) => f == floor
+                      ? ElevatedButton(child: Text('$f'), onPressed: () {})
+                      : TextButton(child: Text('$f'), onPressed: () => setState(() => floor = f)),
                 ), // TODO make the buttons easier to read
                 TextButton.icon(
                   icon: const Icon(Icons.add, size: 16),
@@ -113,13 +116,14 @@ class _MapPreviewState extends State<MapPreview> {
               child: FutureBuilder(
                 future: mapTileProvider.getMapOfMarket(widget.supermarketId, floor),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return Text(appLoc.loading);
+                  if (!snapshot.hasData || snapshot.data == null) return Text(appLoc.loading);
                   if (snapshot.data!.isEmpty) return Text(appLoc.noMappingDataAviable);
 
                   return FutureBuilder(
                     future: buildTileToTypeMap(snapshot.data!, aisleProvider, widget.supermarketId),
                     builder: (context, aisleSnapshot) {
-                      if (!aisleSnapshot.hasData) return Text(appLoc.loading);
+                      if (!aisleSnapshot.hasData || aisleSnapshot.data == null) return Text(appLoc.loading);
+
                       return GameWidget(game: PreviewGame(snapshot.data!, aisleSnapshot.data!));
                     },
                   );

@@ -158,7 +158,7 @@ abstract class MapTileProvider implements VoidEventSource {
     ).getSingleOrNull();
   }
 
-  Future<(MapTile, Aisle)?> getTileByIdJoinedAisle(String tileId) async {
+  Future<(MapTile, Aisle?)?> getTileByIdJoinedAisle(String tileId) async {
     final database = AppDatabaseSingleton.instance;
 
     var join = database.select(database.mapTiles).join([leftOuterJoin(database.aisles, database.aisles.mapTileId.equalsExp(database.mapTiles.id))]);
@@ -172,6 +172,6 @@ abstract class MapTileProvider implements VoidEventSource {
       return null;
     }
 
-    return (results.readTable(database.mapTiles), results.readTable(database.aisles));
+    return (results.readTable(database.mapTiles), results.readTableOrNull(database.aisles));
   }
 }

@@ -45,12 +45,12 @@ class OpenConnectionManager {
     this.productProvider,
     this.recipeProvider,
     this.scheduleProvider,
-    this.sharedPreferencesProvider,
     this.environmentProvider,
     this.supermarketProvider,
     this.aisleProvider,
     this.productAisleProvider,
-    this.mapTileProvider, {
+    this.mapTileProvider,
+    this.sharedPreferencesProvider, {
     this.downloadAllEnvironments = false,
   }) {
     productProvider.addListener(triggerSyncPush);
@@ -229,7 +229,7 @@ class OpenConnectionManager {
                       supermarketProvider,
                       aisleProvider,
                       productAisleProvider,
-                      mapTileProvider
+                      mapTileProvider,
                     ),
                   }),
                 );

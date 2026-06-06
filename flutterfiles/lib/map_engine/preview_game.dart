@@ -24,7 +24,7 @@ class PreviewGame extends FlameGame {
     camera.viewfinder.anchor = Anchor.center;
 
     for (final t in tiles) {
-      world.add(TileSpriteComponent(t.id, tileToTileType[t.id]!, t.posX, t.posY));
+      world.add(TileSpriteComponent(t.id, tileToTileType[t.id], t.posX, t.posY));
     }
 
     final xs = tiles.map((t) => t.posX.toDouble());

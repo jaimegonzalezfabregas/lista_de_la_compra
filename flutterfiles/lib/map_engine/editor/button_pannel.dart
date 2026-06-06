@@ -72,7 +72,7 @@ class BottomPanel extends StatelessWidget {
     final List<Aisle> assignedElsewhere = aisles.where((a) => a.mapTileId != null && a.mapTileId != selectedTileId).toList();
     final List<Aisle> sorted = [...unassigned, ...assignedElsewhere];
 
-    Completer c = Completer();
+    Completer<TileType?> c = Completer();
 
     showDialog(
       context: context,
@@ -97,13 +97,13 @@ class BottomPanel extends StatelessWidget {
                     ...sorted.map((aisle) {
                       final assignedFloor = aisle.mapTileId != null ? tileToFloorMap[aisle.mapTileId] : null;
                       return ListTile(
-                        leading: Icon(aisle.mapTileId == selectedTileId ? Icons.radio_button_on : Icons.radio_button_off),
+                        leading: Icon(Icons.radio_button_off),
                         title: Text(aisle.name),
                         subtitle: assignedFloor != null
                             ? Text(appLoc.floorN(assignedFloor), style: TextStyle(color: Theme.of(context).disabledColor))
                             : null,
                         onTap: () async {
-                          c.complete(aisle.id);
+                          c.complete(TileAisle(aisle.id, aisle.name));
                           Navigator.of(ctx).pop();
                         },
                       );
@@ -127,20 +127,18 @@ class BottomPanel extends StatelessWidget {
 
     Future<List<MapTile>> tiles = mapTileProvider.getMapOfMarket(supermarketId, floor);
 
-    Widget tapTileMessage = Padding(
+    Widget buildMessage(String msg) => Padding(
       padding: const EdgeInsets.all(12),
-      child: Text(
-        'Tap a tile to select it, or tap a ghost tile to add one', // TODO internationalize
-        style: Theme.of(context).textTheme.bodySmall,
-        textAlign: TextAlign.center,
-      ),
+      child: Text(msg, textAlign: TextAlign.center),
     );
 
     if (selectedTileId == null) {
-      return tapTileMessage;
+      return buildMessage(
+        'Tap a tile to select it, or tap a ghost tile to add one', // TODO internationalize
+      );
     }
 
-    Future<(MapTile, Aisle)?> mapTileFuture = mapTileProvider.getTileByIdJoinedAisle(selectedTileId!);
+    Future<(MapTile, Aisle?)?> mapTileFuture = mapTileProvider.getTileByIdJoinedAisle(selectedTileId!);
 
     return FutureBuilder(
       future: Future.wait([mapTileFuture, tiles]),
@@ -153,16 +151,18 @@ class BottomPanel extends StatelessWidget {
         }
 
         if (snapshot.data == null) {
-          return tapTileMessage;
+          return buildMessage(
+            'Tap a tile to select it, or tap a ghost tile to add one', // TODO internationalize
+          );
         }
 
-        final (MapTile, Aisle) tileInfo = snapshot.data![0] as (MapTile, Aisle);
+        final (MapTile, Aisle?) tileInfo = snapshot.data![0] as (MapTile, Aisle?);
         final MapTile selectedMapTile = tileInfo.$1;
-        final Aisle aisle = tileInfo.$2;
+        final Aisle? aisle = tileInfo.$2;
 
         final List<MapTile> tileList = snapshot.data![1] as List<MapTile>;
 
-        final currentType = tileTypeOf(selectedMapTile, aisle.id, aisle.name);
+        final currentType = tileTypeOf(selectedMapTile, aisle?.id, aisle?.name);
 
         final isLastStart = selectedMapTile.start && tileList.where((t) => t.start).length <= 1;
         final isLastEnd = selectedMapTile.end && tileList.where((t) => t.end).length <= 1;
@@ -171,7 +171,11 @@ class BottomPanel extends StatelessWidget {
             ? appLoc.tileLockedLastOfType(appLoc.tileTypeStart.toLowerCase())
             : isLastEnd
             ? appLoc.tileLockedLastOfType(appLoc.tileTypeEnd.toLowerCase())
-            : null;
+            : null; // TODO add "To edit this tile please create a separate tile elsewhere"
+
+        if (lockedLabel != null) {
+          return buildMessage(lockedLabel);
+        }
 
         return Container(
           color: Theme.of(context).colorScheme.surfaceContainerHigh,
@@ -179,58 +183,52 @@ class BottomPanel extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('(${selectedMapTile.posX}, ${selectedMapTile.posY})', style: Theme.of(context).textTheme.labelSmall),
               const SizedBox(height: 4),
-              if (lockedLabel != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(lockedLabel, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
-                )
-              else
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _TypeButton(
-                      label: appLoc.tileTypeFloor,
-                      icon: Icons.square,
-                      selected: currentType is TileFloor,
-                      onTap: () => onSetType(selectedTileId!, TileFloor()),
-                    ),
-                    _TypeButton(
-                      label: appLoc.tileTypeStart,
-                      icon: Icons.door_sliding,
-                      selected: currentType is TileStart,
-                      color: const Color(0xFF4CAF50),
-                      onTap: () => onSetType(selectedTileId!, TileStart()),
-                    ),
-                    _TypeButton(
-                      label: appLoc.tileTypeEnd,
-                      icon: Icons.exit_to_app,
-                      selected: currentType is TileEnd,
-                      color: const Color(0xFFF44336),
-                      onTap: () => onSetType(selectedTileId!, TileEnd()),
-                    ),
-                    _TypeButton(
-                      label: appLoc.assignAisle,
-                      icon: Icons.shelves,
-                      selected: currentType is TileAisle,
-                      onTap: () async {
-                        TileType? tileType = await aisleChooseDialog(context, aisleProvider, tileList);
 
-                        if (tileType != null) {
-                          onSetType(selectedTileId!, tileType);
-                        }
-                      },
-                    ),
-                    _TypeButton(
-                      label: appLoc.delete,
-                      icon: Icons.delete,
-                      selected: false,
-                      color: Theme.of(context).colorScheme.error,
-                      onTap: () => onDelete(selectedTileId!),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _TypeButton(
+                    label: appLoc.tileTypeFloor,
+                    icon: Icons.square,
+                    selected: currentType is TileFloor,
+                    onTap: () => onSetType(selectedTileId!, TileFloor()),
+                  ),
+                  _TypeButton(
+                    label: appLoc.tileTypeStart,
+                    icon: Icons.door_sliding,
+                    selected: currentType is TileStart,
+                    color: const Color(0xFF4CAF50),
+                    onTap: () => onSetType(selectedTileId!, TileStart()),
+                  ),
+                  _TypeButton(
+                    label: appLoc.tileTypeEnd,
+                    icon: Icons.exit_to_app,
+                    selected: currentType is TileEnd,
+                    color: const Color(0xFFF44336),
+                    onTap: () => onSetType(selectedTileId!, TileEnd()),
+                  ),
+                  _TypeButton(
+                    label: appLoc.assignAisle,
+                    icon: Icons.shelves,
+                    selected: currentType is TileAisle,
+                    onTap: () async {
+                      TileType? tileType = await aisleChooseDialog(context, aisleProvider, tileList);
+
+                      if (tileType != null) {
+                        onSetType(selectedTileId!, tileType);
+                      }
+                    },
+                  ),
+                  _TypeButton(
+                    label: appLoc.delete,
+                    icon: Icons.delete,
+                    selected: false,
+                    color: Theme.of(context).colorScheme.error,
+                    onTap: () => onDelete(selectedTileId!),
+                  ),
+                ],
+              ),
             ],
           ),
         );

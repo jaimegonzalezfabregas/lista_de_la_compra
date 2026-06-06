@@ -69,8 +69,6 @@ class _MapEditorState extends State<MapEditor> {
   Future<void> setTileTypeAndRelinkAisles(String tileId, TileType type, MapTileProvider mapTileProvider, AisleProvider aisleProvider) async {
     await mapTileProvider.updateTileType(tileId, start: type is TileStart, end: type is TileEnd);
 
-    final aisles = await aisleProvider.getAislesBySupermarket(widget.supermarketId);
-
     await aisleProvider.unlinkTiles([tileId]);
 
     if (type is TileAisle) {
