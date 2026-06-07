@@ -9,7 +9,7 @@ import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
 
 import 'preview_game.dart';
-import 'map_utils.dart';
+import '../map_utils.dart';
 
 export '../editor/map_editor.dart' show MapEditor;
 

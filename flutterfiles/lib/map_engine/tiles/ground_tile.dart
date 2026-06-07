@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/map_engine/tiles/tile_type.dart';
-import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 const double kTileSize = 80.0;
 

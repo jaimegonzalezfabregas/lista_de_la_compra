@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/UI/products/map_router.dart';
+import 'package:lista_de_la_compra/UI/products/map_view.dart';
 import 'package:lista_de_la_compra/UI/products/product_list_display.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,7 @@ class ProductHome extends StatelessWidget {
             ElevatedButton.icon(
               label: Text("Optimize route"), // TODO internationalize
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MapRouter(enviromentId)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MapView(enviromentId)));
               },
               icon: Icon(Icons.route),
             ),

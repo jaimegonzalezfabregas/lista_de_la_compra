@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.0"
+  async_filter:
+    dependency: "direct main"
+    description:
+      name: async_filter
+      sha256: cdbeced44dcf61b0f124057a09c372c5528372ceb03f20f9a0841956e24a0ced
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   bazel_worker:
     dependency: transitive
     description:
@@ -281,6 +289,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  dynamic_height_list_view:
+    dependency: "direct main"
+    description:
+      name: dynamic_height_list_view
+      sha256: f69412fac854233fe3517f2def600b977d46b2a16fd3cd6c0c737025e8d1424a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   expandable_page_view:
     dependency: transitive
     description:

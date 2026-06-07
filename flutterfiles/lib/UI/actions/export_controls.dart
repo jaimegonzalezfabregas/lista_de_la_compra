@@ -26,7 +26,7 @@ class ExporControls extends StatelessWidget {
     SuperMarketProvider superMarketProvider = context.watch<FlutterSuperMarketProvider>();
     AisleProvider aisleProvider = context.watch<FlutterAisleProvider>();
     ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
-    MapTileProvider mapTileProvider = context.watch<MapTileProvider>();
+    MapTileProvider mapTileProvider = context.watch<FlutterMapTileProvider>();
 
     final Future serialized = serializeEnvironment(
       enviromentId,
@@ -48,33 +48,39 @@ class ExporControls extends StatelessWidget {
 
     return Column(
       children: [
-        OutlinedButton(
-          onPressed: () async {
-            FilePicker.platform.saveFile(
-              dialogTitle: appLoc.saveFileToYourDesiredLocation,
-              fileName: await fileName,
-              bytes: utf8.encode(jsonEncode(await serialized)),
-            );
-          },
-          child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text(appLoc.exportToFile)]),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: OutlinedButton(
+            onPressed: () async {
+              FilePicker.platform.saveFile(
+                dialogTitle: appLoc.saveFileToYourDesiredLocation,
+                fileName: await fileName,
+                bytes: utf8.encode(jsonEncode(await serialized)),
+              );
+            },
+            child: Row(children: [Icon(Icons.download), SizedBox(width: 8), Text(appLoc.exportToFile)]),
+          ),
         ),
-        OutlinedButton(
-          onPressed: () async {
-            await SharePlus.instance.share(
-              ShareParams(
-                files: [
-                  XFile.fromData(
-                    utf8.encode(jsonEncode(await serialized)),
-                    // name: fileName, // Notice, how setting the name here does not work.
-                    mimeType: 'text/plain',
-                  ),
-                ],
-                fileNameOverrides: [await fileName],
-                downloadFallbackEnabled: true,
-              ),
-            );
-          },
-          child: Row(children: [Icon(Icons.share), SizedBox(width: 8), Text(appLoc.sendExport)]),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: OutlinedButton(
+            onPressed: () async {
+              await SharePlus.instance.share(
+                ShareParams(
+                  files: [
+                    XFile.fromData(
+                      utf8.encode(jsonEncode(await serialized)),
+                      // name: fileName, // Notice, how setting the name here does not work.
+                      mimeType: 'text/plain',
+                    ),
+                  ],
+                  fileNameOverrides: [await fileName],
+                  downloadFallbackEnabled: true,
+                ),
+              );
+            },
+            child: Row(children: [Icon(Icons.share), SizedBox(width: 8), Text(appLoc.sendExport)]),
+          ),
         ),
       ],
     );

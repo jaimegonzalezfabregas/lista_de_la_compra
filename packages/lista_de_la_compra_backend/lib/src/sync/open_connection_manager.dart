@@ -113,9 +113,11 @@ class OpenConnectionManager {
 
     Future<void> triggerSyncPull() async {
       for (Environment env in await environmentProvider.getEnvironmentList()) {
-        int salt = math.Random().nextInt(1000);
-        send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
-        // print("triggerSyncPull: sent send_digest of $env");
+        if (!env.id.contains("noSync")) {
+          int salt = math.Random().nextInt(1000);
+          send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
+          // print("triggerSyncPull: sent send_digest of $env");
+        }
       }
     }
 

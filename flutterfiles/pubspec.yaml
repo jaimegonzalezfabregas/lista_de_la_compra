@@ -66,6 +66,8 @@ dependencies:
   web_socket_channel: ^3.0.3
   flame: ^1.37.0
   collection: ^1.19.1
+  async_filter: ^1.0.0
+  dynamic_height_list_view: ^0.0.2
 dev_dependencies:
   test: any
   flutter_test:
@@ -90,3 +92,5 @@ flutter:
     - assets/images/entry.png
     - assets/images/exit.png
     - assets/images/isle.png
+    - assets/images/floorTrailActive.png
+    - assets/images/floorTrailInactive.png

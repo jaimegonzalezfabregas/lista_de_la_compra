@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
+// TODO transform this to a ram provider, like temp_route_provider
+
 class PersistantSelectedMarketProvider extends SelectedMarketProvider with ChangeNotifier {
   BuildContext? context;
 

@@ -164,17 +164,8 @@ class BottomPanel extends StatelessWidget {
 
         final currentType = tileTypeOf(selectedMapTile, aisle?.id, aisle?.name);
 
-        final isLastStart = selectedMapTile.start && tileList.where((t) => t.start).length <= 1;
-        final isLastEnd = selectedMapTile.end && tileList.where((t) => t.end).length <= 1;
-
-        final String? lockedLabel = isLastStart
-            ? appLoc.tileLockedLastOfType(appLoc.tileTypeStart.toLowerCase())
-            : isLastEnd
-            ? appLoc.tileLockedLastOfType(appLoc.tileTypeEnd.toLowerCase())
-            : null; // TODO add "To edit this tile please create a separate tile elsewhere"
-
-        if (lockedLabel != null) {
-          return buildMessage(lockedLabel);
+        if (currentType is TileStart || currentType is TileEnd) {
+          return buildMessage("To transfor this tile into a diferent type, first select the new start or end tile"); // TODO internationalize
         }
 
         return Container(

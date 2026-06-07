@@ -3,7 +3,6 @@ import 'package:lista_de_la_compra/UI/actions/export_controls.dart';
 import 'package:lista_de_la_compra/UI/sync/sync_view.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
-import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
@@ -29,18 +28,24 @@ class ActionHome extends StatelessWidget {
         child: ListView(
           children: [
 
-            OutlinedButton(
-              child: Row(children: [Icon(Icons.swap_horiz), SizedBox(width: 8), Text(appLoc.switchEnvironment)]),
-              onPressed: () {
-                sharedPreferencesProvider.clearSelectedEnvironment();
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                child: Row(children: [Icon(Icons.swap_horiz), SizedBox(width: 8), Text(appLoc.switchEnvironment)]),
+                onPressed: () {
+                  sharedPreferencesProvider.clearSelectedEnvironment();
+                },
+              ),
             ),
 
-            OutlinedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
-              },
-              child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text(appLoc.syncronization)]),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
+                },
+                child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text(appLoc.syncronization)]),
+              ),
             ),
             ExporControls(enviromentId),
           ],

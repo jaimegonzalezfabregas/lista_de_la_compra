@@ -12,8 +12,9 @@ class ProductListDisplay extends StatelessWidget {
   final List<Product> products;
   final bool isNeededList;
   final String enviromentId;
+  final List<String> categoryOrdering;
 
-  const ProductListDisplay(this.products, this.isNeededList, this.enviromentId, {super.key});
+  const ProductListDisplay(this.products, this.isNeededList, this.enviromentId, {super.key, this.categoryOrdering = const []});
 
   @override
   Widget build(BuildContext context) {

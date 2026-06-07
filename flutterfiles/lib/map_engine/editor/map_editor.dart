@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import 'editor_game.dart';
 import '../tiles/tile_type.dart';
-import '../preview/map_utils.dart';
+import '../map_utils.dart';
 
 class MapEditor extends StatefulWidget {
   final String supermarketId;
@@ -66,7 +66,22 @@ class _MapEditorState extends State<MapEditor> {
     setState(() => selectedId = newTileId);
   }
 
-  Future<void> setTileTypeAndRelinkAisles(String tileId, TileType type, MapTileProvider mapTileProvider, AisleProvider aisleProvider) async {
+  Future<void> setTileTypeAndRelinkAisles(
+    String tileId,
+    String supermarketId,
+    int floor,
+    TileType type,
+    MapTileProvider mapTileProvider,
+    AisleProvider aisleProvider,
+  ) async {
+    if (type is TileStart) {
+      await mapTileProvider.removeAllStart(supermarketId, floor);
+    }
+
+    if (type is TileEnd) {
+      await mapTileProvider.removeAllEnd(supermarketId, floor);
+    }
+
     await mapTileProvider.updateTileType(tileId, start: type is TileStart, end: type is TileEnd);
 
     await aisleProvider.unlinkTiles([tileId]);
@@ -109,7 +124,7 @@ class _MapEditorState extends State<MapEditor> {
 
                   selectedTileId: selectedId,
                   onSetType: (selectedId, tileType) {
-                    setTileTypeAndRelinkAisles(selectedId, tileType, mapTileProvider, aisleProvider);
+                    setTileTypeAndRelinkAisles(selectedId, widget.supermarketId, widget.floor, tileType, mapTileProvider, aisleProvider);
                   },
                   onDelete: (toDeleteId) {
                     deleteTileAndRelinkAisles(toDeleteId);

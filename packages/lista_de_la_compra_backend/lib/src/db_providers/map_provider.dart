@@ -151,11 +151,10 @@ abstract class MapTileProvider implements VoidEventSource {
   Future<MapTile?> getTileById(String id) async {
     final database = AppDatabaseSingleton.instance;
 
-    return await (
-      database.select(database.mapTiles)
-        ..where((table) => table.id.equals(id))
-        ..where((table) => table.deletedAt.isNull())
-    ).getSingleOrNull();
+    return await (database.select(database.mapTiles)
+          ..where((table) => table.id.equals(id))
+          ..where((table) => table.deletedAt.isNull()))
+        .getSingleOrNull();
   }
 
   Future<(MapTile, Aisle?)?> getTileByIdJoinedAisle(String tileId) async {
@@ -173,5 +172,39 @@ abstract class MapTileProvider implements VoidEventSource {
     }
 
     return (results.readTable(database.mapTiles), results.readTableOrNull(database.aisles));
+  }
+
+  Future<void> removeAllStart(String marketId, int floor) async {
+    final database = AppDatabaseSingleton.instance;
+    final now = DateTime.now().millisecondsSinceEpoch;
+    await (database.update(database.mapTiles)..where((t) => t.marketId.equals(marketId) & t.floor.equals(floor) & t.deletedAt.isNull())).write(
+      MapTilesCompanion(updatedAt: Value(now), start: Value(false)),
+    );
+    notifyListeners();
+  }
+
+  Future<void> removeAllEnd(String marketId, int floor) async {
+    final database = AppDatabaseSingleton.instance;
+    final now = DateTime.now().millisecondsSinceEpoch;
+    await (database.update(database.mapTiles)..where((t) => t.marketId.equals(marketId) & t.floor.equals(floor) & t.deletedAt.isNull())).write(
+      MapTilesCompanion(end: Value(false), updatedAt: Value(now)),
+    );
+    notifyListeners();
+  }
+
+  Future<MapTile> findStart(String marketId, int floor) async {
+    final database = AppDatabaseSingleton.instance;
+
+    return await (database.select(
+      database.mapTiles,
+    )..where((t) => t.marketId.equals(marketId) & t.floor.equals(floor) & t.deletedAt.isNull() & t.start.equals(true))).getSingle();
+  }
+
+  Future<MapTile> findEnd(String marketId, int floor) async {
+    final database = AppDatabaseSingleton.instance;
+
+    return await (database.select(
+      database.mapTiles,
+    )..where((t) => t.marketId.equals(marketId) & t.floor.equals(floor) & t.deletedAt.isNull() & t.end.equals(true))).getSingle();
   }
 }
