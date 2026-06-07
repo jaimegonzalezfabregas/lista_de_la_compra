@@ -732,78 +732,6 @@ abstract class AppLocalizations {
   /// **'Add products to aisle'**
   String get addProductsToAisle;
 
-  /// There are no aisles to visit given the needed products. No route can be calculated
-  ///
-  /// In en, this message translates to:
-  /// **'There are no aisles to visit given the needed products. No route can be calculated'**
-  String get routeNoAisles;
-
-  /// Pending aisles to visit
-  ///
-  /// In en, this message translates to:
-  /// **'Pending aisles to visit'**
-  String get pendingAislesToVisit;
-
-  /// Calculate route
-  ///
-  /// In en, this message translates to:
-  /// **'Calculate route'**
-  String get calculateRoute;
-
-  /// Progress: {percent}%
-  ///
-  /// In en, this message translates to:
-  /// **'Progress: {percent}%'**
-  String routeProgress(Object percent);
-
-  /// Cancel route calculation
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel route calculation'**
-  String get cancelRouteCalculation;
-
-  /// Clear route
-  ///
-  /// In en, this message translates to:
-  /// **'Clear route'**
-  String get clearRoute;
-
-  /// Select a supermarket
-  ///
-  /// In en, this message translates to:
-  /// **'Select a supermarket'**
-  String get selectASupermarket;
-
-  /// Route error: {error}
-  ///
-  /// In en, this message translates to:
-  /// **'Route error: {error}'**
-  String routeError(Object error);
-
-  /// Optimize route
-  ///
-  /// In en, this message translates to:
-  /// **'Optimize route'**
-  String get optimizeRoute;
-
-  /// Uncategorized
-  ///
-  /// In en, this message translates to:
-  /// **'Uncategorized'**
-  String get uncategorized;
-
-  /// Tap a tile to select it, or tap a ghost tile to add one
-  ///
-  /// In en, this message translates to:
-  /// **'Tap a tile to select it, or tap a ghost tile to add one'**
-  String get tapTileOrGhostTile;
-
-  /// To transform this tile into a different type, first select the new start or end tile
-  ///
-  /// In en, this message translates to:
-  /// **'To transform this tile into a different type, first select the new start or end tile'**
-  String get tileTypeTransformInfo;
-
   /// No description provided for @selectSupermarket.
   ///
   /// In en, this message translates to:
@@ -911,6 +839,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This tile is locked: it is the last {tileType} tile.'**
   String tileLockedLastOfType(String tileType);
+
+  /// Message shown when no route can be calculated because no aisles are available
+  ///
+  /// In en, this message translates to:
+  /// **'There are no aisles to visit given the needed products. No route can be calculated'**
+  String get routeNoAisles;
+
+  /// Label indicating pending aisles to visit
+  ///
+  /// In en, this message translates to:
+  /// **'Pending aisles to visit'**
+  String get pendingAislesToVisit;
+
+  /// Button label to calculate a route
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate route'**
+  String get calculateRoute;
+
+  /// Label showing route progress in percent
+  ///
+  /// In en, this message translates to:
+  /// **'Progress: {percent}%'**
+  String routeProgress(Object percent);
+
+  /// Button label to cancel route calculation
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel route calculation'**
+  String get cancelRouteCalculation;
+
+  /// Button label to clear the current route
+  ///
+  /// In en, this message translates to:
+  /// **'Clear route'**
+  String get clearRoute;
+
+  /// Prompt to select a supermarket
+  ///
+  /// In en, this message translates to:
+  /// **'Select a supermarket'**
+  String get selectASupermarket;
+
+  /// Error message shown when route loading fails
+  ///
+  /// In en, this message translates to:
+  /// **'Route error: {error}'**
+  String routeError(Object error);
+
+  /// Button label to optimize the route
+  ///
+  /// In en, this message translates to:
+  /// **'Optimize route'**
+  String get optimizeRoute;
+
+  /// Label for uncategorized list items
+  ///
+  /// In en, this message translates to:
+  /// **'Uncategorized'**
+  String get uncategorized;
+
+  /// Instruction shown when user should select or add a map tile
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a tile to select it, or tap a ghost tile to add one'**
+  String get tapTileOrGhostTile;
+
+  /// Instruction shown when transforming a tile type
+  ///
+  /// In en, this message translates to:
+  /// **'To transform this tile into a different type, first select the new start or end tile'**
+  String get tileTypeTransformInfo;
 }
 
 class _AppLocalizationsDelegate

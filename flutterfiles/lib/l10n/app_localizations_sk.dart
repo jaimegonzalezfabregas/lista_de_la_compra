@@ -323,46 +323,6 @@ class AppLocalizationsSk extends AppLocalizations {
   String get addProductsToAisle => 'Pridať produkty do uličky';
 
   @override
-  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
-
-  @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
-
-  @override
-  String get calculateRoute => 'Calculate route';
-
-  @override
-  String routeProgress(Object percent) {
-    return 'Progress: $percent%';
-  }
-
-  @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
-
-  @override
-  String get clearRoute => 'Clear route';
-
-  @override
-  String get selectASupermarket => 'Select a supermarket';
-
-  @override
-  String routeError(Object error) {
-    return 'Route error: $error';
-  }
-
-  @override
-  String get optimizeRoute => 'Optimize route';
-
-  @override
-  String get uncategorized => 'Uncategorized';
-
-  @override
-  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
-
-  @override
-  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
-
-  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -420,4 +380,47 @@ class AppLocalizationsSk extends AppLocalizations {
   String tileLockedLastOfType(String tileType) {
     return 'This tile is locked: it is the last $tileType tile.';
   }
+
+  @override
+  String get routeNoAisles =>
+      'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile =>
+      'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo =>
+      'To transform this tile into a different type, first select the new start or end tile';
 }
