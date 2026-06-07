@@ -68,6 +68,7 @@ dependencies:
   collection: ^1.19.1
   async_filter: ^1.0.0
   dynamic_height_list_view: ^0.0.2
+  uuid: ^4.5.1
 dev_dependencies:
   test: any
   flutter_test:

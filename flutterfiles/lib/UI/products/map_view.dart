@@ -8,7 +8,6 @@ import 'package:lista_de_la_compra/map_engine/route/map_route.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
-import 'package:lista_de_la_compra/UI/products/product_list_display.dart';
 import 'package:async_filter/async_filter.dart';
 import 'package:dynamic_height_list_view/dynamic_height_view.dart';
 
@@ -149,8 +148,8 @@ class CalculateRouteScreen extends StatelessWidget {
     final RouteProvider routeProvider = context.watch<RouteProvider>();
     final ProductProvider productProvider = context.watch<FlutterProductProvider>();
 
-    if (routeProvider.getProgress() == 1) {
-      return MapRouter(supermarketId, enviromentId);
+    if (routeProvider.getFinalRoute(supermarketId) != null) {
+      return FloorSelector(supermarketId, enviromentId, routeProvider.getFinalRoute(supermarketId)!);
     }
 
     return Center(
@@ -193,7 +192,7 @@ class CalculateRouteScreen extends StatelessWidget {
                   }).toList(),
                 ),
                 Divider(),
-                if (routeProvider.getProgress() == null)
+                if (routeProvider.getProgress(supermarketId) == null)
                   TextButton.icon(
                     onPressed: () async {
                       calculateTileRoute(supermarketId, routeProvider, mapTileProvider, aisleProvider, visitingAisles);
@@ -204,11 +203,11 @@ class CalculateRouteScreen extends StatelessWidget {
                 else
                   Column(
                     children: [
-                      Text("progress: ${(routeProvider.getProgress() ?? 0) * 100}%"),
+                      Text("progress: ${(routeProvider.getProgress(supermarketId) ?? 0) * 100}%"),
 
                       TextButton.icon(
                         onPressed: () async {
-                          abortCalculateTileRoute(routeProvider);
+                          abortCalculateTileRoute(routeProvider, supermarketId);
                         },
                         label: Text("Cancel route calculation"),
                         icon: Icon(Icons.cancel),
@@ -224,28 +223,77 @@ class CalculateRouteScreen extends StatelessWidget {
   }
 }
 
-
 class FloorSelector extends StatefulWidget {
   final String supermarketId;
   final String enviromentId;
+  final Map<int, JRoute> floorToRoute;
 
-  const FloorSelector(this.supermarketId, this.enviromentId, {super.key});
+  const FloorSelector(this.supermarketId, this.enviromentId, this.floorToRoute, {super.key});
 
   @override
   State<FloorSelector> createState() => _FloorSelectorState();
 }
 
-
 class _FloorSelectorState extends State<FloorSelector> {
   int floor = 0;
-  
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    final appLoc = AppLocalizations.of(context)!;
+    RouteProvider routeProvider = context.watch<RouteProvider>();
+
+    List<int> floors = widget.floorToRoute.keys.toList();
+    floors.sort();
+
+    if (!floors.contains(floor)) {
+      setState(() {
+        floor = floors[0];
+      });
+    }
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ...floors.map((floorI) {
+              if (floorI == floor) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(onPressed: () {}, child: Text("$floorI")),
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        floor = floorI;
+                      });
+                    },
+                    child: Text("$floorI"),
+                  ),
+                );
+              }
+            }),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  routeProvider.clearRoute(widget.supermarketId);
+                },
+                label: Text("Clear route"),
+              ),
+            ),
+          ],
+        ),
+
+        MapRouter(supermarketId: widget.supermarketId, enviromentId: widget.enviromentId, floor: floor, route: widget.floorToRoute[floor]!),
+      ],
+    );
   }
-
-
 }
 
 class MapView extends StatelessWidget {
@@ -285,9 +333,7 @@ class MapView extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       ),
 
-      body: MarketSelectorScreen(enviromentId),
-
-
+      body: SingleChildScrollView(child: MarketSelectorScreen(enviromentId)),
     );
   }
 }

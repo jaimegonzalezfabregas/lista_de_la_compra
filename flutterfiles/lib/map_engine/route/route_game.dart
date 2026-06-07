@@ -10,12 +10,25 @@ import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 const double kTileSize = 80.0;
 
+class DotComponent extends SpriteComponent {
+  final bool active;
+
+  DotComponent(int x, int y, this.active)
+    : super(position: Vector2(x * kTileSize, y * kTileSize), size: Vector2.all(kTileSize), anchor: Anchor.topLeft, priority: 2);
+
+  @override
+  Future<void> onLoad() async {
+    sprite = await Sprite.load(active ? "floorTrailActive.png" : "floorTrailInactive.png");
+  }
+}
+
 class RouteGame extends FlameGame {
   final List<MapTile> tiles;
   final Map<String, TileType> tileToTileType;
-  final GroceryRoute route;
+  final JRoute route;
+  final String? nextAisle;
 
-  RouteGame(this.tiles, this.tileToTileType, this.route);
+  RouteGame(this.tiles, this.tileToTileType, this.route, this.nextAisle);
 
   @override
   Color backgroundColor() => const Color(0xFF1A1A2E);
@@ -26,8 +39,9 @@ class RouteGame extends FlameGame {
     camera.viewfinder.anchor = Anchor.center;
 
     for (final t in tiles) {
-      if (route.trailAt(Point(t.posX, t.posY))) {
-        
+      String? goalOfTile = route.getAisleIdFromTileInSegment(t.id);
+      if (goalOfTile != null) {
+        world.add(DotComponent(t.posX, t.posY, goalOfTile == (nextAisle ?? "EXIT")));
       }
 
       world.add(TileSpriteComponent(t.id, tileToTileType[t.id], t.posX, t.posY));

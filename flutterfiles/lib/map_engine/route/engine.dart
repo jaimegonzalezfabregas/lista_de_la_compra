@@ -1,12 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:lista_de_la_compra/flutter_providers/temp_route_provider.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
-import 'dart:collection';
 import 'dart:math';
 
 class Node {
   final double heuristic;
-  final List<Point> path;
+  final List<JPoint> path;
 
   Node(this.heuristic, this.path);
 
@@ -14,7 +13,7 @@ class Node {
   String toString() {
     String ret = "";
 
-    for (Point p in path) {
+    for (JPoint p in path) {
       ret += "$p -> ";
     }
 
@@ -22,20 +21,20 @@ class Node {
   }
 }
 
-class Point {
+class JPoint {
   final int x;
   final int y;
 
-  Point(this.x, this.y);
+  JPoint(this.x, this.y);
 
-  double distance(Point other) {
+  double distance(JPoint other) {
     final dx = other.x - x;
     final dy = other.y - y;
     return sqrt(dx * dx + dy * dy);
   }
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Point && runtimeType == other.runtimeType && x == other.x && y == other.y;
+  bool operator ==(Object other) => identical(this, other) || other is JPoint && runtimeType == other.runtimeType && x == other.x && y == other.y;
 
   @override
   int get hashCode => Object.hash(x, y);
@@ -47,22 +46,21 @@ class Point {
 }
 
 class GeometricMap {
-  Map<Point, MapTile> board;
+  Map<JPoint, MapTile> board;
   GeometricMap(this.board);
 
   static GeometricMap fromTileList(List<MapTile> tiles) {
-    Map<Point, MapTile> board = {};
+    Map<JPoint, MapTile> board = {};
 
     for (var tile in tiles) {
-      board[Point(tile.posX, tile.posY)] = tile;
+      board[JPoint(tile.posX, tile.posY)] = tile;
     }
 
     return GeometricMap(board);
   }
 
-  List<MapTile>? pathFind(Point start, Point end) {
-
-    Set<Point> visited = {};
+  List<MapTile>? pathFind(JPoint start, JPoint end) {
+    Set<JPoint> visited = {};
 
     HeapPriorityQueue heap = HeapPriorityQueue<Node>((a, b) => a.heuristic.compareTo(b.heuristic));
 
@@ -71,12 +69,12 @@ class GeometricMap {
     while (heap.isNotEmpty) {
       // print("heap size ${heap.length}, visited: ${visited}");
       Node exploring = heap.removeFirst();
-      Point lastPos = exploring.path.last;
+      JPoint lastPos = exploring.path.last;
 
       for ((int, int) stepDelta in [(0, 1), (1, 0), (0, -1), (-1, 0)]) {
         int nextX = stepDelta.$1 + lastPos.x;
         int nextY = stepDelta.$2 + lastPos.y;
-        Point nextPos = Point(nextX, nextY);
+        JPoint nextPos = JPoint(nextX, nextY);
 
         if (board.containsKey(nextPos) && !visited.contains(nextPos)) {
           if (nextPos == end) {
@@ -85,7 +83,7 @@ class GeometricMap {
 
           double heuristic = nextPos.distance(end);
 
-          List<Point> path = [...exploring.path];
+          List<JPoint> path = [...exploring.path];
 
           path.add(nextPos);
 
@@ -110,7 +108,9 @@ Future<Set<Aisle>> getPendingVisitAsileIds(
   Set<Aisle> ret = {};
 
   for (Product product in neededProducts) {
-    ret.addAll((await productAisleProvider.getAisleOfProductInSupermarket(product.id, supermarketId)));
+    if (product.needed) {
+      ret.addAll((await productAisleProvider.getAisleOfProductInSupermarket(product.id, supermarketId)));
+    }
   }
 
   return ret;
@@ -146,10 +146,9 @@ List<List<T>> permutations<T>(List<T> items) {
   return result;
 }
 
-Future solverTick(RouteProvider routeProvider, AisleProvider aisleProvider, Map<int, GeometricMap> geometricFloor) async {
+Future solverTick(RouteProvider routeProvider, AisleProvider aisleProvider, Map<int, GeometricMap> geometricFloor, String marketId) async {
   if (posiblePaths.isEmpty) {
-    print("Solving done");
-    routeProvider.finishSearch();
+    routeProvider.finishSearch(marketId);
     return;
   }
 
@@ -157,20 +156,18 @@ Future solverTick(RouteProvider routeProvider, AisleProvider aisleProvider, Map<
   int floorToTest = nextToTest.$1;
   List<MapTile> pathToTest = nextToTest.$2;
 
-  print("solving for permutation $pathToTest, in floor $floorToTest");
-
-  GroceryRoute? routeToTest = await GroceryRoute.fromMapTileList(pathToTest, aisleProvider, geometricFloor[floorToTest]!);
-  GroceryRoute? currentBestRoute = routeProvider.getBestRouteSoFar(floorToTest);
+  JRoute? routeToTest = await JRoute.fromMapTileList(pathToTest, aisleProvider, geometricFloor[floorToTest]!);
+  JRoute? currentBestRoute = routeProvider.getBestRouteSoFar(marketId)?[floorToTest];
 
   if (routeToTest != null) {
     if (currentBestRoute == null) {
-      routeProvider.setRoute(floorToTest, routeToTest);
+      routeProvider.setRoute(floorToTest, marketId, routeToTest);
     } else if (routeToTest.getLenght() < currentBestRoute.getLenght()) {
-      routeProvider.setRoute(floorToTest, routeToTest);
+      routeProvider.setRoute(floorToTest, marketId, routeToTest);
     }
   }
 
-  Future.sync(() => solverTick(routeProvider, aisleProvider, geometricFloor));
+  Future.sync(() => solverTick(routeProvider, aisleProvider, geometricFloor, marketId));
 }
 
 void calculateTileRoute(
@@ -180,11 +177,9 @@ void calculateTileRoute(
   AisleProvider aisleProvider,
   Set<Aisle> visitingAisles,
 ) async {
-  routeProvider.setProgress(0);
+  routeProvider.setProgress(marketId, 0);
 
   Map<int, GeometricMap> floorToGeometricMap = {};
-
-  print("Planning resolution");
 
   for (int floor in await mapTileProvider.getFloorsOfMarket(marketId)) {
     List<MapTile> map = await mapTileProvider.getMapOfMarket(marketId, floor);
@@ -202,11 +197,9 @@ void calculateTileRoute(
     floorToGeometricMap[floor] = GeometricMap.fromTileList(map);
   }
 
-  print("Starting solving");
-
-  solverTick(routeProvider, aisleProvider, floorToGeometricMap);
+  solverTick(routeProvider, aisleProvider, floorToGeometricMap, marketId);
 }
 
-void abortCalculateTileRoute(RouteProvider routeProvider) {
-  routeProvider.clearRoute();
+void abortCalculateTileRoute(RouteProvider routeProvider, String marketId) {
+  routeProvider.clearRoute(marketId);
 }

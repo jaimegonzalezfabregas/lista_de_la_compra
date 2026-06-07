@@ -9,7 +9,7 @@ class RouteSegment {
   RouteSegment(this.goalAisleId, this.tileIdPath);
 
   static Future<RouteSegment?> fromStartEnd(String? goalAisleId, MapTile startStrech, MapTile endStrech, GeometricMap geometricFloor) async {
-    List<MapTile>? path = geometricFloor.pathFind(Point(startStrech.posX, startStrech.posY), Point(endStrech.posX, endStrech.posY));
+    List<MapTile>? path = geometricFloor.pathFind(JPoint(startStrech.posX, startStrech.posY), JPoint(endStrech.posX, endStrech.posY));
 
     if (path == null) {
       return null;
@@ -23,19 +23,17 @@ class RouteSegment {
   }
 }
 
-class GroceryRoute {
+class JRoute {
   late final List<RouteSegment> steps;
 
-  GroceryRoute(this.steps);
+  JRoute(this.steps);
 
-  static Future<GroceryRoute?> fromMapTileList(List<MapTile> points, AisleProvider aisleProvider, GeometricMap geometricFloor) async {
+  static Future<JRoute?> fromMapTileList(List<MapTile> points, AisleProvider aisleProvider, GeometricMap geometricFloor) async {
     List<RouteSegment> ret = [];
 
     for (var i = 0; i < points.length - 1; i++) {
       MapTile startStrech = points[i];
       MapTile endStrech = points[i + 1];
-
-      print("looking for path from $startStrech to $endStrech");
 
       String? goalAisleId = (await aisleProvider.getAisleByTileId(endStrech.id))?.id;
 
@@ -48,60 +46,64 @@ class GroceryRoute {
       ret.add(route);
     }
 
-    return GroceryRoute(ret);
+    return JRoute(ret);
   }
 
   int getLenght() {
     return steps.map((step) => step.getLenght()).reduce((a, b) => a + b);
   }
 
-  bool trailAt(Point p){
-    
+  String? getAisleIdFromTileInSegment(String tileId) {
+    for (RouteSegment rs in steps) {
+      if (rs.tileIdPath.sublist(1).contains(tileId)) {
+        return rs.goalAisleId ?? "EXIT";
+      }
+    }
+    return null;
   }
-
 }
 
-Map<int, GroceryRoute> globalRoute = {};
+Map<String, Map<int, JRoute>> globalRoute = {};
 
-double? progress;
+Map<String, double> progress = {};
 
 class RouteProvider with ChangeNotifier {
-  void clearRoute() {
-    progress = null;
-    globalRoute = {};
+  void clearRoute(String marketId) {
+    progress.remove(marketId);
+    globalRoute[marketId] = {};
     notifyListeners();
   }
 
-  void setRoute(int floor, GroceryRoute route) {
-    globalRoute[floor] = route;
-    progress = 1;
+  void setRoute(int floor, String marketId, JRoute route) {
+    globalRoute[marketId]?[floor] = route;
+    progress[marketId] = 1;
     notifyListeners();
   }
 
-  void setProgress(double p) {
-    progress = p;
+  void setProgress(String marketId, double p) {
+    progress[marketId] = p;
     notifyListeners();
   }
 
-  GroceryRoute? getFinalRoute(int floor) {
-    if (progress == 1) {
-      return globalRoute[floor];
+  Map<int, JRoute>? getFinalRoute( String marketId) {
+    if (progress[marketId] == 1) {
+      return globalRoute[marketId];
     }
     return null;
   }
 
-  GroceryRoute? getBestRouteSoFar(int floor) {
-    if (progress != 1) {
-      return globalRoute[floor];
+  Map<int, JRoute>? getBestRouteSoFar( String marketId) {
+    if (progress[marketId] != 1) {
+      return globalRoute[marketId];
     }
     return null;
   }
 
-  double? getProgress() {
-    return progress;
+  double? getProgress(String marketId) {
+    return progress[marketId];
   }
 
-  void finishSearch() {
-    progress = 1;
+  void finishSearch(String marketId) {
+    progress[marketId] = 1;
   }
 }
