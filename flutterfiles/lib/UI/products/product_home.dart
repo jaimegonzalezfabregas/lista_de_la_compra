@@ -31,7 +31,7 @@ class ProductHome extends StatelessWidget {
           title: Text(appLoc.shoppingList),
           actions: [
             ElevatedButton.icon(
-              label: Text("Optimize route"), // TODO internationalize
+              label: Text(appLoc.optimizeRoute),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MapView(enviromentId)));
               },

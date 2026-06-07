@@ -92,7 +92,7 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
         ret.add(
           ListTile(
             title: Center(
-              child: Text("Uncategorized", style: TextStyle(fontWeight: FontWeight.bold)), // TODO internationalize
+              child: Text(appLoc.uncategorized, style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
         );

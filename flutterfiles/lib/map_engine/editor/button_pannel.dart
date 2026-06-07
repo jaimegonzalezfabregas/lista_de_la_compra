@@ -133,9 +133,7 @@ class BottomPanel extends StatelessWidget {
     );
 
     if (selectedTileId == null) {
-      return buildMessage(
-        'Tap a tile to select it, or tap a ghost tile to add one', // TODO internationalize
-      );
+      return buildMessage(appLoc.tapTileOrGhostTile);
     }
 
     Future<(MapTile, Aisle?)?> mapTileFuture = mapTileProvider.getTileByIdJoinedAisle(selectedTileId!);
@@ -151,9 +149,7 @@ class BottomPanel extends StatelessWidget {
         }
 
         if (snapshot.data == null) {
-          return buildMessage(
-            'Tap a tile to select it, or tap a ghost tile to add one', // TODO internationalize
-          );
+          return buildMessage(appLoc.tapTileOrGhostTile);
         }
 
         final (MapTile, Aisle?) tileInfo = snapshot.data![0] as (MapTile, Aisle?);
@@ -165,7 +161,7 @@ class BottomPanel extends StatelessWidget {
         final currentType = tileTypeOf(selectedMapTile, aisle?.id, aisle?.name);
 
         if (currentType is TileStart || currentType is TileEnd) {
-          return buildMessage("To transfor this tile into a diferent type, first select the new start or end tile"); // TODO internationalize
+          return buildMessage(appLoc.tileTypeTransformInfo);
         }
 
         return Container(

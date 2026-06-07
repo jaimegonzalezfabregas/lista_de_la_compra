@@ -165,15 +165,15 @@ class CalculateRouteScreen extends StatelessWidget {
           if (visitingAisles.isEmpty) {
             return Padding(
               padding: const EdgeInsets.all(50.0),
-              child: Text("There are no asiles to visit given the needed products. No route can be calculated"),
-            ); // TODO Internationalize
+              child: Text(appLoc.routeNoAisles),
+            );
           }
 
           return SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Pending aisles to visit", style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(appLoc.pendingAislesToVisit, style: const TextStyle(fontWeight: FontWeight.bold)),
                 ListView(
                   shrinkWrap: true,
                   children: visitingAisles.map((aisle) {
@@ -192,24 +192,26 @@ class CalculateRouteScreen extends StatelessWidget {
                   }).toList(),
                 ),
                 Divider(),
-                if (routeProvider.getProgress(supermarketId) == null)
+                final routeProgressValue = routeProvider.getProgress(supermarketId);
+                final progressPercent = ((routeProgressValue ?? 0) * 100).toInt();
+                if (routeProgressValue == null)
                   TextButton.icon(
                     onPressed: () async {
                       calculateTileRoute(supermarketId, routeProvider, mapTileProvider, aisleProvider, visitingAisles);
                     },
-                    label: Text("Calculate route"),
+                    label: Text(appLoc.calculateRoute),
                     icon: Icon(Icons.calculate),
                   )
                 else
                   Column(
                     children: [
-                      Text("progress: ${(routeProvider.getProgress(supermarketId) ?? 0) * 100}%"),
+                      Text(appLoc.routeProgress(progressPercent)),
 
                       TextButton.icon(
                         onPressed: () async {
                           abortCalculateTileRoute(routeProvider, supermarketId);
                         },
-                        label: Text("Cancel route calculation"),
+                        label: Text(appLoc.cancelRouteCalculation),
                         icon: Icon(Icons.cancel),
                       ),
                     ],
@@ -284,7 +286,7 @@ class _FloorSelectorState extends State<FloorSelector> {
                 onPressed: () {
                   routeProvider.clearRoute(widget.supermarketId);
                 },
-                label: Text("Clear route"),
+                label: Text(appLoc.clearRoute),
               ),
             ),
           ],
@@ -317,16 +319,16 @@ class MapView extends StatelessWidget {
         title: FutureBuilder(
           future: supermarketFuture,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!.name);
+            if (snapshot.hasError) {
+              return Text(appLoc.routeError(snapshot.error?.toString() ?? ''));
+            }
+            if (!snapshot.hasData) {
+              return Text(appLoc.loading);
             }
             if (snapshot.data == null) {
-              return Text("Select a supermarket"); // TODO Internationalize
+              return Text(appLoc.selectASupermarket);
             }
-            if (snapshot.hasError) {
-              return Text("Route for $snapshot"); // TODO Internationalize
-            }
-            return Text(appLoc.loading);
+            return Text(snapshot.data!.name);
           },
         ),
 
