@@ -91,7 +91,7 @@
   "noOpenConnection": "Inga öppna anslutningar",
   "neverConnected": "Aldrig ansluten",
   "fallbackLocalNick": "namnlös-enhet",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Inköpslista",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

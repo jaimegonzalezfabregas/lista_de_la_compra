@@ -91,7 +91,7 @@
   "noOpenConnection": "Sem conexões abertas",
   "neverConnected": "Nunca ligado",
   "fallbackLocalNick": "dispositivo-sem-nome",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Lista de compras",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

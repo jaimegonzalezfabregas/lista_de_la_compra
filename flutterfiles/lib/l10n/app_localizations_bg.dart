@@ -289,7 +289,7 @@ class AppLocalizationsBg extends AppLocalizations {
   String get fallbackLocalNick => 'неименувано-устройство';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Списък за пазаруване';
 
   @override
   String get aisles => 'Aisles';

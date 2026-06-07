@@ -91,7 +91,7 @@
   "noOpenConnection": "Geen open verbindingen",
   "neverConnected": "Nooit verbonden",
   "fallbackLocalNick": "naamloos-apparaat",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Boodschappenlijst",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

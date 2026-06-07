@@ -91,7 +91,7 @@
   "noOpenConnection": "Нет открытых соединений",
   "neverConnected": "Никогда не подключался",
   "fallbackLocalNick": "устройство-без-имени",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Список покупок",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

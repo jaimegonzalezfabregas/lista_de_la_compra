@@ -91,7 +91,7 @@
   "noOpenConnection": "কোনও খোলা সংযোগ নেই",
   "neverConnected": "কখনও সংযুক্ত হয়নি",
   "fallbackLocalNick": "অনামা-ডিভাইস",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "কেনাকাটার তালিকা",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

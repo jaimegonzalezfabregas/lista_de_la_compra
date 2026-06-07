@@ -288,7 +288,7 @@ class AppLocalizationsMs extends AppLocalizations {
   String get fallbackLocalNick => 'peranti-tanpa-nama';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Senarai membeli-belah';
 
   @override
   String get aisles => 'Aisles';

@@ -91,7 +91,7 @@
   "noOpenConnection": "ไม่มีการเชื่อมต่อเปิด",
   "neverConnected": "ไม่เคยเชื่อมต่อ",
   "fallbackLocalNick": "อุปกรณ์-ไม่มีชื่อ",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "รายการซื้อของ",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

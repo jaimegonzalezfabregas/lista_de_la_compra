@@ -289,7 +289,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get fallbackLocalNick => 'অনামা-ডিভাইস';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'কেনাকাটার তালিকা';
 
   @override
   String get aisles => 'Aisles';

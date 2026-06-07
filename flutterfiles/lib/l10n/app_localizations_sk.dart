@@ -290,7 +290,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get fallbackLocalNick => 'neoznačené-zariadenie';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Nákupný zoznam';
 
   @override
   String get aisles => 'Aisles';

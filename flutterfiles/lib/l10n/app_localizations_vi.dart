@@ -288,7 +288,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get fallbackLocalNick => 'thiết-bị-không-tên';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Danh sách mua sắm';
 
   @override
   String get aisles => 'Aisles';

@@ -91,7 +91,7 @@
   "noOpenConnection": "Немає відкритих з'єднань",
   "neverConnected": "Ніколи не підключався",
   "fallbackLocalNick": "пристрій-без-імені",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Список покупок",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

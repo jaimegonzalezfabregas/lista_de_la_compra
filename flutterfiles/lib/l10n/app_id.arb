@@ -91,7 +91,7 @@
   "noOpenConnection": "Tidak ada koneksi terbuka",
   "neverConnected": "Tidak pernah terhubung",
   "fallbackLocalNick": "perangkat-tanpa-nama",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Daftar belanja",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

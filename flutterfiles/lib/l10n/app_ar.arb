@@ -91,7 +91,7 @@
   "noOpenConnection": "لا يوجد اتصال مفتوح",
   "neverConnected": "لم يتم الاتصال أبدًا",
   "fallbackLocalNick": "جهاز-بدون-اسم",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "قائمة التسوق",
   "@appTitle": {
     "description": "Shopping List"
   },

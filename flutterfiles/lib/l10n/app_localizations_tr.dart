@@ -288,7 +288,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get fallbackLocalNick => 'isimsiz-cihaz';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Alışveriş Listesi';
 
   @override
   String get aisles => 'Aisles';

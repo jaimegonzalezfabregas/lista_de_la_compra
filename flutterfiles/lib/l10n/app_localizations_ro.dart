@@ -290,7 +290,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get fallbackLocalNick => 'dispozitiv-fără-nume';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Listă de cumpărături';
 
   @override
   String get aisles => 'Aisles';

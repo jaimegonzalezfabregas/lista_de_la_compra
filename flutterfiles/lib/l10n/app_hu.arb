@@ -91,7 +91,7 @@
   "noOpenConnection": "Nincsenek nyitott kapcsolatok",
   "neverConnected": "Sosem csatlakozott",
   "fallbackLocalNick": "névtelen-eszköz",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Bevásárlólista",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

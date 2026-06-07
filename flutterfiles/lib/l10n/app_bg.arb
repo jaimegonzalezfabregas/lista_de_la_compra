@@ -91,7 +91,7 @@
   "noOpenConnection": "Няма отворени връзки",
   "neverConnected": "Никога не е бил свързан",
   "fallbackLocalNick": "неименувано-устройство",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Списък за пазаруване",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

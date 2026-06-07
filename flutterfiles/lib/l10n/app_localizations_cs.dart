@@ -289,7 +289,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get fallbackLocalNick => 'nepojmenované-zařízení';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Nákupní seznam';
 
   @override
   String get aisles => 'Aisles';

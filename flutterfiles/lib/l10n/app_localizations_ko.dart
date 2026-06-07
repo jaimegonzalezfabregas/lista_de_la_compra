@@ -285,7 +285,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get fallbackLocalNick => '이름없는-기기';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => '쇼핑 목록';
 
   @override
   String get aisles => 'Aisles';

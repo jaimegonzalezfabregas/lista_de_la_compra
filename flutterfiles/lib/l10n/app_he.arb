@@ -91,7 +91,7 @@
   "noOpenConnection": "אין חיבור פתוח",
   "neverConnected": "מעולם לא התחבר",
   "fallbackLocalNick": "מכשיר-ללא-שם",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "רשימת קניות",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

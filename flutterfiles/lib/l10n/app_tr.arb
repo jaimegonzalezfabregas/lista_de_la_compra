@@ -91,7 +91,7 @@
   "noOpenConnection": "Açık bağlantı yok",
   "neverConnected": "Hiç bağlanmadı",
   "fallbackLocalNick": "isimsiz-cihaz",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Alışveriş Listesi",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

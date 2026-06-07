@@ -91,7 +91,7 @@
   "noOpenConnection": "Καμία ανοιχτή σύνδεση",
   "neverConnected": "Ποτέ συνδεδεμένο",
   "fallbackLocalNick": "ανώνυμη-συσκευή",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Λίστα αγορών",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

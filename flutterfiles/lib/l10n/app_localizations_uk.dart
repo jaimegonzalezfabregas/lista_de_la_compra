@@ -288,7 +288,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get fallbackLocalNick => 'пристрій-без-імені';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Список покупок';
 
   @override
   String get aisles => 'Aisles';

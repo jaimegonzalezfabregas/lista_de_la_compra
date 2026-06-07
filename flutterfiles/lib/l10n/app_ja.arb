@@ -91,7 +91,7 @@
   "noOpenConnection": "オープンな接続なし",
   "neverConnected": "接続したことがない",
   "fallbackLocalNick": "名前なしデバイス",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "買い物リスト",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

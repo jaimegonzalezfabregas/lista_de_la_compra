@@ -91,7 +91,7 @@
   "noOpenConnection": "Nicio conexiune deschisă",
   "neverConnected": "Niciodată conectat",
   "fallbackLocalNick": "dispozitiv-fără-nume",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Listă de cumpărături",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

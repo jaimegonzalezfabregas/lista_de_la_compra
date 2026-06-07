@@ -288,7 +288,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get fallbackLocalNick => 'устройство-без-имени';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Список покупок';
 
   @override
   String get aisles => 'Aisles';

@@ -290,7 +290,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get fallbackLocalNick => 'dispositivo-senza-nome';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Lista della spesa';
 
   @override
   String get aisles => 'Aisles';

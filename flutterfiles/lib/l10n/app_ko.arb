@@ -91,7 +91,7 @@
   "noOpenConnection": "열린 연결 없음",
   "neverConnected": "연결된 적 없음",
   "fallbackLocalNick": "이름없는-기기",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "쇼핑 목록",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

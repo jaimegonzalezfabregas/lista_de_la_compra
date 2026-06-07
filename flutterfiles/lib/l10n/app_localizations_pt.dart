@@ -290,7 +290,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get fallbackLocalNick => 'dispositivo-sem-nome';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'Lista de compras';
 
   @override
   String get aisles => 'Aisles';

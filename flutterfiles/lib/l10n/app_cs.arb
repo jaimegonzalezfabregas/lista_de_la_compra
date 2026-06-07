@@ -91,7 +91,7 @@
   "noOpenConnection": "Žádná otevřená připojení",
   "neverConnected": "Nikdy nepřipojeno",
   "fallbackLocalNick": "nepojmenované-zařízení",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Nákupní seznam",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {

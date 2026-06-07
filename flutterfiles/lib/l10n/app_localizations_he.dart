@@ -287,7 +287,7 @@ class AppLocalizationsHe extends AppLocalizations {
   String get fallbackLocalNick => 'מכשיר-ללא-שם';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'רשימת קניות';
 
   @override
   String get aisles => 'Aisles';

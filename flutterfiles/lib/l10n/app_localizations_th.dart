@@ -288,7 +288,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get fallbackLocalNick => 'อุปกรณ์-ไม่มีชื่อ';
 
   @override
-  String get supermarketList => 'Supermarket list';
+  String get supermarketList => 'รายการซื้อของ';
 
   @override
   String get aisles => 'Aisles';

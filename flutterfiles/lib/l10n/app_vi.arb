@@ -91,7 +91,7 @@
   "noOpenConnection": "Không có kết nối mở",
   "neverConnected": "Chưa bao giờ kết nối",
   "fallbackLocalNick": "thiết-bị-không-tên",
-  "supermarketList": "Supermarket list",
+  "supermarketList": "Danh sách mua sắm",
   "@ipCopied": {
     "description": "Message shown when an IP address is copied to the clipboard",
     "placeholders": {
