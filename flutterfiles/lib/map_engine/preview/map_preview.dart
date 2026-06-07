@@ -99,7 +99,7 @@ class _MapPreviewState extends State<MapPreview> {
                   (f) => f == floor
                       ? ElevatedButton(child: Text('$f'), onPressed: () {})
                       : TextButton(child: Text('$f'), onPressed: () => setState(() => floor = f)),
-                ), // TODO make the buttons easier to read
+                ), 
                 TextButton.icon(
                   icon: const Icon(Icons.add, size: 16),
                   label: Text(appLoc.newFloor),

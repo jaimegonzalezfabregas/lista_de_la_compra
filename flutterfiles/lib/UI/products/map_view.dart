@@ -163,11 +163,11 @@ class CalculateRouteScreen extends StatelessWidget {
           Set<Aisle> visitingAisles = snapshot.data!;
 
           if (visitingAisles.isEmpty) {
-            return Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: Text(appLoc.routeNoAisles),
-            );
+            return Padding(padding: const EdgeInsets.all(50.0), child: Text(appLoc.routeNoAisles));
           }
+
+          final routeProgressValue = routeProvider.getProgress(supermarketId);
+          final progressPercent = ((routeProgressValue ?? 0) * 100).toInt();
 
           return SingleChildScrollView(
             child: Column(
@@ -192,8 +192,7 @@ class CalculateRouteScreen extends StatelessWidget {
                   }).toList(),
                 ),
                 Divider(),
-                final routeProgressValue = routeProvider.getProgress(supermarketId);
-                final progressPercent = ((routeProgressValue ?? 0) * 100).toInt();
+
                 if (routeProgressValue == null)
                   TextButton.icon(
                     onPressed: () async {
