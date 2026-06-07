@@ -35,18 +35,5 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
     throw UnimplementedError();
   }
 
-  @override
-  Future<void> clearSelectedSupermarket(String enviromentId) {
-    throw UnimplementedError();
-  }
 
-  @override
-  Future<String?> getSelectedSupermarket(String enviromentId) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> setSelectedSupermarket(String enviromentId, String supermarketId) {
-    throw UnimplementedError();
-  }
 }

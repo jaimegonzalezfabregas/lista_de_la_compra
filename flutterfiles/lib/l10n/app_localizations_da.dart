@@ -1,0 +1,425 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Danish (`da`).
+class AppLocalizationsDa extends AppLocalizations {
+  AppLocalizationsDa([String locale = 'da']) : super(locale);
+
+  @override
+  String get appTitle => 'Indkøbsliste';
+
+  @override
+  String get changeName => 'Skift navn';
+
+  @override
+  String get changeNick => 'Skift kaldenavn';
+
+  @override
+  String get name => 'Navn';
+
+  @override
+  String get nick => 'Kaldenavn';
+
+  @override
+  String get theNameCantBeEmpty => 'Navnet må ikke være tomt';
+
+  @override
+  String get cancel => 'Annuller';
+
+  @override
+  String get save => 'Gem';
+
+  @override
+  String get thisListHasNoResults => 'Denne liste har ingen resultater';
+
+  @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Denne liste har ingen resultater. Begynd at skrive for at tilføje det første';
+
+  @override
+  String get map => 'Kort';
+
+  @override
+  String get createEnvironment => 'Opret miljø';
+
+  @override
+  String get availableEnvironmentsWithoutConnection =>
+      'Tilgængelige miljøer uden forbindelse';
+
+  @override
+  String get environmentsOnOtherMachines => 'Miljøer på andre maskiner';
+
+  @override
+  String get importEnvironment => 'Importer miljø';
+
+  @override
+  String get syncronization => 'Synkronisering';
+
+  @override
+  String get loading => 'Indlæser...';
+
+  @override
+  String get home => 'Hjem';
+
+  @override
+  String get shoppingList => 'Indkøbsliste';
+
+  @override
+  String get recipeList => 'Opskriftsliste';
+
+  @override
+  String get agenda => 'Agenda';
+
+  @override
+  String get export => 'Eksportér';
+
+  @override
+  String get undo => 'Fortryd';
+
+  @override
+  String get product => 'Produkt';
+
+  @override
+  String get markAsNeeded => ' markeret som nødvendigt. ';
+
+  @override
+  String get markAsBought => ' markeret som købt. ';
+
+  @override
+  String get toBuy => 'At købe';
+
+  @override
+  String get editName => 'Rediger navn';
+
+  @override
+  String get delete => 'Slet';
+
+  @override
+  String get setAsBought => 'Marker som købt';
+
+  @override
+  String get setAsNeeded => 'Marker som nødvendigt';
+
+  @override
+  String get selectRecipe => 'Vælg opskrift';
+
+  @override
+  String get add => 'Tilføj';
+
+  @override
+  String get noNick => 'Ingen kaldenavn';
+
+  @override
+  String get pairings => 'Parringer';
+
+  @override
+  String get connectionType => 'Forbindelsestype';
+
+  @override
+  String get notStablished => 'Ikke etableret';
+
+  @override
+  String get stablished => 'Etableret';
+
+  @override
+  String get connectionState => 'Forbindelsestilstand';
+
+  @override
+  String get generalConfig => 'Generel konfiguration';
+
+  @override
+  String get scanStarted => 'Scanning startet';
+
+  @override
+  String get noResultsYet => 'Ingen resultater endnu';
+
+  @override
+  String get noName => 'Intet navn';
+
+  @override
+  String get noHost => 'Ingen vært';
+
+  @override
+  String get error => 'Fejl';
+
+  @override
+  String get saveFileToYourDesiredLocation => 'Gem filen på det ønskede sted';
+
+  @override
+  String get exportToFile => 'Eksporter til fil';
+
+  @override
+  String get sendExport => 'Eksporter og send';
+
+  @override
+  String get localDeviceAvailableIPs =>
+      'Den aktuelle enhed er tilgængelig på følgende IP\'er';
+
+  @override
+  String get stopServer => 'Stop server';
+
+  @override
+  String get startServer => 'Start server';
+
+  @override
+  String get startingServer => 'Starter server...';
+
+  @override
+  String get stoppingServer => 'Stopper server...';
+
+  @override
+  String get errorStartingServer => 'Fejl ved start af server';
+
+  @override
+  String get nearbyDevices => 'Nab-enheder';
+
+  @override
+  String get enterAddressManually => 'Indtast adresse manuelt';
+
+  @override
+  String get remoteAddress => 'Fjernadresse';
+
+  @override
+  String get remotePort => 'Fjernport';
+
+  @override
+  String get errorEmptyRemoteAddress => 'Fejl: fjernadressen kan ikke være tom';
+
+  @override
+  String get connect => 'Forbind';
+
+  @override
+  String get server => 'Server';
+
+  @override
+  String get client => 'Klient';
+
+  @override
+  String get inputTheAmount => 'Indtast mængden';
+
+  @override
+  String get noIngredientsYet => 'Der er endnu ikke tilføjet ingredienser';
+
+  @override
+  String get addIngredients => 'Tilføj ingredienser';
+
+  @override
+  String get showPastDates => 'Vis tidligere datoer';
+
+  @override
+  String get ingredients => 'Ingredienser';
+
+  @override
+  String get dates => 'Datoer';
+
+  @override
+  String get buy => 'Køb';
+
+  @override
+  String get all => 'Alt';
+
+  @override
+  String get httpClient => 'HTTP-klient';
+
+  @override
+  String get httpServer => 'HTTP-server';
+
+  @override
+  String get addIngredientsToRecipe => 'Vælg ingredienser ';
+
+  @override
+  String get recipeWithoutIngredients =>
+      'Denne opskrift har ingen ingredienser';
+
+  @override
+  String get noPlannedDates => 'Ingen planlagte datoer';
+
+  @override
+  String get noHTTPPairings =>
+      'Der er ingen tidligere parringer med HTTP-servere';
+
+  @override
+  String get loadingIps => 'Indlæser IP-adresser';
+
+  @override
+  String get ipRefresh => 'Opdater IP\'er';
+
+  @override
+  String get planner => 'Planlægger';
+
+  @override
+  String ipCopied(Object address) {
+    return 'IP-adresse ($address) kopieret til udklipsholderen';
+  }
+
+  @override
+  String get search => 'Søg';
+
+  @override
+  String get switchEnvironment => 'Skift miljø';
+
+  @override
+  String get actions => 'Handlinger';
+
+  @override
+  String get markAllAs => 'Marker alle som';
+
+  @override
+  String get editAmount => 'Rediger mængde';
+
+  @override
+  String get details => 'Detaljer';
+
+  @override
+  String get enoughForA => 'Nok til en';
+
+  @override
+  String get knownServers => 'Kendte servere';
+
+  @override
+  String get noOpenConnection => 'Ingen åbne forbindelser';
+
+  @override
+  String get neverConnected => 'Aldrig forbundet';
+
+  @override
+  String get fallbackLocalNick => 'unavngivet-enhed';
+
+  @override
+  String get supermarketList => 'Indkøbsliste';
+
+  @override
+  String get aisles => 'Aisles';
+
+  @override
+  String numberOfProducts(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count products',
+      one: '1 product',
+      zero: 'No products',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberOfAisles(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count aisles',
+      one: '1 aisle',
+      zero: 'No aisles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get addProductsToAisle => 'Tilføj produkter til gangen';
+
+  @override
+  String get selectSupermarket => 'Select Supermarket...';
+
+  @override
+  String get exportToICS => 'Eksporter til ICS';
+
+  @override
+  String get exportToGoogleCalendar => 'Eksporter til Google Kalender';
+
+  @override
+  String get exportToMarkdownFile => 'Eksporter til Markdown-fil';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Der er ikke oprettet nogen kort til dette supermarked';
+
+  @override
+  String get createMap => 'Opret kort';
+
+  @override
+  String get editMap => 'Rediger kort';
+
+  @override
+  String get newFloor => 'Nyt etage';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Tildel gang';
+
+  @override
+  String get unassignAisle => 'Fjern gang';
+
+  @override
+  String get tileTypeFloor => 'Gulv';
+
+  @override
+  String get tileTypeStart => 'Start';
+
+  @override
+  String get tileTypeEnd => 'Slut';
+
+  @override
+  String get noAislesToAssign => 'Ingen gange tilgængelige at tildele';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
+
+  @override
+  String get routeNoAisles =>
+      'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile =>
+      'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo =>
+      'To transform this tile into a different type, first select the new start or end tile';
+}

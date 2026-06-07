@@ -18,6 +18,7 @@ class OpenConnectionManager {
   final SuperMarketProvider supermarketProvider;
   final AisleProvider aisleProvider;
   final ProductAisleProvider productAisleProvider;
+  final MapTileProvider mapTileProvider;
 
   final bool downloadAllEnvironments;
 
@@ -44,11 +45,12 @@ class OpenConnectionManager {
     this.productProvider,
     this.recipeProvider,
     this.scheduleProvider,
-    this.sharedPreferencesProvider,
     this.environmentProvider,
     this.supermarketProvider,
     this.aisleProvider,
-    this.productAisleProvider, {
+    this.productAisleProvider,
+    this.mapTileProvider,
+    this.sharedPreferencesProvider, {
     this.downloadAllEnvironments = false,
   }) {
     productProvider.addListener(triggerSyncPush);
@@ -75,6 +77,7 @@ class OpenConnectionManager {
           supermarketProvider,
           aisleProvider,
           productAisleProvider,
+          mapTileProvider,
         ),
       ),
     ); // data being hashed
@@ -110,9 +113,11 @@ class OpenConnectionManager {
 
     Future<void> triggerSyncPull() async {
       for (Environment env in await environmentProvider.getEnvironmentList()) {
-        int salt = math.Random().nextInt(1000);
-        send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
-        // print("triggerSyncPull: sent send_digest of $env");
+        if (!env.id.contains("noSync")) {
+          int salt = math.Random().nextInt(1000);
+          send(jsonEncode({"type": "send_digest", "salt": salt, "environment": env, "digest": await getStateDigest(salt, env.id)}));
+          // print("triggerSyncPull: sent send_digest of $env");
+        }
       }
     }
 
@@ -226,6 +231,7 @@ class OpenConnectionManager {
                       supermarketProvider,
                       aisleProvider,
                       productAisleProvider,
+                      mapTileProvider,
                     ),
                   }),
                 );
@@ -233,7 +239,17 @@ class OpenConnectionManager {
               break;
 
             case "send_state":
-              recieveState(data["state"], environmentProvider, productProvider, recipeProvider, scheduleProvider, supermarketProvider, aisleProvider, productAisleProvider);
+              recieveState(
+                data["state"],
+                environmentProvider,
+                productProvider,
+                recipeProvider,
+                scheduleProvider,
+                supermarketProvider,
+                aisleProvider,
+                productAisleProvider,
+                mapTileProvider,
+              );
 
               break;
 

@@ -1,0 +1,473 @@
+{
+  "@@locale": "hi",
+  "appTitle": "खरीदारी की सूची",
+  "changeName": "नाम बदलें",
+  "changeNick": "निकनेम बदलें",
+  "name": "नाम",
+  "nick": "निकनेम",
+  "theNameCantBeEmpty": "नाम खाली नहीं हो सकता",
+  "cancel": "रद्द करें",
+  "save": "सहेजें",
+  "thisListHasNoResults": "इस सूची में कोई परिणाम नहीं हैं",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "इस सूची में कोई परिणाम नहीं हैं। पहला जोड़ने के लिए टाइप करना शुरू करें",
+  "map": "नक्शा",
+  "createEnvironment": "पर्यावरण बनाएं",
+  "availableEnvironmentsWithoutConnection": "कनेक्शन के बिना उपलब्ध वातावरण",
+  "environmentsOnOtherMachines": "अन्य मशीनों पर वातावरण",
+  "importEnvironment": "पर्यावरण आयात करें",
+  "syncronization": "समनकरण",
+  "loading": "लोड हो रहा है...",
+  "home": "होम",
+  "shoppingList": "खरीदारी की सूची",
+  "recipeList": "रेसिपी सूची",
+  "agenda": "एजेंडा",
+  "export": "निर्यात",
+  "undo": "पूर्ववत करें",
+  "product": "उत्पाद",
+  "markAsNeeded": " को आवश्यक के रूप में चिह्नित किया गया। ",
+  "markAsBought": " को खरीदा गया के रूप में चिह्नित किया गया। ",
+  "toBuy": "खरीदने के लिए",
+  "editName": "नाम संपादित करें",
+  "delete": "हटाएँ",
+  "setAsBought": "खरीदा गया के रूप में सेट करें",
+  "setAsNeeded": "आवश्यक के रूप में सेट करें",
+  "selectRecipe": "रेसिपी चुनें",
+  "add": "जोड़ें",
+  "noNick": "कोई निकनेम नहीं",
+  "pairings": "पेयरिंग्स",
+  "connectionType": "कनेक्शन प्रकार",
+  "notStablished": "स्थापित नहीं",
+  "stablished": "स्थापित",
+  "connectionState": "कनेक्शन स्थिति",
+  "generalConfig": "सामान्य कॉन्फ़िग",
+  "scanStarted": "स्कैन शुरू हुआ",
+  "noResultsYet": "अभी तक कोई परिणाम नहीं",
+  "noName": "कोई नाम नहीं",
+  "noHost": "कोई होस्ट नहीं",
+  "error": "त्रुटि",
+  "saveFileToYourDesiredLocation": "अपनी वांछित स्थान पर फ़ाइल सहेजें",
+  "exportToFile": "फ़ाइल में निर्यात करें",
+  "sendExport": "निर्यात और भेजें",
+  "localDeviceAvailableIPs": "वर्तमान डिवाइस निम्नलिखित IP पर उपलब्ध है",
+  "stopServer": "सर्वर रोकें",
+  "startServer": "सर्वर शुरू करें",
+  "startingServer": "सर्वर शुरू हो रहा है...",
+  "stoppingServer": "सर्वर रोक दिया जा रहा है...",
+  "errorStartingServer": "सर्वर शुरू करते समय त्रुटि",
+  "nearbyDevices": "पास के उपकरण",
+  "enterAddressManually": "पता मैन्युअल रूप से दर्ज करें",
+  "remoteAddress": "रिमोट पता",
+  "remotePort": "रिमोट पोर्ट",
+  "errorEmptyRemoteAddress": "त्रुटि: रिमोट पता खाली नहीं हो सकता",
+  "connect": "कनेक्ट",
+  "server": "सर्वर",
+  "client": "क्लाइंट",
+  "inputTheAmount": "मात्रा दर्ज करें",
+  "noIngredientsYet": "अभी तक कोई सामग्री नहीं जोड़ी गई",
+  "addIngredients": "सामग्री जोड़ें",
+  "showPastDates": "पिछली तिथियाँ दिखाएँ",
+  "ingredients": "सामग्री",
+  "dates": "तिथियाँ",
+  "buy": "खरीदें",
+  "all": "सब कुछ",
+  "httpClient": "HTTP क्लाइंट",
+  "httpServer": "HTTP सर्वर",
+  "addIngredientsToRecipe": "सामग्री चुनें ",
+  "recipeWithoutIngredients": "इस रेसिपी में कोई सामग्री नहीं है",
+  "noPlannedDates": "कोई योजनाबद्ध तिथि नहीं",
+  "noHTTPPairings": "HTTP सर्वरों के साथ कोई पिछले पेयरिंग नहीं है",
+  "loadingIps": "IP पते लोड हो रहे हैं",
+  "ipRefresh": "IP रिफ्रेश",
+  "planner": "प्लैनर",
+  "ipCopied": "IP पता ({address}) क्लिपबोर्ड पर कॉपी किया गया",
+  "@ipCopied": {
+    "description": "Message shown when an IP address is copied to the clipboard",
+    "placeholders": {
+      "address": {}
+    }
+  },
+  "search": "खोज",
+  "switchEnvironment": "पर्यावरण बदलें",
+  "actions": "क्रियाएँ",
+  "markAllAs": "सभी चिह्नित करें",
+  "editAmount": "राशि संपादित करें",
+  "details": "विवरण",
+  "enoughForA": "के लिए पर्याप्त",
+  "knownServers": "ज्ञात सर्वर",
+  "noOpenConnection": "कोई खुला कनेक्शन नहीं",
+  "neverConnected": "कभी कनेक्ट नहीं हुआ",
+  "fallbackLocalNick": "अनाम-डिवाइस",
+  "supermarketList": "खरीदारी की सूची",
+  "@appTitle": {
+    "description": "Shopping List"
+  },
+  "@changeName": {
+    "description": "Change Name"
+  },
+  "@changeNick": {
+    "description": "Change Nick"
+  },
+  "@name": {
+    "description": "Name"
+  },
+  "@nick": {
+    "description": "Nick"
+  },
+  "@theNameCantBeEmpty": {
+    "description": "The name cant be empty"
+  },
+  "@cancel": {
+    "description": "Cancel"
+  },
+  "@save": {
+    "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
+  },
+  "@thisListHasNoResults": {
+    "description": "This list has no results"
+  },
+  "@createEnvironment": {
+    "description": "Create environment"
+  },
+  "@availableEnvironmentsWithoutConnection": {
+    "description": "Available environments without connection"
+  },
+  "@environmentsOnOtherMachines": {
+    "description": "Environments on other machines"
+  },
+  "@importEnvironment": {
+    "description": "Import environment"
+  },
+  "@syncronization": {
+    "description": "Syncronization"
+  },
+  "@loading": {
+    "description": "Loading..."
+  },
+  "@home": {
+    "description": "Home"
+  },
+  "@shoppingList": {
+    "description": "Shopping List"
+  },
+  "@recipeList": {
+    "description": "Recipe List"
+  },
+  "@agenda": {
+    "description": "Agenda"
+  },
+  "@export": {
+    "description": "Export"
+  },
+  "@undo": {
+    "description": "Undo"
+  },
+  "@product": {
+    "description": "Product"
+  },
+  "@markAsNeeded": {
+    "description": " marked as needed. "
+  },
+  "@markAsBought": {
+    "description": " marked as bought. "
+  },
+  "@toBuy": {
+    "description": "To buy"
+  },
+  "@editName": {
+    "description": "Edit name"
+  },
+  "@delete": {
+    "description": "Delete"
+  },
+  "@setAsBought": {
+    "description": "Set as bought"
+  },
+  "@setAsNeeded": {
+    "description": "Set as needed"
+  },
+  "@selectRecipe": {
+    "description": "Select recipe"
+  },
+  "@add": {
+    "description": "Add"
+  },
+  "@noNick": {
+    "description": "No nick"
+  },
+  "@pairings": {
+    "description": "Pairings"
+  },
+  "@connectionType": {
+    "description": "Connection type"
+  },
+  "@notStablished": {
+    "description": "Not stablished"
+  },
+  "@stablished": {
+    "description": "Stablished"
+  },
+  "@connectionState": {
+    "description": "Conection state"
+  },
+  "@generalConfig": {
+    "description": "General Config"
+  },
+  "@scanStarted": {
+    "description": "Scan started"
+  },
+  "@noResultsYet": {
+    "description": "No results yet"
+  },
+  "@noName": {
+    "description": "No name"
+  },
+  "@noHost": {
+    "description": "No host"
+  },
+  "@error": {
+    "description": "Error"
+  },
+  "@saveFileToYourDesiredLocation": {
+    "description": "Save file to your desired location"
+  },
+  "@exportToFile": {
+    "description": "Export to file"
+  },
+  "@sendExport": {
+    "description": "Export and send"
+  },
+  "@localDeviceAvailableIPs": {
+    "description": "The current device is available on the following IPs"
+  },
+  "@stopServer": {
+    "description": "Stop server"
+  },
+  "@startServer": {
+    "description": "Start server"
+  },
+  "@startingServer": {
+    "description": "Starting server..."
+  },
+  "@stoppingServer": {
+    "description": "Stopping server..."
+  },
+  "@errorStartingServer": {
+    "description": "Error starting server"
+  },
+  "@nearbyDevices": {
+    "description": "Nearby devices"
+  },
+  "@enterAddressManually": {
+    "description": "Enter address manually"
+  },
+  "@remoteAddress": {
+    "description": "Remote address"
+  },
+  "@remotePort": {
+    "description": "Remote port"
+  },
+  "@errorEmptyRemoteAddress": {
+    "description": "Error: the remote address cannot be empty"
+  },
+  "@connect": {
+    "description": "Connect"
+  },
+  "@server": {
+    "description": "Server"
+  },
+  "@client": {
+    "description": "Client"
+  },
+  "@inputTheAmount": {
+    "description": "Input the amount"
+  },
+  "@noIngredientsYet": {
+    "description": "No ingredients have been added yet"
+  },
+  "@addIngredients": {
+    "description": "Add ingredients"
+  },
+  "@showPastDates": {
+    "description": "Show past dates"
+  },
+  "@ingredients": {
+    "description": "Ingredients"
+  },
+  "@dates": {
+    "description": "Dates"
+  },
+  "@buy": {
+    "description": "Buy"
+  },
+  "@all": {
+    "description": "Everything"
+  },
+  "@httpClient": {
+    "description": "HTTP Client"
+  },
+  "@httpServer": {
+    "description": "HTTP Server"
+  },
+  "@addIngredientsToRecipe": {
+    "description": "Title for the screen to add ingredients to a recipe. Used in: lib/UI/recipies/add_ingredient_to_recipe.dart -> AppBar.title (appLoc.addIngredientsToRecipe). This screen operates on a specific recipe (recipeId) and shows products in that recipe's environment. Placeholder: {recipe}."
+  },
+  "@recipeWithoutIngredients": {
+    "description": "This recipe has no ingredients"
+  },
+  "@noPlannedDates": {
+    "description": "No planned dates"
+  },
+  "@noHTTPPairings": {
+    "description": "There are no past pairings with http servers"
+  },
+  "@loadingIps": {
+    "description": "Loading IP addresses"
+  },
+  "@ipRefresh": {
+    "description": "Refresh IPs"
+  },
+  "@planner": {
+    "description": "Planner"
+  },
+  "@search": {
+    "description": "Search"
+  },
+  "@switchEnvironment": {
+    "description": "Switch environment"
+  },
+  "@actions": {
+    "description": "Actions"
+  },
+  "@markAllAs": {
+    "description": "Mark all as"
+  },
+  "@editAmount": {
+    "description": "Edit amount"
+  },
+  "@details": {
+    "description": "Details"
+  },
+  "@enoughForA": {
+    "description": "Enough for a"
+  },
+  "@knownServers": {
+    "description": "Known servers"
+  },
+  "@noOpenConnection": {
+    "description": "No open connections"
+  },
+  "@neverConnected": {
+    "description": "Never connected"
+  },
+  "@fallbackLocalNick": {
+    "description": "unnamed-device"
+  },
+  "@supermarketList": {
+    "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
+  },
+  "aisles": "Aisles",
+  "@aisles": {
+    "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
+  },
+  "numberOfProducts": "{count, plural, =0{No products} =1{1 product} other{{count} products}}",
+  "@numberOfProducts": {
+    "description": "Pluralized message for number of products. Intended to be used where product counts are shown. Not referenced directly in codebase currently.",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "numberOfAisles": "{count, plural, =0{No aisles} =1{1 aisle} other{{count} aisles}}",
+  "@numberOfAisles": {
+    "description": "Pluralized message for number of aisles. Intended to be used where aisle counts are shown. Not referenced directly in codebase currently.",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "addProductsToAisle": "एक आइल में उत्पाद जोड़ें",
+  "@addProductsToAisle": {
+    "description": "Title for the screen where products are added to an aisle. Used in: lib/UI/supermarket/add_products_to_isle.dart -> AppBar.title (appLoc.addProductsToAisle). This screen operates on a specific aisle (aisleId) and its supermarket (marketId). Placeholders: {aisle} and {supermarket}."
+  },
+  "exportToICS": "ICS में निर्यात करें",
+  "@exportToICS": {
+    "description": "Export to calendar"
+  },
+  "exportToGoogleCalendar": "Google Calendar में निर्यात करें",
+  "@exportToGoogleCalendar": {
+    "description": "Export to Google Calendar"
+  },
+  "exportToMarkdownFile": "Markdown फ़ाइल में निर्यात करें",
+  "@exportToMarkdownFile": {
+    "description": "Export to markdown file"
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "इस सुपरमार्केट के लिए कोई मानचित्र नहीं बनाया गया है",
+  "createMap": "मानचित्र बनाएं",
+  "editMap": "मानचित्र संपादित करें",
+  "newFloor": "नई मंजिल",
+  "assignAisle": "गलियारा असाइन करें",
+  "unassignAisle": "गलियारा हटाएं",
+  "tileTypeFloor": "फर्श",
+  "tileTypeStart": "प्रारंभ",
+  "tileTypeEnd": "अंत",
+  "noAislesToAssign": "असाइन करने के लिए कोई गलियारा उपलब्ध नहीं",
+  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "@routeNoAisles": {
+    "description": "Message shown when no route can be calculated because no aisles are available"
+  },
+  "pendingAislesToVisit": "Pending aisles to visit",
+  "@pendingAislesToVisit": {
+    "description": "Label indicating pending aisles to visit"
+  },
+  "calculateRoute": "Calculate route",
+  "@calculateRoute": {
+    "description": "Button label to calculate a route"
+  },
+  "routeProgress": "Progress: {percent}%",
+  "@routeProgress": {
+    "description": "Label showing route progress in percent",
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "cancelRouteCalculation": "Cancel route calculation",
+  "@cancelRouteCalculation": {
+    "description": "Button label to cancel route calculation"
+  },
+  "clearRoute": "Clear route",
+  "@clearRoute": {
+    "description": "Button label to clear the current route"
+  },
+  "selectASupermarket": "Select a supermarket",
+  "@selectASupermarket": {
+    "description": "Prompt to select a supermarket"
+  },
+  "routeError": "Route error: {error}",
+  "@routeError": {
+    "description": "Error message shown when route loading fails",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "optimizeRoute": "Optimize route",
+  "@optimizeRoute": {
+    "description": "Button label to optimize the route"
+  },
+  "uncategorized": "Uncategorized",
+  "@uncategorized": {
+    "description": "Label for uncategorized list items"
+  },
+  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "@tapTileOrGhostTile": {
+    "description": "Instruction shown when user should select or add a map tile"
+  },
+  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "@tileTypeTransformInfo": {
+    "description": "Instruction shown when transforming a tile type"
+  }
+}

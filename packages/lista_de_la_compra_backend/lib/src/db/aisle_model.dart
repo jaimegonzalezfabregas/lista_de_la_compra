@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:lista_de_la_compra_backend/src/db/map_tile_model.dart';
 import 'supermarket_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,6 +10,8 @@ class Aisles extends Table {
   TextColumn get marketId => text().references(SuperMarkets, #id)();
   IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)();
   IntColumn get deletedAt => integer().nullable()();
+
+  TextColumn get mapTileId => text().references(MapTiles, #id).nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
