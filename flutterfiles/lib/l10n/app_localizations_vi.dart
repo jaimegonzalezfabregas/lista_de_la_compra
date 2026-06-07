@@ -36,6 +36,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get thisListHasNoResults => 'Danh sách này không có kết quả';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Danh sách này không có kết quả. Bắt đầu gõ để thêm cái đầu tiên';
+
+  @override
+  String get map => 'Bản đồ';
+
+  @override
   String get createEnvironment => 'Tạo môi trường';
 
   @override
@@ -314,6 +321,46 @@ class AppLocalizationsVi extends AppLocalizations {
   String get addProductsToAisle => 'Thêm sản phẩm vào lối đi';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -324,4 +371,51 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Xuất ra file Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Chưa có bản đồ nào được tạo cho siêu thị này';
+
+  @override
+  String get createMap => 'Tạo bản đồ';
+
+  @override
+  String get editMap => 'Chỉnh sửa bản đồ';
+
+  @override
+  String get newFloor => 'Tầng mới';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Gán lối đi';
+
+  @override
+  String get unassignAisle => 'Bỏ lối đi';
+
+  @override
+  String get tileTypeFloor => 'Sàn';
+
+  @override
+  String get tileTypeStart => 'Bắt đầu';
+
+  @override
+  String get tileTypeEnd => 'Kết thúc';
+
+  @override
+  String get noAislesToAssign => 'Không có lối đi để gán';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

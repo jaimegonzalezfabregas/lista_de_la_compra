@@ -36,6 +36,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get thisListHasNoResults => '이 목록에는 결과가 없습니다';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      '이 목록에는 결과가 없습니다. 첫 번째를 추가하려면 입력을 시작하세요';
+
+  @override
+  String get map => '지도';
+
+  @override
   String get createEnvironment => '환경 생성';
 
   @override
@@ -311,6 +318,46 @@ class AppLocalizationsKo extends AppLocalizations {
   String get addProductsToAisle => '통로에 상품 추가';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -321,4 +368,51 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Markdown 파일로 내보내기';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      '이 슈퍼마켓에 대한 지도가 생성되지 않았습니다';
+
+  @override
+  String get createMap => '지도 만들기';
+
+  @override
+  String get editMap => '지도 편집';
+
+  @override
+  String get newFloor => '새 층';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => '통로 할당';
+
+  @override
+  String get unassignAisle => '통로 할당 해제';
+
+  @override
+  String get tileTypeFloor => '바닥';
+
+  @override
+  String get tileTypeStart => '시작';
+
+  @override
+  String get tileTypeEnd => '끝';
+
+  @override
+  String get noAislesToAssign => '할당할 통로가 없습니다';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

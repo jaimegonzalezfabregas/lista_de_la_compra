@@ -36,6 +36,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get thisListHasNoResults => 'В этом списке нет результатов';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'В этом списке нет результатов. Начните вводить текст, чтобы добавить первый';
+
+  @override
+  String get map => 'Карта';
+
+  @override
   String get createEnvironment => 'Создать окружение';
 
   @override
@@ -314,6 +321,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get addProductsToAisle => 'Добавить товары в проход';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -324,4 +371,51 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Экспорт в файл Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Для этого супермаркета карты не созданы';
+
+  @override
+  String get createMap => 'Создать карту';
+
+  @override
+  String get editMap => 'Редактировать карту';
+
+  @override
+  String get newFloor => 'Новый этаж';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Назначить проход';
+
+  @override
+  String get unassignAisle => 'Убрать проход';
+
+  @override
+  String get tileTypeFloor => 'Пол';
+
+  @override
+  String get tileTypeStart => 'Начало';
+
+  @override
+  String get tileTypeEnd => 'Конец';
+
+  @override
+  String get noAislesToAssign => 'Нет доступных проходов для назначения';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

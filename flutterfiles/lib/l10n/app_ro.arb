@@ -9,6 +9,8 @@
   "cancel": "Anulează",
   "save": "Salvează",
   "thisListHasNoResults": "Această listă nu are rezultate",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "Această listă nu are rezultate. Începeți să tastați pentru a adăuga primul",
+  "map": "Hartă",
   "createEnvironment": "Creează mediu",
   "availableEnvironmentsWithoutConnection": "Mediile disponibile fără conexiune",
   "environmentsOnOtherMachines": "Mediile pe alte mașini",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"
@@ -396,5 +404,70 @@
   "exportToMarkdownFile": "Exportați în fișier Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "Nu au fost create hărți pentru acest supermarket",
+  "createMap": "Creare hartă",
+  "editMap": "Editare hartă",
+  "newFloor": "Etaj nou",
+  "assignAisle": "Atribuie culoar",
+  "unassignAisle": "Elimină culoar",
+  "tileTypeFloor": "Podea",
+  "tileTypeStart": "Început",
+  "tileTypeEnd": "Sfârșit",
+  "noAislesToAssign": "Nu există culoar disponibil de atribuit",
+  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "@routeNoAisles": {
+    "description": "Message shown when no route can be calculated because no aisles are available"
+  },
+  "pendingAislesToVisit": "Pending aisles to visit",
+  "@pendingAislesToVisit": {
+    "description": "Label indicating pending aisles to visit"
+  },
+  "calculateRoute": "Calculate route",
+  "@calculateRoute": {
+    "description": "Button label to calculate a route"
+  },
+  "routeProgress": "Progress: {percent}%",
+  "@routeProgress": {
+    "description": "Label showing route progress in percent",
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "cancelRouteCalculation": "Cancel route calculation",
+  "@cancelRouteCalculation": {
+    "description": "Button label to cancel route calculation"
+  },
+  "clearRoute": "Clear route",
+  "@clearRoute": {
+    "description": "Button label to clear the current route"
+  },
+  "selectASupermarket": "Select a supermarket",
+  "@selectASupermarket": {
+    "description": "Prompt to select a supermarket"
+  },
+  "routeError": "Route error: {error}",
+  "@routeError": {
+    "description": "Error message shown when route loading fails",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "optimizeRoute": "Optimize route",
+  "@optimizeRoute": {
+    "description": "Button label to optimize the route"
+  },
+  "uncategorized": "Uncategorized",
+  "@uncategorized": {
+    "description": "Label for uncategorized list items"
+  },
+  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "@tapTileOrGhostTile": {
+    "description": "Instruction shown when user should select or add a map tile"
+  },
+  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "@tileTypeTransformInfo": {
+    "description": "Instruction shown when transforming a tile type"
   }
 }

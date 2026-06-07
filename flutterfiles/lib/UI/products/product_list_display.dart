@@ -3,7 +3,7 @@ import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/products/common.dart';
 import 'package:lista_de_la_compra/UI/products/product_detail.dart';
-import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
 import '../../flutter_providers/flutter_providers.dart';
@@ -12,14 +12,15 @@ class ProductListDisplay extends StatelessWidget {
   final List<Product> products;
   final bool isNeededList;
   final String enviromentId;
+  final List<String> categoryOrdering;
 
-  const ProductListDisplay(this.products, this.isNeededList, this.enviromentId, {super.key});
+  const ProductListDisplay(this.products, this.isNeededList, this.enviromentId, {super.key, this.categoryOrdering = const []});
 
   @override
   Widget build(BuildContext context) {
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
     final ProductProvider productProvider = context.watch<FlutterProductProvider>();
-    final SharedPreferencesProvider sharedPreferencesProvider = context.watch<PersistantSharedPreferencesProvider>();
+    final SelectedMarketProvider selectedMarketProvider = context.watch<PersistantSelectedMarketProvider>();
     final ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
 
     var filteredProducts = isNeededList ? products.where((e) => e.needed).toList() : products;
@@ -56,7 +57,7 @@ class ProductListDisplay extends StatelessWidget {
         }
       },
       elementCategories: (Product p) async {
-        String? selectedSupermarket = await sharedPreferencesProvider.getSelectedSupermarket(enviromentId);
+        String? selectedSupermarket = await selectedMarketProvider.getSelectedSupermarket(enviromentId);
 
         if (selectedSupermarket == null) {
           return [];

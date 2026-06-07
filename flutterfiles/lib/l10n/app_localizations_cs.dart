@@ -36,6 +36,13 @@ class AppLocalizationsCs extends AppLocalizations {
   String get thisListHasNoResults => 'Tento seznam nemá žádné výsledky';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Tento seznam nemá žádné výsledky. Začněte psát pro přidání prvního';
+
+  @override
+  String get map => 'Mapa';
+
+  @override
   String get createEnvironment => 'Vytvořit prostředí';
 
   @override
@@ -315,6 +322,46 @@ class AppLocalizationsCs extends AppLocalizations {
   String get addProductsToAisle => 'Přidat produkty do uličky';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -325,4 +372,51 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Exportovat do souboru Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Pro tento supermarket nebyly vytvořeny žádné mapy';
+
+  @override
+  String get createMap => 'Vytvořit mapu';
+
+  @override
+  String get editMap => 'Upravit mapu';
+
+  @override
+  String get newFloor => 'Nové patro';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Přiřadit uličku';
+
+  @override
+  String get unassignAisle => 'Odebrat uličku';
+
+  @override
+  String get tileTypeFloor => 'Podlaha';
+
+  @override
+  String get tileTypeStart => 'Start';
+
+  @override
+  String get tileTypeEnd => 'Konec';
+
+  @override
+  String get noAislesToAssign => 'Žádné uličky k přiřazení';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

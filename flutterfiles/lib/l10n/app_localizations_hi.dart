@@ -36,6 +36,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get thisListHasNoResults => 'इस सूची में कोई परिणाम नहीं हैं';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'इस सूची में कोई परिणाम नहीं हैं। पहला जोड़ने के लिए टाइप करना शुरू करें';
+
+  @override
+  String get map => 'नक्शा';
+
+  @override
   String get createEnvironment => 'पर्यावरण बनाएं';
 
   @override
@@ -314,6 +321,46 @@ class AppLocalizationsHi extends AppLocalizations {
   String get addProductsToAisle => 'एक आइल में उत्पाद जोड़ें';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -324,4 +371,51 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Markdown फ़ाइल में निर्यात करें';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'इस सुपरमार्केट के लिए कोई मानचित्र नहीं बनाया गया है';
+
+  @override
+  String get createMap => 'मानचित्र बनाएं';
+
+  @override
+  String get editMap => 'मानचित्र संपादित करें';
+
+  @override
+  String get newFloor => 'नई मंजिल';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'गलियारा असाइन करें';
+
+  @override
+  String get unassignAisle => 'गलियारा हटाएं';
+
+  @override
+  String get tileTypeFloor => 'फर्श';
+
+  @override
+  String get tileTypeStart => 'प्रारंभ';
+
+  @override
+  String get tileTypeEnd => 'अंत';
+
+  @override
+  String get noAislesToAssign => 'असाइन करने के लिए कोई गलियारा उपलब्ध नहीं';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

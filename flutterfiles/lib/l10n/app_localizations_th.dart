@@ -36,6 +36,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get thisListHasNoResults => 'รายการนี้ไม่มีผลลัพธ์';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'รายการนี้ไม่มีผลลัพธ์ เริ่มพิมพ์เพื่อเพิ่มรายการแรก';
+
+  @override
+  String get map => 'แผนที่';
+
+  @override
   String get createEnvironment => 'สร้างสภาพแวดล้อม';
 
   @override
@@ -314,6 +321,46 @@ class AppLocalizationsTh extends AppLocalizations {
   String get addProductsToAisle => 'เพิ่มสินค้าลงในช่องทาง';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -324,4 +371,51 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'ส่งออกเป็นไฟล์ Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'ยังไม่มีการสร้างแผนที่สำหรับซูเปอร์มาร์เก็ตนี้';
+
+  @override
+  String get createMap => 'สร้างแผนที่';
+
+  @override
+  String get editMap => 'แก้ไขแผนที่';
+
+  @override
+  String get newFloor => 'ชั้นใหม่';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'กำหนดทางเดิน';
+
+  @override
+  String get unassignAisle => 'ยกเลิกทางเดิน';
+
+  @override
+  String get tileTypeFloor => 'พื้น';
+
+  @override
+  String get tileTypeStart => 'เริ่มต้น';
+
+  @override
+  String get tileTypeEnd => 'สิ้นสุด';
+
+  @override
+  String get noAislesToAssign => 'ไม่มีทางเดินที่ใช้ได้';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

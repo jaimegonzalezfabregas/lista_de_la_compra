@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lista_de_la_compra/UI/AI/ai_home.dart';
 import 'package:lista_de_la_compra/UI/schedule/day_view.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/flutter_providers/flutter_providers.dart';
@@ -70,19 +69,6 @@ class _ScheduleHomeState extends State<ScheduleHome> {
         title: Text(appLoc.planner, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return AiHome();
-                  },
-                ),
-              );
-            },
-            icon: Icon(Icons.bubble_chart),
-          ),
           PopupMenuButton<String>(
             onSelected: (s) {},
             itemBuilder: (BuildContext context) {

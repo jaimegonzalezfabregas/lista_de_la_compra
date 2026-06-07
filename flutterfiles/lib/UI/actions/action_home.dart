@@ -28,18 +28,24 @@ class ActionHome extends StatelessWidget {
         child: ListView(
           children: [
 
-            OutlinedButton(
-              child: Row(children: [Icon(Icons.swap_horiz), SizedBox(width: 8), Text(appLoc.switchEnvironment)]),
-              onPressed: () {
-                sharedPreferencesProvider.clearSelectedEnvironment();
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                child: Row(children: [Icon(Icons.swap_horiz), SizedBox(width: 8), Text(appLoc.switchEnvironment)]),
+                onPressed: () {
+                  sharedPreferencesProvider.clearSelectedEnvironment();
+                },
+              ),
             ),
 
-            OutlinedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
-              },
-              child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text(appLoc.syncronization)]),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SyncView(openConnectionManager)));
+                },
+                child: Row(children: [Icon(Icons.add_link), SizedBox(width: 8), Text(appLoc.syncronization)]),
+              ),
             ),
             ExporControls(enviromentId),
           ],

@@ -9,6 +9,8 @@
   "cancel": "ยกเลิก",
   "save": "บันทึก",
   "thisListHasNoResults": "รายการนี้ไม่มีผลลัพธ์",
+  "thisListHasNoResultsStartTypingToAddTheFirst": "รายการนี้ไม่มีผลลัพธ์ เริ่มพิมพ์เพื่อเพิ่มรายการแรก",
+  "map": "แผนที่",
   "createEnvironment": "สร้างสภาพแวดล้อม",
   "availableEnvironmentsWithoutConnection": "สภาพแวดล้อมที่ใช้ได้โดยไม่มีการเชื่อมต่อ",
   "environmentsOnOtherMachines": "สภาพแวดล้อมในเครื่องอื่น",
@@ -119,6 +121,12 @@
   },
   "@save": {
     "description": "Save"
+  },
+  "@map": {
+    "description": "Map"
+  },
+  "@thisListHasNoResultsStartTypingToAddTheFirst": {
+    "description": "This list has no results. Start typing to add the first one"
   },
   "@thisListHasNoResults": {
     "description": "This list has no results"
@@ -396,5 +404,70 @@
   "exportToMarkdownFile": "ส่งออกเป็นไฟล์ Markdown",
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
+  },
+  "noMappingDataAviable": "No mapping data available",
+  "noMapsHaveBeenCreatedForThisSupermarket": "ยังไม่มีการสร้างแผนที่สำหรับซูเปอร์มาร์เก็ตนี้",
+  "createMap": "สร้างแผนที่",
+  "editMap": "แก้ไขแผนที่",
+  "newFloor": "ชั้นใหม่",
+  "assignAisle": "กำหนดทางเดิน",
+  "unassignAisle": "ยกเลิกทางเดิน",
+  "tileTypeFloor": "พื้น",
+  "tileTypeStart": "เริ่มต้น",
+  "tileTypeEnd": "สิ้นสุด",
+  "noAislesToAssign": "ไม่มีทางเดินที่ใช้ได้",
+  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "@routeNoAisles": {
+    "description": "Message shown when no route can be calculated because no aisles are available"
+  },
+  "pendingAislesToVisit": "Pending aisles to visit",
+  "@pendingAislesToVisit": {
+    "description": "Label indicating pending aisles to visit"
+  },
+  "calculateRoute": "Calculate route",
+  "@calculateRoute": {
+    "description": "Button label to calculate a route"
+  },
+  "routeProgress": "Progress: {percent}%",
+  "@routeProgress": {
+    "description": "Label showing route progress in percent",
+    "placeholders": {
+      "percent": {}
+    }
+  },
+  "cancelRouteCalculation": "Cancel route calculation",
+  "@cancelRouteCalculation": {
+    "description": "Button label to cancel route calculation"
+  },
+  "clearRoute": "Clear route",
+  "@clearRoute": {
+    "description": "Button label to clear the current route"
+  },
+  "selectASupermarket": "Select a supermarket",
+  "@selectASupermarket": {
+    "description": "Prompt to select a supermarket"
+  },
+  "routeError": "Route error: {error}",
+  "@routeError": {
+    "description": "Error message shown when route loading fails",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "optimizeRoute": "Optimize route",
+  "@optimizeRoute": {
+    "description": "Button label to optimize the route"
+  },
+  "uncategorized": "Uncategorized",
+  "@uncategorized": {
+    "description": "Label for uncategorized list items"
+  },
+  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "@tapTileOrGhostTile": {
+    "description": "Instruction shown when user should select or add a map tile"
+  },
+  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "@tileTypeTransformInfo": {
+    "description": "Instruction shown when transforming a tile type"
   }
 }

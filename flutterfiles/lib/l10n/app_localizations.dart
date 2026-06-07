@@ -210,6 +210,18 @@ abstract class AppLocalizations {
   /// **'This list has no results'**
   String get thisListHasNoResults;
 
+  /// This list has no results. Start typing to add the first one
+  ///
+  /// In en, this message translates to:
+  /// **'This list has no results. Start typing to add the first one'**
+  String get thisListHasNoResultsStartTypingToAddTheFirst;
+
+  /// Map
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get map;
+
   /// Create environment
   ///
   /// In en, this message translates to:
@@ -720,6 +732,78 @@ abstract class AppLocalizations {
   /// **'Add products to aisle'**
   String get addProductsToAisle;
 
+  /// There are no aisles to visit given the needed products. No route can be calculated
+  ///
+  /// In en, this message translates to:
+  /// **'There are no aisles to visit given the needed products. No route can be calculated'**
+  String get routeNoAisles;
+
+  /// Pending aisles to visit
+  ///
+  /// In en, this message translates to:
+  /// **'Pending aisles to visit'**
+  String get pendingAislesToVisit;
+
+  /// Calculate route
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate route'**
+  String get calculateRoute;
+
+  /// Progress: {percent}%
+  ///
+  /// In en, this message translates to:
+  /// **'Progress: {percent}%'**
+  String routeProgress(Object percent);
+
+  /// Cancel route calculation
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel route calculation'**
+  String get cancelRouteCalculation;
+
+  /// Clear route
+  ///
+  /// In en, this message translates to:
+  /// **'Clear route'**
+  String get clearRoute;
+
+  /// Select a supermarket
+  ///
+  /// In en, this message translates to:
+  /// **'Select a supermarket'**
+  String get selectASupermarket;
+
+  /// Route error: {error}
+  ///
+  /// In en, this message translates to:
+  /// **'Route error: {error}'**
+  String routeError(Object error);
+
+  /// Optimize route
+  ///
+  /// In en, this message translates to:
+  /// **'Optimize route'**
+  String get optimizeRoute;
+
+  /// Uncategorized
+  ///
+  /// In en, this message translates to:
+  /// **'Uncategorized'**
+  String get uncategorized;
+
+  /// Tap a tile to select it, or tap a ghost tile to add one
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a tile to select it, or tap a ghost tile to add one'**
+  String get tapTileOrGhostTile;
+
+  /// To transform this tile into a different type, first select the new start or end tile
+  ///
+  /// In en, this message translates to:
+  /// **'To transform this tile into a different type, first select the new start or end tile'**
+  String get tileTypeTransformInfo;
+
   /// No description provided for @selectSupermarket.
   ///
   /// In en, this message translates to:
@@ -743,6 +827,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export to markdown file'**
   String get exportToMarkdownFile;
+
+  /// No description provided for @noMappingDataAviable.
+  ///
+  /// In en, this message translates to:
+  /// **'No mapping data available'**
+  String get noMappingDataAviable;
+
+  /// No description provided for @noMapsHaveBeenCreatedForThisSupermarket.
+  ///
+  /// In en, this message translates to:
+  /// **'No maps have been created for this supermarket'**
+  String get noMapsHaveBeenCreatedForThisSupermarket;
+
+  /// No description provided for @createMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Map'**
+  String get createMap;
+
+  /// No description provided for @editMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Map'**
+  String get editMap;
+
+  /// No description provided for @newFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'New Floor'**
+  String get newFloor;
+
+  /// No description provided for @floorN.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor {n}'**
+  String floorN(int n);
+
+  /// No description provided for @assignAisle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Aisle'**
+  String get assignAisle;
+
+  /// No description provided for @unassignAisle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassign Aisle'**
+  String get unassignAisle;
+
+  /// No description provided for @tileTypeFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get tileTypeFloor;
+
+  /// No description provided for @tileTypeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get tileTypeStart;
+
+  /// No description provided for @tileTypeEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get tileTypeEnd;
+
+  /// No description provided for @noAislesToAssign.
+  ///
+  /// In en, this message translates to:
+  /// **'No aisles available to assign'**
+  String get noAislesToAssign;
+
+  /// No description provided for @deleteFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Floor'**
+  String get deleteFloor;
+
+  /// No description provided for @tileLockedLastOfType.
+  ///
+  /// In en, this message translates to:
+  /// **'This tile is locked: it is the last {tileType} tile.'**
+  String tileLockedLastOfType(String tileType);
 }
 
 class _AppLocalizationsDelegate

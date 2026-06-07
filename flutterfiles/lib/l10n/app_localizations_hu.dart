@@ -36,6 +36,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get thisListHasNoResults => 'Ebben a listában nincs találat';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Ebben a listában nincs találat. Kezdjen el gépelni az első hozzáadásához';
+
+  @override
+  String get map => 'Térkép';
+
+  @override
   String get createEnvironment => 'Környezet létrehozása';
 
   @override
@@ -315,6 +322,46 @@ class AppLocalizationsHu extends AppLocalizations {
   String get addProductsToAisle => 'Termékek hozzáadása a folyosóhoz';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -325,4 +372,51 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Exportálás Markdown fájlba';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Ehhez az áruházhoz nem készültek térképek';
+
+  @override
+  String get createMap => 'Térkép létrehozása';
+
+  @override
+  String get editMap => 'Térkép szerkesztése';
+
+  @override
+  String get newFloor => 'Új szint';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Folyosó hozzárendelése';
+
+  @override
+  String get unassignAisle => 'Folyosó eltávolítása';
+
+  @override
+  String get tileTypeFloor => 'Padló';
+
+  @override
+  String get tileTypeStart => 'Kezdet';
+
+  @override
+  String get tileTypeEnd => 'Vég';
+
+  @override
+  String get noAislesToAssign => 'Nincs hozzárendelhető folyosó';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

@@ -36,6 +36,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get thisListHasNoResults => 'هذه القائمة لا تحتوي على نتائج';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'هذه القائمة لا تحتوي على نتائج. ابدأ الكتابة لإضافة أول عنصر';
+
+  @override
+  String get map => 'خريطة';
+
+  @override
   String get createEnvironment => 'إنشاء بيئة';
 
   @override
@@ -313,6 +320,46 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addProductsToAisle => 'Add products to aisle';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -323,4 +370,51 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'تصدير إلى ملف Markdown';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'لم يتم إنشاء خرائط لهذا السوبر ماركت';
+
+  @override
+  String get createMap => 'إنشاء خريطة';
+
+  @override
+  String get editMap => 'تعديل الخريطة';
+
+  @override
+  String get newFloor => 'طابق جديد';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'تعيين ممر';
+
+  @override
+  String get unassignAisle => 'إلغاء تعيين الممر';
+
+  @override
+  String get tileTypeFloor => 'أرضية';
+
+  @override
+  String get tileTypeStart => 'بداية';
+
+  @override
+  String get tileTypeEnd => 'نهاية';
+
+  @override
+  String get noAislesToAssign => 'لا توجد ممرات متاحة للتعيين';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

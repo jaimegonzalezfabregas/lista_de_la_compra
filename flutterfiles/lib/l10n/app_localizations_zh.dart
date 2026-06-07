@@ -36,6 +36,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get thisListHasNoResults => '此列表无结果';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      '此列表无结果。开始输入以添加第一个';
+
+  @override
+  String get map => '地图';
+
+  @override
   String get createEnvironment => '创建环境';
 
   @override
@@ -311,6 +318,46 @@ class AppLocalizationsZh extends AppLocalizations {
   String get addProductsToAisle => '将产品添加到通道';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -321,4 +368,50 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => '导出为Markdown文件';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket => '尚未为该超市创建地图';
+
+  @override
+  String get createMap => '创建地图';
+
+  @override
+  String get editMap => '编辑地图';
+
+  @override
+  String get newFloor => '新楼层';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => '分配通道';
+
+  @override
+  String get unassignAisle => '取消分配通道';
+
+  @override
+  String get tileTypeFloor => '地板';
+
+  @override
+  String get tileTypeStart => '起点';
+
+  @override
+  String get tileTypeEnd => '终点';
+
+  @override
+  String get noAislesToAssign => '没有可分配的通道';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

@@ -21,6 +21,8 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
   }
 
   Future<List<ListTile>> getShowTilesWithoutFilter(List<T> elms) async {
+    final AppLocalizations appLoc = AppLocalizations.of(context)!;
+
     Map<String, List<T>> categoryMap = {};
     Map<String, String> categoryIdToName = {};
     List<T> uncategorizedElements = [];
@@ -29,26 +31,73 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
 
     if (widget.elementCategories != null) {
       for (var element in elms) {
-        await widget.elementCategories!(element).then((categories) {
-          for (var category in categories) {
-            categoryIdToName[category.$1] = category.$2;
-            if (!categoryMap.containsKey(category.$1)) {
-              categoryMap[category.$1] = [];
-            }
-            categoryMap[category.$1]!.add(element);
+        List<(String, String)> categories = await widget.elementCategories!(element);
+
+        for (var category in categories) {
+          categoryIdToName[category.$1] = category.$2;
+          if (!categoryMap.containsKey(category.$1)) {
+            categoryMap[category.$1] = [];
           }
-          if (categories.isEmpty) {
-            uncategorizedElements.add(element);
-          }
-        });
+          categoryMap[category.$1]!.add(element);
+        }
+        if (categories.isEmpty) {
+          uncategorizedElements.add(element);
+        }
       }
     } else {
       uncategorizedElements = elms;
     }
 
+    Set<String> usedCategories = categoryMap.keys.toSet();
+
+    List<String> usedCategoriesFromTheCategoryOrdering = widget.categoryOrdering.where((categoryId) => usedCategories.contains(categoryId)).toList();
+
+    List<String> usedCategoriesNotOrdered = [...usedCategories.difference(Set.from(usedCategoriesFromTheCategoryOrdering))];
+
+    usedCategoriesNotOrdered.sort((a, b) => categoryIdToName[a]!.toLowerCase().compareTo(categoryIdToName[b]!.toLowerCase()));
+
+    List<String> orderedCategoryIds = [...usedCategoriesFromTheCategoryOrdering, ...usedCategoriesNotOrdered];
+
     List<ListTile> ret = [];
 
+    for (var categoryId in orderedCategoryIds) {
+      ret.add(
+        ListTile(
+          title: Center(
+            child: Text(categoryIdToName[categoryId]!, style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+      );
+      var items = categoryMap[categoryId]!;
+      items.sort((T a, T b) {
+        return widget.elementToTag(a).toLowerCase().compareTo(widget.elementToTag(b).toLowerCase());
+      });
+      ret.addAll(
+        items.map(
+          (e) => widget.elementToListTile(
+            e,
+            RichText(
+              text: TextSpan(
+                style: Theme.of(context).textTheme.bodyLarge,
+                children: [TextSpan(text: widget.elementToTag(e))],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     if (uncategorizedElements.isNotEmpty) {
+      if (elms.length != uncategorizedElements.length) {
+        ret.add(
+          ListTile(
+            title: Center(
+              child: Text(appLoc.uncategorized, style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ),
+        );
+      }
+
       ret.addAll(
         uncategorizedElements.map(
           (e) => widget.elementToListTile(
@@ -63,35 +112,6 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
         ),
       );
     }
-
-    categoryMap.keys.toList()
-      ..sort((a, b) => categoryIdToName[a]!.toLowerCase().compareTo(categoryIdToName[b]!.toLowerCase()))
-      ..forEach((categoryId) {
-        ret.add(
-          ListTile(
-            title: Center(
-              child: Text(categoryIdToName[categoryId]!, style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-          ),
-        );
-        var items = categoryMap[categoryId]!;
-        items.sort((T a, T b) {
-          return widget.elementToTag(a).toLowerCase().compareTo(widget.elementToTag(b).toLowerCase());
-        });
-        ret.addAll(
-          items.map(
-            (e) => widget.elementToListTile(
-              e,
-              RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  children: [TextSpan(text: widget.elementToTag(e))],
-                ),
-              ),
-            ),
-          ),
-        );
-      });
 
     return ret;
   }
@@ -136,11 +156,15 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
               0,
               ListTile(
                 title: ElevatedButton(
-
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                     children: [Icon(Icons.format_list_bulleted_add), SizedBox.fromSize(size: Size.square(10)) ,Text("${appLoc.add} \"$filter\"")]),
+                    children: [
+                      Icon(Icons.format_list_bulleted_add),
+                      SizedBox.fromSize(size: Size.square(10)),
+                      Text("${appLoc.add} \"$filter\""),
+                    ],
+                  ),
                   onPressed: () {
                     widget.newElement!(filter);
                   },
@@ -174,9 +198,14 @@ class _SearchableListview<T> extends State<Searchablelistview<T>> {
             Flexible(
               child: ListView(shrinkWrap: true, controller: scrollController, children: items),
             ),
-            if (items.isEmpty)
+            if (items.isEmpty && widget.newElement == null)
               Flexible(
                 child: Container(margin: EdgeInsets.all(20), child: Text(appLoc.thisListHasNoResults)),
+              ),
+
+            if (items.isEmpty && widget.newElement != null)
+              Flexible(
+                child: Container(margin: EdgeInsets.all(20), child: Text(appLoc.thisListHasNoResultsStartTypingToAddTheFirst)),
               ),
           ],
         );
@@ -191,6 +220,7 @@ class Searchablelistview<T> extends StatefulWidget {
   final ListTile Function(T, RichText) elementToListTile;
   final String Function(T) elementToTag;
   final void Function(String)? newElement;
+  final List<String> categoryOrdering;
   final Future<List<(String, String)>> Function(T)? elementCategories;
 
   const Searchablelistview({
@@ -200,6 +230,7 @@ class Searchablelistview<T> extends StatefulWidget {
     this.newElement,
     this.elementsOnSearch,
     this.elementCategories,
+    this.categoryOrdering = const [],
     super.key,
   });
 

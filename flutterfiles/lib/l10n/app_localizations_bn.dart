@@ -36,6 +36,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get thisListHasNoResults => 'এই তালিকায় কোনও ফলাফল নেই';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'এই তালিকায় কোনও ফলাফল নেই। প্রথমটি যোগ করতে টাইপ করা শুরু করুন';
+
+  @override
+  String get map => 'মানচিত্র';
+
+  @override
   String get createEnvironment => 'পরিবেশ তৈরি করুন';
 
   @override
@@ -315,6 +322,46 @@ class AppLocalizationsBn extends AppLocalizations {
   String get addProductsToAisle => 'শেলফে পণ্য যোগ করুন';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -325,4 +372,51 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'মার্কডাউন ফাইলে রপ্তানি করুন';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'এই সুপারমার্কেটের জন্য কোনো মানচিত্র তৈরি করা হয়নি';
+
+  @override
+  String get createMap => 'মানচিত্র তৈরি করুন';
+
+  @override
+  String get editMap => 'মানচিত্র সম্পাদনা';
+
+  @override
+  String get newFloor => 'নতুন তলা';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'করিডর নির্ধারণ';
+
+  @override
+  String get unassignAisle => 'করিডর সরান';
+
+  @override
+  String get tileTypeFloor => 'মেঝে';
+
+  @override
+  String get tileTypeStart => 'শুরু';
+
+  @override
+  String get tileTypeEnd => 'শেষ';
+
+  @override
+  String get noAislesToAssign => 'নির্ধারণের জন্য কোনো করিডর নেই';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

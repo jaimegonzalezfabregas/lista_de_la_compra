@@ -36,6 +36,13 @@ class AppLocalizationsDa extends AppLocalizations {
   String get thisListHasNoResults => 'Denne liste har ingen resultater';
 
   @override
+  String get thisListHasNoResultsStartTypingToAddTheFirst =>
+      'Denne liste har ingen resultater. Begynd at skrive for at tilføje det første';
+
+  @override
+  String get map => 'Kort';
+
+  @override
   String get createEnvironment => 'Opret miljø';
 
   @override
@@ -315,6 +322,46 @@ class AppLocalizationsDa extends AppLocalizations {
   String get addProductsToAisle => 'Tilføj produkter til gangen';
 
   @override
+  String get routeNoAisles => 'There are no aisles to visit given the needed products. No route can be calculated';
+
+  @override
+  String get pendingAislesToVisit => 'Pending aisles to visit';
+
+  @override
+  String get calculateRoute => 'Calculate route';
+
+  @override
+  String routeProgress(Object percent) {
+    return 'Progress: $percent%';
+  }
+
+  @override
+  String get cancelRouteCalculation => 'Cancel route calculation';
+
+  @override
+  String get clearRoute => 'Clear route';
+
+  @override
+  String get selectASupermarket => 'Select a supermarket';
+
+  @override
+  String routeError(Object error) {
+    return 'Route error: $error';
+  }
+
+  @override
+  String get optimizeRoute => 'Optimize route';
+
+  @override
+  String get uncategorized => 'Uncategorized';
+
+  @override
+  String get tapTileOrGhostTile => 'Tap a tile to select it, or tap a ghost tile to add one';
+
+  @override
+  String get tileTypeTransformInfo => 'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
   String get selectSupermarket => 'Select Supermarket...';
 
   @override
@@ -325,4 +372,51 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String get exportToMarkdownFile => 'Eksporter til Markdown-fil';
+
+  @override
+  String get noMappingDataAviable => 'No mapping data available';
+
+  @override
+  String get noMapsHaveBeenCreatedForThisSupermarket =>
+      'Der er ikke oprettet nogen kort til dette supermarked';
+
+  @override
+  String get createMap => 'Opret kort';
+
+  @override
+  String get editMap => 'Rediger kort';
+
+  @override
+  String get newFloor => 'Nyt etage';
+
+  @override
+  String floorN(int n) {
+    return 'Floor $n';
+  }
+
+  @override
+  String get assignAisle => 'Tildel gang';
+
+  @override
+  String get unassignAisle => 'Fjern gang';
+
+  @override
+  String get tileTypeFloor => 'Gulv';
+
+  @override
+  String get tileTypeStart => 'Start';
+
+  @override
+  String get tileTypeEnd => 'Slut';
+
+  @override
+  String get noAislesToAssign => 'Ingen gange tilgængelige at tildele';
+
+  @override
+  String get deleteFloor => 'Delete Floor';
+
+  @override
+  String tileLockedLastOfType(String tileType) {
+    return 'This tile is locked: it is the last $tileType tile.';
+  }
 }

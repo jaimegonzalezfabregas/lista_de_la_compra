@@ -2,7 +2,9 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
 import 'package:lista_de_la_compra/UI/selected_environment_fork.dart';
+import 'package:lista_de_la_compra/flutter_providers/temp_route_provider.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:lista_de_la_compra/sync/http_client_service.dart';
 // import 'package:lista_de_la_compra_backend/src/sync/http_server_manager.dart';
 // import 'package:lista_de_la_compra_backend/src/sync/open_connection_manager.dart';
@@ -52,22 +54,28 @@ class MyApp extends StatelessWidget {
     final FlutterProductProvider productProvider = FlutterProductProvider();
     final FlutterScheduleProvider scheduleProvider = FlutterScheduleProvider();
     final FlutterHttpServerProvider httpServerProvider = FlutterHttpServerProvider();
-    final PersistantSharedPreferencesProvider sharedPreferencesProvider = PersistantSharedPreferencesProvider(context);
     final FlutterOpenConnectionProvider openConnectionProvider = FlutterOpenConnectionProvider();
     final FlutterSuperMarketProvider supermarketProvider = FlutterSuperMarketProvider();
     final FlutterAisleProvider aisleProvider = FlutterAisleProvider();
     final FlutterProductAisleProvider productAisleProvider = FlutterProductAisleProvider();
+    final FlutterMapTileProvider mapTileProvider = FlutterMapTileProvider();
+    final RouteProvider routeProvider = RouteProvider();
+
+    final PersistantSharedPreferencesProvider sharedPreferencesProvider = PersistantSharedPreferencesProvider(context);
+    final PersistantSelectedMarketProvider selectedMarketProvider = PersistantSelectedMarketProvider(context);
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
       productProvider,
       recipeProvider,
       scheduleProvider,
-      sharedPreferencesProvider,
       environmentProvider,
       supermarketProvider,
       aisleProvider,
       productAisleProvider,
+      mapTileProvider,
+
+      sharedPreferencesProvider,
     );
 
     final HttpServerManager httpServerManager = HttpServerManager(httpServerProvider, openConnectionManager);
@@ -92,13 +100,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => productProvider),
         ChangeNotifierProvider(create: (_) => scheduleProvider),
         ChangeNotifierProvider(create: (_) => httpServerProvider),
-        ChangeNotifierProvider(create: (_) => sharedPreferencesProvider),
         ChangeNotifierProvider(create: (_) => openConnectionProvider),
         ChangeNotifierProvider(create: (_) => httpServerStateProvider),
         ChangeNotifierProvider(create: (_) => httpClientService),
         ChangeNotifierProvider(create: (_) => supermarketProvider),
         ChangeNotifierProvider(create: (_) => aisleProvider),
         ChangeNotifierProvider(create: (_) => productAisleProvider),
+        ChangeNotifierProvider(create: (_) => mapTileProvider),
+        
+        ChangeNotifierProvider(create: (_) => routeProvider),
+
+        ChangeNotifierProvider(create: (_) => sharedPreferencesProvider),
+        ChangeNotifierProvider(create: (_) => selectedMarketProvider),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
