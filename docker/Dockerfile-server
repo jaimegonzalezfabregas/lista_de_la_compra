@@ -6,7 +6,7 @@ FROM dart:$dartversion AS build
 WORKDIR /app
 
 # Copy app source code (except anything in .dockerignore) and AOT compile app.
-COPY ../packages .
+COPY ./packages .
 RUN ls -laRt
 WORKDIR /app/lista_de_la_compra_server
 RUN ls -laRt
