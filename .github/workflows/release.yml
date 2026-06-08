@@ -36,7 +36,7 @@ jobs:
       - name: Extract version from pubspec.yaml
         id: extract_version
         run: |
-          version=$(grep '^version: ' fluterfiles/pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
+          version=$(grep '^version: ' flutterfiles/pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
           echo "VERSION=$version" >> $GITHUB_ENV
 
       - name: Check if Tag Exists

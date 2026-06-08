@@ -79,8 +79,8 @@ dev_dependencies:
   # web workers for drift AND want to compile those web workers through `build_runner`.
   # Either way, using this package with Flutter requires a delicate setup described in
   # `build.yaml`.
-  build_web_compilers: ^4.0.0
-  build: '>=3.0.0 <5.0.0'
+  build_web_compilers: 4.8.0
+  build: 4.0.6
 
 flutter:
   uses-material-design: true
