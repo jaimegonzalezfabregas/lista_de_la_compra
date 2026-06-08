@@ -64,7 +64,6 @@ class JRoute {
 }
 
 Map<String, Map<int, JRoute>> globalRoute = {};
-
 Map<String, double> progress = {};
 
 class RouteProvider with ChangeNotifier {
@@ -85,14 +84,14 @@ class RouteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Map<int, JRoute>? getFinalRoute( String marketId) {
+  Map<int, JRoute>? getFinalRoute(String marketId) {
     if (progress[marketId] == 1) {
       return globalRoute[marketId];
     }
     return null;
   }
 
-  Map<int, JRoute>? getBestRouteSoFar( String marketId) {
+  Map<int, JRoute>? getBestRouteSoFar(String marketId) {
     if (progress[marketId] != 1) {
       return globalRoute[marketId];
     }
