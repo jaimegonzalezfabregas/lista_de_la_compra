@@ -11,20 +11,14 @@ jobs:
     runs-on: ubuntu-latest 
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Clone repository
+        uses: actions/checkout@v6
 
-      - name: Set Up Java
-        uses: actions/setup-java@v3.12.0
-        with:
-          distribution: 'oracle'
-          java-version: '17'
-
-      - name: Set Up Flutter
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.4'
-          channel: 'stable'
+          channel: stable
+          flutter-version-file: flutterfiles/pubspec.yaml 
 
       - name: Install Dependencies
         run: cd flutterfiles && flutter pub get
