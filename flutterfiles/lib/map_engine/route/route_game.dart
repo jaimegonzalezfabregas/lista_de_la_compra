@@ -39,9 +39,9 @@ class RouteGame extends FlameGame {
     camera.viewfinder.anchor = Anchor.center;
 
     for (final t in tiles) {
-      String? goalOfTile = route.getAisleIdFromTileInSegment(t.id);
-      if (goalOfTile != null) {
-        world.add(DotComponent(t.posX, t.posY, goalOfTile == (nextAisle ?? "EXIT")));
+      List<String> goalOfTile = route.getAisleIdFromTileInSegment(t.id);
+      if (goalOfTile.isNotEmpty) {
+        world.add(DotComponent(t.posX, t.posY, goalOfTile.contains(nextAisle ?? "EXIT")));
       }
 
       world.add(TileSpriteComponent(t.id, tileToTileType[t.id], t.posX, t.posY));

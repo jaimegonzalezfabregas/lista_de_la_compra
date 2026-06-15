@@ -53,13 +53,15 @@ class JRoute {
     return steps.map((step) => step.getLenght()).reduce((a, b) => a + b);
   }
 
-  String? getAisleIdFromTileInSegment(String tileId) {
+  List<String> getAisleIdFromTileInSegment(String tileId) {
+    List<String> ret = [];
+
     for (RouteSegment rs in steps) {
       if (rs.tileIdPath.sublist(1).contains(tileId)) {
-        return rs.goalAisleId ?? "EXIT";
+        ret.add(rs.goalAisleId ?? "EXIT");
       }
     }
-    return null;
+    return ret;
   }
 }
 
@@ -74,8 +76,10 @@ class RouteProvider with ChangeNotifier {
   }
 
   void setRoute(int floor, String marketId, JRoute route) {
+    if(globalRoute[marketId] == null){
+      globalRoute[marketId] = {};
+    }
     globalRoute[marketId]?[floor] = route;
-    progress[marketId] = 1;
     notifyListeners();
   }
 
@@ -92,10 +96,8 @@ class RouteProvider with ChangeNotifier {
   }
 
   Map<int, JRoute>? getBestRouteSoFar(String marketId) {
-    if (progress[marketId] != 1) {
       return globalRoute[marketId];
-    }
-    return null;
+   
   }
 
   double? getProgress(String marketId) {
