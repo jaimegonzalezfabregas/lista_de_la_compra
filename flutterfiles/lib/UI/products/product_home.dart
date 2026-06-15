@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lista_de_la_compra/UI/products/map_view.dart';
+import 'package:lista_de_la_compra/UI/route_planning/map_view.dart';
 import 'package:lista_de_la_compra/UI/products/product_list_display.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';

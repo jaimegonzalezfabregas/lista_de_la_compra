@@ -157,15 +157,21 @@ Future solverTick(RouteProvider routeProvider, AisleProvider aisleProvider, Map<
   List<MapTile> pathToTest = nextToTest.$2;
 
   JRoute? routeToTest = await JRoute.fromMapTileList(pathToTest, aisleProvider, geometricFloor[floorToTest]!);
+
   JRoute? currentBestRoute = routeProvider.getBestRouteSoFar(marketId)?[floorToTest];
 
   if (routeToTest != null) {
     if (currentBestRoute == null) {
+      print("first route was found of lenght ${routeToTest.getLenght()} with order ${nextToTest}");
+
       routeProvider.setRoute(floorToTest, marketId, routeToTest);
     } else if (routeToTest.getLenght() < currentBestRoute.getLenght()) {
+      print("a better route was found of lenght ${routeToTest.getLenght()} with order ${nextToTest}");
       routeProvider.setRoute(floorToTest, marketId, routeToTest);
     }
   }
+
+  routeProvider.setProgress(marketId, 1 - posiblePaths.length / initialPosiblePathsCount);
 
   Future.sync(() => solverTick(routeProvider, aisleProvider, geometricFloor, marketId));
 }
@@ -187,11 +193,22 @@ void calculateTileRoute(
     MapTile start = await mapTileProvider.findStart(marketId, floor);
     MapTile end = await mapTileProvider.findEnd(marketId, floor);
 
-    List<MapTile?> visitingTiles = await Future.wait(visitingAisles.map((aisle) => mapTileProvider.getTileById(aisle.mapTileId!)));
+    List<MapTile?> visitingTiles = await Future.wait(
+      visitingAisles.map((aisle) async {
+        if (aisle.mapTileId != null) {
+          return mapTileProvider.getTileById(aisle.mapTileId!);
+        } else {
+          return null;
+        }
+      }),
+    );
 
     List<MapTile> visitingTilesOfThisFloor = visitingTiles.whereType<MapTile>().where((tile) => tile.floor == floor).toList();
 
-    posiblePaths.addAll(permutations(visitingTilesOfThisFloor).map((permutation) => (floor, [start, ...permutation, end])).toList());
+  var p = permutations(visitingTilesOfThisFloor);
+p.shuffle();
+
+    posiblePaths.addAll(p.map((permutation) => (floor, [start, ...permutation, end])).toList());
     initialPosiblePathsCount = posiblePaths.length;
 
     floorToGeometricMap[floor] = GeometricMap.fromTileList(map);
@@ -202,4 +219,6 @@ void calculateTileRoute(
 
 void abortCalculateTileRoute(RouteProvider routeProvider, String marketId) {
   routeProvider.clearRoute(marketId);
+  posiblePaths = [];
+  initialPosiblePathsCount = 0;
 }
