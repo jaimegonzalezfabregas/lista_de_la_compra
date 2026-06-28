@@ -19,6 +19,8 @@ class OpenConnectionManager {
   final AisleProvider aisleProvider;
   final ProductAisleProvider productAisleProvider;
   final MapTileProvider mapTileProvider;
+  final HouseProvider houseProvider;
+  final NeededProductProvider neededProductProvider;
 
   final bool downloadAllEnvironments;
 
@@ -50,12 +52,16 @@ class OpenConnectionManager {
     this.aisleProvider,
     this.productAisleProvider,
     this.mapTileProvider,
+    this.houseProvider,
+    this.neededProductProvider,
     this.sharedPreferencesProvider, {
     this.downloadAllEnvironments = false,
   }) {
     productProvider.addListener(triggerSyncPush);
     recipeProvider.addListener(triggerSyncPush);
     scheduleProvider.addListener(triggerSyncPush);
+    houseProvider.addListener(triggerSyncPush);
+    neededProductProvider.addListener(triggerSyncPush);
 
     environmentProvider.addListener(triggerHandshakePush);
     sharedPreferencesProvider.addListener(triggerHandshakePush);
@@ -78,6 +84,8 @@ class OpenConnectionManager {
           aisleProvider,
           productAisleProvider,
           mapTileProvider,
+          houseProvider,
+          neededProductProvider,
         ),
       ),
     ); // data being hashed
@@ -232,6 +240,8 @@ class OpenConnectionManager {
                       aisleProvider,
                       productAisleProvider,
                       mapTileProvider,
+                      houseProvider,
+                      neededProductProvider,
                     ),
                   }),
                 );
@@ -249,6 +259,8 @@ class OpenConnectionManager {
                 aisleProvider,
                 productAisleProvider,
                 mapTileProvider,
+                 houseProvider,
+                 neededProductProvider,
               );
 
               break;

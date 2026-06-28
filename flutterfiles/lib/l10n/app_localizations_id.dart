@@ -293,7 +293,26 @@ class AppLocalizationsId extends AppLocalizations {
   String get supermarketList => 'Daftar belanja';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Ubah namaku';
+
+  @override
+  String get houses => 'Rumah';
+
+  @override
+  String get createHouse => 'Buat rumah';
+
+  @override
+  String get deleteHouse => 'Hapus rumah';
+
+  @override
+  String get selectHouses => 'Pilih rumah';
+
+  @override
+  String get selectHousesPrompt =>
+      'Untuk menampilkan daftar item yang diperlukan, pertama-tama pilih satu set rumah';
+
+  @override
+  String get aisles => 'Lorong';
 
   @override
   String numberOfProducts(num count) {
@@ -335,7 +354,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get exportToMarkdownFile => 'Ekspor ke file Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Tidak ada data pemetaan yang tersedia';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -383,13 +402,13 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Tidak ada lorong yang dapat dikunjungi berdasarkan produk yang dibutuhkan. Tidak ada rute yang dapat dihitung';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Lorong yang menunggu untuk dikunjungi';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Hitung rute';
 
   @override
   String routeProgress(Object percent) {
@@ -397,13 +416,13 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Batalkan perhitungan rute';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Hapus rute';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Pilih supermarket';
 
   @override
   String routeError(Object error) {
@@ -411,16 +430,19 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Optimalkan rute';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Tidak dikategorikan';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Ketuk ubin untuk memilihnya, atau ketuk ubin hantu untuk menambahkan satu';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Untuk mengubah ubin ini menjadi tipe yang berbeda, pilih dulu ubin awal atau akhir yang baru';
+
+  @override
+  String get noHouseSelected => 'Tidak ada rumah yang dipilih';
 }

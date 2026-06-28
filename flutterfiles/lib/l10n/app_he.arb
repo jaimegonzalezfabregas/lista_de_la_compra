@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "מעברים",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "אין נתוני מיפוי זמינים",
   "noMapsHaveBeenCreatedForThisSupermarket": "לא נוצרו מפות עבור סופרמרקט זה",
   "createMap": "צור מפה",
   "editMap": "ערוך מפה",
@@ -416,15 +416,15 @@
   "tileTypeStart": "התחלה",
   "tileTypeEnd": "סיום",
   "noAislesToAssign": "אין מסדרונות זמינים להקצאה",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "אין מעברים לבקר בהם בהתחשב במוצרים הדרושים. לא ניתן לחשב מסלול",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "מעברים ממתינים לביקור",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "חשב מסלול",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "בטל חישוב מסלול",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "נקה מסלול",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "בחר סופרמרקט",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "בצע אופטימיזציה של המסלול",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "לא מסווג",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "הקש על אריח כדי לבחור בו, או הקש על אריח רפאים כדי להוסיף אחד",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "כדי להפוך אריח זה לסוג אחר, תחילה בחר את אריח ההתחלה או הסיום החדש",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "שנה את שמי",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "בתים",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "צור בית",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "מחק בית",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "בחר בתים",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "כדי להציג את רשימת הפריטים הדרושים, בחר תחילה קבוצת בתים",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "לא נבחר בית",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

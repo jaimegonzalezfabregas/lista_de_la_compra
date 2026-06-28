@@ -223,10 +223,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get all => 'Tất cả';
 
   @override
-  String get httpClient => 'HTTP Client';
+  String get httpClient => 'Trình khách HTTP';
 
   @override
-  String get httpServer => 'HTTP Server';
+  String get httpServer => 'Máy chủ HTTP';
 
   @override
   String get addIngredientsToRecipe => 'Chọn nguyên liệu ';
@@ -291,7 +291,26 @@ class AppLocalizationsVi extends AppLocalizations {
   String get supermarketList => 'Danh sách mua sắm';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Đổi tên tôi';
+
+  @override
+  String get houses => 'Nhà';
+
+  @override
+  String get createHouse => 'Tạo nhà';
+
+  @override
+  String get deleteHouse => 'Xóa nhà';
+
+  @override
+  String get selectHouses => 'Chọn nhà';
+
+  @override
+  String get selectHousesPrompt =>
+      'Để hiển thị danh sách các mặt hàng cần thiết, trước tiên hãy chọn một tập hợp các ngôi nhà';
+
+  @override
+  String get aisles => 'Lối đi';
 
   @override
   String numberOfProducts(num count) {
@@ -333,7 +352,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get exportToMarkdownFile => 'Xuất ra file Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Không có dữ liệu bản đồ';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -381,13 +400,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Không có lối đi nào để ghé thăm dựa trên các sản phẩm cần thiết. Không thể tính toán lộ trình';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Lối đi chờ ghé thăm';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Tính lộ trình';
 
   @override
   String routeProgress(Object percent) {
@@ -395,13 +414,13 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Hủy tính lộ trình';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Xóa lộ trình';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Chọn siêu thị';
 
   @override
   String routeError(Object error) {
@@ -409,16 +428,19 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Tối ưu lộ trình';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Chưa phân loại';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Chạm vào ô để chọn hoặc chạm vào ô ma để thêm một ô';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Để chuyển đổi ô này thành một loại khác, trước tiên hãy chọn ô bắt đầu hoặc kết thúc mới';
+
+  @override
+  String get noHouseSelected => 'Chưa chọn nhà';
 }

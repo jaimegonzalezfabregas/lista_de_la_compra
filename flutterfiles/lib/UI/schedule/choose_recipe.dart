@@ -11,8 +11,9 @@ class ChooseRecipe extends StatelessWidget {
   final int week;
   final int day;
   final String enviromentId;
+  final String houseId;
 
-  const ChooseRecipe(this.week, this.day, this.enviromentId, {super.key});
+  const ChooseRecipe(this.week, this.day, this.enviromentId, this.houseId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ChooseRecipe extends StatelessWidget {
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
     RecipeProvider recipeProvider = context.watch<FlutterRecipeProvider>();
 
-    Future<List<ScheduleEntry>> scheduleList = scheduleProvider.getEntries(week, day, enviromentId);
+    Future<List<ScheduleEntry>> scheduleList = scheduleProvider.getEntries(week, day, enviromentId, houseId);
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +49,7 @@ class ChooseRecipe extends StatelessWidget {
             elements: recipeList,
             newElement: (String name) async {
               final String newRecipeId = await recipeProvider.addRecipe(name, enviromentId);
-              scheduleProvider.addEntry(week, day, newRecipeId);
+              scheduleProvider.addEntry(week, day, newRecipeId, houseId);
             },
             elementToListTile: (recipe, tag) {
               return ListTile(
@@ -67,9 +68,9 @@ class ChooseRecipe extends StatelessWidget {
                       value: snapshot.data!.any((entry) => entry.recipeId == recipe.id),
                       onChanged: (value) {
                         if (value == true) {
-                          scheduleProvider.addEntry(week, day, recipe.id);
+                          scheduleProvider.addEntry(week, day, recipe.id, houseId);
                         } else {
-                          scheduleProvider.removeEntry(week, day, recipe.id);
+                          scheduleProvider.removeEntry(week, day, recipe.id, houseId);
                         }
                       },
                     );

@@ -292,7 +292,26 @@ class AppLocalizationsHu extends AppLocalizations {
   String get supermarketList => 'Bevásárlólista';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Nevezz át';
+
+  @override
+  String get houses => 'Házak';
+
+  @override
+  String get createHouse => 'Ház létrehozása';
+
+  @override
+  String get deleteHouse => 'Ház törlése';
+
+  @override
+  String get selectHouses => 'Házak kiválasztása';
+
+  @override
+  String get selectHousesPrompt =>
+      'A szükséges elemek listájának megjelenítéséhez először válasszon ki egy házcsoportot';
+
+  @override
+  String get aisles => 'Folyosók';
 
   @override
   String numberOfProducts(num count) {
@@ -334,7 +353,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get exportToMarkdownFile => 'Exportálás Markdown fájlba';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Nincs elérhető térképi adat';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -382,13 +401,13 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'A szükséges termékek alapján nincs látogatható folyosó. Nem számítható ki útvonal';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Függőben lévő folyosók látogatása';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Útvonal kiszámítása';
 
   @override
   String routeProgress(Object percent) {
@@ -396,13 +415,13 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Útvonalszámítás megszakítása';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Útvonal törlése';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Válasszon egy szupermarketet';
 
   @override
   String routeError(Object error) {
@@ -410,16 +429,19 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Útvonal optimalizálása';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Nem kategorizált';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Koppintson egy csempére a kiválasztáshoz, vagy koppintson egy szellemcsempére egy hozzáadásához';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'A csempe más típusúvá alakításához először válassza ki az új kezdő vagy vég csempét';
+
+  @override
+  String get noHouseSelected => 'Nincs ház kiválasztva';
 }

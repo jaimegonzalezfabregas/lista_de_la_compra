@@ -291,7 +291,26 @@ class AppLocalizationsSv extends AppLocalizations {
   String get supermarketList => 'Inköpslista';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Byt namn på mig';
+
+  @override
+  String get houses => 'Hus';
+
+  @override
+  String get createHouse => 'Skapa hus';
+
+  @override
+  String get deleteHouse => 'Ta bort hus';
+
+  @override
+  String get selectHouses => 'Välj hus';
+
+  @override
+  String get selectHousesPrompt =>
+      'För att visa den nödvändiga listan över artiklar, välj först en uppsättning hus';
+
+  @override
+  String get aisles => 'Gångar';
 
   @override
   String numberOfProducts(num count) {
@@ -333,7 +352,7 @@ class AppLocalizationsSv extends AppLocalizations {
   String get exportToMarkdownFile => 'Exportera till Markdown-fil';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Inga kartdata tillgängliga';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -381,13 +400,13 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Det finns inga gångar att besöka med tanke på de nödvändiga produkterna. Ingen rutt kan beräknas';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Väntande gångar att besöka';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Beräkna rutt';
 
   @override
   String routeProgress(Object percent) {
@@ -395,13 +414,13 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Avbryt ruttberäkning';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Rensa rutt';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Välj en stormarknad';
 
   @override
   String routeError(Object error) {
@@ -409,16 +428,19 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Optimera rutt';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Okategoriserad';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Tryck på en platta för att välja den, eller tryck på en spökplatta för att lägga till en';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'För att omvandla denna platta till en annan typ, välj först den nya start- eller slutplattan';
+
+  @override
+  String get noHouseSelected => 'Inget hus valt';
 }

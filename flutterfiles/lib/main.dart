@@ -4,6 +4,7 @@ import 'package:flutter_show_when_locked/flutter_show_when_locked.dart';
 import 'package:lista_de_la_compra/UI/selected_environment_fork.dart';
 import 'package:lista_de_la_compra/flutter_providers/temp_route_provider.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_shared_preferences_provider.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistent_selected_houses_provider.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:lista_de_la_compra/sync/http_client_service.dart';
 // import 'package:lista_de_la_compra_backend/src/sync/http_server_manager.dart';
@@ -59,9 +60,12 @@ class MyApp extends StatelessWidget {
     final FlutterAisleProvider aisleProvider = FlutterAisleProvider();
     final FlutterProductAisleProvider productAisleProvider = FlutterProductAisleProvider();
     final FlutterMapTileProvider mapTileProvider = FlutterMapTileProvider();
+    final FlutterHouseProvider houseProvider = FlutterHouseProvider();
+    final FlutterNeededProductProvider neededProductProvider = FlutterNeededProductProvider();
     final RouteProvider routeProvider = RouteProvider();
 
     final PersistantSharedPreferencesProvider sharedPreferencesProvider = PersistantSharedPreferencesProvider(context);
+    final PersistentSelectedHousesProvider selectedHousesProvider = PersistentSelectedHousesProvider();
     final PersistantSelectedMarketProvider selectedMarketProvider = PersistantSelectedMarketProvider(context);
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
@@ -74,6 +78,8 @@ class MyApp extends StatelessWidget {
       aisleProvider,
       productAisleProvider,
       mapTileProvider,
+      houseProvider,
+      neededProductProvider,
 
       sharedPreferencesProvider,
     );
@@ -107,10 +113,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => aisleProvider),
         ChangeNotifierProvider(create: (_) => productAisleProvider),
         ChangeNotifierProvider(create: (_) => mapTileProvider),
+        ChangeNotifierProvider(create: (_) => houseProvider),
+        ChangeNotifierProvider(create: (_) => neededProductProvider),
         
         ChangeNotifierProvider(create: (_) => routeProvider),
 
         ChangeNotifierProvider(create: (_) => sharedPreferencesProvider),
+        ChangeNotifierProvider(create: (_) => selectedHousesProvider),
         ChangeNotifierProvider(create: (_) => selectedMarketProvider),
       ],
       child: MaterialApp(

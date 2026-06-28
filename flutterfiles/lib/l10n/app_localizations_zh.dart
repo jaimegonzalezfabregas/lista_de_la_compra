@@ -288,7 +288,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supermarketList => '购物清单';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => '重命名我';
+
+  @override
+  String get houses => '房屋';
+
+  @override
+  String get createHouse => '创建房屋';
+
+  @override
+  String get deleteHouse => '删除房屋';
+
+  @override
+  String get selectHouses => '选择房屋';
+
+  @override
+  String get selectHousesPrompt => '要显示所需的项目列表，请先选择一组房屋';
+
+  @override
+  String get aisles => '通道';
 
   @override
   String numberOfProducts(num count) {
@@ -330,7 +348,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get exportToMarkdownFile => '导出为Markdown文件';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => '没有可用的地图数据';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket => '尚未为该超市创建地图';
@@ -376,14 +394,13 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+  String get routeNoAisles => '根据所需商品，没有可访问的通道。无法计算路线';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => '待访问的通道';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => '计算路线';
 
   @override
   String routeProgress(Object percent) {
@@ -391,13 +408,13 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => '取消路线计算';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => '清除路线';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => '选择超市';
 
   @override
   String routeError(Object error) {
@@ -405,16 +422,17 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => '优化路线';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => '未分类';
 
   @override
-  String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+  String get tapTileOrGhostTile => '点击瓷砖以选择，或点击幽灵瓷砖以添加';
 
   @override
-  String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+  String get tileTypeTransformInfo => '要将此瓷砖转换为不同类型，请先选择新的开始或结束瓷砖';
+
+  @override
+  String get noHouseSelected => '未选择房屋';
 }

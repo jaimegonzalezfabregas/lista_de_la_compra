@@ -1,4 +1,28 @@
 {
+  "renameMe": "Renombrar",
+  "@renameMe": {
+    "description": "Nombre por defecto para una casa nueva"
+  },
+  "houses": "Casas",
+  "@houses": {
+    "description": "Título de la pantalla de gestión de casas"
+  },
+  "createHouse": "Crear casa",
+  "@createHouse": {
+    "description": "Botón para crear una nueva casa"
+  },
+  "deleteHouse": "Eliminar casa",
+  "@deleteHouse": {
+    "description": "Botón para eliminar una casa"
+  },
+  "selectHouses": "Seleccionar casas",
+  "@selectHouses": {
+    "description": "Etiqueta para la selección múltiple de casas en la lista de compra"
+  },
+  "selectHousesPrompt": "Para mostrar la lista de artículos necesarios, primero selecciona un conjunto de casas",
+  "@selectHousesPrompt": {
+    "description": "Mensaje que se muestra cuando no hay casas seleccionadas, indicando al usuario que seleccione casas primero"
+  },
   "@@locale": "es",
   "appTitle": "Lista de la compra",
   "changeName": "Cambiar nombre",
@@ -371,7 +395,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "Pasillos",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +429,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "No hay datos de mapas disponibles",
   "noMapsHaveBeenCreatedForThisSupermarket": "No se han creado mapas para este supermercado",
   "createMap": "Crear mapa",
   "editMap": "Editar mapa",
@@ -416,15 +440,15 @@
   "tileTypeStart": "Inicio",
   "tileTypeEnd": "Fin",
   "noAislesToAssign": "No hay pasillos disponibles para asignar",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "No hay pasillos que visitar dados los productos necesarios. No se puede calcular una ruta",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "Pasillos pendientes de visitar",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "Calcular ruta",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +459,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "Cancelar cálculo de ruta",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "Limpiar ruta",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "Seleccionar un supermercado",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +478,24 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "Optimizar ruta",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "Sin categoría",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "Toca un mosaico para seleccionarlo, o toca un mosaico fantasma para añadir uno",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "Para transformar este mosaico en un tipo diferente, primero selecciona el nuevo mosaico de inicio o fin",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "noHouseSelected": "Ninguna casa seleccionada",
+  "@noHouseSelected": {
+    "description": "Mensaje mostrado cuando no hay ninguna casa seleccionada"
   }
 }

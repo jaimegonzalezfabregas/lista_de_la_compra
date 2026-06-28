@@ -15,7 +15,8 @@ class DayView extends StatelessWidget {
   final int day;
   final String enviromentId;
   final DateTime startOfWeekTime;
-  const DayView(this.week, this.day, this.startOfWeekTime, this.enviromentId, {super.key});
+  final String houseId;
+  const DayView(this.week, this.day, this.startOfWeekTime, this.enviromentId, this.houseId, {super.key});
 
   Widget expansionContents(AppLocalizations appLoc, RecipeProvider recipeProvider, ProductProvider productProvider, ScheduleEntry entry) {
     return Padding(
@@ -54,15 +55,9 @@ class DayView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      NeededCheckbox(product.id),
+                      NeededCheckbox(productId: product.id, houseId: houseId),
                     ],
                   );
-
-                  // return ListTile(
-                  //   title: Text(product.name),
-                  //   subtitle: Text(recipeProduct.amount),
-                  //   trailing: NeededCheckbox(product.id),
-                  // );
                 }).toList(),
               );
             },
@@ -104,7 +99,7 @@ class DayView extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return ChooseRecipe(week, day, enviromentId);
+                        return ChooseRecipe(week, day, enviromentId, houseId);
                       },
                     ),
                   );
@@ -118,7 +113,7 @@ class DayView extends StatelessWidget {
             child: Column(
               children: [
                 FutureBuilder(
-                  future: (() => scheduleProvider.getEntries(week, day, enviromentId))(),
+                  future: (() => scheduleProvider.getEntries(week, day, enviromentId, houseId))(),
                   builder: (context, entrySnapshot) {
                     if (!entrySnapshot.hasData) {
                       return Text(appLoc.loading);

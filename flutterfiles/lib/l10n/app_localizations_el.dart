@@ -294,7 +294,26 @@ class AppLocalizationsEl extends AppLocalizations {
   String get supermarketList => 'Λίστα αγορών';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Μετονομάστε με';
+
+  @override
+  String get houses => 'Σπίτια';
+
+  @override
+  String get createHouse => 'Δημιουργία σπιτιού';
+
+  @override
+  String get deleteHouse => 'Διαγραφή σπιτιού';
+
+  @override
+  String get selectHouses => 'Επιλογή σπιτιών';
+
+  @override
+  String get selectHousesPrompt =>
+      'Για να εμφανίσετε την απαραίτητη λίστα στοιχείων, επιλέξτε πρώτα ένα σύνολο σπιτιών';
+
+  @override
+  String get aisles => 'Διάδρομοι';
 
   @override
   String numberOfProducts(num count) {
@@ -336,7 +355,8 @@ class AppLocalizationsEl extends AppLocalizations {
   String get exportToMarkdownFile => 'Εξαγωγή σε αρχείο Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable =>
+      'Δεν υπάρχουν διαθέσιμα δεδομένα χαρτογράφησης';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -384,13 +404,13 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Δεν υπάρχουν διάδρομοι για επίσκεψη δεδομένων των απαιτούμενων προϊόντων. Δεν μπορεί να υπολογιστεί διαδρομή';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Εκκρεμείς διάδρομοι για επίσκεψη';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Υπολογισμός διαδρομής';
 
   @override
   String routeProgress(Object percent) {
@@ -398,13 +418,13 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Ακύρωση υπολογισμού διαδρομής';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Εκκαθάριση διαδρομής';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Επιλέξτε ένα σούπερ μάρκετ';
 
   @override
   String routeError(Object error) {
@@ -412,16 +432,19 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Βελτιστοποίηση διαδρομής';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Ακατηγοριοποίητο';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Πατήστε ένα πλακίδιο για να το επιλέξετε ή πατήστε ένα πλακίδιο-φάντασμα για να προσθέσετε ένα';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Για να μετατρέψετε αυτό το πλακίδιο σε διαφορετικό τύπο, επιλέξτε πρώτα το νέο πλακίδιο έναρξης ή λήξης';
+
+  @override
+  String get noHouseSelected => 'Δεν έχει επιλεγεί σπίτι';
 }

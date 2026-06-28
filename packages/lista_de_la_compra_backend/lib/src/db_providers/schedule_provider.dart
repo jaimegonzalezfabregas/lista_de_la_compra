@@ -3,12 +3,10 @@ import '../../lista_de_la_compra_backend.dart';
 
 class RamScheduleProvider extends ScheduleProvider with VoidEventSourceMixin {}
 
-
-abstract class ScheduleProvider  implements VoidEventSource {
+abstract class ScheduleProvider implements VoidEventSource {
   // Adds a new schedule entry.
-  Future<void> addEntry(int week, int day, String recipeId) async {
+  Future<void> addEntry(int week, int day, String recipeId, String houseId) async {
     final database = AppDatabaseSingleton.instance;
-
 
     await database
         .into(database.scheduleEntries)
@@ -17,10 +15,10 @@ abstract class ScheduleProvider  implements VoidEventSource {
             week: Value(week),
             day: Value(day),
             recipeId: Value(recipeId),
+            houseId: Value(houseId),
             updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
           ),
         );
-
 
     notifyListeners();
   }
@@ -36,6 +34,7 @@ abstract class ScheduleProvider  implements VoidEventSource {
             week: Value(serializedScheduleEntry["week"]),
             day: Value(serializedScheduleEntry["day"]),
             recipeId: Value(serializedScheduleEntry["recipeId"]),
+            houseId: Value(serializedScheduleEntry["houseId"] ?? ""),
             updatedAt: Value(serializedScheduleEntry["updatedAt"]),
             deletedAt: Value(serializedScheduleEntry["deletedAt"]),
           ),
@@ -46,8 +45,9 @@ abstract class ScheduleProvider  implements VoidEventSource {
   Future<void> syncSetDeleted(String id, int? deletedAt) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.update(database.scheduleEntries)
-      ..where((table) => table.id.equals(id))).write(ScheduleEntriesCompanion(deletedAt: Value(deletedAt)));
+    await (database.update(
+      database.scheduleEntries,
+    )..where((table) => table.id.equals(id))).write(ScheduleEntriesCompanion(deletedAt: Value(deletedAt)));
     notifyListeners();
   }
 
@@ -60,6 +60,7 @@ abstract class ScheduleProvider  implements VoidEventSource {
         week: Value(serializedScheduleEntry["week"]),
         day: Value(serializedScheduleEntry["day"]),
         recipeId: Value(serializedScheduleEntry["recipeId"]),
+        houseId: Value(serializedScheduleEntry["houseId"] ?? ""),
         updatedAt: Value(serializedScheduleEntry["updatedAt"]),
         deletedAt: Value(serializedScheduleEntry["deletedAt"]),
       ),
@@ -90,15 +91,17 @@ abstract class ScheduleProvider  implements VoidEventSource {
     return await query.get();
   }
 
-  Future<List<RecipeProduct>> getFutureRecipesWithProduct(String productId) async {
+  Future<List<RecipeProduct>> getFutureRecipesWithProduct(String productId, List<String> houseIds) async {
     final database = AppDatabaseSingleton.instance;
 
-    var query = (database.select(database.recipeProducts)..where(
-      (table) => table.productId.equals(productId),
-    )).join([innerJoin(database.scheduleEntries, database.scheduleEntries.recipeId.equalsExp(database.recipeProducts.recipeId))]);
+    var query = (database.select(database.recipeProducts)..where((table) => table.productId.equals(productId))).join([
+      innerJoin(database.scheduleEntries, database.scheduleEntries.recipeId.equalsExp(database.recipeProducts.recipeId)),
+    ]);
 
     query.where(database.scheduleEntries.deletedAt.isNull());
     query.where(database.recipeProducts.deletedAt.isNull());
+    query.where(database.scheduleEntries.houseId.isIn(houseIds));
+    
 
     query.where(
       (database.scheduleEntries.week.equals(getCurrentWeek()) & database.scheduleEntries.day.isBiggerOrEqualValue(DateTime.now().weekday - 1)) |
@@ -108,7 +111,7 @@ abstract class ScheduleProvider  implements VoidEventSource {
     return (await query.get()).map((row) => row.readTable(database.recipeProducts)).toList();
   }
 
-  Future<List<ScheduleEntry>> getEntries(int week, int day, String enviromentId) async {
+  Future<List<ScheduleEntry>> getEntries(int week, int day, String enviromentId, String houseId) async {
     final database = AppDatabaseSingleton.instance;
 
     var query = database.select(database.scheduleEntries).join([
@@ -118,6 +121,7 @@ abstract class ScheduleProvider  implements VoidEventSource {
     query.where(database.recipes.enviromentId.equals(enviromentId));
     query.where(database.scheduleEntries.week.equals(week));
     query.where(database.scheduleEntries.day.equals(day));
+    query.where(database.scheduleEntries.houseId.equals(houseId));
     query.where(database.scheduleEntries.deletedAt.isNull());
     query.where(database.recipes.deletedAt.isNull());
 
@@ -136,19 +140,21 @@ abstract class ScheduleProvider  implements VoidEventSource {
   Future<void> removeEntryById(String entryId) async {
     final database = AppDatabaseSingleton.instance;
 
-    await (database.update(database.scheduleEntries)
-      ..where((table) => table.id.equals(entryId))).write(ScheduleEntriesCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+    await (database.update(
+      database.scheduleEntries,
+    )..where((table) => table.id.equals(entryId))).write(ScheduleEntriesCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
 
     notifyListeners();
   }
 
-  Future<void> removeEntry(int week, int day, String recipeId) async {
+  Future<void> removeEntry(int week, int day, String recipeId, String houseId) async {
     final database = AppDatabaseSingleton.instance;
 
     await (database.update(database.scheduleEntries)
           ..where((table) => table.week.equals(week))
           ..where((table) => table.day.equals(day))
-          ..where((table) => table.recipeId.equals(recipeId)))
+          ..where((table) => table.recipeId.equals(recipeId))
+          ..where((table) => table.houseId.equals(houseId)))
         .write(ScheduleEntriesCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
 
     notifyListeners();

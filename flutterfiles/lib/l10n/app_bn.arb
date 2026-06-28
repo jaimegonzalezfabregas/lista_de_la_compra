@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "আইলস",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "কোনো ম্যাপিং ডেটা উপলব্ধ নেই",
   "noMapsHaveBeenCreatedForThisSupermarket": "এই সুপারমার্কেটের জন্য কোনো মানচিত্র তৈরি করা হয়নি",
   "createMap": "মানচিত্র তৈরি করুন",
   "editMap": "মানচিত্র সম্পাদনা",
@@ -416,15 +416,15 @@
   "tileTypeStart": "শুরু",
   "tileTypeEnd": "শেষ",
   "noAislesToAssign": "নির্ধারণের জন্য কোনো করিডর নেই",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "প্রয়োজনীয় পণ্য দেওয়া পরিদর্শন করার জন্য কোনও আইল নেই। কোনো রুট গণনা করা যাবে না",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "পরিদর্শনের জন্য অপেক্ষমাণ আইল",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "রুট গণনা করুন",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "রুট গণনা বাতিল করুন",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "রুট মুছুন",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "একটি সুপারমার্কেট নির্বাচন করুন",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "রুট অপ্টিমাইজ করুন",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "শ্রেণীবদ্ধ নয়",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "নির্বাচন করতে একটি টাইলে ট্যাপ করুন, বা একটি যোগ করতে একটি ভূত টাইলে ট্যাপ করুন",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "এই টাইলটিকে একটি ভিন্ন ধরণে রূপান্তর করতে, প্রথমে নতুন শুরু বা শেষ টাইল নির্বাচন করুন",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "আমার নাম পরিবর্তন করুন",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "ঘর",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "ঘর তৈরি করুন",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "ঘর মুছুন",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "ঘর নির্বাচন করুন",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "প্রয়োজনীয় আইটেমগুলির তালিকা দেখানোর জন্য প্রথমে বাড়ির একটি সেট নির্বাচন করুন",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "কোনো ঘর নির্বাচিত নেই",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

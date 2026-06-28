@@ -20,7 +20,7 @@
   "home": "Hjem",
   "shoppingList": "Indkøbsliste",
   "recipeList": "Opskriftsliste",
-  "agenda": "Agenda",
+  "agenda": "Dagsorden",
   "export": "Eksportér",
   "undo": "Fortryd",
   "product": "Produkt",
@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "Gange",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "Ingen kortdata tilgængelige",
   "noMapsHaveBeenCreatedForThisSupermarket": "Der er ikke oprettet nogen kort til dette supermarked",
   "createMap": "Opret kort",
   "editMap": "Rediger kort",
@@ -416,15 +416,15 @@
   "tileTypeStart": "Start",
   "tileTypeEnd": "Slut",
   "noAislesToAssign": "Ingen gange tilgængelige at tildele",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "Der er ingen gange at besøge givet de nødvendige produkter. Ingen rute kan beregnes",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "Afventende gange at besøge",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "Beregn rute",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "Annullér ruteberegning",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "Ryd rute",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "Vælg et supermarked",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "Optimer rute",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "Ukategoriseret",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "Tryk på en flise for at vælge den, eller tryk på en spøgelsesflise for at tilføje en",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "For at omdanne denne flise til en anden type, skal du først vælge den nye start- eller slutflise",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "Omdøb mig",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "Huse",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "Opret hus",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "Slet hus",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "Vælg huse",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "For at vise den nødvendige liste over emner skal du først vælge et sæt huse",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "Intet hus valgt",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

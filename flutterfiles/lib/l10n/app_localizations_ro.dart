@@ -71,7 +71,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get recipeList => 'Listă de rețete';
 
   @override
-  String get agenda => 'Agenda';
+  String get agenda => 'Agendă';
 
   @override
   String get export => 'Exportă';
@@ -293,7 +293,26 @@ class AppLocalizationsRo extends AppLocalizations {
   String get supermarketList => 'Listă de cumpărături';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Redenumește-mă';
+
+  @override
+  String get houses => 'Case';
+
+  @override
+  String get createHouse => 'Creează casă';
+
+  @override
+  String get deleteHouse => 'Șterge casă';
+
+  @override
+  String get selectHouses => 'Selectează case';
+
+  @override
+  String get selectHousesPrompt =>
+      'Pentru a afișa lista necesară de articole, selectați mai întâi un set de case';
+
+  @override
+  String get aisles => 'Culoare';
 
   @override
   String numberOfProducts(num count) {
@@ -335,7 +354,8 @@ class AppLocalizationsRo extends AppLocalizations {
   String get exportToMarkdownFile => 'Exportați în fișier Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable =>
+      'Nu sunt disponibile date de cartografiere';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -383,13 +403,13 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Nu există culoare de vizitat având în vedere produsele necesare. Nu se poate calcula un traseu';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Culoare în așteptare de vizitat';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Calculează traseul';
 
   @override
   String routeProgress(Object percent) {
@@ -397,13 +417,13 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Anulează calculul traseului';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Șterge traseul';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Selectează un supermarket';
 
   @override
   String routeError(Object error) {
@@ -411,16 +431,19 @@ class AppLocalizationsRo extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Optimizează traseul';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Necategorisit';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Atingeți un dale pentru a-l selecta sau atingeți un dale fantomă pentru a adăuga unul';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Pentru a transforma acest dale într-un tip diferit, selectați mai întâi noul dale de început sau de sfârșit';
+
+  @override
+  String get noHouseSelected => 'Nicio casă selectată';
 }

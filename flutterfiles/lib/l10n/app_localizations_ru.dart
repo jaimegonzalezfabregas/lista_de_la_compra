@@ -291,7 +291,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get supermarketList => 'Список покупок';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Переименуйте меня';
+
+  @override
+  String get houses => 'Дома';
+
+  @override
+  String get createHouse => 'Создать дом';
+
+  @override
+  String get deleteHouse => 'Удалить дом';
+
+  @override
+  String get selectHouses => 'Выбрать дома';
+
+  @override
+  String get selectHousesPrompt =>
+      'Чтобы показать необходимый список элементов, сначала выберите набор домов';
+
+  @override
+  String get aisles => 'Проходы';
 
   @override
   String numberOfProducts(num count) {
@@ -333,7 +352,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get exportToMarkdownFile => 'Экспорт в файл Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Нет данных картографии';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -381,13 +400,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Нет проходов для посещения с учетом необходимых продуктов. Невозможно рассчитать маршрут';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Ожидающие посещения проходы';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Рассчитать маршрут';
 
   @override
   String routeProgress(Object percent) {
@@ -395,13 +414,13 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Отменить расчет маршрута';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Очистить маршрут';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Выберите супермаркет';
 
   @override
   String routeError(Object error) {
@@ -409,16 +428,19 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Оптимизировать маршрут';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Некатегоризированный';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Нажмите на плитку, чтобы выбрать ее, или нажмите на плитку-призрак, чтобы добавить ее';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Чтобы преобразовать эту плитку в другой тип, сначала выберите новую начальную или конечную плитку';
+
+  @override
+  String get noHouseSelected => 'Дом не выбран';
 }

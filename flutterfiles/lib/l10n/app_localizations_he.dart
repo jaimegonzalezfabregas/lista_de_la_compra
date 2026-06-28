@@ -290,7 +290,26 @@ class AppLocalizationsHe extends AppLocalizations {
   String get supermarketList => 'רשימת קניות';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'שנה את שמי';
+
+  @override
+  String get houses => 'בתים';
+
+  @override
+  String get createHouse => 'צור בית';
+
+  @override
+  String get deleteHouse => 'מחק בית';
+
+  @override
+  String get selectHouses => 'בחר בתים';
+
+  @override
+  String get selectHousesPrompt =>
+      'כדי להציג את רשימת הפריטים הדרושים, בחר תחילה קבוצת בתים';
+
+  @override
+  String get aisles => 'מעברים';
 
   @override
   String numberOfProducts(num count) {
@@ -332,7 +351,7 @@ class AppLocalizationsHe extends AppLocalizations {
   String get exportToMarkdownFile => 'ייצוא לקובץ Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'אין נתוני מיפוי זמינים';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -380,13 +399,13 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'אין מעברים לבקר בהם בהתחשב במוצרים הדרושים. לא ניתן לחשב מסלול';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'מעברים ממתינים לביקור';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'חשב מסלול';
 
   @override
   String routeProgress(Object percent) {
@@ -394,13 +413,13 @@ class AppLocalizationsHe extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'בטל חישוב מסלול';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'נקה מסלול';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'בחר סופרמרקט';
 
   @override
   String routeError(Object error) {
@@ -408,16 +427,19 @@ class AppLocalizationsHe extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'בצע אופטימיזציה של המסלול';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'לא מסווג';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'הקש על אריח כדי לבחור בו, או הקש על אריח רפאים כדי להוסיף אחד';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'כדי להפוך אריח זה לסוג אחר, תחילה בחר את אריח ההתחלה או הסיום החדש';
+
+  @override
+  String get noHouseSelected => 'לא נבחר בית';
 }

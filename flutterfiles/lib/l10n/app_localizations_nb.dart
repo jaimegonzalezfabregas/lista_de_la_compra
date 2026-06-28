@@ -292,7 +292,26 @@ class AppLocalizationsNb extends AppLocalizations {
   String get supermarketList => 'Handleliste';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Gi meg nytt navn';
+
+  @override
+  String get houses => 'Hus';
+
+  @override
+  String get createHouse => 'Opprett hus';
+
+  @override
+  String get deleteHouse => 'Slett hus';
+
+  @override
+  String get selectHouses => 'Velg hus';
+
+  @override
+  String get selectHousesPrompt =>
+      'For å vise den nødvendige listen over elementer, velg først et sett med hus';
+
+  @override
+  String get aisles => 'Ganger';
 
   @override
   String numberOfProducts(num count) {
@@ -334,7 +353,7 @@ class AppLocalizationsNb extends AppLocalizations {
   String get exportToMarkdownFile => 'Eksporter til Markdown-fil';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Ingen kartdata tilgjengelig';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -382,13 +401,13 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Det er ingen ganger å besøke gitt de nødvendige produktene. Ingen rute kan beregnes';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Ventende ganger å besøke';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Beregn rute';
 
   @override
   String routeProgress(Object percent) {
@@ -396,13 +415,13 @@ class AppLocalizationsNb extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Avbryt ruteberegning';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Tøm rute';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Velg et supermarked';
 
   @override
   String routeError(Object error) {
@@ -410,16 +429,19 @@ class AppLocalizationsNb extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Optimaliser rute';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Ukategorisert';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Trykk på en flis for å velge den, eller trykk på en spøkelsesflis for å legge til en';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'For å omforme denne flisen til en annen type, velg først den nye start- eller sluttflisen';
+
+  @override
+  String get noHouseSelected => 'Ingen hus valgt';
 }

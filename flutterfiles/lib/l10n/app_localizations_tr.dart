@@ -291,7 +291,26 @@ class AppLocalizationsTr extends AppLocalizations {
   String get supermarketList => 'Alışveriş Listesi';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Beni yeniden adlandır';
+
+  @override
+  String get houses => 'Evler';
+
+  @override
+  String get createHouse => 'Ev oluştur';
+
+  @override
+  String get deleteHouse => 'Evi sil';
+
+  @override
+  String get selectHouses => 'Ev seç';
+
+  @override
+  String get selectHousesPrompt =>
+      'Gerekli öğe listesini göstermek için önce bir dizi ev seçin';
+
+  @override
+  String get aisles => 'Koridorlar';
 
   @override
   String numberOfProducts(num count) {
@@ -333,7 +352,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get exportToMarkdownFile => 'Markdown dosyasına aktar';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Kullanılabilir haritalama verisi yok';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -381,13 +400,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Gerekli ürünlere göre ziyaret edilecek koridor yok. Rota hesaplanamıyor';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Ziyaret edilecek bekleyen koridorlar';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Rota hesapla';
 
   @override
   String routeProgress(Object percent) {
@@ -395,13 +414,13 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Rota hesaplamayı iptal et';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Rotayı temizle';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Bir süpermarket seçin';
 
   @override
   String routeError(Object error) {
@@ -409,16 +428,19 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Rotayı optimize et';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Kategorize edilmemiş';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Seçmek için bir döşemeye dokunun veya eklemek için bir hayalet döşemeye dokunun';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Bu döşemeyi farklı bir türe dönüştürmek için önce yeni başlangıç veya bitiş döşemesini seçin';
+
+  @override
+  String get noHouseSelected => 'Hiçbir ev seçilmedi';
 }

@@ -708,6 +708,42 @@ abstract class AppLocalizations {
   /// **'Supermarket list'**
   String get supermarketList;
 
+  /// Default name for a new house
+  ///
+  /// In en, this message translates to:
+  /// **'Rename me'**
+  String get renameMe;
+
+  /// Title for the house management screen
+  ///
+  /// In en, this message translates to:
+  /// **'Houses'**
+  String get houses;
+
+  /// Button to create a new house
+  ///
+  /// In en, this message translates to:
+  /// **'Create house'**
+  String get createHouse;
+
+  /// Button to delete a house
+  ///
+  /// In en, this message translates to:
+  /// **'Delete house'**
+  String get deleteHouse;
+
+  /// Label for house multi-select in shopping list
+  ///
+  /// In en, this message translates to:
+  /// **'Select houses'**
+  String get selectHouses;
+
+  /// Prompt shown when no houses are selected, telling the user to select houses first
+  ///
+  /// In en, this message translates to:
+  /// **'To show the needed list of items first select a set of houses'**
+  String get selectHousesPrompt;
+
   /// Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart).
   ///
   /// In en, this message translates to:
@@ -911,6 +947,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'To transform this tile into a different type, first select the new start or end tile'**
   String get tileTypeTransformInfo;
+
+  /// Message shown when no house is selected
+  ///
+  /// In en, this message translates to:
+  /// **'No house selected'**
+  String get noHouseSelected;
 }
 
 class _AppLocalizationsDelegate

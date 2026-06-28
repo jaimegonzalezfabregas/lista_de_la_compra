@@ -61,3 +61,7 @@ class FlutterAisleProvider extends AisleProvider with ChangeNotifier {}
 class FlutterProductAisleProvider extends ProductAisleProvider with ChangeNotifier {}
 
 class FlutterMapTileProvider extends MapTileProvider with ChangeNotifier {}
+
+class FlutterHouseProvider extends HouseProvider with ChangeNotifier {}
+
+class FlutterNeededProductProvider extends NeededProductProvider with ChangeNotifier {}

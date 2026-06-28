@@ -292,6 +292,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supermarketList => 'Supermarket list';
 
   @override
+  String get renameMe => 'Rename me';
+
+  @override
+  String get houses => 'Houses';
+
+  @override
+  String get createHouse => 'Create house';
+
+  @override
+  String get deleteHouse => 'Delete house';
+
+  @override
+  String get selectHouses => 'Select houses';
+
+  @override
+  String get selectHousesPrompt =>
+      'To show the needed list of items first select a set of houses';
+
+  @override
   String get aisles => 'Aisles';
 
   @override
@@ -422,4 +441,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get tileTypeTransformInfo =>
       'To transform this tile into a different type, first select the new start or end tile';
+
+  @override
+  String get noHouseSelected => 'No house selected';
 }

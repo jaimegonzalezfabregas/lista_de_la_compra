@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "통로",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "매핑 데이터를 사용할 수 없음",
   "noMapsHaveBeenCreatedForThisSupermarket": "이 슈퍼마켓에 대한 지도가 생성되지 않았습니다",
   "createMap": "지도 만들기",
   "editMap": "지도 편집",
@@ -416,15 +416,15 @@
   "tileTypeStart": "시작",
   "tileTypeEnd": "끝",
   "noAislesToAssign": "할당할 통로가 없습니다",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "필요한 제품을 고려할 때 방문할 통로가 없습니다. 경로를 계산할 수 없습니다",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "방문 예정 통로",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "경로 계산",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "경로 계산 취소",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "경로 지우기",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "슈퍼마켓 선택",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "경로 최적화",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "분류되지 않음",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "타일을 탭하여 선택하거나 유령 타일을 탭하여 추가하세요",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "이 타일을 다른 유형으로 변환하려면 먼저 새 시작 또는 끝 타일을 선택하세요",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "이름 바꾸기",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "집",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "집 만들기",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "집 삭제",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "집 선택",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "필요한 항목 목록을 표시하려면 먼저 주택 세트를 선택하세요",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "선택된 집이 없습니다",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }
