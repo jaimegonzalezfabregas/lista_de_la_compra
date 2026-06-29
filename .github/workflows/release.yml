@@ -18,7 +18,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: flutterfiles/pubspec.yaml 
+          flutter-version-file: flutterfiles/pubspec.yaml
+          cache: true
 
       - name: Install Dependencies
         run: cd flutterfiles && flutter pub get
