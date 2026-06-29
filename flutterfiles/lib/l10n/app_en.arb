@@ -370,6 +370,30 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
+  "renameMe": "Rename me",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "Houses",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "Create house",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "Delete house",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "Select houses",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "To show the needed list of items first select a set of houses",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
   "@@locale": "en",
   "aisles": "Aisles",
   "@aisles": {
@@ -487,5 +511,9 @@
   "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "noHouseSelected": "No house selected",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
   }
 }

@@ -292,7 +292,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get supermarketList => 'Einkaufsliste';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Benenne mich um';
+
+  @override
+  String get houses => 'Häuser';
+
+  @override
+  String get createHouse => 'Haus erstellen';
+
+  @override
+  String get deleteHouse => 'Haus löschen';
+
+  @override
+  String get selectHouses => 'Häuser auswählen';
+
+  @override
+  String get selectHousesPrompt =>
+      'Um die benötigte Liste der Artikel anzuzeigen, wählen Sie zuerst eine Reihe von Häusern aus';
+
+  @override
+  String get aisles => 'Gänge';
 
   @override
   String numberOfProducts(num count) {
@@ -334,7 +353,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get exportToMarkdownFile => 'Als Markdown-Datei exportieren';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Keine Kartendaten verfügbar';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -382,13 +401,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Es gibt keine Gänge zu besuchen angesichts der benötigten Produkte. Keine Route kann berechnet werden';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Ausstehende Gänge zu besuchen';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Route berechnen';
 
   @override
   String routeProgress(Object percent) {
@@ -396,13 +415,13 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Routenberechnung abbrechen';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Route löschen';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Wählen Sie einen Supermarkt';
 
   @override
   String routeError(Object error) {
@@ -410,16 +429,19 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Route optimieren';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Unkategorisiert';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Tippen Sie auf eine Kachel, um sie auszuwählen, oder auf eine Geisterkachel, um eine hinzuzufügen';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Um diese Kachel in einen anderen Typ umzuwandeln, wählen Sie zuerst die neue Start- oder Endkachel aus';
+
+  @override
+  String get noHouseSelected => 'Kein Haus ausgewählt';
 }

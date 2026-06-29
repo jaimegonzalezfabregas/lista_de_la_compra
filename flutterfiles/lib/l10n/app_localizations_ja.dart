@@ -288,7 +288,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get supermarketList => '買い物リスト';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => '名前を変更';
+
+  @override
+  String get houses => '家';
+
+  @override
+  String get createHouse => '家を作成';
+
+  @override
+  String get deleteHouse => '家を削除';
+
+  @override
+  String get selectHouses => '家を選択';
+
+  @override
+  String get selectHousesPrompt => '必要なアイテムのリストを表示するには、最初に家のセットを選択してください';
+
+  @override
+  String get aisles => '通路';
 
   @override
   String numberOfProducts(num count) {
@@ -330,7 +348,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get exportToMarkdownFile => 'Markdownファイルにエクスポート';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'マッピングデータが利用できません';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -377,14 +395,13 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+  String get routeNoAisles => '必要な商品を考慮すると、訪問する通路がありません。ルートを計算できません';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => '訪問予定の通路';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'ルートを計算';
 
   @override
   String routeProgress(Object percent) {
@@ -392,13 +409,13 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'ルート計算をキャンセル';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'ルートをクリア';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'スーパーマーケットを選択';
 
   @override
   String routeError(Object error) {
@@ -406,16 +423,18 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'ルートを最適化';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => '未分類';
 
   @override
-  String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+  String get tapTileOrGhostTile => 'タップしてタイルを選択するか、ゴーストタイルをタップして追加します';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'このタイルを別のタイプに変換するには、最初に新しい開始タイルまたは終了タイルを選択します';
+
+  @override
+  String get noHouseSelected => '家が選択されていません';
 }

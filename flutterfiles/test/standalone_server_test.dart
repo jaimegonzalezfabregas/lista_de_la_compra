@@ -19,6 +19,8 @@ void main() {
     final AisleProvider aisleProvider = RamAisleProvider();
     final ProductAisleProvider productAisleProvider = RamProductAisleProvider();
     final MapTileProvider mapTileProvider = RamMapTileProvider();
+    final HouseProvider houseProvider = RamHouseProvider();
+    final NeededProductProvider neededProductProvider = RamNeededProductProvider();
 
     final OpenConnectionManager openConnectionManager = OpenConnectionManager(
       openConnectionProvider,
@@ -30,6 +32,8 @@ void main() {
       aisleProvider,
       productAisleProvider,
       mapTileProvider,
+      houseProvider,
+      neededProductProvider,
       sharedPreferencesProvider,
 
       downloadAllEnvironments: true,

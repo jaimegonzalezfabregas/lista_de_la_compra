@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "通路",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "マッピングデータが利用できません",
   "noMapsHaveBeenCreatedForThisSupermarket": "このスーパーマーケットのマップはまだ作成されていません",
   "createMap": "マップを作成",
   "editMap": "マップを編集",
@@ -416,15 +416,15 @@
   "tileTypeStart": "開始",
   "tileTypeEnd": "終了",
   "noAislesToAssign": "割り当てる通路がありません",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "必要な商品を考慮すると、訪問する通路がありません。ルートを計算できません",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "訪問予定の通路",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "ルートを計算",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "ルート計算をキャンセル",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "ルートをクリア",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "スーパーマーケットを選択",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "ルートを最適化",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "未分類",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "タップしてタイルを選択するか、ゴーストタイルをタップして追加します",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "このタイルを別のタイプに変換するには、最初に新しい開始タイルまたは終了タイルを選択します",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "名前を変更",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "家",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "家を作成",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "家を削除",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "家を選択",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "必要なアイテムのリストを表示するには、最初に家のセットを選択してください",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "家が選択されていません",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

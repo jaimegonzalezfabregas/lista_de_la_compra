@@ -71,10 +71,10 @@ class AppLocalizationsCs extends AppLocalizations {
   String get recipeList => 'Seznam receptů';
 
   @override
-  String get agenda => 'Agenda';
+  String get agenda => 'Program';
 
   @override
-  String get export => 'Export';
+  String get export => 'Exportovat';
 
   @override
   String get undo => 'Zpět';
@@ -292,7 +292,26 @@ class AppLocalizationsCs extends AppLocalizations {
   String get supermarketList => 'Nákupní seznam';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Přejmenovat mě';
+
+  @override
+  String get houses => 'Domy';
+
+  @override
+  String get createHouse => 'Vytvořit dům';
+
+  @override
+  String get deleteHouse => 'Smazat dům';
+
+  @override
+  String get selectHouses => 'Vybrat domy';
+
+  @override
+  String get selectHousesPrompt =>
+      'Chcete-li zobrazit potřebný seznam položek, nejprve vyberte sadu domů';
+
+  @override
+  String get aisles => 'Ulice';
 
   @override
   String numberOfProducts(num count) {
@@ -334,7 +353,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get exportToMarkdownFile => 'Exportovat do souboru Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Nejsou k dispozici žádná mapová data';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -364,7 +383,7 @@ class AppLocalizationsCs extends AppLocalizations {
   String get tileTypeFloor => 'Podlaha';
 
   @override
-  String get tileTypeStart => 'Start';
+  String get tileTypeStart => 'Začátek';
 
   @override
   String get tileTypeEnd => 'Konec';
@@ -382,13 +401,13 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Vzhledem k potřebným produktům nejsou k návštěvě žádné uličky. Nelze vypočítat trasu';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Čekající uličky k návštěvě';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Vypočítat trasu';
 
   @override
   String routeProgress(Object percent) {
@@ -396,13 +415,13 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Zrušit výpočet trasy';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Vymazat trasu';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Vyberte supermarket';
 
   @override
   String routeError(Object error) {
@@ -410,16 +429,19 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Optimalizovat trasu';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Nezařazené';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Klepnutím na dlaždici ji vyberte nebo klepnutím na přízračnou dlaždici ji přidejte';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'Chcete-li transformovat tuto dlaždici na jiný typ, nejprve vyberte novou počáteční nebo koncovou dlaždici';
+
+  @override
+  String get noHouseSelected => 'Není vybrán žádný dům';
 }

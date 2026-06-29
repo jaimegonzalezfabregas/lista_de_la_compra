@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "Rayons",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "Aucune donnée cartographique disponible",
   "noMapsHaveBeenCreatedForThisSupermarket": "Aucune carte n'a été créée pour ce supermarché",
   "createMap": "Créer une carte",
   "editMap": "Modifier la carte",
@@ -416,15 +416,15 @@
   "tileTypeStart": "Départ",
   "tileTypeEnd": "Fin",
   "noAislesToAssign": "Aucun rayon disponible à attribuer",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "Il n'y a aucun rayon à visiter compte tenu des produits nécessaires. Aucun itinéraire ne peut être calculé",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "Rayons en attente de visite",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "Calculer l'itinéraire",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "Annuler le calcul de l'itinéraire",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "Effacer l'itinéraire",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "Sélectionnez un supermarché",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "Optimiser l'itinéraire",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "Non catégorisé",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "Appuyez sur une tuile pour la sélectionner, ou appuyez sur une tuile fantôme pour en ajouter une",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "Pour transformer cette tuile en un type différent, sélectionnez d'abord la nouvelle tuile de début ou de fin",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "Renommez-moi",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "Maisons",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "Créer une maison",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "Supprimer la maison",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "Sélectionner des maisons",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "Pour afficher la liste des articles nécessaires, sélectionnez d'abord un ensemble de maisons",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "Aucune maison sélectionnée",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

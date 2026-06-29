@@ -292,7 +292,26 @@ class AppLocalizationsBg extends AppLocalizations {
   String get supermarketList => 'Списък за пазаруване';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'Преименувай ме';
+
+  @override
+  String get houses => 'Къщи';
+
+  @override
+  String get createHouse => 'Създай къща';
+
+  @override
+  String get deleteHouse => 'Изтрий къща';
+
+  @override
+  String get selectHouses => 'Избери къщи';
+
+  @override
+  String get selectHousesPrompt =>
+      'За да покажете необходимия списък с елементи, първо изберете набор от къщи';
+
+  @override
+  String get aisles => 'Пътеки';
 
   @override
   String numberOfProducts(num count) {
@@ -334,7 +353,7 @@ class AppLocalizationsBg extends AppLocalizations {
   String get exportToMarkdownFile => 'Експортиране в Markdown файл';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'Няма налични картографски данни';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -382,13 +401,13 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'Няма пътеки за посещение предвид необходимите продукти. Не може да се изчисли маршрут';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'Чакащи пътеки за посещение';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'Изчисли маршрут';
 
   @override
   String routeProgress(Object percent) {
@@ -396,13 +415,13 @@ class AppLocalizationsBg extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'Отказ на изчисляването на маршрут';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'Изчисти маршрута';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'Изберете супермаркет';
 
   @override
   String routeError(Object error) {
@@ -410,16 +429,19 @@ class AppLocalizationsBg extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'Оптимизирай маршрута';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'Некатегоризирани';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'Докоснете плочка, за да я изберете, или докоснете призрачна плочка, за да добавите такава';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'За да трансформирате тази плочка в различен тип, първо изберете новата начална или крайна плочка';
+
+  @override
+  String get noHouseSelected => 'Няма избрана къща';
 }

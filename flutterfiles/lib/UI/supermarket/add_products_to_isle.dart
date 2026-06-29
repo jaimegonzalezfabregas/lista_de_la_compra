@@ -75,7 +75,7 @@ class AddProductsToIsle extends StatelessWidget {
             elements: allProducts,
             elementToTag: (Product p) => p.name,
             newElement: (String name) async {
-              String productId = await productProvider.addProduct(name, false, (await supermarketFuture)!.enviromentId);
+              String productId = await productProvider.addProduct(name, (await supermarketFuture)!.enviromentId);
 
               productAisleProvider.setProductInAisle(productId, aisleId, true);
             },

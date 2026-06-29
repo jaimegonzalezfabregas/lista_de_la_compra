@@ -20,8 +20,8 @@
   "home": "Domů",
   "shoppingList": "Nákupní seznam",
   "recipeList": "Seznam receptů",
-  "agenda": "Agenda",
-  "export": "Export",
+  "agenda": "Program",
+  "export": "Exportovat",
   "undo": "Zpět",
   "product": "Produkt",
   "markAsNeeded": " označeno jako potřebné. ",
@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "Ulice",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "Nejsou k dispozici žádná mapová data",
   "noMapsHaveBeenCreatedForThisSupermarket": "Pro tento supermarket nebyly vytvořeny žádné mapy",
   "createMap": "Vytvořit mapu",
   "editMap": "Upravit mapu",
@@ -413,18 +413,18 @@
   "assignAisle": "Přiřadit uličku",
   "unassignAisle": "Odebrat uličku",
   "tileTypeFloor": "Podlaha",
-  "tileTypeStart": "Start",
+  "tileTypeStart": "Začátek",
   "tileTypeEnd": "Konec",
   "noAislesToAssign": "Žádné uličky k přiřazení",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "Vzhledem k potřebným produktům nejsou k návštěvě žádné uličky. Nelze vypočítat trasu",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "Čekající uličky k návštěvě",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "Vypočítat trasu",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "Zrušit výpočet trasy",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "Vymazat trasu",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "Vyberte supermarket",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "Optimalizovat trasu",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "Nezařazené",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "Klepnutím na dlaždici ji vyberte nebo klepnutím na přízračnou dlaždici ji přidejte",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "Chcete-li transformovat tuto dlaždici na jiný typ, nejprve vyberte novou počáteční nebo koncovou dlaždici",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "Přejmenovat mě",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "Domy",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "Vytvořit dům",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "Smazat dům",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "Vybrat domy",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "Chcete-li zobrazit potřebný seznam položek, nejprve vyberte sadu domů",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "Není vybrán žádný dům",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

@@ -11,14 +11,24 @@ import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 const double kTileSize = 80.0;
 
 class DotComponent extends SpriteComponent {
-  final bool active;
+  bool active;
 
   DotComponent(int x, int y, this.active)
     : super(position: Vector2(x * kTileSize, y * kTileSize), size: Vector2.all(kTileSize), anchor: Anchor.topLeft, priority: 2);
 
   @override
   Future<void> onLoad() async {
+    await _updateSprite();
+  }
+
+  Future<void> _updateSprite() async {
     sprite = await Sprite.load(active ? "floorTrailActive.png" : "floorTrailInactive.png");
+  }
+
+  void setActive(bool isActive) {
+    if (active == isActive) return;
+    active = isActive;
+    _updateSprite();
   }
 }
 
@@ -26,9 +36,18 @@ class RouteGame extends FlameGame {
   final List<MapTile> tiles;
   final Map<String, TileType> tileToTileType;
   final JRoute route;
-  final String? nextAisle;
+  String? _nextAisle;
+  final Map<String, DotComponent> _dotComponents = {};
 
-  RouteGame(this.tiles, this.tileToTileType, this.route, this.nextAisle);
+  RouteGame(this.tiles, this.tileToTileType, this.route, String? nextAisle) : _nextAisle = nextAisle;
+
+  void updateNextAisle(String? nextAisleId) {
+    _nextAisle = nextAisleId;
+    for (final entry in _dotComponents.entries) {
+      final goals = route.getAisleIdFromTileInSegment(entry.key);
+      entry.value.setActive(goals.contains(nextAisleId ?? "EXIT"));
+    }
+  }
 
   @override
   Color backgroundColor() => const Color(0xFF1A1A2E);
@@ -41,7 +60,9 @@ class RouteGame extends FlameGame {
     for (final t in tiles) {
       List<String> goalOfTile = route.getAisleIdFromTileInSegment(t.id);
       if (goalOfTile.isNotEmpty) {
-        world.add(DotComponent(t.posX, t.posY, goalOfTile.contains(nextAisle ?? "EXIT")));
+        final dot = DotComponent(t.posX, t.posY, goalOfTile.contains(_nextAisle ?? "EXIT"));
+        _dotComponents[t.id] = dot;
+        world.add(dot);
       }
 
       world.add(TileSpriteComponent(t.id, tileToTileType[t.id], t.posX, t.posY));

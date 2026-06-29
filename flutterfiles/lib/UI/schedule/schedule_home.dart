@@ -22,6 +22,7 @@ class ScheduleHome extends StatefulWidget {
 
 class _ScheduleHomeState extends State<ScheduleHome> {
   late int currentWeek;
+  String? selectedHouseId;
 
   @override
   void initState() {
@@ -64,6 +65,8 @@ class _ScheduleHomeState extends State<ScheduleHome> {
       );
     }
 
+    final houseProvider = context.watch<FlutterHouseProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(appLoc.planner, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
@@ -88,6 +91,33 @@ class _ScheduleHomeState extends State<ScheduleHome> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FutureBuilder<List<House>>(
+              future: houseProvider.getHouseList(widget.enviromentId),
+              builder: (context, snapshot) {
+                final houses = snapshot.data ?? [];
+                if (houses.isEmpty) return SizedBox.shrink();
+
+                return DropdownButtonFormField<String>(
+                  value: selectedHouseId,
+                  decoration: InputDecoration(
+                    labelText: appLoc.houses,
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
+                  items: houses.map((h) => DropdownMenuItem(value: h.id, child: Text(h.name))).toList(),
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        selectedHouseId = val;
+                      });
+                    }
+                  },
+                );
+              },
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -117,11 +147,13 @@ class _ScheduleHomeState extends State<ScheduleHome> {
             ),
           ),
           Expanded(
-            child: ListView.separated(
-              itemCount: 7,
-              itemBuilder: (context, index) => DayView(currentWeek, index, startOfWeekTime, widget.enviromentId),
-              separatorBuilder: (context, index) => Divider(),
-            ),
+            child: selectedHouseId == null
+                ? SizedBox.shrink()
+                : ListView.separated(
+                    itemCount: 7,
+                    itemBuilder: (context, index) => DayView(currentWeek, index, startOfWeekTime, widget.enviromentId, selectedHouseId!),
+                    separatorBuilder: (context, index) => Divider(),
+                  ),
           ),
         ],
       ),
@@ -137,18 +169,24 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     ics.writeln('VERSION:2.0');
     ics.writeln('PRODID:-//Lista de la Compra//EN');
 
+    final houseIds = selectedHouseId != null
+        ? [selectedHouseId!]
+        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+
     for (int day = 0; day < 7; day++) {
-      final entries = await scheduleProvider.getEntries(currentWeek, day, widget.enviromentId);
-      for (final entry in entries) {
-        final recipe = await recipeProvider.getRecipeById(entry.recipeId);
-        if (recipe == null) continue;
-        final date = weekAndDayToDateTime(entry.week, entry.day);
-        final dateStr = DateFormat('yyyyMMdd').format(date);
-        ics.writeln('BEGIN:VEVENT');
-        ics.writeln('DTSTART;VALUE=DATE:$dateStr');
-        ics.writeln('DTEND;VALUE=DATE:$dateStr');
-        ics.writeln('SUMMARY:${recipe.name}');
-        ics.writeln('END:VEVENT');
+      for (final houseId in houseIds) {
+        final entries = await scheduleProvider.getEntries(currentWeek, day, widget.enviromentId, houseId);
+        for (final entry in entries) {
+          final recipe = await recipeProvider.getRecipeById(entry.recipeId);
+          if (recipe == null) continue;
+          final date = weekAndDayToDateTime(entry.week, entry.day);
+          final dateStr = DateFormat('yyyyMMdd').format(date);
+          ics.writeln('BEGIN:VEVENT');
+          ics.writeln('DTSTART;VALUE=DATE:$dateStr');
+          ics.writeln('DTEND;VALUE=DATE:$dateStr');
+          ics.writeln('SUMMARY:${recipe.name}');
+          ics.writeln('END:VEVENT');
+        }
       }
     }
 
@@ -173,14 +211,20 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     final StringBuffer md = StringBuffer();
     md.writeln('# ${DateFormat('d/M/y').format(startOfWeek)}');
 
+    final houseIds = selectedHouseId != null
+        ? [selectedHouseId!]
+        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+
     for (int day = 0; day < 7; day++) {
       final date = startOfWeek.add(Duration(days: day));
       md.writeln('\n## ${DateFormat('EEEE d').format(date)}');
-      final entries = await scheduleProvider.getEntries(currentWeek, day, widget.enviromentId);
-      for (final entry in entries) {
-        final recipe = await recipeProvider.getRecipeById(entry.recipeId);
-        if (recipe == null) continue;
-        md.writeln('- ${recipe.name}');
+      for (final houseId in houseIds) {
+        final entries = await scheduleProvider.getEntries(currentWeek, day, widget.enviromentId, houseId);
+        for (final entry in entries) {
+          final recipe = await recipeProvider.getRecipeById(entry.recipeId);
+          if (recipe == null) continue;
+          md.writeln('- ${recipe.name}');
+        }
       }
     }
 

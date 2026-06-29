@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "Διάδρομοι",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "Δεν υπάρχουν διαθέσιμα δεδομένα χαρτογράφησης",
   "noMapsHaveBeenCreatedForThisSupermarket": "Δεν έχουν δημιουργηθεί χάρτες για αυτό το σούπερ μάρκετ",
   "createMap": "Δημιουργία χάρτη",
   "editMap": "Επεξεργασία χάρτη",
@@ -416,15 +416,15 @@
   "tileTypeStart": "Αρχή",
   "tileTypeEnd": "Τέλος",
   "noAislesToAssign": "Δεν υπάρχουν διαθέσιμοι διάδρομοι",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "Δεν υπάρχουν διάδρομοι για επίσκεψη δεδομένων των απαιτούμενων προϊόντων. Δεν μπορεί να υπολογιστεί διαδρομή",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "Εκκρεμείς διάδρομοι για επίσκεψη",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "Υπολογισμός διαδρομής",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "Ακύρωση υπολογισμού διαδρομής",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "Εκκαθάριση διαδρομής",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "Επιλέξτε ένα σούπερ μάρκετ",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "Βελτιστοποίηση διαδρομής",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "Ακατηγοριοποίητο",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "Πατήστε ένα πλακίδιο για να το επιλέξετε ή πατήστε ένα πλακίδιο-φάντασμα για να προσθέσετε ένα",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "Για να μετατρέψετε αυτό το πλακίδιο σε διαφορετικό τύπο, επιλέξτε πρώτα το νέο πλακίδιο έναρξης ή λήξης",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "Μετονομάστε με",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "Σπίτια",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "Δημιουργία σπιτιού",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "Διαγραφή σπιτιού",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "Επιλογή σπιτιών",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "Για να εμφανίσετε την απαραίτητη λίστα στοιχείων, επιλέξτε πρώτα ένα σύνολο σπιτιών",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "Δεν έχει επιλεγεί σπίτι",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

@@ -290,7 +290,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String get supermarketList => 'قائمة التسوق';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => 'أعد تسميتي';
+
+  @override
+  String get houses => 'منازل';
+
+  @override
+  String get createHouse => 'إنشاء منزل';
+
+  @override
+  String get deleteHouse => 'حذف المنزل';
+
+  @override
+  String get selectHouses => 'اختيار المنازل';
+
+  @override
+  String get selectHousesPrompt =>
+      'لعرض قائمة العناصر المطلوبة، حدد أولاً مجموعة من المنازل';
+
+  @override
+  String get aisles => 'الممرات';
 
   @override
   String numberOfProducts(num count) {
@@ -317,7 +336,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get addProductsToAisle => 'Add products to aisle';
+  String get addProductsToAisle => 'إضافة منتجات إلى الممر';
 
   @override
   String get selectSupermarket => 'Select Supermarket...';
@@ -332,7 +351,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exportToMarkdownFile => 'تصدير إلى ملف Markdown';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => 'لا توجد بيانات خرائط متاحة';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -380,13 +399,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+      'لا توجد ممرات لزيارتها نظرًا للمنتجات المطلوبة. لا يمكن حساب مسار';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => 'الممرات المعلقة للزيارة';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => 'حساب المسار';
 
   @override
   String routeProgress(Object percent) {
@@ -394,13 +413,13 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => 'إلغاء حساب المسار';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => 'مسح المسار';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => 'اختر سوبر ماركت';
 
   @override
   String routeError(Object error) {
@@ -408,16 +427,19 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => 'تحسين المسار';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => 'غير مصنف';
 
   @override
   String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+      'اضغط على بلاطة لتحديدها، أو اضغط على بلاطة وهمية لإضافة واحدة';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      'لتحويل هذه البلاطة إلى نوع مختلف، حدد أولاً بلاطة البداية أو النهاية الجديدة';
+
+  @override
+  String get noHouseSelected => 'لم يتم تحديد منزل';
 }

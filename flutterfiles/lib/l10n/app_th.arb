@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "ทางเดิน",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "ไม่มีข้อมูลแผนที่",
   "noMapsHaveBeenCreatedForThisSupermarket": "ยังไม่มีการสร้างแผนที่สำหรับซูเปอร์มาร์เก็ตนี้",
   "createMap": "สร้างแผนที่",
   "editMap": "แก้ไขแผนที่",
@@ -416,15 +416,15 @@
   "tileTypeStart": "เริ่มต้น",
   "tileTypeEnd": "สิ้นสุด",
   "noAislesToAssign": "ไม่มีทางเดินที่ใช้ได้",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "ไม่มีทางเดินให้เยี่ยมชมตามผลิตภัณฑ์ที่ต้องการ ไม่สามารถคำนวณเส้นทางได้",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "ทางเดินที่รอการเยี่ยมชม",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "คำนวณเส้นทาง",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "ยกเลิกการคำนวณเส้นทาง",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "ล้างเส้นทาง",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "เลือกซูเปอร์มาร์เก็ต",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "ปรับเส้นทางให้เหมาะสม",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "ไม่มีการจัดหมวดหมู่",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "แตะที่ไทล์เพื่อเลือก หรือแตะที่ไทล์ผีเพื่อเพิ่ม",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "เพื่อแปลงไทล์นี้เป็นประเภทอื่น ให้เลือกไทล์เริ่มต้นหรือสิ้นสุดใหม่ก่อน",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "เปลี่ยนชื่อฉัน",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "บ้าน",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "สร้างบ้าน",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "ลบบ้าน",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "เลือกบ้าน",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "หากต้องการแสดงรายการสินค้าที่จำเป็น ให้เลือกชุดบ้านก่อน",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "ไม่ได้เลือกบ้าน",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

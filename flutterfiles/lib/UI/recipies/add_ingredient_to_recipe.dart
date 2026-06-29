@@ -70,7 +70,7 @@ class AddIngredientToRecipe extends StatelessWidget {
             elements: allProducts,
             elementToTag: (Product p) => p.name,
             newElement: (String name) async {
-              String productId = await productProvider.addProduct(name, false, (await recipeFuture)!.enviromentId);
+              String productId = await productProvider.addProduct(name, (await recipeFuture)!.enviromentId);
 
               recipeProvider.setIngredientOfRecipeById(recipeId, productId, true, appLoc.enoughForA);
             },

@@ -34,6 +34,4 @@ class RamSharedPreferencesProvider extends SharedPreferencesProvider with VoidEv
   Future<void> setSelectedEnvironment(String enviromentId) {
     throw UnimplementedError();
   }
-
-
 }

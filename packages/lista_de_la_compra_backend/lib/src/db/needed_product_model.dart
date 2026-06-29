@@ -1,14 +1,12 @@
 import 'package:drift/drift.dart';
-import 'house_model.dart';
-import 'recipe_model.dart';
 import 'package:uuid/uuid.dart';
+import 'house_model.dart';
+import 'product_model.dart';
 
-class ScheduleEntries extends Table {
+class NeededProducts extends Table {
   TextColumn get id => text().clientDefault(() => Uuid().v7())();
-  IntColumn get week => integer()();
-  IntColumn get day => integer()();
-  TextColumn get recipeId => text().references(Recipes, #id)();
   TextColumn get houseId => text().references(Houses, #id)();
+  TextColumn get productId => text().references(Products, #id)();
   IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)();
   IntColumn get deletedAt => integer().nullable()();
 

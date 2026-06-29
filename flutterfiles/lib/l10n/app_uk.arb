@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "Проходи",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "Немає даних картографування",
   "noMapsHaveBeenCreatedForThisSupermarket": "Для цього супермаркету карти не створено",
   "createMap": "Створити карту",
   "editMap": "Редагувати карту",
@@ -416,15 +416,15 @@
   "tileTypeStart": "Початок",
   "tileTypeEnd": "Кінець",
   "noAislesToAssign": "Немає доступних проходів для призначення",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "Немає проходів для відвідування з урахуванням необхідних продуктів. Неможливо розрахувати маршрут",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "Очікувані проходи для відвідування",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "Розрахувати маршрут",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "Скасувати розрахунок маршруту",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "Очистити маршрут",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "Виберіть супермаркет",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "Оптимізувати маршрут",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "Некатегоризований",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "Торкніться плитки, щоб вибрати її, або торкніться плитки-привида, щоб додати її",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "Щоб перетворити цю плитку на інший тип, спочатку виберіть нову початкову або кінцеву плитку",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "Перейменуйте мене",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "Будинки",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "Створити будинок",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "Видалити будинок",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "Вибрати будинки",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "Щоб показати необхідний список елементів, спочатку виберіть набір будинків",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "Не вибрано жодного будинку",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

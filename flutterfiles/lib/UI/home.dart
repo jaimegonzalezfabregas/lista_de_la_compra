@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_la_compra/UI/actions/action_home.dart';
+import 'package:lista_de_la_compra/UI/houses/house_manager.dart';
 import 'package:lista_de_la_compra/UI/recipies/recipe_home.dart';
 import 'package:lista_de_la_compra/UI/products/product_home.dart';
 import 'package:lista_de_la_compra/UI/schedule/schedule_home.dart';
@@ -30,6 +31,7 @@ class HomeState extends State<Home> {
     _pages.add(RecipeHome(widget.enviromentId));
     _pages.add(ScheduleHome(getCurrentWeek(), widget.enviromentId));
     _pages.add(SupermarketHome(widget.enviromentId));
+    _pages.add(HouseManager(widget.enviromentId));
     _pages.add(ActionHome(widget.enviromentId, widget.openConnectionManager));
   }
 
@@ -64,6 +66,11 @@ class HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.store),
             label: appLoc.supermarketList,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.house),
+            label: appLoc.houses,
             backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           ),
           BottomNavigationBarItem(

@@ -371,7 +371,7 @@
   "@supermarketList": {
     "description": "Title for the supermarkets list screen. Used in: lib/UI/home.dart -> displays available supermarkets (supermarketList)."
   },
-  "aisles": "Aisles",
+  "aisles": "Lorong",
   "@aisles": {
     "description": "Label for aisles list (Aisles). Also used as a data key in environment serialization (packages/lista_de_la_compra_backend/.../environment_serializer.dart)."
   },
@@ -405,7 +405,7 @@
   "@exportToMarkdownFile": {
     "description": "Export to markdown file"
   },
-  "noMappingDataAviable": "No mapping data available",
+  "noMappingDataAviable": "Tidak ada data pemetaan yang tersedia",
   "noMapsHaveBeenCreatedForThisSupermarket": "Belum ada peta yang dibuat untuk supermarket ini",
   "createMap": "Buat peta",
   "editMap": "Edit peta",
@@ -416,15 +416,15 @@
   "tileTypeStart": "Mulai",
   "tileTypeEnd": "Selesai",
   "noAislesToAssign": "Tidak ada lorong yang tersedia",
-  "routeNoAisles": "There are no aisles to visit given the needed products. No route can be calculated",
+  "routeNoAisles": "Tidak ada lorong yang dapat dikunjungi berdasarkan produk yang dibutuhkan. Tidak ada rute yang dapat dihitung",
   "@routeNoAisles": {
     "description": "Message shown when no route can be calculated because no aisles are available"
   },
-  "pendingAislesToVisit": "Pending aisles to visit",
+  "pendingAislesToVisit": "Lorong yang menunggu untuk dikunjungi",
   "@pendingAislesToVisit": {
     "description": "Label indicating pending aisles to visit"
   },
-  "calculateRoute": "Calculate route",
+  "calculateRoute": "Hitung rute",
   "@calculateRoute": {
     "description": "Button label to calculate a route"
   },
@@ -435,15 +435,15 @@
       "percent": {}
     }
   },
-  "cancelRouteCalculation": "Cancel route calculation",
+  "cancelRouteCalculation": "Batalkan perhitungan rute",
   "@cancelRouteCalculation": {
     "description": "Button label to cancel route calculation"
   },
-  "clearRoute": "Clear route",
+  "clearRoute": "Hapus rute",
   "@clearRoute": {
     "description": "Button label to clear the current route"
   },
-  "selectASupermarket": "Select a supermarket",
+  "selectASupermarket": "Pilih supermarket",
   "@selectASupermarket": {
     "description": "Prompt to select a supermarket"
   },
@@ -454,20 +454,51 @@
       "error": {}
     }
   },
-  "optimizeRoute": "Optimize route",
+  "optimizeRoute": "Optimalkan rute",
   "@optimizeRoute": {
     "description": "Button label to optimize the route"
   },
-  "uncategorized": "Uncategorized",
+  "uncategorized": "Tidak dikategorikan",
   "@uncategorized": {
     "description": "Label for uncategorized list items"
   },
-  "tapTileOrGhostTile": "Tap a tile to select it, or tap a ghost tile to add one",
+  "tapTileOrGhostTile": "Ketuk ubin untuk memilihnya, atau ketuk ubin hantu untuk menambahkan satu",
   "@tapTileOrGhostTile": {
     "description": "Instruction shown when user should select or add a map tile"
   },
-  "tileTypeTransformInfo": "To transform this tile into a different type, first select the new start or end tile",
+  "tileTypeTransformInfo": "Untuk mengubah ubin ini menjadi tipe yang berbeda, pilih dulu ubin awal atau akhir yang baru",
   "@tileTypeTransformInfo": {
     "description": "Instruction shown when transforming a tile type"
+  },
+  "renameMe": "Ubah namaku",
+  "@renameMe": {
+    "description": "Default name for a new house"
+  },
+  "houses": "Rumah",
+  "@houses": {
+    "description": "Title for the house management screen"
+  },
+  "createHouse": "Buat rumah",
+  "@createHouse": {
+    "description": "Button to create a new house"
+  },
+  "deleteHouse": "Hapus rumah",
+  "@deleteHouse": {
+    "description": "Button to delete a house"
+  },
+  "selectHouses": "Pilih rumah",
+  "@selectHouses": {
+    "description": "Label for house multi-select in shopping list"
+  },
+  "selectHousesPrompt": "Untuk menampilkan daftar item yang diperlukan, pertama-tama pilih satu set rumah",
+  "@selectHousesPrompt": {
+    "description": "Prompt shown when no houses are selected, telling the user to select houses first"
+  },
+  "noHouseSelected": "Tidak ada rumah yang dipilih",
+  "@noHouseSelected": {
+    "description": "Message shown when no house is selected"
+  },
+  "@noMappingDataAviable": {
+    "description": "Translation for noMappingDataAviable"
   }
 }

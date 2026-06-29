@@ -12,7 +12,7 @@ extension StringExtension on String {
 class RamProductProvider extends ProductProvider with VoidEventSourceMixin {}
 
 abstract class ProductProvider implements VoidEventSource {
-  Future<String> addProduct(String rawName, bool needed, String enviromentId) async {
+  Future<String> addProduct(String rawName, String enviromentId) async {
     final database = AppDatabaseSingleton.instance;
 
     String id = Uuid().v7();
@@ -25,7 +25,6 @@ abstract class ProductProvider implements VoidEventSource {
           ProductsCompanion(
             id: Value(id),
             name: Value(name),
-            needed: Value(needed),
             enviromentId: Value(enviromentId),
             updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
           ),
@@ -44,11 +43,11 @@ abstract class ProductProvider implements VoidEventSource {
           ProductsCompanion(
             id: Value(serializedProduct["id"]),
             name: Value(serializedProduct["name"]),
-            needed: Value(serializedProduct["needed"]),
             updatedAt: Value(serializedProduct["updatedAt"]),
             deletedAt: Value(serializedProduct["deletedAt"]),
             enviromentId: Value(serializedProduct["enviromentId"]),
           ),
+          mode: InsertMode.insertOrReplace,
         );
     notifyListeners();
   }
@@ -63,13 +62,10 @@ abstract class ProductProvider implements VoidEventSource {
   Future<void> syncOveride(String id, Map<String, dynamic> serializedProduct) async {
     final database = AppDatabaseSingleton.instance;
 
-    // check it there is a difference
-
     await (database.update(database.products)..where((table) => table.id.equals(id))).write(
       ProductsCompanion(
         id: Value(serializedProduct["id"]),
         name: Value(serializedProduct["name"]),
-        needed: Value(serializedProduct["needed"]),
         updatedAt: Value(serializedProduct["updatedAt"]),
         deletedAt: Value(serializedProduct["deletedAt"]),
       ),
@@ -84,15 +80,6 @@ abstract class ProductProvider implements VoidEventSource {
     await (database.update(
       database.products,
     )..where((table) => table.id.equals(id))).write(ProductsCompanion(deletedAt: Value(DateTime.now().millisecondsSinceEpoch)));
-
-    notifyListeners();
-  }
-
-  Future setProductNeededness(String id, bool needed) async {
-    final database = AppDatabaseSingleton.instance;
-    await (database.update(database.products)..where((table) => table.id.equals(id))).write(
-      ProductsCompanion(needed: Value(needed), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)),
-    );
 
     notifyListeners();
   }

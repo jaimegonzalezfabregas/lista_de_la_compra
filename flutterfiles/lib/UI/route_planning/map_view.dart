@@ -5,6 +5,7 @@ import 'package:lista_de_la_compra/flutter_providers/temp_route_provider.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/map_engine/route/engine.dart';
 import 'package:lista_de_la_compra/map_engine/route/map_route.dart';
+import 'package:lista_de_la_compra/shared_preference_providers/persistent_selected_houses_provider.dart';
 import 'package:lista_de_la_compra/shared_preference_providers/persistant_selected_market_provider.dart';
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 import 'package:provider/provider.dart';
@@ -147,6 +148,8 @@ class CalculateRouteScreen extends StatelessWidget {
     final ProductAisleProvider productAisleProvider = context.watch<FlutterProductAisleProvider>();
     final RouteProvider routeProvider = context.watch<RouteProvider>();
     final ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    final NeededProductProvider neededProductProvider = context.watch<FlutterNeededProductProvider>();
+    final SelectedHousesProvider selectedHousesProvider = context.watch<PersistentSelectedHousesProvider>();
 
     if (routeProvider.getFinalRoute(supermarketId) != null) {
       return FloorSelector(supermarketId, enviromentId, routeProvider.getFinalRoute(supermarketId)!);
@@ -154,7 +157,16 @@ class CalculateRouteScreen extends StatelessWidget {
 
     return Center(
       child: FutureBuilder(
-        future: getPendingVisitAsileIds(productProvider, productAisleProvider, supermarketId, enviromentId),
+        future: () async {
+          return getPendingVisitAsileIds(
+            productProvider,
+            productAisleProvider,
+            neededProductProvider,
+            selectedHousesProvider,
+            supermarketId,
+            enviromentId,
+          );
+        }(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Text(appLoc.loading);

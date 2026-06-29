@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../lista_de_la_compra_backend.dart';
 
@@ -30,13 +31,24 @@ abstract class EnvironmentProvider  implements VoidEventSource{
     notifyListeners();
   }
 
-  Future<void> addEmptyEnvironment(String name) async {
+  Future<String> addEmptyEnvironment(String name) async {
     final database = AppDatabaseSingleton.instance;
+    String envId = Uuid().v7();
 
     await database
         .into(database.enviroments)
-        .insert(EnviromentsCompanion(name: Value(name), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+        .insert(EnviromentsCompanion(id: Value(envId), name: Value(name), updatedAt: Value(DateTime.now().millisecondsSinceEpoch)));
+
+    // Create a default house for the new environment
+    await database.into(database.houses).insert(HousesCompanion(
+      id: Value(Uuid().v7()),
+      name: Value('rename_me'),
+      enviromentId: Value(envId),
+      updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+    ));
+
     notifyListeners();
+    return envId;
   }
 
   Future<void> upsertEnvironment(Environment env) async {

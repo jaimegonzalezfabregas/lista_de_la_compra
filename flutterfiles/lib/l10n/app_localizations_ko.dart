@@ -288,7 +288,25 @@ class AppLocalizationsKo extends AppLocalizations {
   String get supermarketList => '쇼핑 목록';
 
   @override
-  String get aisles => 'Aisles';
+  String get renameMe => '이름 바꾸기';
+
+  @override
+  String get houses => '집';
+
+  @override
+  String get createHouse => '집 만들기';
+
+  @override
+  String get deleteHouse => '집 삭제';
+
+  @override
+  String get selectHouses => '집 선택';
+
+  @override
+  String get selectHousesPrompt => '필요한 항목 목록을 표시하려면 먼저 주택 세트를 선택하세요';
+
+  @override
+  String get aisles => '통로';
 
   @override
   String numberOfProducts(num count) {
@@ -330,7 +348,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get exportToMarkdownFile => 'Markdown 파일로 내보내기';
 
   @override
-  String get noMappingDataAviable => 'No mapping data available';
+  String get noMappingDataAviable => '매핑 데이터를 사용할 수 없음';
 
   @override
   String get noMapsHaveBeenCreatedForThisSupermarket =>
@@ -377,14 +395,13 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get routeNoAisles =>
-      'There are no aisles to visit given the needed products. No route can be calculated';
+  String get routeNoAisles => '필요한 제품을 고려할 때 방문할 통로가 없습니다. 경로를 계산할 수 없습니다';
 
   @override
-  String get pendingAislesToVisit => 'Pending aisles to visit';
+  String get pendingAislesToVisit => '방문 예정 통로';
 
   @override
-  String get calculateRoute => 'Calculate route';
+  String get calculateRoute => '경로 계산';
 
   @override
   String routeProgress(Object percent) {
@@ -392,13 +409,13 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get cancelRouteCalculation => 'Cancel route calculation';
+  String get cancelRouteCalculation => '경로 계산 취소';
 
   @override
-  String get clearRoute => 'Clear route';
+  String get clearRoute => '경로 지우기';
 
   @override
-  String get selectASupermarket => 'Select a supermarket';
+  String get selectASupermarket => '슈퍼마켓 선택';
 
   @override
   String routeError(Object error) {
@@ -406,16 +423,18 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get optimizeRoute => 'Optimize route';
+  String get optimizeRoute => '경로 최적화';
 
   @override
-  String get uncategorized => 'Uncategorized';
+  String get uncategorized => '분류되지 않음';
 
   @override
-  String get tapTileOrGhostTile =>
-      'Tap a tile to select it, or tap a ghost tile to add one';
+  String get tapTileOrGhostTile => '타일을 탭하여 선택하거나 유령 타일을 탭하여 추가하세요';
 
   @override
   String get tileTypeTransformInfo =>
-      'To transform this tile into a different type, first select the new start or end tile';
+      '이 타일을 다른 유형으로 변환하려면 먼저 새 시작 또는 끝 타일을 선택하세요';
+
+  @override
+  String get noHouseSelected => '선택된 집이 없습니다';
 }

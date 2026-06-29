@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_la_compra/UI/common/needed_checkbox.dart';
 import 'package:lista_de_la_compra/UI/common/searchable_list_view.dart';
 import 'package:lista_de_la_compra/UI/products/common.dart';
 import 'package:lista_de_la_compra/l10n/app_localizations.dart';
@@ -14,8 +15,9 @@ import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
 class ProductDetail extends StatelessWidget {
   final String productId;
+  final String enviromentId;
 
-  const ProductDetail(this.productId, {super.key});
+  const ProductDetail(this.productId, this.enviromentId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,23 +51,21 @@ class ProductDetail extends StatelessWidget {
             decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(8)),
             child: Searchablelistview<(RecipeProduct, Recipe)>(
               elements: snapshot.data!,
-              elementToListTile:
-                  (recipe, tag) => ListTile(
-                    title: tag,
-                    subtitle: Text(recipe.$1.amount),
-                    trailing: IconButton(
-                      icon: Icon(Icons.arrow_outward),
-                      onPressed:
-                          () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return RecipeDetail(recipe.$2.id);
-                              },
-                            ),
-                          ),
+              elementToListTile: (recipe, tag) => ListTile(
+                title: tag,
+                subtitle: Text(recipe.$1.amount),
+                trailing: IconButton(
+                  icon: Icon(Icons.arrow_outward),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return RecipeDetail(recipe.$2.id);
+                      },
                     ),
                   ),
+                ),
+              ),
               elementToTag: (recipe) => recipe.$2.name,
             ),
           ),
@@ -74,6 +74,9 @@ class ProductDetail extends StatelessWidget {
     );
 
     ScheduleProvider scheduleProvider = context.watch<FlutterScheduleProvider>();
+    HouseProvider houseProvider = context.watch<FlutterHouseProvider>();
+
+    var housesFuture = houseProvider.getHouseList(enviromentId);
 
     return Scaffold(
       appBar: AppBar(
@@ -102,7 +105,10 @@ class ProductDetail extends StatelessWidget {
                       builder: (context) {
                         return AlertDialog(
                           title: Text(appLoc.editName),
-                          content: TextField(decoration: InputDecoration(labelText: appLoc.name), controller: textControler),
+                          content: TextField(
+                            decoration: InputDecoration(labelText: appLoc.name),
+                            controller: textControler,
+                          ),
                           actions: [
                             TextButton(
                               onPressed: () {
@@ -145,31 +151,22 @@ class ProductDetail extends StatelessWidget {
         child: ListView(
           shrinkWrap: true,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  getNeededAmount(scheduleProvider, productId)!,
-                  TextButton(
-                    onPressed: () async {
-                      var product = (await productFuture);
-                      if (product != null) {
-                        productProvider.setProductNeededness(productId, !product.needed);
-                      }
-                    },
-                    child: FutureBuilder(
-                      future: productFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data != null) {
-                          return Text(snapshot.data!.needed ? appLoc.setAsBought : appLoc.setAsNeeded);
-                        } else {
-                          return Text(appLoc.loading);
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
+            Text(appLoc.houses, style: Theme.of(context).textTheme.titleSmall),
+
+            FutureBuilder<List<House>>(
+              future: housesFuture,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return SizedBox.shrink();
+                return Column(
+                  children: snapshot.data!.map((house) {
+                    return ListTile(
+                      title: Text(house.name),
+                      subtitle: getNeededAmount(scheduleProvider, productId, [house.id], context),
+                      trailing: NeededCheckbox(productId: productId, houseId: house.id),
+                    );
+                  }).toList(),
+                );
+              },
             ),
 
             Text(appLoc.recipeList, style: Theme.of(context).textTheme.titleSmall),

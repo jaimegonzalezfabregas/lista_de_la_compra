@@ -26,6 +26,8 @@ Future runServer() async {
   final aisleProvider = RamAisleProvider();
   final productAisleProvider = RamProductAisleProvider();
   final mapTileProvider = RamMapTileProvider();
+  final houseProvider = RamHouseProvider();
+  final neededProductProvider = RamNeededProductProvider();
 
   final OpenConnectionManager openConnectionManager = OpenConnectionManager(
     openConnectionProvider,
@@ -37,6 +39,8 @@ Future runServer() async {
     aisleProvider,
     productAisleProvider,
     mapTileProvider,
+    houseProvider,
+    neededProductProvider,
     sharedPreferencesProvider,
 
     downloadAllEnvironments: true,

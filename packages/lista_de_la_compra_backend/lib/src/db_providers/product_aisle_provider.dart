@@ -19,6 +19,7 @@ abstract class ProductAisleProvider implements VoidEventSource {
             updatedAt: Value(serialized["updatedAt"]),
             deletedAt: Value(serialized["deletedAt"]),
           ),
+          mode: InsertMode.insertOrReplace,
         );
 
     notifyListeners();

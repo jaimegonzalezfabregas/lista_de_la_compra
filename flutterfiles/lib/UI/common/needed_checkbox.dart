@@ -6,15 +6,15 @@ import '../../flutter_providers/flutter_providers.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-
 final Duration undoDuration = const Duration(seconds: 2);
 
 class UndoToast extends StatefulWidget {
   final String productId;
+  final String houseId;
   final bool oldNeededness;
   final FToast fToast;
 
-  const UndoToast(this.productId, this.oldNeededness, this.fToast, {super.key});
+  const UndoToast(this.productId, this.houseId, this.oldNeededness, this.fToast, {super.key});
 
   @override
   State<UndoToast> createState() => _UndoToastState();
@@ -39,6 +39,7 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     AppLocalizations appLoc = AppLocalizations.of(context)!;
     ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    NeededProductProvider neededProductProvider = context.watch<FlutterNeededProductProvider>();
 
     return AnimatedBuilder(
       animation: _controller,
@@ -57,7 +58,7 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
           if (widget.oldNeededness) Text(appLoc.markAsBought) else Text(appLoc.markAsNeeded),
           TextButton(
             onPressed: () {
-              productProvider.setProductNeededness(widget.productId, widget.oldNeededness);
+              neededProductProvider.setNeeded(widget.houseId, widget.productId, widget.oldNeededness);
               widget.fToast.removeCustomToast();
             },
             child: Text(appLoc.undo),
@@ -71,7 +72,6 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
             borderRadius: BorderRadius.circular(25.0),
             gradient: LinearGradient(
               stops: [_controller.value, _controller.value],
-              // colors: [Colors.red, Colors.green],
               colors: [Theme.of(context).colorScheme.surfaceContainerHighest, Theme.of(context).colorScheme.surfaceContainerHigh],
             ),
           ),
@@ -82,74 +82,73 @@ class _UndoToastState extends State<UndoToast> with TickerProviderStateMixin {
   }
 }
 
-Future<void> showUndoToast(FToast fToast, String productId, bool oldNeededness) async {
+Future<void> showUndoToast(FToast fToast, String productId, String houseId, bool wasNeeded) async {
   fToast.removeCustomToast();
   fToast.removeQueuedCustomToasts();
 
-  fToast.showToast(
-    child: UndoToast(productId, oldNeededness, fToast), 
-  gravity: ToastGravity.TOP, 
-  toastDuration: undoDuration
-  
-  );
+  fToast.showToast(child: UndoToast(productId, houseId, wasNeeded, fToast), gravity: ToastGravity.TOP, toastDuration: undoDuration);
 }
 
 class NeededCheckbox extends StatefulWidget {
   final String productId;
+  final String houseId;
   final Duration? delay;
 
-  const NeededCheckbox(this.productId, {super.key, this.delay});
+  const NeededCheckbox({super.key, required this.productId, required this.houseId, this.delay});
 
   @override
   State<NeededCheckbox> createState() => _NeededCheckboxState();
 }
 
 class _NeededCheckboxState extends State<NeededCheckbox> {
-  bool? displayedValue;
-
   @override
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
     final FToast fToast = FToast();
-
     fToast.init(context);
 
-    ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    NeededProductProvider neededProductProvider = context.watch<FlutterNeededProductProvider>();
+    HouseProvider houseProvider = context.watch<FlutterHouseProvider>();
 
-    return SizedBox(
-      child: FutureBuilder(
-        future: productProvider.getProductById(widget.productId),
-        builder: (context, asyncSnapshot) {
-          if (!asyncSnapshot.hasData) {
-            return Text(appLoc.loading);
-          }
+    Future combined = Future.wait([neededProductProvider.isNeeded(widget.houseId, widget.productId), houseProvider.getHouseById(widget.houseId)]);
 
-          Product p = asyncSnapshot.data!;
+    return FutureBuilder(
+      future: combined,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Text(appLoc.loading);
+        }
 
-          return Row(
-            children: [
-              if (!(displayedValue ?? !p.needed)) Text(appLoc.toBuy),
+        final List<dynamic> combinedResult = snapshot.data!;
 
-              Checkbox(
-                value: displayedValue ?? !p.needed,
-                onChanged: (bool? notNeeded) async {
-                  setState(() {
-                    displayedValue = notNeeded!;
-                  });
+        final bool isNeeded = combinedResult[0] ?? false;
+        final House house = combinedResult[1];
+        final Color checkboxColor = Color(house.color);
 
-                  final Duration? delay = widget.delay;
-                  if (delay != null) {
-                    await Future.delayed(delay);
-                  }
-                  productProvider.setProductNeededness(p.id, !notNeeded!);
-                  showUndoToast(fToast, p.id, notNeeded);
-                  displayedValue = null;
-                },
-              ),
-            ],
-          );
-        },
-      ),
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isNeeded) Text(appLoc.toBuy, style: TextStyle(color: checkboxColor)),
+
+            Checkbox(
+              value: isNeeded,
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) return checkboxColor;
+                return checkboxColor.withValues(alpha: 0.3);
+              }),
+              onChanged: (bool? value) async {
+                final Duration? delay = widget.delay;
+                if (delay != null) {
+                  await Future.delayed(delay);
+                }
+
+                neededProductProvider.setNeeded(widget.houseId, widget.productId, value ?? false);
+                showUndoToast(fToast, widget.productId, widget.houseId, !(value ?? false));
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

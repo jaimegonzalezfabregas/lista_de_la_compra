@@ -9,8 +9,6 @@ abstract class SharedPreferencesProvider {
   Future<void> clearSelectedEnvironment();
   Future<String?> getSelectedEnvironment();
 
-
-
   void addListener( void Function() listener );
 }
 
