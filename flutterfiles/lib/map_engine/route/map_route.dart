@@ -19,7 +19,7 @@ Future<String?> firstNeededAisle(
   List<Product> products,
   ProductAisleProvider productAsileProvider,
   String supermarketId, 
-  Set<String> neededProductIds = const {},
+  Set<String> neededProductIds,
 ) async {
   Set<String> neededAisles = {};
 
@@ -158,7 +158,7 @@ class MapRouter extends StatelessWidget {
                                         allProducts,
                                         productAsileProvider,
                                         supermarketId,
-                                        neededProductIds: neededProductIds,
+                                        neededProductIds,
                                       ),
                                       builder: (context, asyncSnapshot) {
                                         if (asyncSnapshot.connectionState != ConnectionState.done) {
