@@ -9,7 +9,6 @@ import '../../flutter_providers/flutter_providers.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-
 class DayView extends StatelessWidget {
   final int week;
   final int day;
@@ -147,7 +146,7 @@ class DayView extends StatelessWidget {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            return RecipeDetail(recipeSnapshot.data!.id);
+                                            return RecipeDetail(recipeSnapshot.data!.id, enviromentId);
                                           },
                                         ),
                                       );

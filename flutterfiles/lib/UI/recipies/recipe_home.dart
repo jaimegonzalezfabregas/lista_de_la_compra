@@ -7,7 +7,6 @@ import '../../flutter_providers/flutter_providers.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
-
 class RecipeHome extends StatelessWidget {
   final String enviromentId;
   const RecipeHome(this.enviromentId, {super.key});
@@ -39,7 +38,7 @@ class RecipeHome extends StatelessWidget {
               return ListTile(
                 title: tag,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeDetail(r.id)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeDetail(r.id, enviromentId)));
                 },
               );
             },

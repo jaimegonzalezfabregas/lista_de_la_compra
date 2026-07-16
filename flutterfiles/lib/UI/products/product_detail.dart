@@ -60,7 +60,7 @@ class ProductDetail extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return RecipeDetail(recipe.$2.id);
+                        return RecipeDetail(recipe.$2.id, enviromentId);
                       },
                     ),
                   ),

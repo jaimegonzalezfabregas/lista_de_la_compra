@@ -17,6 +17,7 @@ class ProductHome extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations appLoc = AppLocalizations.of(context)!;
     final ProductProvider productProvider = context.watch<FlutterProductProvider>();
+    final EnvironmentProvider enviromentProvider = context.watch<FlutterEnvironmentProvider>();
     final selectedHousesProvider = context.watch<PersistentSelectedHousesProvider>();
 
     return FutureBuilder<List<String>>(
@@ -36,7 +37,16 @@ class ProductHome extends StatelessWidget {
                   Tab(icon: Icon(Icons.list), child: Text(appLoc.all)),
                 ],
               ),
-              title: Text(appLoc.shoppingList),
+              title: FutureBuilder(
+                future: enviromentProvider.getEnvironmentById(enviromentId),
+                builder: (context, enviromentSnapshot) {
+                  if (!enviromentSnapshot.hasData) {
+                    return Text(appLoc.loading);
+                  }
+                  Enviroment env = enviromentSnapshot.data!;
+                  return Text(env.name);
+                },
+              ),
               actions: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -69,13 +79,8 @@ class ProductHome extends StatelessWidget {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Icons.home_outlined),
-                                ),
-                                Text(
-                                  appLoc.selectHousesPrompt,
-                                ),
+                                Padding(padding: const EdgeInsets.all(8.0), child: Icon(Icons.home_outlined)),
+                                Text(appLoc.selectHousesPrompt),
                               ],
                             ),
                           )
