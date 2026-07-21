@@ -34,12 +34,10 @@ Future<Map<String, dynamic>> serializeEnvironment(
   final aislesFuture = aisleProvider.getSyncAisleList(enviromentId);
   final productAislesFuture = productAisleProvider.getSyncProductAisleList(enviromentId);
   final mapTilesFuture = mapTileProvider.getSyncMapTileList(enviromentId);
-
   final housesFuture = houseProvider.getSyncHouseList(enviromentId);
   final neededProductsFuture = neededProductProvider.getSyncNeededProductList(enviromentId);
 
   final environment = (await envFuture)!;
-
   final products = await productsFuture;
   final recipes = await recipesFuture;
   final productsRecipies = await recipeProductsFuture;
@@ -141,6 +139,8 @@ Future<void> recieveState(
   var selfAisles = aisleProvider.getSyncAisleList(remoteEnvironment.id);
   var selfProductAisles = productAisleProvider.getSyncProductAisleList(remoteEnvironment.id);
   var selfMapTiles = mapTileProvider.getSyncMapTileList(remoteEnvironment.id);
+  var selfHouses = houseProvider.getSyncHouseList(remoteEnvironment.id);
+  var selfNeededProducts = neededProductProvider.getSyncNeededProductList(remoteEnvironment.id);
 
   await syncItems(
     otherProducts,
@@ -206,7 +206,6 @@ Future<void> recieveState(
     (item) => mapTileProvider.syncAddMap(item),
   );
 
-  var selfHouses = houseProvider.getSyncHouseList(remoteEnvironment.id);
   await syncItems(
     otherHouses,
     await selfHouses,
@@ -215,7 +214,6 @@ Future<void> recieveState(
     (item) => houseProvider.syncAddHouse(item),
   );
 
-  var selfNeededProducts = neededProductProvider.getSyncNeededProductList(remoteEnvironment.id);
   await syncItems(
     otherNeededProducts,
     await selfNeededProducts,

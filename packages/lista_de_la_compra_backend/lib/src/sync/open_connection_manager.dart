@@ -60,10 +60,13 @@ class OpenConnectionManager {
     productProvider.addListener(triggerSyncPush);
     recipeProvider.addListener(triggerSyncPush);
     scheduleProvider.addListener(triggerSyncPush);
+    environmentProvider.addListener(triggerHandshakePush);
+    supermarketProvider.addListener(triggerSyncPush);
+    aisleProvider.addListener(triggerSyncPush);
+    productAisleProvider.addListener(triggerSyncPush);
+    mapTileProvider.addListener(triggerSyncPush);
     houseProvider.addListener(triggerSyncPush);
     neededProductProvider.addListener(triggerSyncPush);
-
-    environmentProvider.addListener(triggerHandshakePush);
     sharedPreferencesProvider.addListener(triggerHandshakePush);
   }
 
@@ -259,8 +262,8 @@ class OpenConnectionManager {
                 aisleProvider,
                 productAisleProvider,
                 mapTileProvider,
-                 houseProvider,
-                 neededProductProvider,
+                houseProvider,
+                neededProductProvider,
               );
 
               break;
