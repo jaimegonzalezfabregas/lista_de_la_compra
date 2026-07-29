@@ -7,6 +7,7 @@ import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/flutter_providers/flutter_providers.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:device_calendar_plus/device_calendar_plus.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
@@ -83,6 +84,10 @@ class _ScheduleHomeState extends State<ScheduleHome> {
                 PopupMenuItem(
                   child: Row(children: [Icon(Icons.edit_calendar), SizedBox(width: 8), Text(appLoc.exportToICS)]),
                   onTap: () => _exportToICS(context),
+                ),
+                PopupMenuItem(
+                  child: Row(children: [Icon(Icons.calendar_month), SizedBox(width: 8), Text(appLoc.exportToGoogleCalendar)]),
+                  onTap: () => _exportToCalendar(context),
                 ),
               ];
             },
@@ -201,6 +206,56 @@ class _ScheduleHomeState extends State<ScheduleHome> {
         downloadFallbackEnabled: true,
       ),
     );
+  }
+
+  Future<void> _exportToCalendar(BuildContext context) async {
+    final appLoc = AppLocalizations.of(context)!;
+    final plugin = DeviceCalendar.instance;
+
+    final status = await plugin.requestPermissions();
+    if (status != CalendarPermissionStatus.granted) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(appLoc.calendarPermissionDenied)),
+        );
+      }
+      return;
+    }
+
+    final scheduleProvider = context.read<FlutterScheduleProvider>();
+    final recipeProvider = context.read<FlutterRecipeProvider>();
+
+    final houseIds = selectedHouseId != null
+        ? [selectedHouseId!]
+        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+
+    int eventCount = 0;
+
+    for (int day = 0; day < 7; day++) {
+      for (final houseId in houseIds) {
+        final entries = await scheduleProvider.getEntries(currentWeek, day, widget.enviromentId, houseId);
+        for (final entry in entries) {
+          final recipe = await recipeProvider.getRecipeById(entry.recipeId);
+          if (recipe == null) continue;
+          final date = weekAndDayToDateTime(entry.week, entry.day);
+          try {
+            await plugin.createEvent(
+              title: recipe.name,
+              startDate: date,
+              endDate: date.add(const Duration(days: 1)),
+              isAllDay: true,
+            );
+            eventCount++;
+          } on DeviceCalendarException catch (_) {}
+        }
+      }
+    }
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(appLoc.eventsAddedToCalendar(eventCount))),
+      );
+    }
   }
 
   Future<void> _exportToMarkdownFile(BuildContext context) async {

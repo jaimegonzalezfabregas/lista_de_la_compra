@@ -953,6 +953,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No house selected'**
   String get noHouseSelected;
+
+  /// Message shown after events are added to calendar
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No events added} =1{1 event added to calendar} other{{count} events added to calendar}}'**
+  String eventsAddedToCalendar(num count);
+
+  /// Message shown when calendar permission is denied
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar permission denied'**
+  String get calendarPermissionDenied;
 }
 
 class _AppLocalizationsDelegate

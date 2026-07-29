@@ -515,5 +515,16 @@
   "noHouseSelected": "No house selected",
   "@noHouseSelected": {
     "description": "Message shown when no house is selected"
+  },
+  "eventsAddedToCalendar": "{count, plural, =0{No events added} =1{1 event added to calendar} other{{count} events added to calendar}}",
+  "@eventsAddedToCalendar": {
+    "description": "Message shown after events are added to calendar",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "calendarPermissionDenied": "Calendar permission denied",
+  "@calendarPermissionDenied": {
+    "description": "Message shown when calendar permission is denied"
   }
 }
