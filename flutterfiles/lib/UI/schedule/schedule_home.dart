@@ -208,10 +208,11 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     );
   }
 
-  Future<void> _exportToCalendar(BuildContext context) async {
-    final appLoc = AppLocalizations.of(context)!;
-    final plugin = DeviceCalendar.instance;
+  Future<Calendar?> _pickCalendar() async {
+    final appLoc = AppLocalizations.of(context);
+    if (appLoc == null) return null;
 
+    final plugin = DeviceCalendar.instance;
     final status = await plugin.requestPermissions();
     if (status != CalendarPermissionStatus.granted) {
       if (context.mounted) {
@@ -219,8 +220,70 @@ class _ScheduleHomeState extends State<ScheduleHome> {
           SnackBar(content: Text(appLoc.calendarPermissionDenied)),
         );
       }
-      return;
+      return null;
     }
+
+    final calendars = await plugin.listCalendars();
+    if (calendars.isEmpty) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(appLoc.noMappingDataAviable)),
+        );
+      }
+      return null;
+    }
+
+    if (!context.mounted) return null;
+    return showDialog<Calendar>(
+      context: context,
+      builder: (ctx) {
+        String? selectedId;
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(appLoc.selectCalendar),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: calendars.map((cal) {
+                    return RadioListTile<String>(
+                      title: Text(cal.name ?? ''),
+                      value: cal.id,
+                      groupValue: selectedId,
+                      onChanged: (val) {
+                        setDialogState(() {
+                          selectedId = val;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: Text(appLoc.cancel),
+                ),
+                FilledButton(
+                  onPressed: selectedId == null
+                      ? null
+                      : () => Navigator.of(ctx).pop(calendars.firstWhere((c) => c.id == selectedId)),
+                  child: Text(appLoc.export),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _exportToCalendar(BuildContext context) async {
+    final appLoc = AppLocalizations.of(context)!;
+    final plugin = DeviceCalendar.instance;
+
+    final selected = await _pickCalendar();
+    if (selected == null) return;
 
     final scheduleProvider = context.read<FlutterScheduleProvider>();
     final recipeProvider = context.read<FlutterRecipeProvider>();
@@ -240,6 +303,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
           final date = weekAndDayToDateTime(entry.week, entry.day);
           try {
             await plugin.createEvent(
+              calendarId: selected.id,
               title: recipe.name,
               startDate: date,
               endDate: date.add(const Duration(days: 1)),

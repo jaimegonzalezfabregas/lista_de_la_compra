@@ -452,4 +452,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get calendarPermissionDenied => 'Calendar permission denied';
+
+  @override
+  String get selectCalendar => 'Select calendar';
 }

@@ -5,7 +5,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "bg": [
@@ -14,7 +15,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "bn": [
@@ -23,7 +25,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "cs": [
@@ -32,7 +35,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "da": [
@@ -41,7 +45,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "de": [
@@ -50,7 +55,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "el": [
@@ -59,7 +65,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "es": [
@@ -68,7 +75,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "fr": [
@@ -77,7 +85,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "he": [
@@ -86,7 +95,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "hi": [
@@ -95,7 +105,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "hu": [
@@ -104,7 +115,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "id": [
@@ -113,7 +125,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "it": [
@@ -122,7 +135,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "ja": [
@@ -131,7 +145,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "ko": [
@@ -140,7 +155,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "ms": [
@@ -149,7 +165,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "nb": [
@@ -158,7 +175,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "nl": [
@@ -167,7 +185,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "pl": [
@@ -176,7 +195,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "pt": [
@@ -185,7 +205,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "ro": [
@@ -194,7 +215,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "ru": [
@@ -203,7 +225,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "sk": [
@@ -212,7 +235,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "sv": [
@@ -221,7 +245,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "th": [
@@ -230,7 +255,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "tr": [
@@ -239,7 +265,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "uk": [
@@ -248,7 +275,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "vi": [
@@ -257,7 +285,8 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ],
 
   "zh": [
@@ -266,6 +295,7 @@
     "deleteFloor",
     "tileLockedLastOfType",
     "eventsAddedToCalendar",
-    "calendarPermissionDenied"
+    "calendarPermissionDenied",
+    "selectCalendar"
   ]
 }

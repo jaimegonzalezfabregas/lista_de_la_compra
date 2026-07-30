@@ -526,5 +526,9 @@
   "calendarPermissionDenied": "Calendar permission denied",
   "@calendarPermissionDenied": {
     "description": "Message shown when calendar permission is denied"
+  },
+  "selectCalendar": "Select calendar",
+  "@selectCalendar": {
+    "description": "Label for calendar selector"
   }
 }

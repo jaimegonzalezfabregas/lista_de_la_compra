@@ -965,6 +965,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Calendar permission denied'**
   String get calendarPermissionDenied;
+
+  /// Label for calendar selector
+  ///
+  /// In en, this message translates to:
+  /// **'Select calendar'**
+  String get selectCalendar;
 }
 
 class _AppLocalizationsDelegate
