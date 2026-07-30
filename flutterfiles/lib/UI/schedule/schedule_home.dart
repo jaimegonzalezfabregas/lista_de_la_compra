@@ -330,7 +330,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
 
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(appLoc.eventsAddedToCalendar(eventCount))),
+        SnackBar(content: Text('${appLoc.eventsAddedToCalendar(eventCount)} (${selected.name ?? ''})')),
       );
     }
   }
