@@ -165,7 +165,21 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     );
   }
 
+  bool _checkHouseSelected(BuildContext context){
+    if (selectedHouseId == null) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.noHouseSelected)),
+        );
+      }
+    }
+    return selectedHouseId != null;
+  }
+  
   Future<void> _exportToICS(BuildContext context) async {
+    if( !_checkHouseSelected(context) ){
+       return;
+    };
     final scheduleProvider = context.read<FlutterScheduleProvider>();
     final recipeProvider = context.read<FlutterRecipeProvider>();
 
@@ -174,9 +188,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     ics.writeln('VERSION:2.0');
     ics.writeln('PRODID:-//Lista de la Compra//EN');
 
-    final houseIds = selectedHouseId != null
-        ? [selectedHouseId!]
-        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+    final houseIds = [selectedHouseId!];
 
     for (int day = 0; day < 7; day++) {
       for (final houseId in houseIds) {
@@ -279,6 +291,9 @@ class _ScheduleHomeState extends State<ScheduleHome> {
   }
 
   Future<void> _exportToCalendar(BuildContext context) async {
+    if( !_checkHouseSelected(context) ){
+       return;
+    };
     final appLoc = AppLocalizations.of(context)!;
     final plugin = DeviceCalendar.instance;
 
@@ -288,9 +303,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     final scheduleProvider = context.read<FlutterScheduleProvider>();
     final recipeProvider = context.read<FlutterRecipeProvider>();
 
-    final houseIds = selectedHouseId != null
-        ? [selectedHouseId!]
-        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+    final houseIds = [selectedHouseId!];
 
     int eventCount = 0;
 
@@ -323,6 +336,9 @@ class _ScheduleHomeState extends State<ScheduleHome> {
   }
 
   Future<void> _exportToMarkdownFile(BuildContext context) async {
+    if( !_checkHouseSelected(context) ){
+       return;
+    };
     final scheduleProvider = context.read<FlutterScheduleProvider>();
     final recipeProvider = context.read<FlutterRecipeProvider>();
     final startOfWeek = getStartOfWeek(currentWeek);
@@ -330,9 +346,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     final StringBuffer md = StringBuffer();
     md.writeln('# ${DateFormat('d/M/y').format(startOfWeek)}');
 
-    final houseIds = selectedHouseId != null
-        ? [selectedHouseId!]
-        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+    final houseIds = [selectedHouseId!];
 
     for (int day = 0; day < 7; day++) {
       final date = startOfWeek.add(Duration(days: day));
