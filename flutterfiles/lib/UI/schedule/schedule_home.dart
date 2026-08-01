@@ -7,6 +7,7 @@ import 'package:lista_de_la_compra/l10n/app_localizations.dart';
 import 'package:lista_de_la_compra/flutter_providers/flutter_providers.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:device_calendar_plus/device_calendar_plus.dart';
 
 import 'package:lista_de_la_compra_backend/lista_de_la_compra_backend.dart';
 
@@ -84,6 +85,10 @@ class _ScheduleHomeState extends State<ScheduleHome> {
                   child: Row(children: [Icon(Icons.edit_calendar), SizedBox(width: 8), Text(appLoc.exportToICS)]),
                   onTap: () => _exportToICS(context),
                 ),
+                PopupMenuItem(
+                  child: Row(children: [Icon(Icons.calendar_month), SizedBox(width: 8), Text(appLoc.exportToGoogleCalendar)]),
+                  onTap: () => _exportToCalendar(context),
+                ),
               ];
             },
           ),
@@ -160,7 +165,21 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     );
   }
 
+  bool _checkHouseSelected(BuildContext context){
+    if (selectedHouseId == null) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.noHouseSelected)),
+        );
+      }
+    }
+    return selectedHouseId != null;
+  }
+  
   Future<void> _exportToICS(BuildContext context) async {
+    if( !_checkHouseSelected(context) ){
+       return;
+    };
     final scheduleProvider = context.read<FlutterScheduleProvider>();
     final recipeProvider = context.read<FlutterRecipeProvider>();
 
@@ -169,9 +188,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     ics.writeln('VERSION:2.0');
     ics.writeln('PRODID:-//Lista de la Compra//EN');
 
-    final houseIds = selectedHouseId != null
-        ? [selectedHouseId!]
-        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+    final houseIds = [selectedHouseId!];
 
     for (int day = 0; day < 7; day++) {
       for (final houseId in houseIds) {
@@ -203,7 +220,125 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     );
   }
 
+  Future<Calendar?> _pickCalendar() async {
+    final appLoc = AppLocalizations.of(context);
+    if (appLoc == null) return null;
+
+    final plugin = DeviceCalendar.instance;
+    final status = await plugin.requestPermissions();
+    if (status != CalendarPermissionStatus.granted) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(appLoc.calendarPermissionDenied)),
+        );
+      }
+      return null;
+    }
+
+    final calendars = await plugin.listCalendars();
+    if (calendars.isEmpty) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(appLoc.noMappingDataAviable)),
+        );
+      }
+      return null;
+    }
+
+    if (!context.mounted) return null;
+    return showDialog<Calendar>(
+      context: context,
+      builder: (ctx) {
+        String? selectedId;
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(appLoc.selectCalendar),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: calendars.map((cal) {
+                    return RadioListTile<String>(
+                      title: Text(cal.name ?? ''),
+                      value: cal.id,
+                      groupValue: selectedId,
+                      onChanged: (val) {
+                        setDialogState(() {
+                          selectedId = val;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: Text(appLoc.cancel),
+                ),
+                FilledButton(
+                  onPressed: selectedId == null
+                      ? null
+                      : () => Navigator.of(ctx).pop(calendars.firstWhere((c) => c.id == selectedId)),
+                  child: Text(appLoc.export),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _exportToCalendar(BuildContext context) async {
+    if( !_checkHouseSelected(context) ){
+       return;
+    };
+    final appLoc = AppLocalizations.of(context)!;
+    final plugin = DeviceCalendar.instance;
+
+    final selected = await _pickCalendar();
+    if (selected == null) return;
+
+    final scheduleProvider = context.read<FlutterScheduleProvider>();
+    final recipeProvider = context.read<FlutterRecipeProvider>();
+
+    final houseIds = [selectedHouseId!];
+
+    int eventCount = 0;
+
+    for (int day = 0; day < 7; day++) {
+      for (final houseId in houseIds) {
+        final entries = await scheduleProvider.getEntries(currentWeek, day, widget.enviromentId, houseId);
+        for (final entry in entries) {
+          final recipe = await recipeProvider.getRecipeById(entry.recipeId);
+          if (recipe == null) continue;
+          final date = weekAndDayToDateTime(entry.week, entry.day);
+          try {
+            await plugin.createEvent(
+              calendarId: selected.id,
+              title: recipe.name,
+              startDate: date,
+              endDate: date.add(const Duration(days: 1)),
+              isAllDay: true,
+            );
+            eventCount++;
+          } on DeviceCalendarException catch (_) {}
+        }
+      }
+    }
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${appLoc.eventsAddedToCalendar(eventCount)} (${selected.name ?? ''})')),
+      );
+    }
+  }
+
   Future<void> _exportToMarkdownFile(BuildContext context) async {
+    if( !_checkHouseSelected(context) ){
+       return;
+    };
     final scheduleProvider = context.read<FlutterScheduleProvider>();
     final recipeProvider = context.read<FlutterRecipeProvider>();
     final startOfWeek = getStartOfWeek(currentWeek);
@@ -211,9 +346,7 @@ class _ScheduleHomeState extends State<ScheduleHome> {
     final StringBuffer md = StringBuffer();
     md.writeln('# ${DateFormat('d/M/y').format(startOfWeek)}');
 
-    final houseIds = selectedHouseId != null
-        ? [selectedHouseId!]
-        : (await context.read<FlutterHouseProvider>().getHouseList(widget.enviromentId)).map((h) => h.id).toList();
+    final houseIds = [selectedHouseId!];
 
     for (int day = 0; day < 7; day++) {
       final date = startOfWeek.add(Duration(days: day));

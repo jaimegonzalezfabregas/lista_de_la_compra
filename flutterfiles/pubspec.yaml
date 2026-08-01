@@ -42,6 +42,7 @@ dependencies:
   nsd: 5.0.1
   contentsize_tabbarview: 0.0.2
   share_plus: ^13.2.0
+  device_calendar_plus: ^0.8.0
   fluttertoast: 9.1.0
   device_marketing_names: ^2.0.2
   shared_preferences: 2.5.5

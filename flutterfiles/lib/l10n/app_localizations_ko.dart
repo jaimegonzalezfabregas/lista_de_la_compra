@@ -437,4 +437,22 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get noHouseSelected => '선택된 집이 없습니다';
+
+  @override
+  String eventsAddedToCalendar(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count events added to calendar',
+      one: '1 event added to calendar',
+      zero: 'No events added',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get calendarPermissionDenied => 'Calendar permission denied';
+
+  @override
+  String get selectCalendar => 'Select calendar';
 }
